@@ -1,4 +1,18 @@
 <resources>
-    <string name="app_name">Cardio App</string>
-    <string name="hello">Hello World!</string>
+    <string name="app_name">Cardio-App</string>
+    <string name="app_email">cardio-inz@gmail.com</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_title_diary">BP Diary</string>
+    <string name="menu_title_import_export">Import/Export</string>
+    <string name="menu_title_genre_report">Genre Report</string>
+    <string name="menu_title_advices">Advices</string>
+    <string name="menu_title_reminders">Reminders</string>
+    <string name="menu_title_questionnaire">Patient questionnaire</string>
+    <string name="menu_title_manage">Settings</string>
+    <string name="communicate">Communicate</string>
 </resources>
