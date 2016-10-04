@@ -1,4 +1,4 @@
-package inz.proj.pg.menu_test;
+package cardio_app;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package inz.proj.pg.menu_test;
+package cardio_app;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("inz.proj.pg.menu_test", appContext.getPackageName());
+        assertEquals("cardio_app", appContext.getPackageName());
     }
 }
