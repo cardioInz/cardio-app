@@ -13,8 +13,14 @@
     tools:context="cardio_app.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <TableLayout
+        android:id="@+id/TableLayout"
+        android:stretchColumns="0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow>
+
+        </TableRow>
+    </TableLayout>
 </RelativeLayout>
