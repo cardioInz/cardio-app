@@ -16,14 +16,25 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import cardio_app.factories.TableRowFactory;
-import cardio_app.structures.HealthRecord;
+import cardio_app.structures.table_row.RandomParams;
+import cardio_app.structures.table_row.TableHealthRecord;
+import cardio_app.structures.table_row.HealthParams;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    List <TableHealthRecord> rowList = new ArrayList<>();
+    AppCompatActivity self = this;
+
+    private void addRandomRecordToTable() {
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.TableLayout);
+        HealthParams hp = RandomParams.getRandomHealthParams();
+        TableHealthRecord thr = new TableHealthRecord(self, hp);
+        rowList.add(thr);
+        tableLayout.addView(thr, 0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Here we're gonna make some Add Fn for new measurements", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                addRandomRecordToTable();
             }
         });
 
@@ -65,7 +77,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        createTableLayout();
+        //createTableLayout();
         return true;
     }
 
@@ -115,17 +127,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void createTableLayout() {
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.TableLayout);
-
-        List<HealthRecord> healthList = new ArrayList<>();
-        healthList.add(new HealthRecord(120, 80, '4', 40, true,  new Date()));
-        healthList.add(new HealthRecord(144, 90, '1', 42, false, new Date()));
-
-        List <TableRow> rowList = TableRowFactory.getInstance().makeTableRowListFromTableRecordList(healthList, this);
-        for (TableRow row : rowList) {
-            // TODO make some layout for rows (not readable atm)
-            tableLayout.addView(row);
-        }
-    }
 }
