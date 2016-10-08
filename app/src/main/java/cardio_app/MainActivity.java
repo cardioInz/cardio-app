@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity
         HealthParams hp = RandomParams.getRandomHealthParams();
         TableHealthRecord thr = new TableHealthRecord(self, hp);
         rowList.add(thr);
-        tableLayout.addView(thr, 0);
+        tableLayout.addView(thr, 0); // always on the top
 
         Toast.makeText(
                 getApplicationContext(),
-                R.string.new_record_added_msg
+                getResources().getString(R.string.new_record_added_msg)
                         + ", ID: " + String.valueOf(thr.id),
                 Toast.LENGTH_SHORT
         ).show();
@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override

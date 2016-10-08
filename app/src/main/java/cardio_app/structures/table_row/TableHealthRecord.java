@@ -1,9 +1,9 @@
 package cardio_app.structures.table_row;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableRow;
@@ -24,8 +24,9 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
     TextView conditionTextView;
     TextView pulseTextView;
     TextView arrhythmiaTextView;
-    TextView dateTextView;
-    TextView timeTextView;
+    DateTimeView dateTimeView;
+
+
 
     public List<View> getListOfViews() {
         return listOfViews;
@@ -34,15 +35,15 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
     private List<View> listOfViews;
 
 
-    public TableHealthRecord(final AppCompatActivity activity, HealthParams params) {
-        super(activity);
+    public TableHealthRecord(final Context context, HealthParams params) {
+        super(context);
 
         this.id = ++ID_CNT;
         this.healthParams = params;
 
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         this.setLayoutParams(layoutParams);
-        createFieldViews(activity);
+        createFieldViews(context);
         this.setClickable(true);
         this.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,39 +65,44 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
         conditionTextView.setText(healthParams.getConditionStr());
         pulseTextView.setText(healthParams.getPulse());
         arrhythmiaTextView.setText(healthParams.getArrhythmiaStr());
-        dateTextView.setText(healthParams.getDateStr());
-        timeTextView.setText(healthParams.getTimeStr());
+        dateTimeView.getDateTextView().setText(healthParams.getDateStr());
+        dateTimeView.getTimeTextView().setText(healthParams.getTimeStr());
     }
 
-    private LayoutParams prepareInnerLayoutParams(float weight) {
+    private void setParamsForGivenTextView(View view, float weight) {
         LayoutParams innerParams = new TableRow.LayoutParams(0, LayoutParams.MATCH_PARENT, Gravity.CENTER);
         innerParams.weight = weight;
-        return innerParams;
+        view.setPadding(5, 0, 5, 0);
+        view.setLayoutParams(innerParams);
     }
 
-    private void createFieldViews(AppCompatActivity activity) {
+    private void createFieldViews(Context context) {
         // add all views to list
         listOfViews = new ArrayList<>();
-        listOfViews.add(systoleTextView = new TextView(activity));
-        listOfViews.add(diastoleTextView = new TextView(activity));
-        listOfViews.add(conditionTextView = new TextView(activity));
-        listOfViews.add(pulseTextView = new TextView(activity));
-        listOfViews.add(arrhythmiaTextView = new TextView(activity));
-        listOfViews.add(dateTextView = new TextView(activity));
-        listOfViews.add(timeTextView = new TextView(activity));
+        listOfViews.add(systoleTextView = new TextView(context));
+        listOfViews.add(diastoleTextView = new TextView(context));
+        listOfViews.add(conditionTextView = new TextView(context));
+        listOfViews.add(pulseTextView = new TextView(context));
+        listOfViews.add(arrhythmiaTextView = new TextView(context));
+        listOfViews.add(dateTimeView = new DateTimeView(context));
 
         // assign values from health params
         reassignParamsToViews();
 
         this.setWeightSum(1.0f); // sum of below weights
-        systoleTextView.setLayoutParams(prepareInnerLayoutParams(0.12f));
-        diastoleTextView.setLayoutParams(prepareInnerLayoutParams(0.12f));
-        conditionTextView.setLayoutParams(prepareInnerLayoutParams(0.12f));
-        pulseTextView.setLayoutParams(prepareInnerLayoutParams(0.12f));
-        ;
-        arrhythmiaTextView.setLayoutParams(prepareInnerLayoutParams(0.07f));
-        dateTextView.setLayoutParams(prepareInnerLayoutParams(0.30f));
-        timeTextView.setLayoutParams(prepareInnerLayoutParams(0.15f));
+        setParamsForGivenTextView(systoleTextView, 0.15f);
+        setParamsForGivenTextView(diastoleTextView, 0.15f);
+        setParamsForGivenTextView(conditionTextView, 0.15f);
+        setParamsForGivenTextView(pulseTextView, 0.15f);
+        setParamsForGivenTextView(arrhythmiaTextView, 0.1f);
+        setParamsForGivenTextView(dateTimeView, 0.30f);
+
+        for (View view : listOfViews) {
+            if (view instanceof TextView){
+                ((TextView) view).setTextSize(18);
+                ((TextView) view).setGravity(Gravity.END);
+            }
+        }
 
         //add views to row
         this.addView(systoleTextView);
@@ -104,8 +110,7 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
         this.addView(conditionTextView);
         this.addView(pulseTextView);
         this.addView(arrhythmiaTextView);
-        this.addView(dateTextView);
-        this.addView(timeTextView);
+        this.addView(dateTimeView);
     }
 
     @Override
