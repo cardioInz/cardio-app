@@ -5,105 +5,81 @@ import android.annotation.SuppressLint;
 
 import cardio_app.structures.Questionnaire;
 
+
 public enum HealthCondition {
+    MIN_VAL(1),
+    TOO_LOW(MIN_VAL),
+    NORMAL_LOW,
+    EXCELLENT,
+    NORMAL,
+    NORMAL_HIGH,
+    HIGH,
+    TOO_HIGH,
+    MAX_VAL(TOO_HIGH), // 8
 
-    UNKNOWN(-10),
-    TOO_LOW(-2),
-    NORMAL_LOW(-1),
-    EXCELLENT(0),
-    NORMAL(1),
-    NORMAL_HIGH(2),
-    HIGH(3),
-    TOO_HIGH(4),
+    SPECIAL_VAL(10),
+    UNKNOWN(SPECIAL_VAL),
+    BAD_DIFF;
 
-    // when merge conditions for systol and diastol
-    BAD_DIFF(10),
-    CRITICAL_DIFF(20);
+    private final int value;
 
-    char value;
+    private static class LastCondition {
+        static int VALUE = 0;
+    }
 
-    HealthCondition(int v){
-        value = (char) v;
+    HealthCondition() {
+        this.value = ++LastCondition.VALUE;
+    }
+
+    HealthCondition(int value) {
+        this.value = value;
+        LastCondition.VALUE = value;
+    }
+
+    HealthCondition(HealthCondition c) {
+        this.value = c.value;
+        LastCondition.VALUE = c.value;
     }
 
     public int getValue() {
         return this.value;
     }
 
-    public String getStrMapped() {
-        return mapToStr(this);
-    }
-
-
-    @SuppressLint("DefaultLocale")
-    private static String mapToStr(HealthCondition c) {
-        // TODO - in future it will be name of some drawable resource to show in diary
-        switch (c){
-//            case UNKNOWN: return "ukn.";
-//            case TOO_LOW: return "1";
-//            case NORMAL_LOW: return "3";
-//            case EXCELLENT: return "5";
-//            case NORMAL: return "4";
-//            case NORMAL_HIGH: return "3";
-//            case HIGH: return "2";
-//            case TOO_HIGH: return "1";
-//            case BAD_DIFF: return "10";
-//            case CRITICAL_DIFF: return "20";
-            default: return String.format("%d", c.getValue()); // just as a precaution
-        }
-    }
-
-
-
     public static HealthCondition classify(HealthParams hf) {
-        HealthCondition systoleCon = classifyBySystole(hf.getSystoleInt());
-        HealthCondition diastoleCon = classifyByDiastole(hf.getDiastoleInt());
+        HealthCondition systoleCond = classifyBySystole(hf.getSystoleInt());
+        HealthCondition diastoleCond = classifyByDiastole(hf.getDiastoleInt());
+        int diff = hf.getSystoleInt() - hf.getDiastoleInt();
 
-        if (systoleCon.equals(UNKNOWN))
-            return diastoleCon;
-        if (diastoleCon.equals(UNKNOWN))
-            return systoleCon;
+        if (diff < 30 || diff > 60)
+            return BAD_DIFF;
+        if (systoleCond.equals(UNKNOWN) || diastoleCond.equals(UNKNOWN))
+            return UNKNOWN;
 
-        if (systoleCon.equals(diastoleCon))
-            return systoleCon;
-        else {
-            int diff = systoleCon.getValue() - diastoleCon.getValue();
-            diff *= diff < 0 ? -1 : 1;
+        int sCondVal = systoleCond.value;
+        int dCondVal = diastoleCond.value;
 
-            if (diff == 1) {
-                if (systoleCon.getValue() <= 0 && diastoleCon.getValue() <= 0) {
-                    // LOW
-                    if (systoleCon.getValue() < diastoleCon.getValue())
-                        return systoleCon;
-                    else
-                        return diastoleCon;
-                } else if (systoleCon.getValue() >= 0 && diastoleCon.getValue() >= 0) {
-                    // HIGH
-                    if (systoleCon.getValue() < diastoleCon.getValue())
-                        return diastoleCon;
-                    else
-                        return systoleCon;
-                } else {
-                    return BAD_DIFF;
-                }
-            } else if (diff == 2) {
+        if (sCondVal <= EXCELLENT.value && dCondVal <= EXCELLENT.value) {
+            // LOW - so return lower
+            return (sCondVal < dCondVal) ? systoleCond : diastoleCond;
+        } else if (sCondVal >= EXCELLENT.value && dCondVal >= EXCELLENT.value) {
+            // HIGH - so return higher
+            return (sCondVal > dCondVal) ? systoleCond : diastoleCond;
+        } else {
+            if (dCondVal <= NORMAL_LOW.value && sCondVal >= NORMAL_HIGH.value)
                 return BAD_DIFF;
-            }
-            else {
-                return CRITICAL_DIFF;
-            }
+            else
+                return NORMAL;
         }
     }
 
 
-    private static HealthCondition classifyBySystole(int s){
-        if (Questionnaire.isMale){
+    private static HealthCondition classifyBySystole(int s) {
+        if (Questionnaire.isMale) {
             if (s < 100)
                 return TOO_LOW;
             else if (s <= 110)
                 return NORMAL_LOW;
-        }
-        else {
+        } else {
             if (s < 90)
                 return TOO_LOW;
             else if (s <= 105)
@@ -123,14 +99,13 @@ public enum HealthCondition {
     }
 
 
-    private static HealthCondition classifyByDiastole(int d){
-        if (Questionnaire.isMale){
+    private static HealthCondition classifyByDiastole(int d) {
+        if (Questionnaire.isMale) {
             if (d < 70)
                 return TOO_LOW;
             else if (d < 75)
                 return NORMAL_LOW;
-        }
-        else {
+        } else {
             if (d < 60)
                 return TOO_LOW;
             else if (d <= 70)
@@ -148,4 +123,20 @@ public enum HealthCondition {
         else
             return TOO_HIGH;
     }
+
+
+    public String getStrMapped() {
+        return mapToStr(this);
+    }
+
+
+    @SuppressLint("DefaultLocale")
+    private static String mapToStr(HealthCondition c) {
+        // TODO - in future it will be name of some drawable resource to show in diary
+        switch (c) {
+            default:
+                return String.format("%d", c.getValue()); // just as a precaution
+        }
+    }
+
 }

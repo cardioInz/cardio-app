@@ -3,7 +3,6 @@ package cardio_app;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,19 +12,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cardio_app.structures.table_row.HealthParams;
 import cardio_app.structures.table_row.RandomParams;
 import cardio_app.structures.table_row.TableHealthRecord;
-import cardio_app.structures.table_row.HealthParams;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    List <TableHealthRecord> rowList = new ArrayList<>();
+    List<TableHealthRecord> rowList = new ArrayList<>();
     AppCompatActivity self = this;
 
     private void addRandomRecordToTable() {
@@ -34,7 +33,15 @@ public class MainActivity extends AppCompatActivity
         TableHealthRecord thr = new TableHealthRecord(self, hp);
         rowList.add(thr);
         tableLayout.addView(thr, 0);
+
+        Toast.makeText(
+                getApplicationContext(),
+                R.string.new_record_added_msg
+                        + ", ID: " + String.valueOf(thr.id),
+                Toast.LENGTH_SHORT
+        ).show();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +54,6 @@ public class MainActivity extends AppCompatActivity
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Here we're gonna make some Add Fn for new measurements", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 addRandomRecordToTable();
             }
         });
