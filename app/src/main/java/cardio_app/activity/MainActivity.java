@@ -1,5 +1,6 @@
-package cardio_app;
+package cardio_app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -10,13 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cardio_app.R;
 import cardio_app.structures.table_row.HealthParams;
 import cardio_app.structures.table_row.RandomParams;
 import cardio_app.structures.table_row.TableHealthRecord;
@@ -51,12 +52,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.add_button);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addRandomRecordToTable();
-            }
-        });
+        addBtn.setOnClickListener(view -> addRandomRecordToTable());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -118,7 +114,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.menu_advices) {
 
         } else if (id == R.id.menu_reminders) {
+            Intent intent = new Intent(this, DrugsActivity.class);
 
+            startActivity(intent);
         } else if (id == R.id.menu_questionnaire) {
 
         } else if (id == R.id.menu_manage) {
