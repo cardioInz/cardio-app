@@ -13,14 +13,15 @@
     tools:context="cardio_app.activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TableLayout
-        android:id="@+id/TableLayout"
-        android:stretchColumns="0"
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TableRow>
-
-        </TableRow>
-    </TableLayout>
+        <TableLayout
+            android:id="@+id/TableLayout"
+            android:stretchColumns="0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </TableLayout>
+    </ScrollView>
 </RelativeLayout>

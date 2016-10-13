@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         tableLayout = (TableLayout) findViewById(R.id.TableLayout);
+        tableLayout.setPadding(0,0,15,0);
         for (HealthParams healthParams : RandomParams.makeParamList()) {
             addTableRecord(healthParams, false);
         }
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        //createTableLayout();
         return true;
     }
 
@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.menu_reminders) {
             Intent intent = new Intent(this, DrugsActivity.class);
-
             startActivity(intent);
         } else if (id == R.id.menu_questionnaire) {
 
