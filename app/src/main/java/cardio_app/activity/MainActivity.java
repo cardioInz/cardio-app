@@ -19,7 +19,7 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.structures.table_row.HealthParams;
-import cardio_app.structures.table_row.RandomParams;
+import temporary_package.RandomParams;
 import cardio_app.structures.table_row.TableHealthRecord;
 
 public class MainActivity extends AppCompatActivity
@@ -27,20 +27,21 @@ public class MainActivity extends AppCompatActivity
 
     List<TableHealthRecord> rowList = new ArrayList<>();
     AppCompatActivity self = this;
+    TableLayout tableLayout;
 
-    private void addRandomRecordToTable() {
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.TableLayout);
-        HealthParams hp = RandomParams.getRandomHealthParams();
+    private void addTableRecord(HealthParams hp, boolean showToast) {
         TableHealthRecord thr = new TableHealthRecord(self, hp);
         rowList.add(thr);
         tableLayout.addView(thr, 0); // always on the top
 
-        Toast.makeText(
-                getApplicationContext(),
-                getResources().getString(R.string.new_record_added_msg)
-                        + ", ID: " + String.valueOf(thr.id),
-                Toast.LENGTH_SHORT
-        ).show();
+        if (showToast) {
+            Toast.makeText(
+                    getApplicationContext(),
+                    getResources().getString(R.string.new_record_added_msg)
+                            + ", ID: " + String.valueOf(thr.id),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 
 
@@ -52,7 +53,10 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.add_button);
-        addBtn.setOnClickListener(view -> addRandomRecordToTable());
+        addBtn.setOnClickListener(view -> {
+            HealthParams hp = RandomParams.getRandomHealthParams();
+            addTableRecord(hp, true);
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,7 +67,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        tableLayout = (TableLayout) findViewById(R.id.TableLayout);
+        for (HealthParams healthParams : RandomParams.makeParamList()) {
+            addTableRecord(healthParams, false);
+        }
     }
 
     @Override

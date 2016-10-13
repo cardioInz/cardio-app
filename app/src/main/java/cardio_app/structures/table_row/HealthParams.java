@@ -13,14 +13,24 @@ public class HealthParams {
     private String timeStr;
     private String dateStr;
 
+    public HealthParams(String systole, String diastole, String pulse, boolean arrhythmia, String date, String time) {
+        this.systole = systole;
+        this.diastole = diastole;
+        this.pulse = pulse;
+        this.arrhythmia = arrhythmia;
+        this.dateStr = date;
+        this.timeStr = time;
+        this.condition = HealthCondition.classify(this);
+    }
+
     public HealthParams(int systole, int diastole, int pulse, boolean arrhythmia, Date date) {
         this.systole = String.valueOf(systole);
         this.diastole = String.valueOf(diastole);
-        this.condition = HealthCondition.classify(this);
         this.pulse = String.valueOf(pulse);
         this.arrhythmia = arrhythmia;
         this.dateStr = makeDateStr(date);
         this.timeStr = makeTimeStr(date);
+        this.condition = HealthCondition.classify(this);
     }
 
     private static String makeDateStr(Date date) {
