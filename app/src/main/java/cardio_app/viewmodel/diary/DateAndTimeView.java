@@ -1,4 +1,4 @@
-package cardio_app.viewmodel;
+package cardio_app.viewmodel.diary;
 
 
 import android.content.Context;
