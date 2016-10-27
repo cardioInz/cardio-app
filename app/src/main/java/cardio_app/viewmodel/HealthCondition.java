@@ -1,9 +1,10 @@
-package cardio_app.structures.table_row;
+package cardio_app.viewmodel;
 
 
 import android.annotation.SuppressLint;
 
-import cardio_app.structures.Questionnaire;
+import cardio_app.db.model.HealthParams;
+import cardio_app.db.model.Questionnaire;
 
 
 public enum HealthCondition {

@@ -1,4 +1,4 @@
-package cardio_app.structures.table_row;
+package cardio_app.viewmodel;
 
 
 import android.content.Context;
@@ -10,12 +10,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class DateTimeView extends TableLayout {
+public class DateAndTimeView extends TableLayout {
 
     private TextView dateTextView;
     private TextView timeTextView;
 
-    public DateTimeView(Context context) {
+    public DateAndTimeView(Context context) {
         super(context);
         TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(0, TableLayout.LayoutParams.MATCH_PARENT, Gravity.END);
         this.setLayoutParams(layoutParams);

@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import cardio_app.structures.table_row.HealthParams;
+import cardio_app.db.model.DateAndTime;
+import cardio_app.db.model.HealthParams;
+import cardio_app.db.model.HealthParamsDateAndTime;
 
 public class RandomParams {
     // just temporary class
@@ -16,19 +18,22 @@ public class RandomParams {
         return r.nextInt(to - from) + from;
     }
 
-    public static HealthParams getRandomHealthParams() {
+    public static HealthParamsDateAndTime getRandomHpdat() {
         int diastole = randIntFromTo(60, 100);
         int systole = randIntFromTo(diastole+29, diastole+60);
         int pulse = randIntFromTo(30, 100);
         boolean arrhythmia = r.nextBoolean();
         ;
         Date date = new Date();
-        return new HealthParams(systole, diastole, pulse, arrhythmia, date);
+        return new HealthParamsDateAndTime(
+                new HealthParams(systole, diastole, pulse, arrhythmia),
+                new DateAndTime(date)
+        );
     }
 
-    public static List<HealthParams> makeParamList() {
+    public static List<HealthParamsDateAndTime> makeHpdatList() {
         String [] array = DATA_STR.split("\n");
-        List<HealthParams> paramsList = new ArrayList<>();
+        List<HealthParamsDateAndTime> paramsList = new ArrayList<>();
         String systole;
         String diastole;
         String pulse;
@@ -54,7 +59,10 @@ public class RandomParams {
                 time = "19:00";
             }
 
-            paramsList.add(new HealthParams(systole, diastole, pulse, arrhythmia, date, time));
+            paramsList.add( new HealthParamsDateAndTime(
+                    new HealthParams(systole, diastole, pulse, arrhythmia),
+                    new DateAndTime(date, time))
+            );
         }
 
         return paramsList;

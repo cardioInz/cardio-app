@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.structures.table_row.HealthParams;
+import cardio_app.db.model.DateAndTime;
+import cardio_app.db.model.HealthParams;
+import cardio_app.db.model.HealthParamsDateAndTime;
 import temporary_package.RandomParams;
-import cardio_app.structures.table_row.TableHealthRecord;
+import cardio_app.viewmodel.TableHealthRecord;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity
     AppCompatActivity self = this;
     TableLayout tableLayout;
 
-    private void addTableRecord(HealthParams hp, boolean showToast) {
-        TableHealthRecord thr = new TableHealthRecord(self, hp);
+    private void addTableRecord(HealthParamsDateAndTime hpdat, boolean showToast) {
+        TableHealthRecord thr = new TableHealthRecord(self, hpdat);
         rowList.add(thr);
         tableLayout.addView(thr, 0); // always on the top
 
@@ -44,6 +46,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void addTableRecord(HealthParams hp, DateAndTime dateAndTime, boolean showToast) {
+        addTableRecord(new HealthParamsDateAndTime(hp, dateAndTime), showToast);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +60,8 @@ public class MainActivity extends AppCompatActivity
 
         FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.add_button);
         addBtn.setOnClickListener(view -> {
-            HealthParams hp = RandomParams.getRandomHealthParams();
-            addTableRecord(hp, true);
+            HealthParamsDateAndTime hpdat = RandomParams.getRandomHpdat();
+            addTableRecord(hpdat, true);
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -69,8 +75,8 @@ public class MainActivity extends AppCompatActivity
 
         tableLayout = (TableLayout) findViewById(R.id.TableLayout);
         tableLayout.setPadding(0,0,15,0);
-        for (HealthParams healthParams : RandomParams.makeParamList()) {
-            addTableRecord(healthParams, false);
+        for (HealthParamsDateAndTime hpdat : RandomParams.makeHpdatList()) {
+            addTableRecord(hpdat, false);
         }
     }
 
