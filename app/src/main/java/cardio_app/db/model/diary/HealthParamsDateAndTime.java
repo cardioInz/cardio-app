@@ -1,8 +1,11 @@
-package cardio_app.db.model;
+package cardio_app.db.model.diary;
 
 import android.support.annotation.NonNull;
 
 import com.j256.ormlite.field.DatabaseField;
+
+import cardio_app.db.model.BaseModel;
+import cardio_app.db.model.DateAndTime;
 
 /**
  * Created by kisam on 27.10.2016.

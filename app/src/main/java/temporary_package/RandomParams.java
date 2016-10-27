@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import cardio_app.db.model.DateAndTime;
-import cardio_app.db.model.HealthParams;
-import cardio_app.db.model.HealthParamsDateAndTime;
+import cardio_app.db.model.diary.HealthParams;
+import cardio_app.db.model.diary.HealthParamsDateAndTime;
 
 public class RandomParams {
     // just temporary class

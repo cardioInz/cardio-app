@@ -1,12 +1,14 @@
-package cardio_app.db.model;
+package cardio_app.db.model.diary;
 
 import android.support.annotation.NonNull;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import cardio_app.db.model.BaseModel;
+
 public class HealthParams extends BaseModel {
 
-    static int ID_CNT = 0;
+    private static int ID_CNT = 0;
 
     @DatabaseField
     private String systole;

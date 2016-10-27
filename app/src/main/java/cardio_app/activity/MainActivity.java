@@ -19,10 +19,10 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.db.model.DateAndTime;
-import cardio_app.db.model.HealthParams;
-import cardio_app.db.model.HealthParamsDateAndTime;
+import cardio_app.db.model.diary.HealthParams;
+import cardio_app.db.model.diary.HealthParamsDateAndTime;
 import temporary_package.RandomParams;
-import cardio_app.viewmodel.TableHealthRecord;
+import cardio_app.viewmodel.diary.TableHealthRecord;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

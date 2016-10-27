@@ -1,9 +1,9 @@
-package cardio_app.viewmodel;
+package cardio_app.viewmodel.diary;
 
 
 import android.annotation.SuppressLint;
 
-import cardio_app.db.model.HealthParams;
+import cardio_app.db.model.diary.HealthParams;
 import cardio_app.db.model.Questionnaire;
 
 

@@ -1,4 +1,4 @@
-package cardio_app.viewmodel;
+package cardio_app.viewmodel.diary;
 
 
 import android.content.Context;
@@ -12,7 +12,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cardio_app.db.model.HealthParamsDateAndTime;
+import cardio_app.db.model.diary.HealthParamsDateAndTime;
+import cardio_app.viewmodel.DateAndTimeView;
 
 public class TableHealthRecord extends TableRow implements Comparable<TableHealthRecord> {
 
