@@ -1,4 +1,4 @@
-package cardio_app.structures.table_row;
+package cardio_app.viewmodel.pressure;
 
 
 import android.content.Context;
@@ -12,21 +12,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableHealthRecord extends TableRow implements Comparable<TableHealthRecord> {
+public class TableRowPressureData extends TableRow implements Comparable<TableRowPressureData> {
 
-    private static long ID_CNT = 0;
-    public final long id;
-    private HealthParams healthParams;
-    private final TableHealthRecord self = this;
+    public PressureDataViewModel hpModelView;
+    private final TableRowPressureData self = this;
 
     TextView systoleTextView;
     TextView diastoleTextView;
     TextView conditionTextView;
     TextView pulseTextView;
     TextView arrhythmiaTextView;
-    DateTimeView dateTimeView;
-
-
+    DateAndTimeView dateAndTimeView;
 
     public List<View> getListOfViews() {
         return listOfViews;
@@ -34,39 +30,31 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
 
     private List<View> listOfViews;
 
-
-    public TableHealthRecord(final Context context, HealthParams params) {
+    public TableRowPressureData(final Context context, PressureDataViewModel hpModelView) {
         super(context);
-
-        this.id = ++ID_CNT;
-        this.healthParams = params;
+        this.hpModelView = hpModelView;
 
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         this.setLayoutParams(layoutParams);
         createFieldViews(context);
         this.setClickable(true);
-        this.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view,
-                        "Selected row id: " + String.valueOf(self.id)
-                        //"Here we're gonna make some Edit and Delete buttons for selected measurement. " +
-                                ,
-                        Snackbar.LENGTH_LONG
-                ).setAction("Action", null).show();
-            }
-        });
+        this.setOnClickListener(view -> Snackbar.make(view,
+                "Selected row id: " + String.valueOf(self.getId())
+                //"Here we're gonna make some Edit and Delete buttons for selected measurement. " +
+                        ,
+                Snackbar.LENGTH_LONG
+        ).setAction("Action", null).show());
     }
 
-
     public void reassignParamsToViews() {
-        systoleTextView.setText(healthParams.getSystole());
-        diastoleTextView.setText(healthParams.getDiastole());
-        conditionTextView.setText(healthParams.getConditionStr());
-        pulseTextView.setText(healthParams.getPulse());
-        arrhythmiaTextView.setText(healthParams.getArrhythmiaStr());
-        dateTimeView.getDateTextView().setText(healthParams.getDateStr());
-        dateTimeView.getTimeTextView().setText(healthParams.getTimeStr());
+        systoleTextView.setText(hpModelView.getSystoleStr());
+        diastoleTextView.setText(hpModelView.getDiastoleStr());
+        conditionTextView.setText(hpModelView.getConditionStr());
+        pulseTextView.setText(hpModelView.getPulse());
+        arrhythmiaTextView.setText(hpModelView.getArrhythmiaStr());
+
+        dateAndTimeView.getDateTextView().setText(hpModelView.getDateStr());
+        dateAndTimeView.getTimeTextView().setText(hpModelView.getTimeStr());
     }
 
     private void setParamsForGivenTextView(View view, float weight) {
@@ -84,7 +72,7 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
         listOfViews.add(conditionTextView = new TextView(context));
         listOfViews.add(pulseTextView = new TextView(context));
         listOfViews.add(arrhythmiaTextView = new TextView(context));
-        listOfViews.add(dateTimeView = new DateTimeView(context));
+        listOfViews.add(dateAndTimeView = new DateAndTimeView(context));
 
         // assign values from health params
         reassignParamsToViews();
@@ -95,7 +83,7 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
         setParamsForGivenTextView(conditionTextView, 0.15f);
         setParamsForGivenTextView(pulseTextView, 0.15f);
         setParamsForGivenTextView(arrhythmiaTextView, 0.1f);
-        setParamsForGivenTextView(dateTimeView, 0.30f);
+        setParamsForGivenTextView(dateAndTimeView, 0.30f);
 
         for (View view : listOfViews) {
             if (view instanceof TextView){
@@ -104,22 +92,25 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
             }
         }
 
-        //add views to row
+        // add views to row
         this.addView(systoleTextView);
         this.addView(diastoleTextView);
         this.addView(conditionTextView);
         this.addView(pulseTextView);
         this.addView(arrhythmiaTextView);
-        this.addView(dateTimeView);
+        this.addView(dateAndTimeView);
+    }
+
+    public int getId() {
+        return hpModelView.getId();
     }
 
     @Override
-    public int compareTo(@NonNull TableHealthRecord other) {
-        if (this.id == other.id)
-            return 0;
-        else if (this.id < other.id)
-            return -1;
-        else
-            return 1;
+    public int compareTo(@NonNull TableRowPressureData other) {
+        int r = this.hpModelView.compareTo(other.hpModelView);
+        if (r == 0){
+            return Integer.valueOf(this.getId()).compareTo(other.getId());
+        }
+        return r;
     }
 }

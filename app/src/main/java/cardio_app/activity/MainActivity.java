@@ -9,28 +9,38 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.structures.table_row.HealthParams;
+import cardio_app.activity.drug.DrugsActivity;
+import cardio_app.db.DbHelper;
+import cardio_app.db.model.PressureData;
+import cardio_app.viewmodel.pressure.PressureDataViewModel;
 import temporary_package.RandomParams;
-import cardio_app.structures.table_row.TableHealthRecord;
+import cardio_app.viewmodel.pressure.TableRowPressureData;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<TableHealthRecord> rowList = new ArrayList<>();
+    List<TableRowPressureData> rowList = new ArrayList<>();
     AppCompatActivity self = this;
     TableLayout tableLayout;
+    private static final String TAG = DrugsActivity.class.getName();
+    private DbHelper dbHelper;
 
-    private void addTableRecord(HealthParams hp, boolean showToast) {
-        TableHealthRecord thr = new TableHealthRecord(self, hp);
+    private void addTableRowToLayout(PressureData hp, boolean showToast) {
+        TableRowPressureData thr = new TableRowPressureData(self, new PressureDataViewModel(hp));
         rowList.add(thr);
         tableLayout.addView(thr, 0); // always on the top
 
@@ -38,7 +48,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(
                     getApplicationContext(),
                     getResources().getString(R.string.new_record_added_msg)
-                            + ", ID: " + String.valueOf(thr.id),
+                            + ", ID: " + String.valueOf(thr.getId()),
                     Toast.LENGTH_SHORT
             ).show();
         }
@@ -52,12 +62,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.add_button);
-        addBtn.setOnClickListener(view -> {
-            HealthParams hp = RandomParams.getRandomHealthParams();
-            addTableRecord(hp, true);
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,10 +71,27 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // floating button - to add new records
+        FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.add_button);
+        addBtn.setOnClickListener(view -> {
+            PressureData hp = RandomParams.getRandomPressureData();
+            addTableRowToLayout(hp, true);
+        });
+
+        // table layout - for record list
         tableLayout = (TableLayout) findViewById(R.id.TableLayout);
         tableLayout.setPadding(0,0,15,0);
-        for (HealthParams healthParams : RandomParams.makeParamList()) {
-            addTableRecord(healthParams, false);
+
+        try {
+            Dao<PressureData, Integer> dao = getHelper().getDao(PressureData.class);
+//            List<PressureData> listPressureData = dao.queryForAll();
+            List<PressureData> listPressureData = RandomParams.makePressureDataList();
+            for (PressureData hp : listPressureData) {
+                addTableRowToLayout(hp, false);
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Can't get pressure data records from sql dao", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -113,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_diary) {
-            // Handle the camera action
+
         } else if (id == R.id.menu_import_export) {
 
         } else if (id == R.id.menu_genre_report) {
@@ -136,6 +157,24 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (dbHelper != null) {
+            OpenHelperManager.releaseHelper();
+            dbHelper = null;
+        }
+    }
+
+    private DbHelper getHelper() {
+        if (dbHelper == null) {
+            dbHelper = OpenHelperManager.getHelper(this, DbHelper.class);
+        }
+
+        return dbHelper;
     }
 
 }

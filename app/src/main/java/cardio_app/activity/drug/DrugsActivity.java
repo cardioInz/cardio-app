@@ -1,4 +1,4 @@
-package cardio_app.activity;
+package cardio_app.activity.drug;
 
 import android.app.Activity;
 import android.content.Intent;

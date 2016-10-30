@@ -1,11 +1,12 @@
 package temporary_package;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import cardio_app.structures.table_row.HealthParams;
+import cardio_app.db.model.PressureData;
 
 public class RandomParams {
     // just temporary class
@@ -16,24 +17,25 @@ public class RandomParams {
         return r.nextInt(to - from) + from;
     }
 
-    public static HealthParams getRandomHealthParams() {
+    public static PressureData getRandomPressureData() {
         int diastole = randIntFromTo(60, 100);
         int systole = randIntFromTo(diastole+29, diastole+60);
         int pulse = randIntFromTo(30, 100);
         boolean arrhythmia = r.nextBoolean();
         ;
         Date date = new Date();
-        return new HealthParams(systole, diastole, pulse, arrhythmia, date);
+        return new PressureData(systole, diastole, pulse, arrhythmia, date);
     }
 
-    public static List<HealthParams> makeParamList() {
+    public static List<PressureData> makePressureDataList() {
         String [] array = DATA_STR.split("\n");
-        List<HealthParams> paramsList = new ArrayList<>();
-        String systole;
-        String diastole;
-        String pulse;
-        String date = "2020-12-12";
+        List<PressureData> paramsList = new ArrayList<>();
+        int systole;
+        int diastole;
+        int pulse;
+        String date = null;
         String time;
+        Date dateTime;
         boolean arrhythmia;
 
         for (String s : array) {
@@ -42,19 +44,25 @@ public class RandomParams {
                 continue;
             }
 
-            systole = params[1];
-            diastole = params[2];
-            pulse = params[3];
-            arrhythmia = s.hashCode() % 11 == 0;
+            try {
+                systole = Integer.parseInt(params[1]);
+                diastole = Integer.parseInt(params[2]);
+                pulse = Integer.parseInt(params[3]);
+                arrhythmia = s.hashCode() % 11 == 0;
 
-            if (!params[0].isEmpty()){
-                date = params[0];
-                time = "08:00";
-            } else {
-                time = "19:00";
+                if (!params[0].isEmpty()) {
+                    date = params[0];
+                    time = "08:00";
+                } else {
+                    time = "19:00";
+                }
+
+                dateTime = PressureData.DATETIME_FORMATTER.parse(date + " " + time);
+                paramsList.add(new PressureData(systole, diastole, pulse, arrhythmia, dateTime));
+
+            } catch (Exception e) {
+                // silent exception :D
             }
-
-            paramsList.add(new HealthParams(systole, diastole, pulse, arrhythmia, date, time));
         }
 
         return paramsList;
