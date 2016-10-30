@@ -5,7 +5,7 @@
     android:id="@+id/activity_drugs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cardio_app.activity.DrugsActivity">
+    tools:context="cardio_app.activity.drug.DrugsActivity">
 
     <ListView
         android:layout_width="match_parent"
