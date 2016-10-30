@@ -27,6 +27,12 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -38,4 +44,5 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:4.48'
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
 }
