@@ -1,4 +1,4 @@
-package cardio_app.viewmodel.diary;
+package cardio_app.viewmodel.pressure;
 
 
 import android.content.Context;
@@ -12,12 +12,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cardio_app.db.model.HealthParams;
+public class TableRowPressureData extends TableRow implements Comparable<TableRowPressureData> {
 
-public class TableHealthRecord extends TableRow implements Comparable<TableHealthRecord> {
-
-    public HealthParamsViewModel hpModelView;
-    private final TableHealthRecord self = this;
+    public PressureDataViewModel hpModelView;
+    private final TableRowPressureData self = this;
 
     TextView systoleTextView;
     TextView diastoleTextView;
@@ -32,7 +30,7 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
 
     private List<View> listOfViews;
 
-    public TableHealthRecord(final Context context, HealthParamsViewModel hpModelView) {
+    public TableRowPressureData(final Context context, PressureDataViewModel hpModelView) {
         super(context);
         this.hpModelView = hpModelView;
 
@@ -49,8 +47,8 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
     }
 
     public void reassignParamsToViews() {
-        systoleTextView.setText(hpModelView.getSystole());
-        diastoleTextView.setText(hpModelView.getDiastole());
+        systoleTextView.setText(hpModelView.getSystoleStr());
+        diastoleTextView.setText(hpModelView.getDiastoleStr());
         conditionTextView.setText(hpModelView.getConditionStr());
         pulseTextView.setText(hpModelView.getPulse());
         arrhythmiaTextView.setText(hpModelView.getArrhythmiaStr());
@@ -108,7 +106,7 @@ public class TableHealthRecord extends TableRow implements Comparable<TableHealt
     }
 
     @Override
-    public int compareTo(@NonNull TableHealthRecord other) {
+    public int compareTo(@NonNull TableRowPressureData other) {
         int r = this.hpModelView.compareTo(other.hpModelView);
         if (r == 0){
             return Integer.valueOf(this.getId()).compareTo(other.getId());

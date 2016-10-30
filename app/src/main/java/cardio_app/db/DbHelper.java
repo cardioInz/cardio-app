@@ -15,7 +15,7 @@ import java.util.List;
 import cardio_app.db.model.Alarm;
 import cardio_app.db.model.AlarmDrug;
 import cardio_app.db.model.Drug;
-import cardio_app.db.model.HealthParams;
+import cardio_app.db.model.PressureData;
 import temporary_package.RandomParams;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
@@ -39,10 +39,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         dao.create(evening);
     }
 
-    private void initHealthRecords() throws SQLException {
-        Dao<HealthParams, Integer> daoHp = getDao(HealthParams.class);
-        List<HealthParams> hpdatList = RandomParams.makeParamList();
-        for (HealthParams hpdat : hpdatList) {
+    private void initPressureDataTable() throws SQLException {
+        Dao<PressureData, Integer> daoHp = getDao(PressureData.class);
+        List<PressureData> hpdatList = RandomParams.makeParamList();
+        for (PressureData hpdat : hpdatList) {
             daoHp.create(hpdat);
         }
     }
@@ -54,7 +54,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Alarm.class);
             TableUtils.createTable(connectionSource, Drug.class);
             TableUtils.createTable(connectionSource, AlarmDrug.class);
-            TableUtils.createTable(connectionSource, HealthParams.class);
+            TableUtils.createTable(connectionSource, PressureData.class);
         } catch (SQLException e) {
             Log.e(TAG, "Can't create database", e);
             throw new RuntimeException(e);
@@ -62,7 +62,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
         try {
             initAlarms();
-            initHealthRecords();
+            initPressureDataTable();
         } catch (SQLException e) {
             Log.e(TAG, "Can't insert initial data", e);
             throw new RuntimeException(e);

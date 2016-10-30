@@ -1,11 +1,8 @@
-package cardio_app.viewmodel.diary;
+package cardio_app.viewmodel.pressure;
 
 
 import android.content.Context;
-import android.text.Layout;
-import android.text.style.AlignmentSpan;
 import android.view.Gravity;
-import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;

@@ -1,4 +1,4 @@
-package cardio_app.activity;
+package cardio_app.activity.drug;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +30,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;

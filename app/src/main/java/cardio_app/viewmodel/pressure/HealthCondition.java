@@ -1,9 +1,9 @@
-package cardio_app.viewmodel.diary;
+package cardio_app.viewmodel.pressure;
 
 
 import android.annotation.SuppressLint;
 
-import cardio_app.db.model.HealthParams;
+import cardio_app.db.model.PressureData;
 import cardio_app.db.model.Questionnaire;
 
 
@@ -46,10 +46,10 @@ public enum HealthCondition {
         return this.value;
     }
 
-    public static HealthCondition classify(HealthParams hf) {
-        HealthCondition systoleCond = classifyBySystole(hf.getSystoleInt());
-        HealthCondition diastoleCond = classifyByDiastole(hf.getDiastoleInt());
-        int diff = hf.getSystoleInt() - hf.getDiastoleInt();
+    public static HealthCondition classify(PressureData hf) {
+        HealthCondition systoleCond = classifyBySystole(hf.getSystole());
+        HealthCondition diastoleCond = classifyByDiastole(hf.getDiastole());
+        int diff = hf.getSystole() - hf.getDiastole();
 
         if (diff < 30 || diff > 60)
             return BAD_DIFF;
