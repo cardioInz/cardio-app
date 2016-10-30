@@ -50,7 +50,11 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
 
 
     public PressureData(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
-        super(++ID_CNT);
+        initParams(systole, diastole, pulse, arrhythmia, dateTime);
+    }
+
+    public PressureData(int id, int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
+        super(id);
         initParams(systole, diastole, pulse, arrhythmia, dateTime);
     }
 

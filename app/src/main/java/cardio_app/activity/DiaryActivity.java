@@ -68,8 +68,8 @@ public class DiaryActivity extends AppCompatActivity {
 
         try {
             Dao<PressureData, Integer> dao = getHelper().getDao(PressureData.class);
-//            List<PressureData> listPressureData = dao.queryForAll();
-            List<PressureData> listPressureData = RandomParams.makePressureDataList();
+            List<PressureData> listPressureData = dao.queryForAll();
+//            List<PressureData> listPressureData = RandomParams.makePressureDataList();
             for (PressureData hp : listPressureData) {
                 addTableRowToLayout(hp, false);
             }
