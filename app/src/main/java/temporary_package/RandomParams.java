@@ -17,7 +17,7 @@ public class RandomParams {
         return r.nextInt(to - from) + from;
     }
 
-    public static PressureData getRandomParam() {
+    public static PressureData getRandomPressureData() {
         int diastole = randIntFromTo(60, 100);
         int systole = randIntFromTo(diastole+29, diastole+60);
         int pulse = randIntFromTo(30, 100);
@@ -27,7 +27,7 @@ public class RandomParams {
         return new PressureData(systole, diastole, pulse, arrhythmia, date);
     }
 
-    public static List<PressureData> makeParamList() {
+    public static List<PressureData> makePressureDataList() {
         String [] array = DATA_STR.split("\n");
         List<PressureData> paramsList = new ArrayList<>();
         int systole;
@@ -35,7 +35,7 @@ public class RandomParams {
         int pulse;
         String date = null;
         String time;
-        String dateTime = null;
+        Date dateTime;
         boolean arrhythmia;
 
         for (String s : array) {
@@ -57,13 +57,12 @@ public class RandomParams {
                     time = "19:00";
                 }
 
-                Date dateTimeStr = PressureData.DATETIME_FORMATTER.parse(date + " " + time);
-                paramsList.add(new PressureData(systole, diastole, pulse, arrhythmia, dateTimeStr));
+                dateTime = PressureData.DATETIME_FORMATTER.parse(date + " " + time);
+                paramsList.add(new PressureData(systole, diastole, pulse, arrhythmia, dateTime));
 
             } catch (Exception e) {
                 // silent exception :D
             }
-
         }
 
         return paramsList;

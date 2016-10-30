@@ -12,8 +12,8 @@ import cardio_app.db.model.PressureData;
 
 public class PressureDataViewModel extends BaseObservable implements Comparable<PressureDataViewModel> {
     private PressureData pressureData;
-    public static final String ARRYTHMIA_STR = "A";
-    public static final String NO_ARRYTMIA_STR = "-";
+    public static final String ARRHYTHMIA_STR = "A";
+    public static final String NO_ARRHYTHMIA_STR = "-";
 
     public PressureDataViewModel(PressureData pressureData){
         this.pressureData = pressureData;
@@ -51,7 +51,7 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
 
     @Bindable
     public String getArrhythmiaStr() {
-        return pressureData.isArrhythmia() ? ARRYTHMIA_STR : NO_ARRYTMIA_STR;
+        return pressureData.isArrhythmia() ? ARRHYTHMIA_STR : NO_ARRHYTHMIA_STR;
     }
 
     @Bindable

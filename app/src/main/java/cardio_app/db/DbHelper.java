@@ -41,7 +41,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     private void initPressureDataTable() throws SQLException {
         Dao<PressureData, Integer> daoHp = getDao(PressureData.class);
-        List<PressureData> hpdatList = RandomParams.makeParamList();
+        List<PressureData> hpdatList = RandomParams.makePressureDataList();
         for (PressureData hpdat : hpdatList) {
             daoHp.create(hpdat);
         }

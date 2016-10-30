@@ -59,7 +59,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         systole = in.readInt();
         diastole = in.readInt();
         pulse = in.readInt();
-        arrhythmia = in.readString().equals(PressureDataViewModel.ARRYTHMIA_STR);
+        arrhythmia = in.readString().equals(PressureDataViewModel.ARRHYTHMIA_STR);
         try {
             Date date = DATE_FORMATTER.parse(in.readString());
             Date time = TIME_FORMATTER.parse(in.readString());
@@ -122,7 +122,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         parcel.writeInt(systole);
         parcel.writeInt(diastole);
         parcel.writeInt(pulse);
-        parcel.writeString(arrhythmia ? PressureDataViewModel.ARRYTHMIA_STR : PressureDataViewModel.NO_ARRYTMIA_STR);
+        parcel.writeString(arrhythmia ? PressureDataViewModel.ARRHYTHMIA_STR : PressureDataViewModel.NO_ARRHYTHMIA_STR);
         parcel.writeString(makeDateStr(dateTime));
         parcel.writeString(makeTimeStr(dateTime));
     }

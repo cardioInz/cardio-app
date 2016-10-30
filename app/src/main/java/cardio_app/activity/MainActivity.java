@@ -62,12 +62,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.add_button);
-        addBtn.setOnClickListener(view -> {
-            PressureData hp = RandomParams.getRandomParam();
-            addTableRowToLayout(hp, true);
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -77,13 +71,21 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // floating button - to add new records
+        FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.add_button);
+        addBtn.setOnClickListener(view -> {
+            PressureData hp = RandomParams.getRandomPressureData();
+            addTableRowToLayout(hp, true);
+        });
+
+        // table layout - for record list
         tableLayout = (TableLayout) findViewById(R.id.TableLayout);
         tableLayout.setPadding(0,0,15,0);
 
         try {
             Dao<PressureData, Integer> dao = getHelper().getDao(PressureData.class);
-            // List<PressureData> listPressureData = dao.queryForAll();
-            List<PressureData> listPressureData = RandomParams.makeParamList();
+//            List<PressureData> listPressureData = dao.queryForAll();
+            List<PressureData> listPressureData = RandomParams.makePressureDataList();
             for (PressureData hp : listPressureData) {
                 addTableRowToLayout(hp, false);
             }
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_diary) {
-            // Handle the camera action
+
         } else if (id == R.id.menu_import_export) {
 
         } else if (id == R.id.menu_genre_report) {
