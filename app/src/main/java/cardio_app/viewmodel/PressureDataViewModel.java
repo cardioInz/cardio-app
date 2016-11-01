@@ -1,4 +1,4 @@
-package cardio_app.viewmodel.pressure;
+package cardio_app.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -21,8 +21,18 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
 
     @Bindable
     public String getConditionStr(){
-        return HealthCondition.classify(this.pressureData).getStrMapped();
+        return pressureData.getCondition().getStrMapped();
     }
+
+//    @Bindable
+//    public String getValuesStr() {
+//        return String.format("%s/%s/%s", getSystoleStr(), getDiastoleStr(), getPulseStr());
+//    }
+//
+//    @Bindable
+//    public String getDateTimeStr() {
+//        return String.format("%s %s", getDateStr(), getTimeStr());
+//    }
 
     @Bindable
     public String getDateStr() {
@@ -34,19 +44,23 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
         return PressureData.makeTimeStr(pressureData.getDateTime());
     }
 
+    private static String fillStrWithSpaces(int length, String str) {
+        return String.format("%" + length + "s", str);
+    }
+
     @Bindable
     public String getSystoleStr() {
-        return String.valueOf(pressureData.getSystole());
+        return fillStrWithSpaces(3, String.valueOf(pressureData.getSystole()));
     }
 
     @Bindable
     public String getDiastoleStr() {
-        return String.valueOf(pressureData.getDiastole());
+        return fillStrWithSpaces(3, String.valueOf(pressureData.getDiastole()));
     }
 
     @Bindable
-    public String getPulse() {
-        return String.valueOf(pressureData.getPulse());
+    public String getPulseStr() {
+        return fillStrWithSpaces(3, String.valueOf(pressureData.getPulse()));
     }
 
     @Bindable

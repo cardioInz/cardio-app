@@ -12,12 +12,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cardio_app.viewmodel.pressure.PressureDataViewModel;
+import cardio_app.db.HealthCondition;
+import cardio_app.viewmodel.PressureDataViewModel;
 
 @DatabaseTable
 public class PressureData extends BaseModel implements Parcelable, Comparable<PressureData> {
 
-    private static int ID_CNT = 0;
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint("SimpleDateFormat")
@@ -52,12 +52,6 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
     public PressureData(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
         initParams(systole, diastole, pulse, arrhythmia, dateTime);
     }
-
-    public PressureData(int id, int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
-        super(id);
-        initParams(systole, diastole, pulse, arrhythmia, dateTime);
-    }
-
 
     private PressureData(Parcel in) {
         systole = in.readInt();
@@ -129,6 +123,10 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         parcel.writeString(arrhythmia ? PressureDataViewModel.ARRHYTHMIA_STR : PressureDataViewModel.NO_ARRHYTHMIA_STR);
         parcel.writeString(makeDateStr(dateTime));
         parcel.writeString(makeTimeStr(dateTime));
+    }
+
+    public HealthCondition getCondition() {
+        return HealthCondition.classify(this);
     }
 
 

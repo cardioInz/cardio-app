@@ -29,8 +29,12 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".activity.DiaryActivity"
+            android:name=".activity.diary.DiaryActivity"
             android:label="@string/menu_title_diary"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.diary.AddDiaryActivity"
+            android:label="@string/title_activity_add_diary"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -20,4 +20,12 @@
     <string name="description">Description</string>
     <string name="active_alarms">Active Alarms</string>
     <string name="save">SAVE</string>
+    <string name="title_activity_add_diary">Add new measurement</string>
+
+    <string name="systole">Systole</string>
+    <string name="diastole">Diastole</string>
+    <string name="pulse">Pulse</string>
+    <string name="arrhythmia">Arrhythmia</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
 </resources>
