@@ -11,21 +11,21 @@ import cardio_app.db.model.PressureData;
 public class RandomParams {
     // just temporary class
 
-    private static Random r = new Random();
-
-    private static int randIntFromTo(int from, int to) {
-        return r.nextInt(to - from) + from;
-    }
-
-    public static PressureData getRandomPressureData() {
-        int diastole = randIntFromTo(60, 100);
-        int systole = randIntFromTo(diastole+29, diastole+60);
-        int pulse = randIntFromTo(30, 100);
-        boolean arrhythmia = r.nextBoolean();
-        ;
-        Date date = new Date();
-        return new PressureData(systole, diastole, pulse, arrhythmia, date);
-    }
+//    private static Random r = new Random();
+//
+//    private static int randIntFromTo(int from, int to) {
+//        return r.nextInt(to - from) + from;
+//    }
+//
+//    public static PressureData getRandomPressureData() {
+//        int diastole = randIntFromTo(60, 100);
+//        int systole = randIntFromTo(diastole+29, diastole+60);
+//        int pulse = randIntFromTo(30, 100);
+//        boolean arrhythmia = r.nextBoolean();
+//        ;
+//        Date date = new Date();
+//        return new PressureData(systole, diastole, pulse, arrhythmia, date);
+//    }
 
     public static List<PressureData> makePressureDataList() {
         String [] array = DATA_STR.split("\n");

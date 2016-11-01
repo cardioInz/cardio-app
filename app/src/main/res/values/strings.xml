@@ -28,4 +28,6 @@
     <string name="arrhythmia">Arrhythmia</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+
+    <string name="after_pressure_save">Measurement parameters saved successfully</string>
 </resources>

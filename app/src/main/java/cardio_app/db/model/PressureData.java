@@ -10,6 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 
 import cardio_app.db.HealthCondition;
@@ -37,7 +38,11 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
     private Date dateTime;
 
     public PressureData() {
-
+        this.systole = 0;
+        this.diastole = 0;
+        this.pulse = 0;
+        this.arrhythmia = false;
+        this.dateTime = new Date();
     }
 
     private void initParams(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime){
@@ -54,14 +59,13 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
     }
 
     private PressureData(Parcel in) {
+        setId(in.readInt());
         systole = in.readInt();
         diastole = in.readInt();
         pulse = in.readInt();
         arrhythmia = in.readString().equals(PressureDataViewModel.ARRHYTHMIA_STR);
         try {
-            Date date = DATE_FORMATTER.parse(in.readString());
-            Date time = TIME_FORMATTER.parse(in.readString());
-            this.dateTime = new Date(date.getTime() + time.getTime());
+            this.dateTime = DATETIME_FORMATTER.parse(in.readString());
         } catch (ParseException e) {
             e.printStackTrace();
             this.dateTime = new Date(0);
@@ -85,28 +89,35 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         return dateTime;
     }
 
+    public void setDateTime(Date dateTime) { this.dateTime = dateTime; }
+
     public int getSystole() {
         return systole;
     }
+
+    public void setSystole(int systole) { this.systole = systole; }
 
     public int getDiastole() {
         return diastole;
     }
 
+    public void setDiastole(int diastole) { this.diastole = diastole; }
+
     public int getPulse() {
         return pulse;
     }
+
+    public void setPulse(int pulse) { this.pulse = pulse; }
 
     public boolean isArrhythmia() {
         return arrhythmia;
     }
 
+    public void setArrhythmia(boolean arrhythmia) { this.arrhythmia = arrhythmia; }
+
     @Override
     public int compareTo(@NonNull PressureData that) {
-        int result = this.dateTime.compareTo(that.dateTime);
-        if (result == 0)
-            return Integer.valueOf(this.getId()).compareTo(that.getId());
-        return result;
+        return getComparator().compare(this, that);
     }
 
     @Override
@@ -121,8 +132,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         parcel.writeInt(diastole);
         parcel.writeInt(pulse);
         parcel.writeString(arrhythmia ? PressureDataViewModel.ARRHYTHMIA_STR : PressureDataViewModel.NO_ARRHYTHMIA_STR);
-        parcel.writeString(makeDateStr(dateTime));
-        parcel.writeString(makeTimeStr(dateTime));
+        parcel.writeString(DATETIME_FORMATTER.format(dateTime));
     }
 
     public HealthCondition getCondition() {
@@ -136,5 +146,14 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
 
     public static String makeTimeStr(Date date) {
         return TIME_FORMATTER.format(date);
+    }
+
+    public static Comparator<PressureData> getComparator() {
+        return (a1, a2) -> {
+            int dateCmp = a1.compareTo(a2);
+            if (dateCmp != 0)
+                return dateCmp;
+            return a1.getId() - a2.getId();
+        };
     }
 }

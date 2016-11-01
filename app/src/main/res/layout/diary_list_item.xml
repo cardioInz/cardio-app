@@ -10,96 +10,93 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="4">
+        android:layout_height="match_parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_systole"
-            android:text="@{pressuredata.systoleStr}"/>
+            android:text="@{pressuredata.systoleStr}"
+            android:textSize="20sp"
+            android:minWidth="35sp"
+            android:gravity="end"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_diastole"
-            android:text="@{pressuredata.diastoleStr}"/>
+            android:text="@{pressuredata.diastoleStr}"
+            android:textSize="20sp"
+            android:minWidth="35sp"
+            android:gravity="end"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_pulse"
-            android:text="@{pressuredata.pulseStr}"/>
+            android:text="@{pressuredata.pulseStr}"
+            android:textSize="20sp"
+            android:minWidth="35sp"
+            android:gravity="end"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/pressuredata_values"-->
-            <!--android:text="@{pressuredata.valuesStr}"-->
-            <!--android:layout_gravity="fill"/>-->
-
-        <!--<Space-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_weight="1"/>-->
+            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_condition"
             android:text="@{pressuredata.conditionStr}"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:textSize="20sp"
+            android:minWidth="30sp"
+            android:gravity="center"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_arrhythmia"
             android:text="@{pressuredata.arrhythmiaStr}"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:textSize="20sp"
+            android:minWidth="30sp"
+            android:gravity="center"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pressuredata_date"
+            android:id="@+id/pressuredata_datetime"
             android:layout_gravity="fill"
-            android:text="@{pressuredata.dateStr}"/>
+            android:text="@{pressuredata.dateTimeStr}"
+            android:textSize="12sp"
+            android:gravity="end"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pressuredata_time"
-            android:layout_gravity="fill"
-            android:text="@{pressuredata.timeStr}"/>
+            android:layout_weight="0.5"/>
     </LinearLayout>
 
 </layout>

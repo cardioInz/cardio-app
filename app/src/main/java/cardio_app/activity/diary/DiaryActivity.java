@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -50,19 +49,14 @@ public class DiaryActivity extends AppCompatActivity {
 
         // list view - for record list
         ListView listView = (ListView) findViewById(R.id.diary_list_view);
-        listView.setOnItemClickListener(((adapterView, view, i, l) -> Snackbar.make(view,
-                "Selected item id: " + String.valueOf(view.getId())
-                //"Here we're gonna make some Edit and Delete buttons for selected measurement. " +
-                ,
-                Snackbar.LENGTH_LONG
-        ).setAction("Action", null).show()));
 
-//        listView.setOnItemClickListener(((adapterView, view, i, l) -> {
-//            PressureData pressureData = (PressureData) adapterView.getItemAtPosition(i);
-//            Intent intent = new Intent(DiaryActivity.this, AddDiaryActivity.class);
-//            intent.putExtra("pressuredata", pressureData);
-//            startActivity(intent);
-//        }));
+        listView.setOnItemLongClickListener(((adapterView, view, i, l) -> {
+            PressureData pressureData = (PressureData) adapterView.getItemAtPosition(i);
+            Intent intent = new Intent(DiaryActivity.this, AddDiaryActivity.class);
+            intent.putExtra("pressuredata", pressureData);
+            startActivity(intent);
+            return true;
+        }));
 
         try {
             Dao<PressureData, Integer> dao = getHelper().getDao(PressureData.class);
@@ -103,7 +97,6 @@ public class DiaryActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
                 convertView = inflater.inflate(R.layout.diary_list_item, parent, false);
             }
 
@@ -113,8 +106,7 @@ public class DiaryActivity extends AppCompatActivity {
             TextView pulseTextView = (TextView) convertView.findViewById(R.id.pressuredata_pulse);
             TextView conditionTextView = (TextView) convertView.findViewById(R.id.pressuredata_condition);
             TextView arrhythmiaTextView = (TextView) convertView.findViewById(R.id.pressuredata_arrhythmia);
-            TextView dateTextView = (TextView) convertView.findViewById(R.id.pressuredata_date);
-            TextView timeTextView = (TextView) convertView.findViewById(R.id.pressuredata_time);
+            TextView dateTimeTextView = (TextView) convertView.findViewById(R.id.pressuredata_datetime);
 
             PressureData pressureData = getItem(position);
 
@@ -126,8 +118,7 @@ public class DiaryActivity extends AppCompatActivity {
                 pulseTextView.setText(viewModel.getPulseStr());
                 conditionTextView.setText(viewModel.getConditionStr());
                 arrhythmiaTextView.setText(viewModel.getArrhythmiaStr());
-                dateTextView.setText(viewModel.getDateStr());
-                timeTextView.setText(viewModel.getTimeStr());
+                dateTimeTextView.setText(viewModel.getDateTimeStr());
             }
 
             return convertView;
