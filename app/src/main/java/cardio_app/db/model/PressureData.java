@@ -1,6 +1,5 @@
 package cardio_app.db.model;
 
-import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -9,22 +8,16 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
 import cardio_app.db.HealthCondition;
+import cardio_app.viewmodel.date_time.DateTimeViewModel;
 import cardio_app.viewmodel.PressureDataViewModel;
 
 @DatabaseTable
 public class PressureData extends BaseModel implements Parcelable, Comparable<PressureData> {
 
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm");
-    @SuppressLint("SimpleDateFormat")
-    public static final SimpleDateFormat DATETIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @DatabaseField
     private int systole;
@@ -65,7 +58,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         pulse = in.readInt();
         arrhythmia = in.readString().equals(PressureDataViewModel.ARRHYTHMIA_STR);
         try {
-            this.dateTime = DATETIME_FORMATTER.parse(in.readString());
+            this.dateTime = DateTimeViewModel.DATETIME_FORMATTER.parse(in.readString());
         } catch (ParseException e) {
             e.printStackTrace();
             this.dateTime = new Date(0);
@@ -132,7 +125,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         parcel.writeInt(diastole);
         parcel.writeInt(pulse);
         parcel.writeString(arrhythmia ? PressureDataViewModel.ARRHYTHMIA_STR : PressureDataViewModel.NO_ARRHYTHMIA_STR);
-        parcel.writeString(DATETIME_FORMATTER.format(dateTime));
+        parcel.writeString(DateTimeViewModel.DATETIME_FORMATTER.format(dateTime));
     }
 
     public HealthCondition getCondition() {
@@ -140,13 +133,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
     }
 
 
-    public static String makeDateStr(Date date) {
-        return DATE_FORMATTER.format(date);
-    }
 
-    public static String makeTimeStr(Date date) {
-        return TIME_FORMATTER.format(date);
-    }
 
     public static Comparator<PressureData> getComparator() {
         return (a1, a2) -> {

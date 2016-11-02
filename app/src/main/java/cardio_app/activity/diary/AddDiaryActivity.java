@@ -19,11 +19,14 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.Calendar;
 
 import cardio_app.R;
 import cardio_app.databinding.ActivityAddDiaryBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
+import cardio_app.viewmodel.date_time.PickedDateViewModel;
+import cardio_app.viewmodel.date_time.PickedTimeViewModel;
 import cardio_app.viewmodel.PressureDataViewModel;
 
 
@@ -31,6 +34,10 @@ public class AddDiaryActivity extends AppCompatActivity {
     private static final String TAG = AddDiaryActivity.class.getName();
     private DbHelper dbHelper;
     private final PressureDataViewModel pressureDataViewModel = new PressureDataViewModel();
+    private final PickedDateViewModel pickedDateViewModel =
+            new PickedDateViewModel(pressureDataViewModel.getPressureData().getDateTime());
+    private final PickedTimeViewModel pickedTimeViewModel =
+            new PickedTimeViewModel(pressureDataViewModel.getPressureData().getDateTime());
     private GoogleApiClient client;
 
     @Override
@@ -43,19 +50,37 @@ public class AddDiaryActivity extends AppCompatActivity {
 
         if (pressuredata != null) {
             pressureDataViewModel.setPressureData(pressuredata);
+            pickedDateViewModel.setDate(pressuredata.getDateTime());
+            pickedTimeViewModel.setTime(pressuredata.getDateTime());
         }
+
         ActivityAddDiaryBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_diary);
         binding.setPressuredata(pressureDataViewModel);
+        binding.setPickedDate(pickedDateViewModel);
+        binding.setPickedTime(pickedTimeViewModel);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    private void updatePressureDataDateTime() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(
+                pickedDateViewModel.getYear(),
+                pickedDateViewModel.getMonth(),
+                pickedDateViewModel.getDay(),
+                pickedTimeViewModel.getHourOfDay(),
+                pickedTimeViewModel.getMinute()
+        );
+        pressureDataViewModel.getPressureData().setDateTime(cal.getTime());
+    }
+
 
     private void editPressureData(PressureData pressureData) {
         try {
             Dao<PressureData, Integer> pressureDao = getHelper().getDao(PressureData.class);
+            updatePressureDataDateTime();
             if (pressureData.getId() <= 0) {
                 pressureDao.create(pressureData);
             } else {
