@@ -1,20 +1,13 @@
 package cardio_app.activity.diary;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
@@ -24,7 +17,6 @@ import java.util.List;
 import cardio_app.R;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
-import cardio_app.viewmodel.PressureDataViewModel;
 
 public class DiaryActivity extends AppCompatActivity {
 
@@ -34,6 +26,11 @@ public class DiaryActivity extends AppCompatActivity {
     public void addPressureData(View view) {
         Intent intent = new Intent(this, AddDiaryActivity.class);
         startActivity(intent);
+    }
+
+    public void refreshListView() {
+        ListView listView = (ListView) findViewById(R.id.diary_list_view);
+        listView.invalidateViews();
     }
 
     @Override
@@ -60,7 +57,9 @@ public class DiaryActivity extends AppCompatActivity {
 
         try {
             Dao<PressureData, Integer> dao = getHelper().getDao(PressureData.class);
-            listView.setAdapter(new PressureDataAdapter(dao.queryForAll()));
+            List<PressureData> pressureDataList = dao.queryBuilder().orderByRaw("dateTime desc").query();
+            listView.setAdapter(new PressureDataAdapter(DiaryActivity.this, pressureDataList));
+            listView.invalidateViews();
         } catch (SQLException e) {
             Log.e(TAG, "Can't get pressure data records from sql dao", e);
             throw new RuntimeException(e);
@@ -86,42 +85,5 @@ public class DiaryActivity extends AppCompatActivity {
         return dbHelper;
     }
 
-    private class PressureDataAdapter extends ArrayAdapter<PressureData> {
 
-        public PressureDataAdapter(List<PressureData> data) {
-            super(DiaryActivity.this, R.layout.diary_list_item, data);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.diary_list_item, parent, false);
-            }
-
-//            TextView valuesTextView = (TextView) convertView.findViewById(R.id.pressuredata_values);
-            TextView systoleTextView = (TextView) convertView.findViewById(R.id.pressuredata_systole);
-            TextView diastoleTextView = (TextView) convertView.findViewById(R.id.pressuredata_diastole);
-            TextView pulseTextView = (TextView) convertView.findViewById(R.id.pressuredata_pulse);
-            TextView conditionTextView = (TextView) convertView.findViewById(R.id.pressuredata_condition);
-            TextView arrhythmiaTextView = (TextView) convertView.findViewById(R.id.pressuredata_arrhythmia);
-            TextView dateTimeTextView = (TextView) convertView.findViewById(R.id.pressuredata_datetime);
-
-            PressureData pressureData = getItem(position);
-
-            if (pressureData != null) {
-                PressureDataViewModel viewModel = new PressureDataViewModel(pressureData);
-//                valuesTextView.setText(viewModel.getValuesStr());
-                systoleTextView.setText(viewModel.getSystoleStr());
-                diastoleTextView.setText(viewModel.getDiastoleStr());
-                pulseTextView.setText(viewModel.getPulseStr());
-                conditionTextView.setText(viewModel.getConditionStr());
-                arrhythmiaTextView.setText(viewModel.getArrhythmiaStr());
-                dateTimeTextView.setText(viewModel.getDateTimeStr());
-            }
-
-            return convertView;
-        }
-    }
 }

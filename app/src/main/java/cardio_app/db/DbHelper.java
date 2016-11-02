@@ -16,7 +16,7 @@ import cardio_app.db.model.Alarm;
 import cardio_app.db.model.AlarmDrug;
 import cardio_app.db.model.Drug;
 import cardio_app.db.model.PressureData;
-import temporary_package.RandomParams;
+import temporary_package.InitialPressureData;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DbHelper.class.getName();
@@ -41,7 +41,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     private void initPressureDataTable() throws SQLException {
         Dao<PressureData, Integer> daoHp = getDao(PressureData.class);
-        List<PressureData> hpdatList = RandomParams.makePressureDataList();
+        List<PressureData> hpdatList = InitialPressureData.makePressureDataList();
         for (PressureData hpdat : hpdatList) {
             daoHp.create(hpdat);
         }

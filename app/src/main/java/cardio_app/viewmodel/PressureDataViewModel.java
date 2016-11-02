@@ -5,7 +5,7 @@ import android.databinding.Bindable;
 import android.support.annotation.NonNull;
 
 import cardio_app.db.model.PressureData;
-import cardio_app.BR;
+import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
 /**
  * Created by kisam on 27.10.2016.
@@ -13,15 +13,18 @@ import cardio_app.BR;
 
 public class PressureDataViewModel extends BaseObservable implements Comparable<PressureDataViewModel> {
     private PressureData pressureData;
+    private final DateTimeViewModel dateTimeViewModel;
+
     public static final String ARRHYTHMIA_STR = "A";
     public static final String NO_ARRHYTHMIA_STR = "-";
 
     public PressureDataViewModel() {
-        this.pressureData = new PressureData();
+        this(new PressureData());
     }
 
     public PressureDataViewModel(PressureData pressureData){
         this.pressureData = pressureData;
+        dateTimeViewModel = new DateTimeViewModel(this.pressureData.getDateTime());
     }
 
     @Bindable
@@ -29,25 +32,14 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
         return pressureData.getCondition().getStrMapped();
     }
 
-//    @Bindable
-//    public String getValuesStr() {
-//        return String.format("%s/%s/%s", getSystoleStr(), getDiastoleStr(), getPulseStr());
-//    }
+    @Bindable
+    public DateTimeViewModel getDateTimeViewModel() {
+        return this.dateTimeViewModel;
+    }
 
     @Bindable
     public String getDateTimeStr() {
-        return getDateStr() + "\n" + getTimeStr();
-//        return PressureData.DATETIME_FORMATTER.format(pressureData.getDateTime());
-    }
-
-    @Bindable
-    public String getDateStr() {
-        return PressureData.makeDateStr(pressureData.getDateTime());
-    }
-
-    @Bindable
-    public String getTimeStr() {
-        return PressureData.makeTimeStr(pressureData.getDateTime());
+        return dateTimeViewModel.getDateStr() + "\n" + dateTimeViewModel.getTimeStr();
     }
 
     @Bindable
