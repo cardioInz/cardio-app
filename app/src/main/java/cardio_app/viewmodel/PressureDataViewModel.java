@@ -27,6 +27,17 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
         dateTimeViewModel = new DateTimeViewModel(this.pressureData.getDateTime());
     }
 
+    private int tryToInt(String str){
+        if (str.isEmpty())
+            return 0;
+        
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     @Bindable
     public String getConditionStr(){
         return pressureData.getCondition().getStrMapped();
@@ -48,7 +59,7 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
     }
 
     public void setSystoleStr(String systoleStr) {
-        pressureData.setSystole(Integer.parseInt(systoleStr));
+        pressureData.setSystole(tryToInt(systoleStr));
     }
 
     @Bindable
@@ -57,7 +68,8 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
     }
 
     public void setDiastoleStr(String diastoleStr) {
-        pressureData.setDiastole(Integer.parseInt(diastoleStr));
+
+        pressureData.setDiastole(tryToInt(diastoleStr));
     }
 
     @Bindable
@@ -66,7 +78,7 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
     }
 
     public void setPulseStr(String pulseStr) {
-        pressureData.setPulse(Integer.parseInt(pulseStr));
+        pressureData.setPulse(tryToInt(pulseStr));
     }
 
     @Bindable

@@ -75,4 +75,11 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 
     }
+
+
+    public List<PressureData> getOrderedPressureData() throws SQLException {
+        Dao<PressureData, Integer> dao = getDao(PressureData.class);
+//        List<PressureData> pressureDataList = dao.queryBuilder().orderByRaw("dateTime desc").query();
+        return dao.queryBuilder().orderByRaw("dateTime desc").query();
+    }
 }

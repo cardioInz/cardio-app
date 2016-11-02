@@ -58,12 +58,12 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
         return PressureData.getComparator();
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        this.setNotifyOnChange(false);
-        this.sort(getComparator());
-        this.setNotifyOnChange(true);
-    }
+//    @Override
+//    public void notifyDataSetChanged() {
+//        this.setNotifyOnChange(false);
+//        this.sort(getComparator());
+//        this.setNotifyOnChange(true);
+//    }
 
 //        @Override
 //        public void add(PressureData pressureData) {

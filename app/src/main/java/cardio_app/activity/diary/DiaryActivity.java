@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import cardio_app.R;
 import cardio_app.db.DbHelper;
@@ -22,6 +20,7 @@ public class DiaryActivity extends AppCompatActivity {
 
     private static final String TAG = DiaryActivity.class.getName();
     private DbHelper dbHelper;
+    PressureDataAdapter pressureDataAdapter;
 
     public void addPressureData(View view) {
         Intent intent = new Intent(this, AddDiaryActivity.class);
@@ -29,8 +28,21 @@ public class DiaryActivity extends AppCompatActivity {
     }
 
     public void refreshListView() {
-        ListView listView = (ListView) findViewById(R.id.diary_list_view);
-        listView.invalidateViews();
+        // TODO maybe we could do the same simpler
+        assignDataToListView();
+    }
+
+
+    public void assignDataToListView() {
+        try {
+            ListView listView = (ListView) findViewById(R.id.diary_list_view);
+            pressureDataAdapter = new PressureDataAdapter(DiaryActivity.this, getHelper().getOrderedPressureData());
+            listView.setAdapter(pressureDataAdapter);
+            listView.invalidateViews();
+        } catch (SQLException e) {
+            Log.e(TAG, "Can't get pressure data records from sql dao", e);
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -55,17 +67,21 @@ public class DiaryActivity extends AppCompatActivity {
             return true;
         }));
 
-        try {
-            Dao<PressureData, Integer> dao = getHelper().getDao(PressureData.class);
-            List<PressureData> pressureDataList = dao.queryBuilder().orderByRaw("dateTime desc").query();
-            listView.setAdapter(new PressureDataAdapter(DiaryActivity.this, pressureDataList));
-            listView.invalidateViews();
-        } catch (SQLException e) {
-            Log.e(TAG, "Can't get pressure data records from sql dao", e);
-            throw new RuntimeException(e);
-        }
+        assignDataToListView();
     }
 
+
+    @Override
+    protected void onResume() {
+        refreshListView();
+        super.onResume();;
+    }
+
+    @Override
+    protected void onRestart() {
+        refreshListView();
+        super.onResume();;
+    }
 
     @Override
     protected void onDestroy() {
