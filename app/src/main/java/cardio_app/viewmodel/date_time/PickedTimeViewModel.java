@@ -32,8 +32,6 @@ public class PickedTimeViewModel extends BaseObservable {
     private void initFromCalendar(Calendar calendar){
         hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
-
-        int seconds = 0;
     }
 
     @Bindable

@@ -34,8 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.diary.AddDiaryActivity"
-            android:label="@string/title_activity_add_diary"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_add_diary"/>
     </application>
 
 </manifest>

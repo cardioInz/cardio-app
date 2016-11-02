@@ -77,15 +77,35 @@ public class AddDiaryActivity extends AppCompatActivity {
     }
 
 
+    private void addNewPressureDataToAdapter(PressureData pressureData) {
+        // TODO
+//        ListView listView = (ListView)findViewById(R.id.diary_list_view);
+//        PressureDataAdapter pressureDataAdapter = (PressureDataAdapter) listView.getAdapter();
+//        pressureDataAdapter.add(pressureData);
+    }
+
+
     private void editPressureData(PressureData pressureData) {
         try {
             Dao<PressureData, Integer> pressureDao = getHelper().getDao(PressureData.class);
             updatePressureDataDateTime();
             if (pressureData.getId() <= 0) {
                 pressureDao.create(pressureData);
+                //        Toast.makeText(this, R.string.after_pressure_save, Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        getApplicationContext(),
+                        getResources().getString(R.string.new_pressure_added_msg)
+                                + ", ID: " + String.valueOf(pressureData.getId()),
+                        Toast.LENGTH_SHORT
+                ).show();
+                addNewPressureDataToAdapter(pressureData);
             } else {
                 pressureDao.update(pressureData);
+                Toast.makeText(this, R.string.after_pressure_save, Toast.LENGTH_SHORT).show();
             }
+
+            // TODO update list view
+
         } catch (SQLException e) {
             Log.e(TAG, "Can't perform create/update action on PressureData record", e);
         }
@@ -131,13 +151,6 @@ public class AddDiaryActivity extends AppCompatActivity {
     private void onSaveClick() {
         PressureData pressureData = pressureDataViewModel.getPressureData();
         editPressureData(pressureData);
-//        Toast.makeText(this, R.string.after_pressure_save, Toast.LENGTH_SHORT).show();
-        Toast.makeText(
-                    getApplicationContext(),
-                    getResources().getString(R.string.new_record_added_msg)
-                            + ", ID: " + String.valueOf(pressureData.getId()),
-                    Toast.LENGTH_SHORT
-            ).show();
         onBackPressed();
     }
 
@@ -147,7 +160,7 @@ public class AddDiaryActivity extends AppCompatActivity {
      */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
-                .setName("AddPressure Page") // TODO: Define a title for the content shown.
+                .setName("AddPressureData Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
                 .build();

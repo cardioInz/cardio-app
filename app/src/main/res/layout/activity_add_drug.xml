@@ -6,53 +6,57 @@
         <variable name="drug" type="cardio_app.viewmodel.DrugViewModel"/>
     </data>
 
-    <LinearLayout
-        android:id="@+id/activity_add_drug"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="cardio_app.activity.drug.AddDrugActivity"
-        android:orientation="vertical">
-
-        <TextView
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/activity_add_drug"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/name"
-            android:textSize="22sp"/>
+            tools:context="cardio_app.activity.drug.AddDrugActivity"
+            android:orientation="vertical">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/name_value"
-            android:text="@={drug.name}"
-            android:inputType="text"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/name"
+                android:textSize="22sp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/description"
-            android:textSize="22sp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_value"
+                android:text="@={drug.name}"
+                android:inputType="text"/>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:text="@={drug.description}"
-            android:id="@+id/description_value" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/description"
+                android:textSize="22sp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/active_alarms"
-            android:textSize="22sp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:text="@={drug.description}"
+                android:id="@+id/description_value" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:id="@+id/alarms"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/active_alarms"
+                android:textSize="22sp"/>
 
-    </LinearLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/alarms"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </layout>

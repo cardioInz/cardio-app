@@ -133,14 +133,12 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
     }
 
 
-
-
     public static Comparator<PressureData> getComparator() {
         return (a1, a2) -> {
-            int dateCmp = a1.compareTo(a2);
+            int dateCmp = a2.compareTo(a1);
             if (dateCmp != 0)
                 return dateCmp;
-            return a1.getId() - a2.getId();
+            return a2.getId() - a1.getId();
         };
     }
 }
