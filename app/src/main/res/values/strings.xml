@@ -32,4 +32,6 @@
     <string name="after_pressure_save">Measurement parameters saved successfully</string>
     <string name="delete">DELETE</string>
     <string name="after_pressure_delete">Measurement deleted seccessfully</string>
+    <string name="are_you_sure_to_save_changes">Are you sure that you want to save changes?</string>
+    <string name="are_you_sure_to_delete_item">Are you sure that you want to delete this item?</string>
 </resources>

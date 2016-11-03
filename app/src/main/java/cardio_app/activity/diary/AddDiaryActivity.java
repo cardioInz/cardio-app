@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -39,7 +42,7 @@ public class AddDiaryActivity extends AppCompatActivity {
     private final PickedTimeViewModel pickedTimeViewModel =
             new PickedTimeViewModel(pressureDataViewModel.getPressureData().getDateTime());
     private GoogleApiClient client;
-    private boolean showDeleteMenuItem;
+    private boolean isActivityOnExistingItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +51,13 @@ public class AddDiaryActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         PressureData pressuredata = intent.getParcelableExtra("pressuredata");
+        isActivityOnExistingItem = pressuredata != null;
 
-        if (pressuredata != null) {
+        if (isActivityOnExistingItem) {
             pressureDataViewModel.setPressureData(pressuredata);
             pickedDateViewModel.setDate(pressuredata.getDateTime());
             pickedTimeViewModel.setTime(pressuredata.getDateTime());
-            showDeleteMenuItem = true;
-        } else {
-            showDeleteMenuItem = false;
+            isActivityOnExistingItem = true;
         }
 
         ActivityAddDiaryBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_diary);
@@ -132,7 +134,7 @@ public class AddDiaryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_pressure, menu);
-        if (!showDeleteMenuItem){
+        if (!isActivityOnExistingItem){
             MenuItem menuItem = menu.findItem(R.id.delete_pressure);
             menuItem.setEnabled(false);
             menuItem.setVisible(false);
@@ -158,19 +160,39 @@ public class AddDiaryActivity extends AppCompatActivity {
     }
 
     private void onSaveClick() {
-        PressureData pressureData = pressureDataViewModel.getPressureData();
-        editPressureData(pressureData);
-        onBackPressed();
+        if (isActivityOnExistingItem) {
+            View contextView = findViewById(R.id.activity_add_diary);
+            Snackbar
+                    .make(contextView, R.string.are_you_sure_to_save_changes, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.save, view -> {
+                        editPressureData(pressureDataViewModel.getPressureData());
+                        onBackPressed();
+                    })
+                    .setActionTextColor(ContextCompat.getColor(this, R.color.brightOnDarkBg))
+                    .show();
+        } else {
+            editPressureData(pressureDataViewModel.getPressureData());
+            onBackPressed();
+        }
     }
 
 
     private void onDeleteClick() {
-        PressureData pressureData = pressureDataViewModel.getPressureData();
-        deletePressureData(pressureData);
-        onBackPressed();
+        if (isActivityOnExistingItem) {
+            View contextView = findViewById(R.id.activity_add_diary);
+            Snackbar
+                    .make(contextView, R.string.are_you_sure_to_delete_item, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.delete, view -> {
+                        deletePressureData(pressureDataViewModel.getPressureData());
+                        onBackPressed();
+                    })
+                    .setActionTextColor(ContextCompat.getColor(this, R.color.brightOnDarkBg))
+                    .show();
+        } else {
+            deletePressureData(pressureDataViewModel.getPressureData());
+            onBackPressed();
+        }
     }
-
-
 
 
     /**
