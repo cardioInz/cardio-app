@@ -20,7 +20,7 @@
     <string name="description">Description</string>
     <string name="active_alarms">Active Alarms</string>
     <string name="save">SAVE</string>
-    <string name="title_activity_add_diary">Add new measurement</string>
+    <string name="title_activity_add_diary">Measurement</string>
 
     <string name="systole">Systole</string>
     <string name="diastole">Diastole</string>
@@ -30,4 +30,6 @@
     <string name="time">Time</string>
 
     <string name="after_pressure_save">Measurement parameters saved successfully</string>
+    <string name="delete">DELETE</string>
+    <string name="after_pressure_delete">Measurement deleted seccessfully</string>
 </resources>

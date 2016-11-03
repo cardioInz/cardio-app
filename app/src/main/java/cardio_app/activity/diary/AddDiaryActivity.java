@@ -39,6 +39,7 @@ public class AddDiaryActivity extends AppCompatActivity {
     private final PickedTimeViewModel pickedTimeViewModel =
             new PickedTimeViewModel(pressureDataViewModel.getPressureData().getDateTime());
     private GoogleApiClient client;
+    private boolean showDeleteMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,9 @@ public class AddDiaryActivity extends AppCompatActivity {
             pressureDataViewModel.setPressureData(pressuredata);
             pickedDateViewModel.setDate(pressuredata.getDateTime());
             pickedTimeViewModel.setTime(pressuredata.getDateTime());
+            showDeleteMenuItem = true;
+        } else {
+            showDeleteMenuItem = false;
         }
 
         ActivityAddDiaryBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_diary);
@@ -77,13 +81,19 @@ public class AddDiaryActivity extends AppCompatActivity {
     }
 
 
-    private void addNewPressureDataToAdapter(PressureData pressureData) {
-        // TODO
-//        ListView listView = (ListView)findViewById(R.id.diary_list_view);
-//        PressureDataAdapter pressureDataAdapter = (PressureDataAdapter) listView.getAdapter();
-//        pressureDataAdapter.add(pressureData);
-    }
+    private void deletePressureData(PressureData pressureData) {
+        if (pressureData.getId() <= 0) {
+            return;
+        }
 
+        try {
+            Dao<PressureData, Integer> pressureDao = getHelper().getDao(PressureData.class);
+            pressureDao.deleteById(pressureData.getId());
+            Toast.makeText(this, R.string.after_pressure_delete, Toast.LENGTH_SHORT).show();
+        } catch (SQLException e) {
+            Log.e(TAG, "Can't perform delete action on PressureData record", e);
+        }
+    }
 
     private void editPressureData(PressureData pressureData) {
         try {
@@ -91,21 +101,11 @@ public class AddDiaryActivity extends AppCompatActivity {
             updatePressureDataDateTime();
             if (pressureData.getId() <= 0) {
                 pressureDao.create(pressureData);
-                //        Toast.makeText(this, R.string.after_pressure_save, Toast.LENGTH_SHORT).show();
-                Toast.makeText(
-                        getApplicationContext(),
-                        getResources().getString(R.string.new_pressure_added_msg)
-                                + ", ID: " + String.valueOf(pressureData.getId()),
-                        Toast.LENGTH_SHORT
-                ).show();
-                addNewPressureDataToAdapter(pressureData);
+                Toast.makeText(this, R.string.after_pressure_save, Toast.LENGTH_SHORT).show();
             } else {
                 pressureDao.update(pressureData);
                 Toast.makeText(this, R.string.after_pressure_save, Toast.LENGTH_SHORT).show();
             }
-
-            // TODO update list view
-
         } catch (SQLException e) {
             Log.e(TAG, "Can't perform create/update action on PressureData record", e);
         }
@@ -132,6 +132,11 @@ public class AddDiaryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_pressure, menu);
+        if (!showDeleteMenuItem){
+            MenuItem menuItem = menu.findItem(R.id.delete_pressure);
+            menuItem.setEnabled(false);
+            menuItem.setVisible(false);
+        }
         return true;
     }
 
@@ -140,6 +145,10 @@ public class AddDiaryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save_pressure: {
                 onSaveClick();
+                return true;
+            }
+            case R.id.delete_pressure: {
+                onDeleteClick();
                 return true;
             }
             default: {
@@ -153,6 +162,16 @@ public class AddDiaryActivity extends AppCompatActivity {
         editPressureData(pressureData);
         onBackPressed();
     }
+
+
+    private void onDeleteClick() {
+        PressureData pressureData = pressureDataViewModel.getPressureData();
+        deletePressureData(pressureData);
+        onBackPressed();
+    }
+
+
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
