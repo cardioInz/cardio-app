@@ -3,8 +3,8 @@ package cardio_app.viewmodel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import cardio_app.db.model.Drug;
 import cardio_app.BR;
+import cardio_app.db.model.Drug;
 
 public class DrugViewModel extends BaseObservable {
     private Drug drug;

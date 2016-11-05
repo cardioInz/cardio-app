@@ -12,8 +12,8 @@ import java.util.Comparator;
 import java.util.Date;
 
 import cardio_app.filtering_and_statistics.HealthCondition;
-import cardio_app.viewmodel.date_time.DateTimeViewModel;
 import cardio_app.viewmodel.PressureDataViewModel;
+import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
 @DatabaseTable
 public class PressureData extends BaseModel implements Parcelable, Comparable<PressureData> {

@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 import cardio_app.R;
 import cardio_app.activity.diary.DiaryActivity;
 import cardio_app.activity.drug.DrugsActivity;

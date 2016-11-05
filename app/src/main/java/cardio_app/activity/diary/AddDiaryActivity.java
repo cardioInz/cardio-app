@@ -28,9 +28,9 @@ import cardio_app.R;
 import cardio_app.databinding.ActivityAddDiaryBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
+import cardio_app.viewmodel.PressureDataViewModel;
 import cardio_app.viewmodel.date_time.PickedDateViewModel;
 import cardio_app.viewmodel.date_time.PickedTimeViewModel;
-import cardio_app.viewmodel.PressureDataViewModel;
 
 
 public class AddDiaryActivity extends AppCompatActivity {
