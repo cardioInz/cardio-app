@@ -22,15 +22,15 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
         this(new PressureData());
     }
 
-    public PressureDataViewModel(PressureData pressureData){
+    public PressureDataViewModel(PressureData pressureData) {
         this.pressureData = pressureData;
         dateTimeViewModel = new DateTimeViewModel(this.pressureData.getDateTime());
     }
 
-    private int tryToInt(String str){
+    private int tryToInt(String str) {
         if (str.isEmpty())
             return 0;
-        
+
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
@@ -39,7 +39,7 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
     }
 
     @Bindable
-    public String getConditionStr(){
+    public String getConditionStr() {
         return pressureData.getCondition().getStrMapped();
     }
 
@@ -89,14 +89,18 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
     }
 
     @Bindable
-    public boolean getArrhythmia() { return pressureData.isArrhythmia(); }
+    public boolean getArrhythmia() {
+        return pressureData.isArrhythmia();
+    }
 
-    public void setArrhythmia (boolean isArrhythmia) {
+    public void setArrhythmia(boolean isArrhythmia) {
         pressureData.setArrhythmia(isArrhythmia);
     }
 
     @Bindable
-    public int getId() { return pressureData.getId(); }
+    public int getId() {
+        return pressureData.getId();
+    }
 
     @Override
     public int compareTo(@NonNull PressureDataViewModel pressureDataViewModel) {
@@ -107,5 +111,7 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
         this.pressureData = pressureData;
     }
 
-    public PressureData getPressureData() { return pressureData; }
+    public PressureData getPressureData() {
+        return pressureData;
+    }
 }

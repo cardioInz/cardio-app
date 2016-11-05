@@ -54,7 +54,7 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
         return convertView;
     }
 
-    final static Comparator<PressureData> getComparator(){
+    final static Comparator<PressureData> getComparator() {
         return PressureData.getComparator();
     }
 

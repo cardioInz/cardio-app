@@ -29,7 +29,7 @@ public class PickedTimeViewModel extends BaseObservable {
         initFromCalendar(calendar);
     }
 
-    private void initFromCalendar(Calendar calendar){
+    private void initFromCalendar(Calendar calendar) {
         hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
     }

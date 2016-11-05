@@ -15,6 +15,7 @@ import java.util.Date;
  */
 
 public class DataFilter implements Parcelable {
+
     static final int DEFAULT_FILTER_LAST_X_DAYS = 14; // == X
     private static final String TAG = DataFilter.class.getName();
 
@@ -26,7 +27,7 @@ public class DataFilter implements Parcelable {
     private Date dateTo;
     private int xDays;
 
-    public DataFilter(){
+    public DataFilter() {
         // DEFAULT FILTER
         setLastXDaysFilterMode(DEFAULT_FILTER_LAST_X_DAYS);
     }
@@ -35,21 +36,32 @@ public class DataFilter implements Parcelable {
         setCustomDatesFilterMode(dateFrom, dateTo);
     }
 
-    public DataFilter(DataFilterModeEnum mode){
+    public DataFilter(DataFilterModeEnum mode) {
         setMode(mode);
     }
 
-    public DataFilter(int xDays){
+    public DataFilter(int xDays) {
         setLastXDaysFilterMode(xDays);
     }
 
 
     protected DataFilter(Parcel in) {
         try {
-            mode = DataFilterModeEnum.valueOf(in.readString());
-            dateFrom = DATE_FORMATTER.parse(in.readString());
-            dateTo = DATE_FORMATTER.parse(in.readString());
-            xDays = in.readInt();
+            DataFilterModeEnum mode = DataFilterModeEnum.valueOf(in.readString());
+            switch (mode) {
+                case LAST_X_DAYS:
+                    int xDays = in.readInt();
+                    setLastXDaysFilterMode(xDays);
+                    break;
+                case CUSTOM_DATES:
+                    Date dateFrom = DATE_FORMATTER.parse(in.readString());
+                    Date dateTo = DATE_FORMATTER.parse(in.readString());
+                    setCustomDatesFilterMode(dateFrom, dateTo);
+                    break;
+                default:
+                    setMode(mode);
+                    break;
+            }
         } catch (ParseException e) {
             Log.e(TAG, "DataFilter: cannot parse parcel to create object", e);
         }
@@ -75,12 +87,20 @@ public class DataFilter implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mode.name());
-        parcel.writeString(DATE_FORMATTER.format(dateFrom));
-        parcel.writeString(DATE_FORMATTER.format(dateTo));
-        parcel.writeInt(xDays);
+        switch (mode) {
+            case CUSTOM_DATES:
+                parcel.writeString(DATE_FORMATTER.format(dateFrom));
+                parcel.writeString(DATE_FORMATTER.format(dateTo));
+                break;
+            case LAST_X_DAYS:
+                parcel.writeInt(xDays);
+                break;
+            default:
+                break;
+        }
     }
 
-    public void setLastXDaysFilterMode(int xDays){
+    public void setLastXDaysFilterMode(int xDays) {
         this.xDays = xDays;
         this.mode = DataFilterModeEnum.LAST_X_DAYS;
 
@@ -91,7 +111,7 @@ public class DataFilter implements Parcelable {
         dateFrom = calendar.getTime();
     }
 
-    public void setThisMonthFilterMode(){
+    public void setThisMonthFilterMode() {
         this.mode = DataFilterModeEnum.THIS_MONTH;
 
         Calendar calendar = Calendar.getInstance();
@@ -101,24 +121,23 @@ public class DataFilter implements Parcelable {
         this.dateFrom = calendar.getTime();
     }
 
-    public void setThisYearFilterMode(){
+    public void setThisYearFilterMode() {
         this.mode = DataFilterModeEnum.THIS_YEAR;
 
         Calendar calendar = Calendar.getInstance();
         this.dateTo = calendar.getTime();
 
-        calendar.set(Calendar.MONTH, 1);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(calendar.get(Calendar.YEAR), 1, 1);
         this.dateFrom = calendar.getTime();
     }
 
-    public void setNoFilterMode(){
+    public void setNoFilterMode() {
         this.mode = DataFilterModeEnum.NO_FILTER;
         this.dateTo = null;
         this.dateFrom = null;
     }
 
-    public void setCustomDatesFilterMode(Date dateFrom, Date dateTo){
+    public void setCustomDatesFilterMode(Date dateFrom, Date dateTo) {
         this.mode = DataFilterModeEnum.CUSTOM_DATES;
         this.dateTo = dateTo;
         this.dateFrom = dateFrom;
@@ -128,11 +147,19 @@ public class DataFilter implements Parcelable {
         return mode;
     }
 
+    public String getDateFromStr() {
+        return DATE_FORMATTER.format(dateFrom);
+    }
+
+    public String getDateToStr() {
+        return DATE_FORMATTER.format(dateTo);
+    }
+
     public void setMode(DataFilterModeEnum mode) {
         switch (mode) {
             case LAST_X_DAYS:
-                setLastXDaysFilterMode(DEFAULT_FILTER_LAST_X_DAYS);
-                Log.w(TAG, "setMode: " + mode.name() + ", with 'default' x = " + DEFAULT_FILTER_LAST_X_DAYS);
+                setLastXDaysFilterMode(xDays);
+                Log.w(TAG, "setMode: " + mode.name() + ", with 'default' x = " + xDays);
                 break;
             case THIS_MONTH:
                 setThisMonthFilterMode();
@@ -153,10 +180,6 @@ public class DataFilter implements Parcelable {
                 Log.e(TAG, "Unexpected invocation: try to set mode with param " + modeStr);
                 break;
         }
-
-        Log.i(TAG, "setMode: " + mode.name()
-                + ", dateFrom: " + DATE_FORMATTER.format(dateFrom)
-                + ", dateTo: " + DATE_FORMATTER.format(dateTo));
     }
 
     public Date getDateFrom() {
@@ -175,10 +198,30 @@ public class DataFilter implements Parcelable {
         this.dateTo = dateTo;
     }
 
-//    private int getXDays() {
-//        return xDays;
-//    }
-//
+    // just for development
+    public String getFilterMsg() {
+        if (mode == DataFilterModeEnum.NO_FILTER)
+            return "Mode: " + mode.name();
+        else
+            return String.format("     Mode : %s\nDate from : %s\n  Date to : %s",
+                    getModeStr(), getDateFromStr(), getDateToStr());
+    }
+
+    public String getModeStr() {
+        if (mode != null) {
+            String modeName = mode.name();
+            if (mode == DataFilterModeEnum.LAST_X_DAYS)
+                modeName = modeName.replace("X", String.valueOf(xDays));
+            return modeName;
+        } else {
+            return "null";
+        }
+    }
+
+    public int getXDays() {
+        return xDays;
+    }
+
 //    private void setXDays(int xDays) {
 //        this.xDays = xDays;
 //    }

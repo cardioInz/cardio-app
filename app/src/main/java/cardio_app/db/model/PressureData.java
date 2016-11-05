@@ -38,7 +38,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         this.dateTime = new Date();
     }
 
-    private void initParams(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime){
+    private void initParams(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
         this.systole = systole;
         this.diastole = diastole;
         this.pulse = pulse;
@@ -82,31 +82,41 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         return dateTime;
     }
 
-    public void setDateTime(Date dateTime) { this.dateTime = dateTime; }
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
+    }
 
     public int getSystole() {
         return systole;
     }
 
-    public void setSystole(int systole) { this.systole = systole; }
+    public void setSystole(int systole) {
+        this.systole = systole;
+    }
 
     public int getDiastole() {
         return diastole;
     }
 
-    public void setDiastole(int diastole) { this.diastole = diastole; }
+    public void setDiastole(int diastole) {
+        this.diastole = diastole;
+    }
 
     public int getPulse() {
         return pulse;
     }
 
-    public void setPulse(int pulse) { this.pulse = pulse; }
+    public void setPulse(int pulse) {
+        this.pulse = pulse;
+    }
 
     public boolean isArrhythmia() {
         return arrhythmia;
     }
 
-    public void setArrhythmia(boolean arrhythmia) { this.arrhythmia = arrhythmia; }
+    public void setArrhythmia(boolean arrhythmia) {
+        this.arrhythmia = arrhythmia;
+    }
 
     @Override
     public int compareTo(@NonNull PressureData that) {

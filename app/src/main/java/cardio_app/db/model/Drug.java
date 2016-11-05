@@ -15,7 +15,8 @@ public class Drug extends BaseModel implements Parcelable {
     @DatabaseField
     private String description;
 
-    public Drug() {}
+    public Drug() {
+    }
 
     public Drug(String name, String description) {
         this.name = name;

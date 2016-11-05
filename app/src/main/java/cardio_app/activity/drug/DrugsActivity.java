@@ -36,21 +36,36 @@ public class DrugsActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.drug_list);
         listView.setOnItemClickListener(((adapterView, view, i, l) -> {
             Drug drug = (Drug) adapterView.getItemAtPosition(i);
-
             Intent intent = new Intent(DrugsActivity.this, AddDrugActivity.class);
             intent.putExtra("drug", drug);
             startActivity(intent);
         }));
 
-        try {
-            Dao<Drug, Integer> dao = getHelper().getDao(Drug.class);
+        assignDataToListView();
+    }
 
+    private void assignDataToListView() {
+        try {
+            ListView listView = (ListView) findViewById(R.id.drug_list);
+            Dao<Drug, Integer> dao = getHelper().getDao(Drug.class);
             List<Drug> data = dao.queryForAll();
             listView.setAdapter(new DrugAdapter(data));
+            listView.invalidateViews();
         } catch (SQLException e) {
             Log.e(TAG, "Can't get drugs", e);
             throw new RuntimeException(e);
         }
+    }
+
+    private void refreshListView() {
+        assignDataToListView();
+    }
+
+    @Override
+    protected void onResume() {
+        refreshListView();
+        super.onResume();
+        ;
     }
 
     @Override

@@ -15,7 +15,8 @@ public class AlarmDrug extends BaseModel implements Parcelable {
     @DatabaseField(foreign = true, uniqueCombo = true)
     private Drug drug;
 
-    public AlarmDrug() {}
+    public AlarmDrug() {
+    }
 
     public AlarmDrug(Alarm alarm, Drug drug) {
         this.alarm = alarm;

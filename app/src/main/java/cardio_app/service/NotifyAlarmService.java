@@ -21,7 +21,7 @@ public class NotifyAlarmService extends IntentService {
 
         Intent returnToMainActivity = new Intent(this, MainActivity.class);
 
-        NotificationCompat.Builder  builder = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(android.R.drawable.stat_notify_more)
                 .setContentTitle("Title")
                 .setContentText(alarm.getDescription())

@@ -1,7 +1,7 @@
 package cardio_app.filtering_and_statistics;
 
 /**
- * Created by kisam on 04.11.2016.
+ * Created by kisam on 05.11.2016.
  */
 
 public enum DataFilterModeEnum {

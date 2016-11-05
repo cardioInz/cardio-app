@@ -57,8 +57,9 @@ public class DateTimeViewModel extends BaseObservable {
         return pickedDateViewModel.getMonth();
     }
 
-    public void setMonth(int month){
-        pickedDateViewModel.setMonth(month);;
+    public void setMonth(int month) {
+        pickedDateViewModel.setMonth(month);
+        ;
     }
 
     @Bindable
@@ -66,7 +67,7 @@ public class DateTimeViewModel extends BaseObservable {
         return pickedDateViewModel.getDay();
     }
 
-    public void setDay(int day){
+    public void setDay(int day) {
         pickedDateViewModel.setDay(day);
     }
 
@@ -75,7 +76,7 @@ public class DateTimeViewModel extends BaseObservable {
         return pickedDateViewModel.getYear();
     }
 
-    public void setYear(int year){
+    public void setYear(int year) {
         pickedDateViewModel.setYear(year);
     }
 

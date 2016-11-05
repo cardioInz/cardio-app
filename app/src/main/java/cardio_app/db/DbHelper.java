@@ -80,7 +80,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     }
 
 
-    public List<PressureData> getOrderedPressureData() throws SQLException {
+    public List<PressureData> getAllOrderedPressureData() throws SQLException {
         Dao<PressureData, Integer> dao = getDao(PressureData.class);
         return dao.queryBuilder().orderByRaw("dateTime desc").query();
     }

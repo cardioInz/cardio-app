@@ -134,7 +134,7 @@ public class AddDiaryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_pressure, menu);
-        if (!isActivityOnExistingItem){
+        if (!isActivityOnExistingItem) {
             MenuItem menuItem = menu.findItem(R.id.delete_pressure);
             menuItem.setEnabled(false);
             menuItem.setVisible(false);

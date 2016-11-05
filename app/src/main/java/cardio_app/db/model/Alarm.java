@@ -21,7 +21,8 @@ public class Alarm extends BaseModel implements Parcelable {
     @DatabaseField
     private String description;
 
-    public Alarm() {}
+    public Alarm() {
+    }
 
     public Alarm(int hour, int minute, String name, String description) {
         this.hour = hour;

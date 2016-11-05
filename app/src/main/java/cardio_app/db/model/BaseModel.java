@@ -7,7 +7,8 @@ public class BaseModel {
     @DatabaseField(generatedId = true)
     private int id;
 
-    public BaseModel() {}
+    public BaseModel() {
+    }
 
     public BaseModel(int id) {
         this.id = id;
