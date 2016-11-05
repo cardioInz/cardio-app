@@ -6,10 +6,12 @@ import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import cardio_app.db.model.Alarm;
@@ -40,6 +42,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private void initPressureDataTable() throws SQLException {
+        // TODO -> to remove, it's just to fill layout with records
         Dao<PressureData, Integer> daoHp = getDao(PressureData.class);
         List<PressureData> hpdatList = InitialPressureData.makePressureDataList();
         for (PressureData hpdat : hpdatList) {
@@ -79,7 +82,15 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     public List<PressureData> getOrderedPressureData() throws SQLException {
         Dao<PressureData, Integer> dao = getDao(PressureData.class);
-//        List<PressureData> pressureDataList = dao.queryBuilder().orderByRaw("dateTime desc").query();
         return dao.queryBuilder().orderByRaw("dateTime desc").query();
+    }
+
+    public List<PressureData> getFilteredAndOrderedByDatePressureData(Date dateFrom, Date dateTo) throws SQLException {
+        Dao<PressureData, Integer> dao = getDao(PressureData.class);
+        return getFilteredAndOrderedByDate(dao.queryBuilder(), "dateTime", dateFrom, dateTo);
+    }
+
+    private static List getFilteredAndOrderedByDate(QueryBuilder queryBuilder, String columnName, Date dateFrom, Date dateTo) throws SQLException {
+        return queryBuilder.orderByRaw(columnName + " desc").where().between(columnName, dateFrom, dateTo).query();
     }
 }

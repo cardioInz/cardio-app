@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.util.Comparator;
 import java.util.Date;
 
-import cardio_app.statistics.HealthCondition;
+import cardio_app.filtering_and_statistics.HealthCondition;
 import cardio_app.viewmodel.date_time.DateTimeViewModel;
 import cardio_app.viewmodel.PressureDataViewModel;
 

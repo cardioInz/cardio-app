@@ -34,7 +34,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.diary.AddDiaryActivity"
-            android:label="@string/title_activity_add_diary"/>
+            android:label="@string/title_activity_add_diary" />
+        <activity android:name=".activity.filter.FilterActivity"
+            android:label="@string/title_activity_filter" />
     </application>
 
 </manifest>
