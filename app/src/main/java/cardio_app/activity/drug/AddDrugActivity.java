@@ -41,6 +41,7 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.Alarm;
 import cardio_app.db.model.AlarmDrug;
 import cardio_app.db.model.Drug;
+import cardio_app.service.SetAlarmService;
 import cardio_app.viewmodel.AlarmViewModel;
 import cardio_app.viewmodel.DrugViewModel;
 
@@ -181,6 +182,9 @@ public class AddDrugActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Drug saved successfully", Toast.LENGTH_SHORT).show();
 
+        Intent intent = new Intent(this, SetAlarmService.class);
+        startService(intent);
+
         onBackPressed();
     }
 
@@ -240,11 +244,12 @@ public class AddDrugActivity extends AppCompatActivity {
 
             convertView = alarmBinding.getRoot();
 
-            final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.alarm_enable);
-            checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
-                checkBox.jumpDrawablesToCurrentState();
-                checkBox.setOnCheckedChangeListener(null);
-            });
+            //TODO: This piece of code generates binding issues but is necessary to avoid drawing animation when scrolling listview
+//            final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.alarm_enable);
+//            checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
+//                checkBox.jumpDrawablesToCurrentState();
+//                checkBox.setOnCheckedChangeListener(null);
+//            });
 
             alarmBinding.setAlarm(getItem(position));
 

@@ -37,6 +37,16 @@
             android:label="@string/title_activity_add_diary" />
         <activity android:name=".activity.filter.FilterActivity"
             android:label="@string/title_activity_filter" />
+
+        <service
+            android:name=".service.SetAlarmService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <receiver
+            android:name=".receiver.AlarmNotification"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

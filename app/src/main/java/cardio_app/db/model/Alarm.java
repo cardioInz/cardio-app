@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Objects;
+
 @DatabaseTable
 public class Alarm extends BaseModel implements Parcelable {
 
@@ -106,5 +108,20 @@ public class Alarm extends BaseModel implements Parcelable {
     @Override
     public String toString() {
         return getId() + ", " + hour + ":" + minute + " " + name + ": " + description;
+    }
+
+    @Override
+    public int hashCode() {
+        return getId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Alarm alarm = (Alarm) o;
+
+        return getId() == alarm.getId();
     }
 }
