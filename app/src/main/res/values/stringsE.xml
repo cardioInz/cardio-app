@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="my_profile">My\n Profile</string>
+    <string name="add_measure">Add\n a Measure</string>
+    <string name="measures_list">Measures\n List</string>
+    <string name="add_event">Add\nan Event</string>
+    <string name="events_list">Events\n List</string>
+    <string name="drugs">Drugs\n</string>
+    <string name="alerts">Alerts\n</string>
+    <string name="stats">Statistics\n</string>
+    <string name="reports">Reports\n</string>
+    <string name="settings">Settings\n</string>
+    <string name="import_data">Import\n Data</string>
+    <string name="export_data">Export\nData</string>
+    <string name="info">Info</string>
+</resources>

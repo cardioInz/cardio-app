@@ -23,12 +23,12 @@
     <string name="title_activity_add_diary">Measurement</string>
     <string name="title_activity_filter">Filtering</string>
 
-    <string name="systole">Systole</string>
-    <string name="diastole">Diastole</string>
-    <string name="pulse">Pulse</string>
-    <string name="arrhythmia">Arrhythmia</string>
-    <string name="date">Date</string>
-    <string name="time">Time</string>
+    <string name="systole">SYSTOLE:</string>
+    <string name="diastole">DIASTOLE:</string>
+    <string name="pulse">PULSE:</string>
+    <string name="arrhythmia">ARRHYTHMIA:</string>
+    <string name="date">DATE:</string>
+    <string name="time">TIME:</string>
 
     <string name="after_pressure_save">Measurement parameters saved successfully</string>
     <string name="delete">DELETE</string>

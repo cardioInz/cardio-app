@@ -15,105 +15,190 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
 
         <LinearLayout
             android:id="@+id/activity_add_diary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:context="cardio_app.activity.diary.AddDiaryActivity"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/systole"
-                android:textSize="22sp"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/systole_value"
-                android:text="@={pressuredata.systoleStr}"
-                android:inputType="numberDecimal"
-                android:ems="10"/>
+                android:addStatesFromChildren="true"
+                android:background="@drawable/input_activities_background"
+                android:gravity="center_vertical"
+                android:paddingRight="0dip"
+                android:layout_marginBottom="10dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/diastole"
-                android:textSize="22sp"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/diastole_value"
-                android:text="@={pressuredata.diastoleStr}"
-                android:inputType="numberDecimal"
-                android:ems="10"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_row="0"
+                    android:text="@string/systole"
+                    style="@style/EditTextArea"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/pulse"
-                android:textSize="22sp"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/pulse_value"
-                android:text="@={pressuredata.pulseStr}"
-                android:inputType="numberDecimal"
-                android:ems="10"/>
+                <EditText
+                    android:id="@+id/systole_value"
+                    android:layout_width="296dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_row="0"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:text="@={pressuredata.systoleStr}"
+                    style="@style/EditTextArea"
+                    android:layout_alignTop="@+id/textView4"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/textView4" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/arrhythmia"
-                android:textSize="22sp"/>
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/arrhythmia_value"
-                android:checked="@={pressuredata.arrhythmia}" />
+                android:addStatesFromChildren="true"
+                android:background="@drawable/input_activities_background"
+                android:gravity="center_vertical"
+                android:paddingRight="0dip"
+                android:layout_marginBottom="10dp">
 
-            <Space
+                <TextView
+                    android:text="@string/diastole"
+                    style="@style/EditTextArea" />
+
+                <EditText
+                    android:id="@+id/diastole_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:text="@={pressuredata.diastoleStr}"
+                    style="@style/EditTextArea"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/textView2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/input_activities_background"
+                android:gravity="center_vertical"
+                android:paddingRight="0dip"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0.06">
+
+                <TextView
+                    android:text="@string/pulse"
+                    style="@style/EditTextArea" />
+
+                <EditText
+                    android:id="@+id/pulse_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:text="@={pressuredata.pulseStr}"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    style="@style/EditTextArea"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/input_activities_background"
+                android:gravity="center_vertical"
+                android:paddingRight="0dip"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:text="@string/arrhythmia"
+                    style="@style/EditTextArea" />
+
+                <CheckBox
+                    android:id="@+id/arrhythmia_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@={pressuredata.arrhythmia}"
+                    android:layout_alignBaseline="@+id/textView3"
+                    android:layout_alignBottom="@+id/textView3"
+                    android:layout_centerHorizontal="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/input_activities_background"
+                android:gravity="center_vertical"
+                android:paddingRight="0dip"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:text="@string/time"
+                    style="@style/EditTextArea" />
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hour="@{pickedTime.hourOfDay}"
+                    android:minute="@{pickedTime.minute}"
+                    android:onTimeChanged="@{pickedTime::timeChanged}"
+                    android:timePickerMode="spinner"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/input_activities_background"
+                android:gravity="center_vertical"
+                android:paddingRight="0dip"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:text="@string/date"
+                    style="@style/EditTextArea" />
+
+                <DatePicker
+                    android:id="@+id/datePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner"
+                    android:day="@{pickedDate.day}"
+                    android:month="@{pickedDate.month}"
+                    android:onDateChanged="@{pickedDate::dateChanged}"
+                    android:spinnersShown="true"
+                    android:year="@{pickedDate.year}"
+                    android:layout_alignTop="@+id/textView5"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </LinearLayout>
+
+            <Button
+                android:text="SUBMIT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="20dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/time"
-                android:textSize="22sp"/>
-            <TimePicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/timePicker"
-                android:hour="@{pickedTime.hourOfDay}"
-                android:minute="@{pickedTime.minute}"
-                android:onTimeChanged="@{pickedTime::timeChanged}"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/date"
-                android:textSize="22sp"/>
-            <DatePicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/datePicker"
-                android:spinnersShown="true"
-                android:calendarViewShown="false"
-                android:day="@{pickedDate.day}"
-                android:month="@{pickedDate.month}"
-                android:onDateChanged="@{pickedDate::dateChanged}"
-                android:year="@{pickedDate.year}"
-                />
+                android:id="@+id/button"
+                android:background="@color/submit"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
         </LinearLayout>
     </ScrollView>
 </layout>
