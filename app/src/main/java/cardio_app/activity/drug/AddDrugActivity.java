@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -56,6 +55,7 @@ public class AddDrugActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private boolean isActivityOnExistingItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +63,9 @@ public class AddDrugActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Drug drug = intent.getParcelableExtra("drug");
+        isActivityOnExistingItem = drug != null;
 
-        if (drug != null) {
+        if (isActivityOnExistingItem) {
             drugViewModel.setDrug(drug);
         }
         ActivityAddDrugBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_drug);
@@ -132,21 +133,59 @@ public class AddDrugActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.add_drug, menu);
+        inflater.inflate(R.menu.add_item, menu);
+        if (!isActivityOnExistingItem) {
+            MenuItem menuItem = menu.findItem(R.id.delete_item);
+            menuItem.setEnabled(false);
+            menuItem.setVisible(false);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save: {
+            case R.id.save_item: {
                 onSaveClick();
+                return true;
+            }
+            case R.id.delete_item: {
+                onDeleteClick();
                 return true;
             }
             default: {
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    private void onDeleteClick() {
+        Drug drug = drugViewModel.getDrug();
+
+        if (drug != null) {
+            try {
+                Dao<Drug, Integer> drugDao = getHelper().getDao(Drug.class);
+                Dao<AlarmDrug, Integer> alarmDrugDao = getHelper().getDao(AlarmDrug.class);
+
+                DeleteBuilder<AlarmDrug, Integer> builder = alarmDrugDao.deleteBuilder();
+                builder.where().eq("drug_id", drug);
+                int delete = builder.delete();
+                Log.d(TAG, "Deleted " + delete + " alarms");
+
+                int drugDelete = drugDao.delete(drug);
+                Log.d(TAG, "Deleted " + drugDelete + " drugs");
+            } catch (SQLException e) {
+                Log.e(TAG, "Can't save drug", e);
+                throw new RuntimeException(e);
+            }
+        }
+
+        Toast.makeText(this, "Drug deleted successfully", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, SetAlarmService.class);
+        startService(intent);
+
+        onBackPressed();
     }
 
     private void onSaveClick() {

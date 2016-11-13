@@ -65,7 +65,6 @@ public class DrugsActivity extends AppCompatActivity {
     protected void onResume() {
         refreshListView();
         super.onResume();
-        ;
     }
 
     @Override

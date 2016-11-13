@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/save_pressure"
+        android:id="@+id/save_item"
         android:icon="@drawable/save"
         android:title="@string/save"
         app:showAsAction="always" />
     <item
-        android:id="@+id/delete_pressure"
+        android:id="@+id/delete_item"
         android:icon="@android:drawable/ic_delete"
         android:title="@string/delete"
         app:showAsAction="always" />

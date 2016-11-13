@@ -133,9 +133,9 @@ public class AddDiaryActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.add_pressure, menu);
+        inflater.inflate(R.menu.add_item, menu);
         if (!isActivityOnExistingItem) {
-            MenuItem menuItem = menu.findItem(R.id.delete_pressure);
+            MenuItem menuItem = menu.findItem(R.id.delete_item);
             menuItem.setEnabled(false);
             menuItem.setVisible(false);
         }
@@ -145,11 +145,11 @@ public class AddDiaryActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save_pressure: {
+            case R.id.save_item: {
                 onSaveClick();
                 return true;
             }
-            case R.id.delete_pressure: {
+            case R.id.delete_item: {
                 onDeleteClick();
                 return true;
             }
