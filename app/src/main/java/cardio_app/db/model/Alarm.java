@@ -46,6 +46,7 @@ public class Alarm extends BaseModel implements Parcelable {
         hour = in.readInt();
         minute = in.readInt();
         description = in.readString();
+        name = in.readString();
     }
 
     public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
@@ -95,6 +96,7 @@ public class Alarm extends BaseModel implements Parcelable {
         parcel.writeInt(hour);
         parcel.writeInt(minute);
         parcel.writeString(description);
+        parcel.writeString(name);
     }
 
     public String getName() {

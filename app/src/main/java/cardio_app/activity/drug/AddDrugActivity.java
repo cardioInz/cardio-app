@@ -35,13 +35,14 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.databinding.ActivityAddDrugBinding;
+import cardio_app.databinding.AlarmInDrugListItemBinding;
 import cardio_app.databinding.AlarmListItemBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Alarm;
 import cardio_app.db.model.AlarmDrug;
 import cardio_app.db.model.Drug;
 import cardio_app.service.SetAlarmService;
-import cardio_app.viewmodel.AlarmViewModel;
+import cardio_app.viewmodel.AlarmInDrugViewModel;
 import cardio_app.viewmodel.DrugViewModel;
 
 public class AddDrugActivity extends AppCompatActivity {
@@ -49,7 +50,7 @@ public class AddDrugActivity extends AppCompatActivity {
 
     private DbHelper dbHelper;
     private final DrugViewModel drugViewModel = new DrugViewModel();
-    private final List<AlarmViewModel> alarms = new ArrayList<>();
+    private final List<AlarmInDrugViewModel> alarms = new ArrayList<>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -96,9 +97,9 @@ public class AddDrugActivity extends AppCompatActivity {
 
                 Collections.sort(checkedAlarms, comparator);
                 if (Collections.binarySearch(checkedAlarms, alarm, comparator) >= 0) {
-                    alarms.add(new AlarmViewModel(alarm, true));
+                    alarms.add(new AlarmInDrugViewModel(alarm, true));
                 } else {
-                    alarms.add(new AlarmViewModel(alarm, false));
+                    alarms.add(new AlarmInDrugViewModel(alarm, false));
                 }
             }
 
@@ -201,16 +202,16 @@ public class AddDrugActivity extends AppCompatActivity {
                 drugDao.update(drug);
             }
 
-            for (AlarmViewModel alarmViewModel : alarms) {
-                if (alarmViewModel.checkedChanged()) {
-                    if (alarmViewModel.isChecked()) {
-                        alarmDrugDao.create(new AlarmDrug(alarmViewModel.getAlarm(), drug));
-                        Log.d(TAG, "Set drug to alarm: " + alarmViewModel.getAlarm());
+            for (AlarmInDrugViewModel alarmInDrugViewModel : alarms) {
+                if (alarmInDrugViewModel.checkedChanged()) {
+                    if (alarmInDrugViewModel.isChecked()) {
+                        alarmDrugDao.create(new AlarmDrug(alarmInDrugViewModel.getAlarm(), drug));
+                        Log.d(TAG, "Set drug to alarm: " + alarmInDrugViewModel.getAlarm());
                     } else {
                         DeleteBuilder<AlarmDrug, Integer> builder = alarmDrugDao.deleteBuilder();
-                        builder.where().eq("drug_id", drug).and().eq("alarm_id", alarmViewModel.getAlarm());
+                        builder.where().eq("drug_id", drug).and().eq("alarm_id", alarmInDrugViewModel.getAlarm());
                         builder.delete();
-                        Log.d(TAG, "Unset drug to alarm: " + alarmViewModel.getAlarm());
+                        Log.d(TAG, "Unset drug to alarm: " + alarmInDrugViewModel.getAlarm());
                     }
                 }
             }
@@ -243,30 +244,10 @@ public class AddDrugActivity extends AppCompatActivity {
                 .build();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private class AlarmAdapter extends ArrayAdapter<AlarmInDrugViewModel> {
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
-
-    private class AlarmAdapter extends ArrayAdapter<AlarmViewModel> {
-
-        AlarmAdapter(List<AlarmViewModel> data) {
-            super(AddDrugActivity.this, R.layout.alarm_list_item, data);
+        AlarmAdapter(List<AlarmInDrugViewModel> data) {
+            super(AddDrugActivity.this, R.layout.alarm_in_drug_list_item, data);
         }
 
         @NonNull
@@ -274,11 +255,11 @@ public class AddDrugActivity extends AppCompatActivity {
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            AlarmListItemBinding alarmBinding;
+            AlarmInDrugListItemBinding alarmBinding;
             if (convertView != null) {
                 alarmBinding = DataBindingUtil.bind(convertView);
             } else {
-                alarmBinding = DataBindingUtil.inflate(inflater, R.layout.alarm_list_item, parent, false);
+                alarmBinding = DataBindingUtil.inflate(inflater, R.layout.alarm_in_drug_list_item, parent, false);
             }
 
             convertView = alarmBinding.getRoot();

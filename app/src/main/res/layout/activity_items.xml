@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_drugs"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="cardio_app.activity.drug.DrugsActivity">
+    android:layout_height="match_parent">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/drug_list">
-
-    </ListView>
+        android:id="@+id/item_list" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_button"
@@ -22,6 +18,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_floating_add_btn"
         app:backgroundTint="@color/colorAccent"
-        android:onClick="addDrug"/>
+        android:onClick="addItem"/>
 
 </FrameLayout>

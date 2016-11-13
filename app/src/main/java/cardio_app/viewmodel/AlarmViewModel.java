@@ -3,18 +3,19 @@ package cardio_app.viewmodel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import cardio_app.BR;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import cardio_app.db.model.Alarm;
 
 public class AlarmViewModel extends BaseObservable {
     private final Alarm alarm;
-    private boolean checked;
-    private final boolean initiallyChecked;
+    private Date date;
 
-    public AlarmViewModel(Alarm alarm, boolean checked) {
+    public AlarmViewModel(Alarm alarm) {
         this.alarm = alarm;
-        this.checked = checked;
-        this.initiallyChecked = checked;
+        this.date = new Date(2001, 8, 11, alarm.getHour(), alarm.getMinute());
     }
 
     @Bindable
@@ -22,26 +23,43 @@ public class AlarmViewModel extends BaseObservable {
         return alarm.getName();
     }
 
-    @Bindable
-    public String getTime() {
-        return String.format("%02d:%02d", alarm.getHour(), alarm.getMinute());
+    public void setName(String name) {
+        alarm.setName(name);
     }
 
     @Bindable
-    public boolean isChecked() {
-        return checked;
+    public String getDescription() {
+        return alarm.getDescription();
+    }
+
+    public void setDescription(String description) {
+        alarm.setDescription(description);
+    }
+
+    @Bindable
+    public String getTime() {
+        return SimpleDateFormat.getTimeInstance().format(date);
     }
 
     public Alarm getAlarm() {
         return alarm;
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-        notifyPropertyChanged(BR.checked);
+    @Bindable
+    public int getHour() {
+        return alarm.getHour();
     }
 
-    public boolean checkedChanged() {
-        return checked != initiallyChecked;
+    @Bindable
+    public int getMinute() {
+        return alarm.getMinute();
+    }
+
+    public void setHour(int hour) {
+        alarm.setHour(hour);
+    }
+
+    public void setMinute(int minute) {
+        alarm.setMinute(minute);
     }
 }

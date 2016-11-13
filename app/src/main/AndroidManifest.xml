@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cardio_app">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,18 +37,31 @@
         <activity
             android:name=".activity.diary.AddDiaryActivity"
             android:label="@string/title_activity_add_diary" />
-        <activity android:name=".activity.filter.FilterActivity"
+        <activity
+            android:name=".activity.filter.FilterActivity"
             android:label="@string/title_activity_filter" />
 
         <service
             android:name=".service.SetAlarmService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <receiver
             android:name=".receiver.AlarmNotification"
             android:enabled="true"
             android:exported="true" />
+        <receiver
+            android:name=".receiver.SystemStartup"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activity.alert.AlertsActivity" />
+        <activity android:name=".activity.alert.AddAlarmActivity"></activity>
     </application>
 
 </manifest>

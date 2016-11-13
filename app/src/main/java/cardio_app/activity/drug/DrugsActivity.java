@@ -31,9 +31,9 @@ public class DrugsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drugs);
+        setContentView(R.layout.activity_items);
 
-        ListView listView = (ListView) findViewById(R.id.drug_list);
+        ListView listView = (ListView) findViewById(R.id.item_list);
         listView.setOnItemClickListener(((adapterView, view, i, l) -> {
             Drug drug = (Drug) adapterView.getItemAtPosition(i);
             Intent intent = new Intent(DrugsActivity.this, AddDrugActivity.class);
@@ -46,7 +46,7 @@ public class DrugsActivity extends AppCompatActivity {
 
     private void assignDataToListView() {
         try {
-            ListView listView = (ListView) findViewById(R.id.drug_list);
+            ListView listView = (ListView) findViewById(R.id.item_list);
             Dao<Drug, Integer> dao = getHelper().getDao(Drug.class);
             List<Drug> data = dao.queryForAll();
             listView.setAdapter(new DrugAdapter(data));
@@ -85,7 +85,7 @@ public class DrugsActivity extends AppCompatActivity {
         return dbHelper;
     }
 
-    public void addDrug(View view) {
+    public void addItem(View view) {
         Intent intent = new Intent(this, AddDrugActivity.class);
 
         startActivity(intent);
