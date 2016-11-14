@@ -66,7 +66,8 @@
             android:id="@+id/button_stats"
             android:drawableTop="@drawable/stats"
             android:layout_row="1"
-            android:layout_column="2" />
+            android:layout_column="2"
+            android:onClick="showStatistics"/>
 
         <Button
             style="@style/MenuButton"

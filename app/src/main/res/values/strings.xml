@@ -47,4 +47,7 @@
     <string name="date_to">Date to</string>
     <string name="non_negative_number_value_is_required">Non negative number value is required in text field</string>
     <string name="date_to_could_not_be_before_date_from">\"Date to\" could not be before the \"Date from\"</string>
+    <string name="title_activity_alerts">Alerts</string>
+    <string name="title_activity_statistics">Statistics</string>
+    <string name="title_activity_add_alarm">Add Alarm</string>
 </resources>
