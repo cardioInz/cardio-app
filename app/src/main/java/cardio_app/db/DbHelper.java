@@ -19,7 +19,6 @@ import cardio_app.db.model.Alarm;
 import cardio_app.db.model.AlarmDrug;
 import cardio_app.db.model.Drug;
 import cardio_app.db.model.PressureData;
-import cardio_app.filtering_and_statistics.HealthCondition;
 import temporary_package.InitialPressureData;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {

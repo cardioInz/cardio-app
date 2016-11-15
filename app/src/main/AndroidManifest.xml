@@ -41,6 +41,8 @@
             android:name=".activity.filter.FilterActivity"
             android:label="@string/title_activity_filter" />
 
+
+
         <service
             android:name=".service.SetAlarmService"
             android:enabled="true"
@@ -60,13 +62,21 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.alert.AlertsActivity"
-            android:label="@string/title_activity_alerts"/>
-        <activity android:name=".activity.alert.AddAlarmActivity"
-            android:label="@string/title_activity_add_alarm"/>
+        <activity
+            android:name=".activity.alert.AlertsActivity"
+            android:label="@string/title_activity_alerts" />
+        <activity
+            android:name=".activity.alert.AddAlarmActivity"
+            android:label="@string/title_activity_add_alarm" />
         <activity
             android:name=".activity.statistics.StatisticsActivity"
             android:label="@string/title_activity_statistics" />
+        <activity
+            android:name=".activity.statistics.StatisticsCounterActivity"
+            android:label="@string/show_counter_statistics" />
+        <activity
+            android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
+            android:label="@string/show_last_measurements_statistics" />
     </application>
 
 </manifest>

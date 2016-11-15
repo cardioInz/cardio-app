@@ -50,8 +50,13 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
     }
 
     @Bindable
-    public String getDateTimeStr() {
+    public String getDateTimeInTwoLinesStr() {
         return dateTimeViewModel.getDateStr() + "\n" + dateTimeViewModel.getTimeStr();
+    }
+
+    @Bindable
+    public String getDateTimeStr() {
+        return dateTimeViewModel.getDateStr() + " " + dateTimeViewModel.getTimeStr();
     }
 
     @Bindable

@@ -1,4 +1,4 @@
-package cardio_app.filtering_and_statistics;
+package cardio_app.filtering_and_statistics.statistics_model;
 
 
 import android.annotation.SuppressLint;

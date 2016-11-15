@@ -48,13 +48,13 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
             pulseTextView.setText(viewModel.getPulseStr());
             conditionTextView.setText(viewModel.getConditionStr());
             arrhythmiaTextView.setText(viewModel.getArrhythmiaStr());
-            dateTimeTextView.setText(viewModel.getDateTimeStr());
+            dateTimeTextView.setText(viewModel.getDateTimeInTwoLinesStr());
         }
 
         return convertView;
     }
 
-    final static Comparator<PressureData> getComparator() {
+    static Comparator<PressureData> getComparator() {
         return PressureData.getComparator();
     }
 

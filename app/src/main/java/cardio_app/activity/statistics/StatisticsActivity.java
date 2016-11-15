@@ -2,89 +2,57 @@ package cardio_app.activity.statistics;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
-
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
-import java.sql.SQLException;
-import java.util.List;
-
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
-import cardio_app.db.DbHelper;
-import cardio_app.db.model.PressureData;
 import cardio_app.filtering_and_statistics.DataFilter;
 import cardio_app.filtering_and_statistics.DataFilterModeEnum;
-import cardio_app.viewmodel.StatisticsViewModel;
-import cardio_app.databinding.ContentStatisticsBinding;
 
 public class StatisticsActivity extends AppCompatActivity {
 
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
-    private static final String TAG = StatisticsActivity.class.getName();
-    private DbHelper dbHelper;
     private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
-    private final StatisticsViewModel statisticsViewModel = new StatisticsViewModel();
-
-    public void assignValuesInStatistics() {
-        List<PressureData> list = null;
-        try {
-            list = getHelper().getFilteredAndOrderedByDatePressureData(dataFilter.getDateFrom(), dataFilter.getDateTo());
-            statisticsViewModel.setDataListToStatistics(list);
-        } catch (SQLException e) {
-            Log.e(TAG, "onCreate: can't get pressure data to analyse", e);
-        }
-
-
-    }
-
-    public void refreshStatisticsView() {
-        // statistics view needs refresh
-        assignValuesInStatistics();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+    }
 
-        assignValuesInStatistics();
+    public void moveToActivity(View view) {
+        int id = view.getId();
 
-        ContentStatisticsBinding binding = DataBindingUtil.setContentView(this, R.layout.content_statistics);
-        binding.setStatistics(statisticsViewModel);
+        switch (id){
+            case R.id.show_counter_stats_btn:
+                Intent intentC = new Intent(this, StatisticsCounterActivity.class);
+                intentC.putExtra("filterdata", dataFilter);
+                startActivity(intentC);
+                break;
+            case R.id.show_last_measurements_stats_btn:
+                Intent intentL = new Intent(this, StatisticsLastMeasurementsActivity.class);
+                intentL.putExtra("filterdata", dataFilter);
+                startActivity(intentL);
+                break;
+            default:
+                break;
+        }
     }
 
 
+    public void refreshStatisticsView() {
+        // if here will be some content that needs refresh
+    }
 
     @Override
     protected void onResume() {
         refreshStatisticsView();
         super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (dbHelper != null) {
-            OpenHelperManager.releaseHelper();
-            dbHelper = null;
-        }
-    }
-
-    private DbHelper getHelper() {
-        if (dbHelper == null) {
-            dbHelper = OpenHelperManager.getHelper(this, DbHelper.class);
-        }
-
-        return dbHelper;
     }
 
 
