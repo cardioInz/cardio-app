@@ -46,6 +46,13 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         this.dateTime = dateTime;
     }
 
+    public PressureData(PressureData pressureData) {
+        initParams(pressureData.getSystole(),
+                pressureData.getDiastole(),
+                pressureData.getPulse(),
+                pressureData.isArrhythmia(),
+                pressureData.getDateTime());
+    }
 
     public PressureData(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
         initParams(systole, diastole, pulse, arrhythmia, dateTime);

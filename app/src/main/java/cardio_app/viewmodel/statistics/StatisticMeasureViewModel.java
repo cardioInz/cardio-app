@@ -40,7 +40,19 @@ public class StatisticMeasureViewModel extends BaseObservable {
 
     @Bindable
     public int getArrhythmiaVisibility() {
-        return statisticMeasure.isArrhythmiaImportant() ? View.VISIBLE : View.GONE;
+        return shouldShowArrhythmia() ? View.VISIBLE : View.GONE;
+    }
+
+    public boolean shouldShowArrhythmia() {
+        return !(pressureDataViewModel == null || pressureDataViewModel.getPressureData() == null)
+                && statisticMeasure != null
+                && statisticMeasure.isArrhythmiaImportant()
+                && statisticMeasure.getPressureData().isArrhythmia();
+    }
+
+    @Bindable
+    public String getArrhythmiaStr() {
+        return shouldShowArrhythmia() ? "A" : ""; // TODO string could not be initialize in code
     }
 
     @Bindable

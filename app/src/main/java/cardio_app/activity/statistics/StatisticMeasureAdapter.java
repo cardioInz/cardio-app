@@ -11,10 +11,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import cardio_app.R;
 import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasure;
+import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasureTypeEnum;
 import cardio_app.viewmodel.statistics.StatisticMeasureViewModel;
 
 /**
@@ -23,12 +26,22 @@ import cardio_app.viewmodel.statistics.StatisticMeasureViewModel;
 
 public class StatisticMeasureAdapter extends ArrayAdapter<StatisticMeasure> {
 
-    public StatisticMeasureAdapter(StatisticsLastMeasurementsActivity activity, List<StatisticMeasure> data) {
+    private StatisticMeasureAdapter(StatisticsLastMeasurementsActivity activity, List<StatisticMeasure> data) {
         super(activity, R.layout.diary_list_item, data);
     }
 
-    public StatisticMeasureAdapter(StatisticsLastMeasurementsActivity activity, Collection<StatisticMeasure> values) {
-        this(activity, new ArrayList(values));
+    StatisticMeasureAdapter(StatisticsLastMeasurementsActivity activity, HashMap<StatisticMeasureTypeEnum, StatisticMeasure> map) {
+        this(activity, getListOrderedFromMap(map));
+    }
+
+    private static List<StatisticMeasure> getListOrderedFromMap(HashMap<StatisticMeasureTypeEnum, StatisticMeasure> map){
+        List<StatisticMeasure> list = new ArrayList<>();
+        List<StatisticMeasureTypeEnum> keys = new ArrayList<>(map.keySet());
+        Collections.sort(keys);
+        for (StatisticMeasureTypeEnum key : keys) {
+            list.add(map.get(key));
+        };
+        return list;
     }
 
     @NonNull
@@ -51,24 +64,32 @@ public class StatisticMeasureAdapter extends ArrayAdapter<StatisticMeasure> {
             titleTextView.setText(viewModel.getTitle());
 
             try {
+                nullPtrFound(convertView, false);
                 valuesTextView.setText(viewModel.getValuesStr());
                 arrhythmiaTableRow.setEnabled(statisticMeasure.isArrhythmiaImportant());
-                arrhythmiaTableRow.setVisibility(statisticMeasure.isArrhythmiaImportant() ? View.VISIBLE : View.GONE);
+                arrhythmiaTableRow.setVisibility(viewModel.shouldShowArrhythmia() ? View.VISIBLE : View.GONE);
                 dateTextView.setText(viewModel.getDateTimeStr());
             } catch (Exception e) {
-                TableRow valuesTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_values_table_row);
-                TableRow dateTimeTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_datetime_table_row);
-
-                valuesTableRow.setVisibility(View.GONE);
-                dateTimeTableRow.setVisibility(View.GONE);
-                arrhythmiaTableRow.setVisibility(View.GONE);
-
-                TableRow noMatchingTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_no_matching_table_row);
-                noMatchingTableRow.setVisibility(View.VISIBLE);
+                nullPtrFound(convertView, true);
             }
+        } else {
+            nullPtrFound(convertView, true);
         }
 
         return convertView;
+    }
+
+    private void nullPtrFound(View convertView, boolean isFound){
+        TableRow valuesTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_values_table_row);
+        TableRow dateTimeTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_datetime_table_row);
+        TableRow arrhythmiaTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_arrhythmia_table_row);
+
+        valuesTableRow.setVisibility(isFound ? View.GONE : View.VISIBLE);
+        dateTimeTableRow.setVisibility(isFound ? View.GONE : View.VISIBLE);
+        arrhythmiaTableRow.setVisibility(isFound ? View.GONE : View.VISIBLE);
+
+        TableRow noMatchingTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_no_matching_table_row);
+        noMatchingTableRow.setVisibility(isFound ? View.VISIBLE : View.GONE);
     }
 
 }

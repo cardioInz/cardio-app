@@ -37,12 +37,6 @@
                 android:layout_gravity="end"/>
         </TableRow>
 
-        <TableRow android:visibility="@{measureStat.arrhythmiaVisibility}"
-            android:id="@+id/measure_stat_arrhythmia_table_row">
-            <TextView android:text="@string/statistics_title_arrhythmia"
-                android:layout_gravity="end"/>
-        </TableRow>
-
         <TableRow android:id="@+id/measure_stat_datetime_table_row">
             <TextView android:text="@string/statistics_title_date"
                 android:layout_gravity="start"/>
@@ -52,7 +46,12 @@
                 android:layout_gravity="end"/>
         </TableRow>
 
-        <Space android:minHeight="20sp"/>
-
+        <TableRow android:visibility="@{measureStat.arrhythmiaVisibility}"
+            android:id="@+id/measure_stat_arrhythmia_table_row">
+            <TextView android:text="@string/statistics_title_arrhythmia"
+                android:layout_gravity="end"/>
+            <!--<TextView android:text="@{measureStat.arrhythmiaStr}"-->
+                <!--android:layout_gravity="end"/>-->
+        </TableRow>
     </TableLayout>
 </layout>

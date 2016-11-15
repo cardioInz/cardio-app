@@ -9,13 +9,16 @@ import cardio_app.R;
  */
 
 public enum StatisticMeasureTypeEnum {
+
+    // order matters (order of statistics in list of last measurements)
+
     LAST,
-    LAST_BAD,
-    LAST_MIDDLE,
     LAST_WELL,
+    LAST_MIDDLE,
+    LAST_BAD,
     LAST_BAD_DIFF,
-    LAST_ARRHYTHMIA,
-    LAST_NO_ARRHYTHMIA;
+    LAST_NO_ARRHYTHMIA,
+    LAST_ARRHYTHMIA;
 
     private static HashMap<StatisticMeasureTypeEnum, Integer> measureTitlesMap = new HashMap<>();
     static {

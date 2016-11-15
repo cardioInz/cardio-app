@@ -75,10 +75,10 @@
             android:label="@string/title_activity_statistics" />
         <activity
             android:name=".activity.statistics.StatisticsCounterActivity"
-            android:label="@string/show_counter_statistics" />
+            android:label="@string/title_statistics_countered_measures" />
         <activity
             android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
-            android:label="@string/show_last_measurements_statistics" />
+            android:label="@string/title_statistics_last_measures" />
     </application>
 
 </manifest>

@@ -59,7 +59,7 @@ public class StatisticsLastMeasurementsActivity extends AppCompatActivity {
             String title = getResources().getString(key.mapToTitleStringId());
             map.get(key).setTitle(title);
         }
-        listView.setAdapter(new StatisticMeasureAdapter(this, map.values()));
+        listView.setAdapter(new StatisticMeasureAdapter(this, map));
         listView.invalidateViews();
     }
 

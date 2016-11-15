@@ -26,7 +26,8 @@ public class StatisticMeasure {
     public StatisticMeasure(String title, boolean isArrhythmiaImportant, PressureData pressureData) {
         this.title = title;
         this.isArrhythmiaImportant = isArrhythmiaImportant;
-        this.pressureData = pressureData;
+        if (pressureData != null)
+            this.pressureData = new PressureData(pressureData);
     }
 
     public PressureData getPressureData() {
@@ -34,7 +35,8 @@ public class StatisticMeasure {
     }
 
     public void setPressureData(PressureData pressureData) {
-        this.pressureData = pressureData;
+        if (pressureData != null)
+            this.pressureData = new PressureData(pressureData);
     }
 
     public String getTitle() {
