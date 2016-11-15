@@ -13,7 +13,7 @@ import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
 public class PressureDataViewModel extends BaseObservable implements Comparable<PressureDataViewModel> {
     private PressureData pressureData;
-    private final DateTimeViewModel dateTimeViewModel;
+    private DateTimeViewModel dateTimeViewModel;
 
     public static final String ARRHYTHMIA_STR = "A";
     public static final String NO_ARRHYTHMIA_STR = "-";
@@ -24,7 +24,8 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
 
     public PressureDataViewModel(PressureData pressureData) {
         this.pressureData = pressureData;
-        dateTimeViewModel = new DateTimeViewModel(this.pressureData.getDateTime());
+        if (this.pressureData != null)
+            dateTimeViewModel = new DateTimeViewModel(this.pressureData.getDateTime());
     }
 
     private int tryToInt(String str) {
@@ -113,5 +114,9 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
 
     public PressureData getPressureData() {
         return pressureData;
+    }
+
+    public String getStrValues() {
+        return String.format("%s/%s/%s", getSystoleStr(), getDiastoleStr(), getPulseStr());
     }
 }
