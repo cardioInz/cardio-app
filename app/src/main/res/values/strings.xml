@@ -14,14 +14,21 @@
     <string name="menu_title_reminders">Reminders</string>
     <string name="menu_title_questionnaire">Patient questionnaire</string>
     <string name="menu_title_manage">Settings</string>
+
     <string name="communicate">Communicate</string>
     <string name="new_pressure_added_msg">New measurement has been added successfully to you BP Diary</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="active_alarms">Active Alarms</string>
     <string name="save">SAVE</string>
+
     <string name="title_activity_add_diary">Measurement</string>
     <string name="title_activity_filter">Filtering</string>
+    <string name="title_activity_alerts">Alerts</string>
+    <string name="title_activity_statistics">Statistics</string>
+    <string name="title_activity_add_alarm">Add Alarm</string>
+    <string name="title_activity_drugs">Drugs</string>
+    <string name="title_activity_add_drug">Add Drug</string>
 
     <string name="systole">SYSTOLE:</string>
     <string name="diastole">DIASTOLE:</string>
@@ -47,10 +54,8 @@
     <string name="date_to">Date to</string>
     <string name="non_negative_number_value_is_required">Non negative number value is required in text field</string>
     <string name="date_to_could_not_be_before_date_from">\"Date to\" could not be before the \"Date from\"</string>
-    <string name="title_activity_alerts">Alerts</string>
-    <string name="title_activity_statistics">Statistics</string>
-    <string name="title_activity_add_alarm">Add Alarm</string>
     <string name="emptyMinus">-</string>
+
     <string name="statistics_last_measure">Last measure:</string>
     <string name="statistics_last_bad_condition_measure">Last bad condition measure:</string>
     <string name="statistics_last_well_condition_measure">Last well condition measure:</string>
@@ -72,4 +77,5 @@
     <string name="statistics_counter_errors">Invalid to classify counter:</string>
     <string name="show_counter_statistics">Statistics of countered measurements</string>
     <string name="show_last_measurements_statistics">Statistics of last measurements</string>
+    <string name="statistics_no_matching_measurements">No matching measurements</string>
 </resources>

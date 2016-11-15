@@ -20,7 +20,15 @@
             android:id="@+id/measure_stat_title"
             android:textStyle="bold"/>
 
-        <TableRow>
+        <TableRow
+            android:id="@+id/measure_stat_no_matching_table_row"
+            android:visibility="gone">
+            <TextView android:text="@string/statistics_no_matching_measurements"
+                android:layout_gravity="end"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/measure_stat_values_table_row">
             <TextView android:text="@string/statistics_title_values"
                 android:layout_gravity="start"/>
             <TextView
@@ -35,7 +43,7 @@
                 android:layout_gravity="end"/>
         </TableRow>
 
-        <TableRow>
+        <TableRow android:id="@+id/measure_stat_datetime_table_row">
             <TextView android:text="@string/statistics_title_date"
                 android:layout_gravity="start"/>
             <TextView

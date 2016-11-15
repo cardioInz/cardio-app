@@ -49,10 +49,23 @@ public class StatisticMeasureAdapter extends ArrayAdapter<StatisticMeasure> {
         if (statisticMeasure != null) {
             StatisticMeasureViewModel viewModel = new StatisticMeasureViewModel(statisticMeasure);
             titleTextView.setText(viewModel.getTitle());
-            valuesTextView.setText(viewModel.getValuesStr());
-            arrhythmiaTableRow.setEnabled(statisticMeasure.isArrhythmiaImportant());
-            arrhythmiaTableRow.setVisibility(statisticMeasure.isArrhythmiaImportant() ? View.VISIBLE : View.GONE);
-            dateTextView.setText(viewModel.getDateTimeStr());
+
+            try {
+                valuesTextView.setText(viewModel.getValuesStr());
+                arrhythmiaTableRow.setEnabled(statisticMeasure.isArrhythmiaImportant());
+                arrhythmiaTableRow.setVisibility(statisticMeasure.isArrhythmiaImportant() ? View.VISIBLE : View.GONE);
+                dateTextView.setText(viewModel.getDateTimeStr());
+            } catch (Exception e) {
+                TableRow valuesTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_values_table_row);
+                TableRow dateTimeTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_datetime_table_row);
+
+                valuesTableRow.setVisibility(View.GONE);
+                dateTimeTableRow.setVisibility(View.GONE);
+                arrhythmiaTableRow.setVisibility(View.GONE);
+
+                TableRow noMatchingTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_no_matching_table_row);
+                noMatchingTableRow.setVisibility(View.VISIBLE);
+            }
         }
 
         return convertView;

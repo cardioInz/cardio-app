@@ -20,8 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.drug.DrugsActivity" />
-        <activity android:name=".activity.drug.AddDrugActivity" />
+        <activity android:name=".activity.drug.DrugsActivity"
+            android:label="@string/title_activity_drugs"/>
+        <activity android:name=".activity.drug.AddDrugActivity"
+            android:label="@string/title_activity_add_drug"/>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
