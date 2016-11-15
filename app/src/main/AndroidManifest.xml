@@ -61,7 +61,8 @@
         </receiver>
 
         <activity android:name=".activity.alert.AlertsActivity" />
-        <activity android:name=".activity.alert.AddAlarmActivity"></activity>
+        <activity android:name=".activity.alert.AddAlarmActivity" />
+        <activity android:name=".activity.statistics.StatisticsActivity"></activity>
     </application>
 
 </manifest>

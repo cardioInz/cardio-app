@@ -12,6 +12,7 @@ import cardio_app.activity.alert.AlertsActivity;
 import cardio_app.activity.diary.AddDiaryActivity;
 import cardio_app.activity.diary.DiaryActivity;
 import cardio_app.activity.drug.DrugsActivity;
+import cardio_app.activity.statistics.StatisticsActivity;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -51,4 +52,8 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
+    public void showStatistics(View view) {
+        Intent intent = new Intent(this, StatisticsActivity.class);
+        startActivity(intent);
+    }
 }
