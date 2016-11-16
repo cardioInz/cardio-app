@@ -121,7 +121,18 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
         return pressureData;
     }
 
+    @Bindable
     public String getStrValues() {
         return String.format("%s/%s/%s", getSystoleStr(), getDiastoleStr(), getPulseStr());
+    }
+
+    @Bindable
+    public String getDateStr() {
+        return dateTimeViewModel.getDateStr();
+    }
+
+    @Bindable
+    public String getTimeStr() {
+        return dateTimeViewModel.getTimeStr();
     }
 }

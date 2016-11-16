@@ -7,46 +7,27 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
+
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
+import cardio_app.db.DbHelper;
 import cardio_app.filtering_and_statistics.DataFilter;
 import cardio_app.filtering_and_statistics.DataFilterModeEnum;
 
-public class StatisticsActivity extends AppCompatActivity {
+public class CreatePdfReportActivity extends AppCompatActivity {
 
+    private DbHelper dbHelper;
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
     private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_statistics);
-    }
+        setContentView(R.layout.activity_create_pdf_report);
 
-    public void moveToActivity(View view) {
-        int id = view.getId();
-
-        switch (id){
-            case R.id.show_counter_stats_btn:
-                Intent intentC = new Intent(this, StatisticsCounterActivity.class);
-                intentC.putExtra("filterdata", dataFilter);
-                startActivity(intentC);
-                break;
-            case R.id.show_last_measurements_stats_btn:
-                Intent intentL = new Intent(this, StatisticsLastMeasurementsActivity.class);
-                intentL.putExtra("filterdata", dataFilter);
-                startActivity(intentL);
-                break;
-            case R.id.create_pdf_btn:
-                Intent intentP = new Intent(this, CreatePdfReportActivity.class);
-                intentP.putExtra("filterdata", dataFilter);
-                startActivity(intentP);
-                break;
-            default:
-                break;
-        }
+        Intent intent = getIntent();
+        dataFilter = intent.getParcelableExtra("filterdata");
     }
 
 

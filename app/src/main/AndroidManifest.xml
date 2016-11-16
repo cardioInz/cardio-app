@@ -20,10 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.drug.DrugsActivity"
-            android:label="@string/title_activity_drugs"/>
-        <activity android:name=".activity.drug.AddDrugActivity"
-            android:label="@string/title_activity_add_drug"/>
+        <activity
+            android:name=".activity.drug.DrugsActivity"
+            android:label="@string/title_activity_drugs" />
+        <activity
+            android:name=".activity.drug.AddDrugActivity"
+            android:label="@string/title_activity_add_drug" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -42,8 +44,6 @@
         <activity
             android:name=".activity.filter.FilterActivity"
             android:label="@string/title_activity_filter" />
-
-
 
         <service
             android:name=".service.SetAlarmService"
@@ -79,6 +79,8 @@
         <activity
             android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
             android:label="@string/title_statistics_last_measures" />
+        <activity android:name=".activity.statistics.CreatePdfReportActivity"
+            android:label="@string/title_activity_create_pdf"/>
     </application>
 
 </manifest>

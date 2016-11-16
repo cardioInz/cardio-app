@@ -18,40 +18,60 @@
 
         <TextView android:text="@{measureStat.title}"
             android:id="@+id/measure_stat_title"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textAlignment="textStart"
+            android:layout_gravity="start"
+            android:textSize="@dimen/statistic_header_size"/>
 
         <TableRow
             android:id="@+id/measure_stat_no_matching_table_row"
             android:visibility="gone">
             <TextView android:text="@string/statistics_no_matching_measurements"
-                android:layout_gravity="end"/>
+                android:layout_gravity="fill"/>
         </TableRow>
 
         <TableRow
-            android:id="@+id/measure_stat_values_table_row">
+            android:id="@+id/measure_stat_values_table_row"
+            android:gravity="fill">
             <TextView android:text="@string/statistics_title_values"
                 android:layout_gravity="start"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView
                 android:text="@{measureStat.valuesStr}"
                 android:id="@+id/measure_stat_values"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"/>
+        </TableRow>
+
+        <TableRow android:id="@+id/measure_stat_date_table_row">
+            <TextView android:text="@string/statistics_title_date"
+                android:layout_gravity="start"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
+            <TextView
+                android:text="@{measureStat.dateStr}"
+                android:id="@+id/measure_stat_date"
                 android:layout_gravity="end"/>
         </TableRow>
 
-        <TableRow android:id="@+id/measure_stat_datetime_table_row">
-            <TextView android:text="@string/statistics_title_date"
+        <TableRow android:id="@+id/measure_stat_time_table_row">
+            <TextView android:text="@string/statistics_title_time"
                 android:layout_gravity="start"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView
-                android:text="@{measureStat.dateTimeStr}"
-                android:id="@+id/measure_stat_dateTime"
+                android:text="@{measureStat.timeStr}"
+                android:id="@+id/measure_stat_time"
                 android:layout_gravity="end"/>
         </TableRow>
 
         <TableRow android:visibility="@{measureStat.arrhythmiaVisibility}"
             android:id="@+id/measure_stat_arrhythmia_table_row">
+            <Space />
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@string/statistics_title_arrhythmia"
-                android:layout_gravity="end"/>
-            <!--<TextView android:text="@{measureStat.arrhythmiaStr}"-->
-                <!--android:layout_gravity="end"/>-->
+                android:visibility="@{measureStat.arrhythmiaVisibility}"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"/>
         </TableRow>
+
     </TableLayout>
 </layout>

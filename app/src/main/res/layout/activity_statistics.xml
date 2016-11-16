@@ -31,6 +31,12 @@
                 android:id="@+id/show_last_measurements_stats_btn"
                 android:onClick="moveToActivity"/>
 
+            <Space android:minHeight="10sp" android:layout_height="wrap_content" android:layout_width="wrap_content" />
+
+            <Button android:text="@string/title_activity_create_pdf"
+                android:id="@+id/create_pdf_btn"
+                android:onClick="moveToActivity"/>
+
         </TableLayout>
     </ScrollView>
 

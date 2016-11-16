@@ -20,22 +20,21 @@
         tools:showIn="@layout/activity_statistics_counter"
         >
 
-        <!--<TextView android:text="@string/statistics_measure_counter"-->
-            <!--android:textStyle="bold"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content" />-->
 
         <TableRow>
             <TextView android:text="@string/statistics_counter_total"
                 android:layout_gravity="start"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/statistic_header_size"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@{statisticCounter.totalCnt}"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/statistic_header_size"/>
         </TableRow>
 
         <TableRow>
@@ -43,12 +42,15 @@
                 android:layout_gravity="start"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/statistic_header_size"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@{statisticCounter.wellCnt}"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/statistic_header_size"/>
         </TableRow>
 
         <TableRow>
@@ -56,12 +58,15 @@
                 android:layout_gravity="start"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/statistic_header_size"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@{statisticCounter.middleCnt}"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/statistic_header_size"/>
         </TableRow>
 
         <TableRow>
@@ -69,12 +74,15 @@
                 android:layout_gravity="start"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="@dimen/statistic_header_size"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@{statisticCounter.badCnt}"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/statistic_header_size"/>
         </TableRow>
 
         <TableRow>
@@ -82,12 +90,15 @@
                 android:layout_gravity="start"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="@dimen/statistic_header_size"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@{statisticCounter.badDiffCnt}"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/statistic_header_size"/>
         </TableRow>
 
         <TableRow>
@@ -95,12 +106,15 @@
                 android:layout_gravity="start"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/statistic_header_size"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@{statisticCounter.noArrhythmiaCnt}"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/statistic_header_size"/>
         </TableRow>
 
         <TableRow>
@@ -108,12 +122,15 @@
                 android:layout_gravity="start"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/statistic_header_size"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@{statisticCounter.arrhythmiaCnt}"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/statistic_header_size"/>
         </TableRow>
 
         <TableRow>
@@ -121,12 +138,15 @@
                 android:layout_gravity="start"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/statistic_header_size"/>
+            <Space android:layout_gravity="fill" android:minWidth="@dimen/statistic_min_space_width"/>
             <TextView android:text="@{statisticCounter.unknownCnt}"
                 android:layout_gravity="end"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/statistic_header_size"/>
         </TableRow>
 
     </TableLayout>

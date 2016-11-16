@@ -6,4 +6,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="statistic_header_size">17sp</dimen>
+    <dimen name="statistic_min_space_width">10sp</dimen>
 </resources>

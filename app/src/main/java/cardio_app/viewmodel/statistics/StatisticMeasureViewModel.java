@@ -29,8 +29,13 @@ public class StatisticMeasureViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getDateTimeStr() {
-        return pressureDataViewModel.getDateTimeStr();
+    public String getDateStr() {
+        return pressureDataViewModel.getDateStr();
+    }
+
+    @Bindable
+    public String getTimeStr() {
+        return pressureDataViewModel.getTimeStr();
     }
 
     @Bindable
