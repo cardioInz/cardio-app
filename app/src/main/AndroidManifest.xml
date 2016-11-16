@@ -79,7 +79,8 @@
         <activity
             android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
             android:label="@string/title_statistics_last_measures" />
-        <activity android:name=".activity.statistics.ChartActivity"></activity>
+        <activity android:name=".activity.statistics.ChartActivity"
+            android:label="@string/title_statistics_charts"/>
     </application>
 
 </manifest>

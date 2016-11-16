@@ -1,9 +1,10 @@
 package cardio_app.activity.statistics;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -14,6 +15,8 @@ import java.util.List;
 import cardio_app.R;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
+import cardio_app.filtering_and_statistics.DataFilter;
+import cardio_app.filtering_and_statistics.DataFilterModeEnum;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
@@ -21,20 +24,28 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class ChartActivity extends AppCompatActivity {
-
+    private static final String TAG = ChartActivity.class.getName();
+    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
+    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
     private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        Intent intent = getIntent();
+        DataFilter df = intent.getParcelableExtra("filterdata");
+        if (df == null){
+            Log.e(TAG, "onCreate: filterdata is null, maybe not passed, lol ?");
+        } else {
+            dataFilter = df;
+        }
 
         LineChartView lineChartView = (LineChartView) findViewById(R.id.chart_view);
 
         try {
-            List<PressureData> list = getHelper().getAllOrderedPressureData();
+            List<PressureData> list = getHelper().getFilteredAndOrderedByDatePressureData(dataFilter.getDateFrom(), dataFilter.getDateTo());
             List<PointValue> systoles = new ArrayList<>();
             List<PointValue> diastoles = new ArrayList<>();
 
