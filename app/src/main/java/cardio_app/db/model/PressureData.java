@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.util.Comparator;
 import java.util.Date;
 
-import cardio_app.filtering_and_statistics.HealthCondition;
+import cardio_app.filtering_and_statistics.statistics_model.HealthCondition;
 import cardio_app.viewmodel.PressureDataViewModel;
 import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
@@ -46,6 +46,13 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         this.dateTime = dateTime;
     }
 
+    public PressureData(PressureData pressureData) {
+        initParams(pressureData.getSystole(),
+                pressureData.getDiastole(),
+                pressureData.getPulse(),
+                pressureData.isArrhythmia(),
+                pressureData.getDateTime());
+    }
 
     public PressureData(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
         initParams(systole, diastole, pulse, arrhythmia, dateTime);

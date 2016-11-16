@@ -1,4 +1,4 @@
-package cardio_app.filtering_and_statistics;
+package cardio_app.filtering_and_statistics.statistics_model;
 
 
 import android.annotation.SuppressLint;
@@ -24,10 +24,6 @@ public enum HealthCondition {
 
     private final int value;
 
-    private static class LastCondition {
-        static int VALUE = 0;
-    }
-
     HealthCondition() {
         this.value = ++LastCondition.VALUE;
     }
@@ -40,10 +36,6 @@ public enum HealthCondition {
     HealthCondition(HealthCondition c) {
         this.value = c.value;
         LastCondition.VALUE = c.value;
-    }
-
-    public int getValue() {
-        return this.value;
     }
 
     public static HealthCondition classify(PressureData hf) {
@@ -73,7 +65,6 @@ public enum HealthCondition {
         }
     }
 
-
     private static HealthCondition classifyBySystole(int s) {
         if (Questionnaire.isMale) {
             if (s < 100)
@@ -98,7 +89,6 @@ public enum HealthCondition {
         else
             return TOO_HIGH;
     }
-
 
     private static HealthCondition classifyByDiastole(int d) {
         if (Questionnaire.isMale) {
@@ -125,12 +115,6 @@ public enum HealthCondition {
             return TOO_HIGH;
     }
 
-
-    public String getStrMapped() {
-        return mapToStr(this);
-    }
-
-
     @SuppressLint("DefaultLocale")
     private static String mapToStr(HealthCondition c) {
         // TODO - in future it will be name of some drawable resource to show in diary
@@ -138,6 +122,67 @@ public enum HealthCondition {
             default:
                 return String.format("%d", c.getValue()); // just as a precaution
         }
+    }
+
+    public int getValue() {
+        return this.value;
+    }
+
+    public String getStrMapped() {
+        return mapToStr(this);
+    }
+
+    public boolean isSimplifiedWell() {
+        return SimplifiedHealthCondition.WELL.equals(mapToSimplifiedCondition(this));
+    }
+
+    public boolean isSimplifiedBad() {
+        return SimplifiedHealthCondition.BAD.equals(mapToSimplifiedCondition(this));
+    }
+
+    public boolean isSimplifiedMiddle() {
+        return SimplifiedHealthCondition.MIDDLE.equals(mapToSimplifiedCondition(this));
+    }
+
+    public boolean isSimplifiedBadDiff() {
+        return SimplifiedHealthCondition.BAD_DIFF.equals(mapToSimplifiedCondition(this));
+    }
+
+    public boolean isSimplifiedUnknown() {
+        return SimplifiedHealthCondition.UNKNOWN.equals(mapToSimplifiedCondition(this));
+    }
+
+
+
+    private static SimplifiedHealthCondition mapToSimplifiedCondition(HealthCondition healthCondition) {
+        switch (healthCondition) {
+            case MIN_VAL:
+            case TOO_LOW: return SimplifiedHealthCondition.BAD;
+            case NORMAL_LOW: return SimplifiedHealthCondition.MIDDLE;
+            case EXCELLENT:
+            case NORMAL: return SimplifiedHealthCondition.WELL;
+            case NORMAL_HIGH: return SimplifiedHealthCondition.MIDDLE;
+            case HIGH:
+            case TOO_HIGH:
+            case MAX_VAL: return SimplifiedHealthCondition.BAD;
+            case SPECIAL_VAL:
+            case UNKNOWN: return SimplifiedHealthCondition.UNKNOWN;
+            case BAD_DIFF: return SimplifiedHealthCondition.BAD_DIFF;
+            default: return null;
+        }
+    }
+
+    // do not use SimplifiedHealthCondition class outside, should stay private / be deleted in future
+    private enum SimplifiedHealthCondition {
+        WELL,
+        BAD,
+        MIDDLE,
+        BAD_DIFF,
+        UNKNOWN
+    }
+
+    private static class LastCondition {
+        static int VALUE = 0;
     }
 
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="measureStat"
+            type="cardio_app.viewmodel.statistics.StatisticMeasureViewModel"/>
+    </data>
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <TextView android:text="@{measureStat.title}"
+            android:id="@+id/measure_stat_title"
+            android:textStyle="bold"/>
+
+        <TableRow
+            android:id="@+id/measure_stat_no_matching_table_row"
+            android:visibility="gone">
+            <TextView android:text="@string/statistics_no_matching_measurements"
+                android:layout_gravity="end"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/measure_stat_values_table_row">
+            <TextView android:text="@string/statistics_title_values"
+                android:layout_gravity="start"/>
+            <TextView
+                android:text="@{measureStat.valuesStr}"
+                android:id="@+id/measure_stat_values"
+                android:layout_gravity="end"/>
+        </TableRow>
+
+        <TableRow android:id="@+id/measure_stat_datetime_table_row">
+            <TextView android:text="@string/statistics_title_date"
+                android:layout_gravity="start"/>
+            <TextView
+                android:text="@{measureStat.dateTimeStr}"
+                android:id="@+id/measure_stat_dateTime"
+                android:layout_gravity="end"/>
+        </TableRow>
+
+        <TableRow android:visibility="@{measureStat.arrhythmiaVisibility}"
+            android:id="@+id/measure_stat_arrhythmia_table_row">
+            <TextView android:text="@string/statistics_title_arrhythmia"
+                android:layout_gravity="end"/>
+            <!--<TextView android:text="@{measureStat.arrhythmiaStr}"-->
+                <!--android:layout_gravity="end"/>-->
+        </TableRow>
+    </TableLayout>
+</layout>

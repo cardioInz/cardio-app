@@ -13,7 +13,6 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
-import java.sql.Time;
 
 import cardio_app.R;
 import cardio_app.activity.drug.AddDrugActivity;

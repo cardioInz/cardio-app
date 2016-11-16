@@ -7,6 +7,7 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -82,15 +83,26 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     public List<PressureData> getAllOrderedPressureData() throws SQLException {
         Dao<PressureData, Integer> dao = getDao(PressureData.class);
-        return dao.queryBuilder().orderByRaw("dateTime desc").query();
+        return getFilteredByDate(dao.queryBuilder(), "dateTime", false, null, null).query();
     }
 
     public List<PressureData> getFilteredAndOrderedByDatePressureData(Date dateFrom, Date dateTo) throws SQLException {
         Dao<PressureData, Integer> dao = getDao(PressureData.class);
-        return getFilteredAndOrderedByDate(dao.queryBuilder(), "dateTime", dateFrom, dateTo);
+        return getFilteredByDate(dao.queryBuilder(), "dateTime", false, dateFrom, dateTo).query();
     }
 
-    private static List getFilteredAndOrderedByDate(QueryBuilder queryBuilder, String columnName, Date dateFrom, Date dateTo) throws SQLException {
-        return queryBuilder.orderByRaw(columnName + " desc").where().between(columnName, dateFrom, dateTo).query();
+    private static Where getFilteredByDate(QueryBuilder queryBuilder, String columnName, boolean isOrderedNow, Date dateFrom, Date dateTo) throws SQLException {
+
+        QueryBuilder qb = isOrderedNow ? queryBuilder : queryBuilder.orderBy(columnName, false); // descending
+
+        if (dateFrom != null && dateTo != null) {
+            return qb.where().between(columnName, dateFrom, dateTo);
+        } else if (dateFrom != null) {
+            return qb.where().ge(columnName, dateFrom);
+        } else if (dateTo != null) {
+            return qb.where().le(columnName, dateTo);
+        } else {
+            return qb.where().isNotNull(columnName);
+        }
     }
 }

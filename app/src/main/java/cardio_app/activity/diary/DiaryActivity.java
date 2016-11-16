@@ -21,6 +21,7 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
+import cardio_app.activity.statistics.ChartActivity;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering_and_statistics.DataFilter;
@@ -130,6 +131,10 @@ public class DiaryActivity extends AppCompatActivity {
                 onFilterDataClick();
                 return true;
             }
+            case R.id.chart: {
+                onChartClick();
+                return true;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
@@ -142,6 +147,11 @@ public class DiaryActivity extends AppCompatActivity {
         startActivityForResult(intent, 1);
     }
 
+    private void onChartClick() {
+        Intent intent = new Intent(this, ChartActivity.class);
+        intent.putExtra("filterdata", dataFilter);
+        startActivity(intent);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

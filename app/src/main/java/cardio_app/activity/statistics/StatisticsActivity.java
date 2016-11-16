@@ -1,91 +1,112 @@
 package cardio_app.activity.statistics;
 
-import android.graphics.Color;
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 import cardio_app.R;
-import cardio_app.db.DbHelper;
-import cardio_app.db.model.PressureData;
-import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.view.LineChartView;
+import cardio_app.activity.filter.FilterActivity;
+import cardio_app.filtering_and_statistics.DataFilter;
+import cardio_app.filtering_and_statistics.DataFilterModeEnum;
 
 public class StatisticsActivity extends AppCompatActivity {
-    private DbHelper dbHelper;
+
+    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
+    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+    }
 
-        LineChartView lineChartView = (LineChartView) findViewById(R.id.pressure_chart);
-//        lineChartView.setInteractive(true);
+    public void moveToActivity(View view) {
+        int id = view.getId();
 
-        try {
-            List<PressureData> list = getHelper().getAllOrderedPressureData();
-            List<PointValue> systoles = new ArrayList<>();
-            List<PointValue> diastoles = new ArrayList<>();
-
-//            int i = 0;
-//            for (PressureData data : list) {
-//                systoles.add(new PointValue(i, data.getSystole()));
-//                diastoles.add(new PointValue(i, data.getDiastole()));
-//                i++;
-//            }
-
-            Line systoleLine = new Line(systoles).setColor(Color.RED);
-            Line diastoleLine = new Line(diastoles).setColor(Color.GREEN);
-            diastoleLine.setFilled(true);
-            systoleLine.setFilled(true);
-
-            List<Line> lines = new ArrayList<>();
-
-            int i = 0;
-            for (PressureData data : list) {
-                List<PointValue> once = new ArrayList<>();
-                once.add(new PointValue(i, data.getSystole()));
-                once.add(new PointValue(i, data.getDiastole()));
-
-                lines.add(new Line(once).setColor(Color.RED));
-                i++;
-            }
-//            lines.add(systoleLine);
-//            lines.add(diastoleLine);
-
-            LineChartData chartData = new LineChartData().setLines(lines);
-
-            lineChartView.setLineChartData(chartData);
-            lineChartView.setZoomType(ZoomType.HORIZONTAL);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        switch (id){
+            case R.id.show_counter_stats_btn:
+                Intent intentC = new Intent(this, StatisticsCounterActivity.class);
+                intentC.putExtra("filterdata", dataFilter);
+                startActivity(intentC);
+                break;
+            case R.id.show_last_measurements_stats_btn:
+                Intent intentL = new Intent(this, StatisticsLastMeasurementsActivity.class);
+                intentL.putExtra("filterdata", dataFilter);
+                startActivity(intentL);
+                break;
+            default:
+                break;
         }
+    }
+
+
+    public void refreshStatisticsView() {
+        // if here will be some content that needs refresh
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onResume() {
+        refreshStatisticsView();
+        super.onResume();
+    }
 
-        if (dbHelper != null) {
-            OpenHelperManager.releaseHelper();
-            dbHelper = null;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_filter_data, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter_data: {
+                onFilterDataClick();
+                return true;
+            }
+            case R.id.chart: {
+                onChartClick();
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
         }
     }
 
-    private DbHelper getHelper() {
-        if (dbHelper == null) {
-            dbHelper = OpenHelperManager.getHelper(this, DbHelper.class);
-        }
+    private void onFilterDataClick() {
+        Intent intent = new Intent(this, FilterActivity.class);
+        intent.putExtra("filterdata", dataFilter);
+        startActivityForResult(intent, 1);
+    }
 
-        return dbHelper;
+    private void onChartClick() {
+        Intent intent = new Intent(this, ChartActivity.class);
+        intent.putExtra("filterdata", dataFilter);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                DataFilter dataFilter = data.getParcelableExtra("filterdata");
+                if (dataFilter != null)
+                    this.dataFilter = dataFilter;
+                Toast.makeText(this, this.dataFilter.getFilterMsg(), Toast.LENGTH_LONG).show(); // TODO remove it
+                refreshStatisticsView();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+//                dataFilter.setMode(DEFAULT_DATA_FILTER);
+                refreshStatisticsView();
+            }
+        }
     }
 }
