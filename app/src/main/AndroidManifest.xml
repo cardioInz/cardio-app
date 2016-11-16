@@ -47,13 +47,11 @@
 
         <service
             android:name=".service.SetAlarmService"
-            android:enabled="true"
-            android:exported="true" />
+            android:enabled="true" />
 
         <receiver
             android:name=".receiver.AlarmNotification"
-            android:enabled="true"
-            android:exported="true" />
+            android:enabled="true" />
         <receiver
             android:name=".receiver.SystemStartup"
             android:enabled="true"
@@ -79,8 +77,11 @@
         <activity
             android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
             android:label="@string/title_statistics_last_measures" />
-        <activity android:name=".activity.statistics.ChartActivity"
+
+        <activity
+            android:name=".activity.statistics.ChartActivity"
             android:label="@string/title_statistics_charts"/>
+
     </application>
 
 </manifest>

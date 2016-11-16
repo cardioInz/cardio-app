@@ -44,6 +44,8 @@ public class ChartActivity extends AppCompatActivity {
 
         LineChartView lineChartView = (LineChartView) findViewById(R.id.chart_view);
 
+        dataFilter = getIntent().getParcelableExtra("filterdata");
+
         try {
             List<PressureData> list = getHelper().getFilteredAndOrderedByDatePressureData(dataFilter.getDateFrom(), dataFilter.getDateTo());
             List<PointValue> systoles = new ArrayList<>();
