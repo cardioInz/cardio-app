@@ -1,10 +1,13 @@
 package cardio_app.activity.statistics.pdf_creation;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,13 +25,32 @@ import cardio_app.filtering_and_statistics.DataFilterModeEnum;
 import cardio_app.viewmodel.FileLocationViewModel;
 
 public class CreatePdfReportActivity extends AppCompatActivity {
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     private DbHelper dbHelper;
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
     private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
     private final FileLocationViewModel fileLocationViewModel = new FileLocationViewModel();
 
-    private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();;
+    private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +73,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         if (view.getId() != R.id.savePdfBtn){
             return;
         }
+        verifyStoragePermissions(this);
 
         String locationFile = fileLocationViewModel.getFileLocation();
         String fileName = fileLocationViewModel.getFileName();
