@@ -56,5 +56,4 @@ public class MainActivity extends AppCompatActivity{
         Intent intent = new Intent(this, StatisticsActivity.class);
         startActivity(intent);
     }
-
 }
