@@ -45,4 +45,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
+    compile 'com.itextpdf:itextg:5.5.9'
 }

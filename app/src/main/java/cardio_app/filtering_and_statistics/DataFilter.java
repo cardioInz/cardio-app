@@ -148,10 +148,14 @@ public class DataFilter implements Parcelable {
     }
 
     public String getDateFromStr() {
+        if (dateFrom == null)
+            return "-";
         return DATE_FORMATTER.format(dateFrom);
     }
 
     public String getDateToStr() {
+        if (dateTo == null)
+            return "-";
         return DATE_FORMATTER.format(dateTo);
     }
 

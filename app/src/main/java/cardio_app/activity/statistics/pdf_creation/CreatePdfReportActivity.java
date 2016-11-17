@@ -1,25 +1,34 @@
-package cardio_app.activity.statistics;
+package cardio_app.activity.statistics.pdf_creation;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.databinding.Bindable;
+import android.databinding.DataBindingUtil;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
+import cardio_app.databinding.ContentCreatePdfReportActivityBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.filtering_and_statistics.DataFilter;
 import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.viewmodel.FileLocationViewModel;
 
 public class CreatePdfReportActivity extends AppCompatActivity {
 
     private DbHelper dbHelper;
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
     private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
+    private final FileLocationViewModel fileLocationViewModel = new FileLocationViewModel();
+
+    private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +37,32 @@ public class CreatePdfReportActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         dataFilter = intent.getParcelableExtra("filterdata");
+
+        fileLocationViewModel.setFileLocation(DEFAULT_LOCATION_FILE);
+        fileLocationViewModel.setFileName("reportPDF"); // TODO sth wrong with binding in this simple model
+
+        ContentCreatePdfReportActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.content_create_pdf_report_activity);
+        binding.setDateFromStr(dataFilter.getDateFromStr());
+        binding.setDateToStr(dataFilter.getDateToStr());
+        binding.setFileLocVM(fileLocationViewModel);
+    }
+
+    public void savePdf(View view){
+        if (view.getId() != R.id.savePdfBtn){
+            return;
+        }
+
+        String locationFile = fileLocationViewModel.getFileLocation();
+        String fileName = fileLocationViewModel.getFileName();
+
+        if (locationFile == null || locationFile.isEmpty()) {
+            Toast.makeText(this, getResources().getText(R.string.location_of_file_must_be_specified), Toast.LENGTH_LONG).show();
+        } else if (fileName == null || fileName.isEmpty()){
+            Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
+        } else {
+            String fileLocationStr = String.format("%s/%s.pdf", locationFile, fileName);
+            FirstPDF.createAndSavePdf(this, fileLocationStr);
+        }
     }
 
 
