@@ -83,7 +83,9 @@
             android:label="@string/title_activity_create_pdf"/>
         <activity
             android:name=".activity.statistics.ChartActivity"
-            android:label="@string/title_statistics_charts"/>
+            android:label="@string/title_statistics_charts"
+            android:configChanges="orientation|screenSize"/>
+
     </application>
 
 </manifest>
