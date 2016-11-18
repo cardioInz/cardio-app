@@ -1,4 +1,4 @@
-package cardio_app.filtering_and_statistics.statistics_model;
+package cardio_app.statistics;
 
 import cardio_app.db.model.PressureData;
 

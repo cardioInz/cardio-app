@@ -24,8 +24,8 @@ import cardio_app.activity.filter.FilterActivity;
 import cardio_app.activity.statistics.ChartActivity;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
-import cardio_app.filtering_and_statistics.DataFilter;
-import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.filtering.DataFilter;
+import cardio_app.filtering.DataFilterModeEnum;
 
 public class DiaryActivity extends AppCompatActivity {
 

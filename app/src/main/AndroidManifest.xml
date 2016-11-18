@@ -79,7 +79,7 @@
         <activity
             android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
             android:label="@string/title_statistics_last_measures" />
-        <activity android:name=".activity.statistics.pdf_creation.CreatePdfReportActivity"
+        <activity android:name=".activity.statistics.CreatePdfReportActivity"
             android:label="@string/title_activity_create_pdf"/>
         <activity
             android:name=".activity.statistics.ChartActivity"

@@ -19,8 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import cardio_app.R;
-import cardio_app.filtering_and_statistics.DataFilter;
-import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.filtering.DataFilter;
+import cardio_app.filtering.DataFilterModeEnum;
 
 public class FilterActivity extends AppCompatActivity {
 

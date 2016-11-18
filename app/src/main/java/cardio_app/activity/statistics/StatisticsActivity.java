@@ -11,9 +11,8 @@ import android.view.View;
 import android.widget.Toast;
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
-import cardio_app.activity.statistics.pdf_creation.CreatePdfReportActivity;
-import cardio_app.filtering_and_statistics.DataFilter;
-import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.filtering.DataFilter;
+import cardio_app.filtering.DataFilterModeEnum;
 
 public class StatisticsActivity extends AppCompatActivity {
 

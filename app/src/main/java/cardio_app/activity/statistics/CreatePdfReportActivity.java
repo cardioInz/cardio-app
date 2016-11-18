@@ -1,10 +1,9 @@
-package cardio_app.activity.statistics.pdf_creation;
+package cardio_app.activity.statistics;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -20,8 +19,9 @@ import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
 import cardio_app.databinding.ContentCreatePdfReportActivityBinding;
 import cardio_app.db.DbHelper;
-import cardio_app.filtering_and_statistics.DataFilter;
-import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.filtering.DataFilter;
+import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.statistics.pdf_creation.PdfAsyncWorkerCreator;
 import cardio_app.viewmodel.FileLocationViewModel;
 
 public class CreatePdfReportActivity extends AppCompatActivity {
@@ -84,7 +84,8 @@ public class CreatePdfReportActivity extends AppCompatActivity {
             Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
         } else {
             String fileLocationStr = String.format("%s/%s.pdf", locationFile, fileName);
-            FirstPDF.createAndSavePdf(this, fileLocationStr);
+            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, fileLocationStr);
+            pdfAsyncWorkerCreator.execute();
         }
     }
 

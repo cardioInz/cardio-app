@@ -10,14 +10,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasure;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasureTypeEnum;
+import cardio_app.statistics.StatisticMeasure;
+import cardio_app.statistics.StatisticMeasureTypeEnum;
 import cardio_app.viewmodel.statistics.StatisticMeasureViewModel;
 
 /**

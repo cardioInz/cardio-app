@@ -1,15 +1,15 @@
-package cardio_app.filtering_and_statistics;
+package cardio_app.filtering;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import cardio_app.db.model.PressureData;
-import cardio_app.filtering_and_statistics.statistics_model.HealthCondition;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticCounter;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasure;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasureTypeEnum;
+import cardio_app.statistics.HealthCondition;
+import cardio_app.statistics.StatisticCounter;
+import cardio_app.statistics.StatisticMeasure;
+import cardio_app.statistics.StatisticMeasureTypeEnum;
 
-import static cardio_app.filtering_and_statistics.statistics_model.StatisticMeasureTypeEnum.*;
+import static cardio_app.statistics.StatisticMeasureTypeEnum.*;
 
 /**
  * Created by kisam on 14.11.2016.

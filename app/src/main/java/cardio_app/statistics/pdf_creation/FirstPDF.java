@@ -1,10 +1,8 @@
-package cardio_app.activity.statistics.pdf_creation;
+package cardio_app.statistics.pdf_creation;
 
 // source: http://www.vogella.com/tutorials/JavaPDF/article.html // TODO not use "copy-paste"-ed codes
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
@@ -26,8 +24,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.util.Date;
 
-import cardio_app.R;
-
 public class FirstPDF {
     private static final String TAG = FirstPDF.class.getName();
 
@@ -41,13 +37,8 @@ public class FirstPDF {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
 
-    public static void createAndSavePdf(Context context, String fileLocation) {
-
-        if (fileLocation == null || fileLocation.isEmpty()) {
-            Toast.makeText(context, context.getResources().getText(R.string.file_location_is_probably_not_set), Toast.LENGTH_LONG).show();
-        } else {
-            makePdfFile(fileLocation);
-        }
+    public static void createAndSavePdf(String fileLocation) {
+        makePdfFile(fileLocation);
     }
 
     private static void makePdfFile(String fileLocation) {

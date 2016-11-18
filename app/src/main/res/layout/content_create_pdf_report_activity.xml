@@ -63,9 +63,11 @@
         </TableLayout>
 
 
+
         <Space android:layout_width="@dimen/statistic_min_space_width"
             android:layout_height="@dimen/statistic_min_space_height"/>
-
+        <Space android:layout_width="@dimen/statistic_min_space_width"
+            android:layout_height="@dimen/statistic_min_space_height"/>
 
         <TableLayout>
             <TextView android:text="@string/file_name"
@@ -80,6 +82,16 @@
         <Space android:layout_width="@dimen/statistic_min_space_width"
             android:layout_height="@dimen/statistic_min_space_height"/>
 
+        <ProgressBar
+            android:id="@+id/progressBar_create_pdf"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+        </ProgressBar>
+
+        <Space android:layout_width="@dimen/statistic_min_space_width"
+            android:layout_height="@dimen/statistic_min_space_height"/>
 
         <Button
             android:text="@string/save_pdf_btn"

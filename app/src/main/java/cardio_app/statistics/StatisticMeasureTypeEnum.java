@@ -1,4 +1,4 @@
-package cardio_app.filtering_and_statistics.statistics_model;
+package cardio_app.statistics;
 
 import java.util.HashMap;
 
