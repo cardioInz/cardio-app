@@ -86,12 +86,17 @@
             android:name=".activity.statistics.ChartActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_statistics_charts" />
+<<<<<<< HEAD
         <activity
             android:name=".activity.events.AddEventActivity"
             android:label="@string/title_add_event"/>
         <activity
             android:name=".activity.events.EventActivity"
             android:label="@string/title_events_activity"/>
+=======
+        <activity android:name=".activity.events.AddEventActivity" />
+        <activity android:name=".activity.events.EventActivity"></activity>
+>>>>>>> master
     </application>
 
 </manifest>
