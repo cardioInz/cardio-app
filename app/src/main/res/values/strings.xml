@@ -96,7 +96,7 @@
     <string name="name_of_file_must_be_specified">Name of file must be specified before creation</string>
     <string name="choose_location">Choose location</string>
     <string name="file_location_is_probably_not_set">File location value is probably not set</string>
-    <string name="pdf_report_successfuly_created">PDF Report has been successfuly created.</string>
+    <string name="pdf_report_successfuly_created">PDF Report has been successfully created.</string>
     <string name="filter_from_begin">FROM BEGIN</string>
     <string name="filter_to_the_end">TO THE END</string>
     <string name="attachment_name">Attached PDF file name:</string>
@@ -106,12 +106,14 @@
     <string name="pdf_report_successfuly_saved">PDF Report have been successfully saved</string>
     <string name="pdf_report_successfuly_sent">PDF Report has been sent successfully</string>
     <string name="file_name_is_probably_not_set">File name is probably not set</string>
-    <string name="app_could_not_use_cache_storage_give_permission_pls">Application could not work correctly without permission to use storage...</string>
-    <string name="pdf_report_has_not_been_created">PDF Report could not be created...</string>
+    <string name="app_could_not_use_cache_storage_give_permission_pls">Application could not work correctly without permission to use storage…</string>
+    <string name="pdf_report_has_not_been_created">PDF Report could not be created…</string>
     <string name="pdf_created">PDF Report creation date:</string>
-    <string name="sending_email">Sending email...</string>
+    <string name="sending_email">Sending email…</string>
     <string name="pdf_report">PDF Report</string>
     <string name="send_an_email">Send an email</string>
     <string name="choose_mode_for_pdf_creation">Choose mode for pdf creation</string>
     <string name="save_it_locally">Save it locally</string>
+    <string name="title_events_activity">Events</string>
+    <string name="title_add_event">Add Event</string>
 </resources>

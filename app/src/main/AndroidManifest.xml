@@ -79,13 +79,19 @@
         <activity
             android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
             android:label="@string/title_statistics_last_measures" />
-        <activity android:name=".activity.statistics.CreatePdfReportActivity"
-            android:label="@string/title_activity_create_pdf"/>
+        <activity
+            android:name=".activity.statistics.CreatePdfReportActivity"
+            android:label="@string/title_activity_create_pdf" />
         <activity
             android:name=".activity.statistics.ChartActivity"
-            android:label="@string/title_statistics_charts"
-            android:configChanges="orientation|screenSize"/>
-
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_statistics_charts" />
+        <activity
+            android:name=".activity.events.AddEventActivity"
+            android:label="@string/title_add_event"/>
+        <activity
+            android:name=".activity.events.EventActivity"
+            android:label="@string/title_events_activity"/>
     </application>
 
 </manifest>
