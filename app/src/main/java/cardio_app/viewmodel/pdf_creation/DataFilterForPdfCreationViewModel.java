@@ -1,14 +1,13 @@
 package cardio_app.viewmodel.pdf_creation;
 
-import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import java.util.Date;
 
-import cardio_app.R;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
 /**
  * Created by kisam on 18.11.2016.
@@ -17,18 +16,15 @@ import cardio_app.filtering.DataFilterModeEnum;
 public class DataFilterForPdfCreationViewModel extends BaseObservable {
 
     private DataFilter dataFilter = null;
-    private String earliest = null;
-    private String newest = null;
+    private Date earliestDate = null;
+    private Date latestDate = null;
 
-    public DataFilterForPdfCreationViewModel(Context context, DataFilter dataFilter, String earliest, String newest){
-        if (earliest != null && newest != null && !earliest.isEmpty() && !newest.isEmpty()) {
-            this.earliest = earliest;
-            this.newest = newest;
-        } else {
-            this.earliest = null;
-            this.newest = null;
-        }
+    DataFilterForPdfCreationViewModel(){
+        this(null, null, null);
+    }
 
+    public DataFilterForPdfCreationViewModel(DataFilter dataFilter, Date earliestDate, Date latestDate){
+        setDatesBoundary(earliestDate, latestDate);
         this.dataFilter = dataFilter;
     }
 
@@ -36,34 +32,39 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
         this.dataFilter = dataFilter;
     }
 
+    public void copyValuesFrom(DataFilter dataFilter) {
+        this.dataFilter.copyValues(dataFilter);
+    }
+
     @Bindable
     public String getDateFromStr(){
-        if (dataFilter == null){
+        if (dataFilter == null)
             return "-";
+        else if (dataFilter.getMode().equals(DataFilterModeEnum.NO_FILTER) && earliestDate != null) {
+            return DataFilter.DATE_FORMATTER.format(earliestDate);
         } else {
-            return prepareOutputDate(dataFilter.getMode(), dataFilter.getDateFromStr(), earliest);
+            return dataFilter.getDateToStr();
         }
     }
 
     @Bindable
     public String getDateToStr(){
-        if (dataFilter == null){
+        if (dataFilter == null)
             return "-";
+        else if (dataFilter.getMode().equals(DataFilterModeEnum.NO_FILTER) && latestDate != null) {
+            return DataFilter.DATE_FORMATTER.format(latestDate);
         } else {
-            return prepareOutputDate(dataFilter.getMode(), dataFilter.getDateToStr(), newest);
+            return dataFilter.getDateToStr();
         }
     }
 
-
-    private static String prepareOutputDate(DataFilterModeEnum mode, String dateStr, String customDateStr){
-        if (mode.equals(DataFilterModeEnum.NO_FILTER) && customDateStr != null) {
-                return String.format("%s", customDateStr);
-        } else {
-            return dateStr;
-        }
-    }
 
     public DataFilter getDataFilter() {
         return dataFilter;
+    }
+
+    public void setDatesBoundary(Date early, Date late){
+        this.earliestDate = early;
+        this.latestDate = late;
     }
 }

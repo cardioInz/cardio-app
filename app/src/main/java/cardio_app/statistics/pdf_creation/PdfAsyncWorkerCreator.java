@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import cardio_app.R;
-import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 
 /**
  * Created by kisam on 18.11.2016.
@@ -38,7 +37,7 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
     private String DEFAULT_SUBJECT;
     private String DEFAULT_BODY;
 
-    public PdfAsyncWorkerCreator(AppCompatActivity contextActivity, boolean isSendEmailMode, PdfCreationViewModel pdfCreationViewModel) {
+    public PdfAsyncWorkerCreator(AppCompatActivity contextActivity, boolean isSendEmailMode, PdfCreationDataModel pdfDataModel) {
         super();
         this.contextActivity = contextActivity;
         this.isSendEmailMode = isSendEmailMode;
@@ -46,14 +45,14 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
         String LOCALE_APP_TMP_DIR = contextActivity.getCacheDir().getAbsolutePath();
 
         if (isSendEmailMode){
-//            location = LOCALE_APP_TMP_DIR;
-            location = pdfCreationViewModel.getLocationSave();
-            emailAddr = pdfCreationViewModel.getEmailAddr();
+            location = LOCALE_APP_TMP_DIR;
+            location = pdfDataModel.getLocationSave();
+            emailAddr = pdfDataModel.getEmailAddr();
         } else {
-            location = pdfCreationViewModel.getLocationSave();
+            location = pdfDataModel.getLocationSave();
         }
 
-        filename = pdfCreationViewModel.getFileName() + EXT;
+        filename = pdfDataModel.getFileName() + EXT;
         file = new File(location, filename);
 
         DEFAULT_SUBJECT = prepareSubject(contextActivity); // TODO subject nice
@@ -146,27 +145,29 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
     }
 
     private void sendEmail() {
-        contextActivity.runOnUiThread(() -> {
-            try {
-                Uri path = Uri.fromFile(file);
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                verifyStoragePermissions(contextActivity);
+//        contextActivity.runOnUiThread(() -> {
+//
+//        });
 
-                // set the type to 'email'
-                emailIntent.setType("vnd.android.cursor.dir/email");
-                String to[] = {emailAddr};
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
-                // the attachment
-                emailIntent.putExtra(Intent.EXTRA_STREAM, path);
-                // the mail subject
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, DEFAULT_SUBJECT);
-                emailIntent.putExtra(Intent.EXTRA_TEXT, DEFAULT_BODY);
-                contextActivity.startActivity(Intent.createChooser(emailIntent, contextActivity.getString(R.string.sending_email)));
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(contextActivity, contextActivity.getText(R.string.pdf_report_successfuly_sent), Toast.LENGTH_LONG).show();
-            }
-        });
+        try {
+            Uri path = Uri.fromFile(file);
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            verifyStoragePermissions(contextActivity);
+
+            // set the type to 'email'
+            emailIntent.setType("vnd.android.cursor.dir/email");
+            String to[] = {emailAddr};
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
+            // the attachment
+            emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+            // the mail subject
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, DEFAULT_SUBJECT);
+            emailIntent.putExtra(Intent.EXTRA_TEXT, DEFAULT_BODY);
+            contextActivity.startActivity(Intent.createChooser(emailIntent, contextActivity.getString(R.string.sending_email)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(contextActivity, contextActivity.getText(R.string.pdf_report_successfuly_sent), Toast.LENGTH_LONG).show();
+        }
     }
 
 

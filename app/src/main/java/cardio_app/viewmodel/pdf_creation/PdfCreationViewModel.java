@@ -2,105 +2,80 @@ package cardio_app.viewmodel.pdf_creation;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.view.View;
+
+import cardio_app.statistics.pdf_creation.PdfCreationDataModel;
 
 /**
  * Created by kisam on 17.11.2016.
  */
 
 public class PdfCreationViewModel extends BaseObservable {
-    private String locationSave = "";
-    private String fileName = "";
-    private boolean isSendEmailOpt = true;
-    private String emailAddr = "";
+
+    private DataFilterForPdfCreationViewModel dataFilterViewModel = new DataFilterForPdfCreationViewModel();
+    private PdfCreationDataModel pdfDataModel = new PdfCreationDataModel();
 
     public PdfCreationViewModel() {
-
+        pdfDataModel.setSendEmailOpt(true); // by default "send email" redio button checkeds
     }
 
+    private static String getStrIfNotNull(String str){
+        return str == null ? "" : str;
+    }
 
     @Bindable
     public String getLocationSave() {
-        if (locationSave == null)
-            return "";
-        return locationSave;
+        return getStrIfNotNull(pdfDataModel.getLocationSave());
     }
 
     public void setLocationSave(String locationSave) {
-        this.locationSave = locationSave;
+        pdfDataModel.setLocationSave(locationSave);
     }
 
     @Bindable
     public String getFileName() {
-        if (fileName == null)
-            return "";
-        return fileName;
+        return getStrIfNotNull(pdfDataModel.getFileName());
     }
 
     public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    @Bindable
-    public int getVisibilitySendEmail() {
-        if (isSendEmailOpt()){
-            return View.VISIBLE;
-        } else {
-            return View.GONE;
-        }
-    }
-
-    @Bindable
-    public int getVisibilitySavePdf() {
-        if (isSaveOpt()){
-            return View.VISIBLE;
-        } else {
-            return View.GONE;
-        }
-    }
-
-    private void useVisibilityUtil(int visibility, boolean IsInvokedFromSendEmail){
-        switch (visibility){
-            case View.VISIBLE:
-                isSendEmailOpt = IsInvokedFromSendEmail;
-                break;
-            case View.GONE:
-                isSendEmailOpt = !IsInvokedFromSendEmail;
-                break;
-            case View.INVISIBLE:
-                isSendEmailOpt = !IsInvokedFromSendEmail;
-                break;
-            default:
-                break;
-        }
+        pdfDataModel.setFileName(fileName);
     }
 
     @Bindable
     public String getEmailAddr() {
-        if (emailAddr == null)
-            return "";
-        return emailAddr;
+        return getStrIfNotNull(pdfDataModel.getEmailAddr());
     }
 
     public void setEmailAddr(String emailAddr) {
-        this.emailAddr = emailAddr;
+        pdfDataModel.setEmailAddr(emailAddr);
     }
 
     @Bindable
     public boolean isSaveOpt() {
-        return !isSendEmailOpt;
+        return !pdfDataModel.isSendEmailOpt();
     }
 
     public void setSaveOpt(boolean saveOpt) {
-        isSendEmailOpt = !saveOpt;
+        pdfDataModel.setSendEmailOpt(!saveOpt);
     }
 
     @Bindable
     public boolean isSendEmailOpt() {
-        return isSendEmailOpt;
+        return pdfDataModel.isSendEmailOpt();
     }
 
     public void setSendEmailOpt(boolean sendEmailOpt) {
-        isSendEmailOpt = sendEmailOpt;
+        pdfDataModel.setSendEmailOpt(sendEmailOpt);
+    }
+
+    public PdfCreationDataModel getPdfDataModel() {
+        return pdfDataModel;
+    }
+
+    public void setPdfDataModel(PdfCreationDataModel pdfDataModel) {
+        this.pdfDataModel = pdfDataModel;
+    }
+
+    public DataFilterForPdfCreationViewModel getDataFilterViewModel() {
+        return dataFilterViewModel;
     }
 }

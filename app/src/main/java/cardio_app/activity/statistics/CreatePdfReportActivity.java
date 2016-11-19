@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import java.util.Date;
+
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
 import cardio_app.databinding.ActivityCreatePdfReportBinding;
@@ -23,21 +25,21 @@ import cardio_app.db.DbHelper;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.statistics.pdf_creation.PdfAsyncWorkerCreator;
+import cardio_app.statistics.pdf_creation.PdfCreationDataModel;
 import cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel;
 import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 
 public class CreatePdfReportActivity extends AppCompatActivity {
 
-
-
     private DbHelper dbHelper;
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
+    private DataFilter dataFilter = new DataFilter();
     private DataFilterForPdfCreationViewModel dataFilterForPdfCreationViewModel = null;
     private final PdfCreationViewModel pdfCreationViewModel = new PdfCreationViewModel();
 
     private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
     private static String DEFAULT_EMAIL_ADDR = "cardio.inzynierka@gmail.com";
-    private static String DEFAULT_PDF_NAME = "report_PDF"; // TODO name with some dates from -> to
+    private static String DEFAULT_PDF_NAME = "report_PDF_TEST"; // TODO name with some dates from -> to
 
     private void correctVisibilities(boolean isSendOpt, boolean isSaveOpt) {
         int sendVisib = isSendOpt ? View.VISIBLE : View.GONE;
@@ -60,12 +62,10 @@ public class CreatePdfReportActivity extends AppCompatActivity {
             case R.id.radio_pdf_save_btn:
                 pdfCreationViewModel.setSaveOpt(true);
                 correctVisibilities(false, true);
-//                refreshStatisticsView();
                 break;
             case R.id.radio_pdf_send_btn:
                 pdfCreationViewModel.setSendEmailOpt(true);
                 correctVisibilities(true, false);
-//                refreshStatisticsView();
                 break;
             default:
                 break;
@@ -79,19 +79,22 @@ public class CreatePdfReportActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         DataFilter df = intent.getParcelableExtra("filterdata");
+        if (df != null)
+            dataFilter = df;
 
         try {
-            String dateFrom = DataFilter.DATE_FORMATTER.format(getHelper().getFirstDateFromPressureDataTable());
-            String dateTo = DataFilter.DATE_FORMATTER.format(getHelper().getLastDateFromPressureDataTable());
-            dataFilterForPdfCreationViewModel = new DataFilterForPdfCreationViewModel(this, df, dateFrom, dateTo);
+            Date dateFrom = getHelper().getFirstDateFromPressureDataTable();
+            Date dateTo = getHelper().getLastDateFromPressureDataTable();
+            pdfCreationViewModel.getDataFilterViewModel().setDatesBoundary(dateFrom, dateTo);
         } catch (Exception e) {
-            e.printStackTrace();
-            dataFilterForPdfCreationViewModel = new DataFilterForPdfCreationViewModel(this, new DataFilter(DEFAULT_DATA_FILTER), null, null);
+            pdfCreationViewModel.getDataFilterViewModel().setDatesBoundary(null, null);
         }
 
+        // TODO sth wrong with binding in this simple model
         pdfCreationViewModel.setLocationSave(DEFAULT_LOCATION_FILE);
-        pdfCreationViewModel.setFileName(DEFAULT_PDF_NAME); // TODO sth wrong with binding in this simple model
+        pdfCreationViewModel.setFileName(DEFAULT_PDF_NAME);
         pdfCreationViewModel.setEmailAddr(DEFAULT_EMAIL_ADDR);
+        pdfCreationViewModel.getDataFilterViewModel().setDataFilter(df);
 
         ActivityCreatePdfReportBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_pdf_report);
         binding.setDatesFromFilter(dataFilterForPdfCreationViewModel);
@@ -107,7 +110,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 DataFilter dataFilter = data.getParcelableExtra("filterdata");
                 if (dataFilter != null) {
-                    this.dataFilterForPdfCreationViewModel.setDataFilter(dataFilter);
+                    this.dataFilterForPdfCreationViewModel.copyValuesFrom(dataFilter);
                 }
                 refreshStatisticsView();
             }
@@ -130,7 +133,8 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         } else if (fileName == null || fileName.isEmpty()){
             Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
         } else {
-            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, false, pdfCreationViewModel);
+            PdfCreationDataModel pdfDataModel = pdfCreationViewModel.getPdfDataModel();
+            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, false, pdfDataModel);
             pdfAsyncWorkerCreator.execute();
         }
     }
@@ -148,7 +152,8 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         } else if (attachedPdfFileName == null || attachedPdfFileName.isEmpty()){
             Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
         } else {
-            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, true, pdfCreationViewModel);
+            PdfCreationDataModel pdfDataModel = pdfCreationViewModel.getPdfDataModel();
+            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, true, pdfDataModel);
             pdfAsyncWorkerCreator.execute();
         }
     }
