@@ -4,7 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasure;
+import cardio_app.statistics.analyse.StatisticMeasure;
 import cardio_app.viewmodel.PressureDataViewModel;
 
 /**
@@ -29,8 +29,13 @@ public class StatisticMeasureViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getDateTimeStr() {
-        return pressureDataViewModel.getDateTimeStr();
+    public String getDateStr() {
+        return pressureDataViewModel.getDateStr();
+    }
+
+    @Bindable
+    public String getTimeStr() {
+        return pressureDataViewModel.getTimeStr();
     }
 
     @Bindable

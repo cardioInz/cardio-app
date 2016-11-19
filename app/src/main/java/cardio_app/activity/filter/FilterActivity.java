@@ -19,13 +19,13 @@ import java.util.Date;
 import java.util.HashMap;
 
 import cardio_app.R;
-import cardio_app.filtering_and_statistics.DataFilter;
-import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.filtering.DataFilter;
+import cardio_app.filtering.DataFilterModeEnum;
 
 public class FilterActivity extends AppCompatActivity {
-
+    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
     private final static String TAG = FilterActivity.class.toString();
-    final DataFilter dataFilter = new DataFilter();
+    final DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
     @SuppressLint("UseSparseArrays")
     final static HashMap<Integer, DataFilterModeEnum> mapFilter = new HashMap<>();
 
@@ -51,35 +51,41 @@ public class FilterActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         DataFilter df = intent.getParcelableExtra("filterdata");
-        if (mapFilter.containsValue(df.getMode())) {
-            RadioButton radioBtnView = (RadioButton) findViewById(getIdFromMode(df.getMode()));
-            radioBtnView.setChecked(true);
-            onRadioButtonClicked(radioBtnView);
 
-            switch (dataFilter.getMode()) {
-                case LAST_X_DAYS:
-                    EditText editText = (EditText) findViewById(R.id.x_days_value);
-                    editText.setText(String.valueOf(df.getXDays()));
-                    break;
-                case CUSTOM_DATES:
-                    Calendar calendar = Calendar.getInstance();
+        if (df != null) {
+            if (mapFilter.containsValue(df.getMode())) {
+                dataFilter.setMode(df.getMode());
+                RadioButton radioBtnView = (RadioButton) findViewById(getIdFromMode(df.getMode()));
+                radioBtnView.setChecked(true);
+                onRadioButtonClicked(radioBtnView);
 
-                    Date dateFrom = df.getDateFrom();
-                    calendar.setTime(dateFrom);
-                    DatePicker dateFromPicker = (DatePicker) findViewById(R.id.filter_dateFrom_datePicker);
-                    dateFromPicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                switch (dataFilter.getMode()) {
+                    case LAST_X_DAYS:
+                        EditText editText = (EditText) findViewById(R.id.x_days_value);
+                        editText.setText(String.valueOf(df.getXDays()));
+                        break;
+                    case CUSTOM_DATES:
+                        Calendar calendar = Calendar.getInstance();
 
-                    Date dateTo = df.getDateTo();
-                    calendar.setTime(dateTo);
-                    DatePicker dateToPicker = (DatePicker) findViewById(R.id.filter_dateTo_datePicker);
-                    dateToPicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                    break;
-                default:
-                    break;
+                        Date dateFrom = df.getDateFrom();
+                        calendar.setTime(dateFrom);
+                        DatePicker dateFromPicker = (DatePicker) findViewById(R.id.filter_dateFrom_datePicker);
+                        dateFromPicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+                        Date dateTo = df.getDateTo();
+                        calendar.setTime(dateTo);
+                        DatePicker dateToPicker = (DatePicker) findViewById(R.id.filter_dateTo_datePicker);
+                        dateToPicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                        break;
+                    default:
+                        break;
+                }
+
+            } else {
+                Log.e(TAG, "onCreate: data filter mode was unsupported -> mode: " + df.getModeStr());
             }
-
         } else {
-            Log.e(TAG, "onCreate: data filter mode was unsupported -> mode: " + df.getModeStr());
+
         }
 
     }

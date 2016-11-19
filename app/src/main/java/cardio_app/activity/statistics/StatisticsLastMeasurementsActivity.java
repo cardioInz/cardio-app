@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
-import android.widget.TableLayout;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -17,11 +16,11 @@ import java.util.List;
 import cardio_app.R;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
-import cardio_app.filtering_and_statistics.DataFilter;
-import cardio_app.filtering_and_statistics.DataFilterModeEnum;
-import cardio_app.filtering_and_statistics.Statistics;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasure;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasureTypeEnum;
+import cardio_app.filtering.DataFilter;
+import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.statistics.Statistics;
+import cardio_app.statistics.analyse.StatisticMeasure;
+import cardio_app.statistics.analyse.StatisticMeasureTypeEnum;
 
 public class StatisticsLastMeasurementsActivity extends AppCompatActivity {
 

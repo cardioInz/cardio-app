@@ -3,7 +3,7 @@ package cardio_app.viewmodel.statistics;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import cardio_app.filtering_and_statistics.statistics_model.StatisticCounter;
+import cardio_app.statistics.analyse.StatisticCounter;
 
 /**
  * Created by kisam on 15.11.2016.

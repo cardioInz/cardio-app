@@ -22,7 +22,7 @@
             android:id="@+id/activity_add_diary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context="cardio_app.activity.diary.AddDiaryActivity"
+            tools:contextActivity="cardio_app.activity.diary.AddDiaryActivity"
             android:orientation="vertical"
             android:weightSum="1">
 

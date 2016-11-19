@@ -1,15 +1,15 @@
-package cardio_app.filtering_and_statistics;
+package cardio_app.statistics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import cardio_app.db.model.PressureData;
-import cardio_app.filtering_and_statistics.statistics_model.HealthCondition;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticCounter;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasure;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasureTypeEnum;
+import cardio_app.statistics.analyse.HealthCondition;
+import cardio_app.statistics.analyse.StatisticCounter;
+import cardio_app.statistics.analyse.StatisticMeasure;
+import cardio_app.statistics.analyse.StatisticMeasureTypeEnum;
 
-import static cardio_app.filtering_and_statistics.statistics_model.StatisticMeasureTypeEnum.*;
+import static cardio_app.statistics.analyse.StatisticMeasureTypeEnum.*;
 
 /**
  * Created by kisam on 14.11.2016.
@@ -28,7 +28,7 @@ public class Statistics {
         this(new ArrayList<>(), doForCounter, doForMeasures);
     }
 
-    public Statistics(List<PressureData> pressureDataList, boolean doForCounter, boolean doForMeasures) {
+    private Statistics(List<PressureData> pressureDataList, boolean doForCounter, boolean doForMeasures) {
 
         this.doForCounter = doForCounter;
         this.doForMeasures = doForMeasures;

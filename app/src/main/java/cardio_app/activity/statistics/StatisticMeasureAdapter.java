@@ -10,14 +10,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasure;
-import cardio_app.filtering_and_statistics.statistics_model.StatisticMeasureTypeEnum;
+import cardio_app.statistics.analyse.StatisticMeasure;
+import cardio_app.statistics.analyse.StatisticMeasureTypeEnum;
 import cardio_app.viewmodel.statistics.StatisticMeasureViewModel;
 
 /**
@@ -55,7 +54,8 @@ public class StatisticMeasureAdapter extends ArrayAdapter<StatisticMeasure> {
         TextView titleTextView = (TextView) convertView.findViewById(R.id.measure_stat_title);
         TextView valuesTextView = (TextView) convertView.findViewById(R.id.measure_stat_values);
         TableRow arrhythmiaTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_arrhythmia_table_row);
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.measure_stat_dateTime);
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.measure_stat_date);
+        TextView timeTextView = (TextView) convertView.findViewById(R.id.measure_stat_time);
 
         StatisticMeasure statisticMeasure = getItem(position);
 
@@ -68,7 +68,8 @@ public class StatisticMeasureAdapter extends ArrayAdapter<StatisticMeasure> {
                 valuesTextView.setText(viewModel.getValuesStr());
                 arrhythmiaTableRow.setEnabled(statisticMeasure.isArrhythmiaImportant());
                 arrhythmiaTableRow.setVisibility(viewModel.shouldShowArrhythmia() ? View.VISIBLE : View.GONE);
-                dateTextView.setText(viewModel.getDateTimeStr());
+                dateTextView.setText(viewModel.getDateStr());
+                timeTextView.setText(viewModel.getTimeStr());
             } catch (Exception e) {
                 nullPtrFound(convertView, true);
             }
@@ -81,11 +82,13 @@ public class StatisticMeasureAdapter extends ArrayAdapter<StatisticMeasure> {
 
     private void nullPtrFound(View convertView, boolean isFound){
         TableRow valuesTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_values_table_row);
-        TableRow dateTimeTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_datetime_table_row);
+        TableRow dateTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_date_table_row);
+        TableRow timeTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_time_table_row);
         TableRow arrhythmiaTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_arrhythmia_table_row);
 
         valuesTableRow.setVisibility(isFound ? View.GONE : View.VISIBLE);
-        dateTimeTableRow.setVisibility(isFound ? View.GONE : View.VISIBLE);
+        dateTableRow.setVisibility(isFound ? View.GONE : View.VISIBLE);
+        timeTableRow.setVisibility(isFound ? View.GONE : View.VISIBLE);
         arrhythmiaTableRow.setVisibility(isFound ? View.GONE : View.VISIBLE);
 
         TableRow noMatchingTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_no_matching_table_row);

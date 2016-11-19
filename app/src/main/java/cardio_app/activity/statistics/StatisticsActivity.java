@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.Toast;
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
-import cardio_app.filtering_and_statistics.DataFilter;
-import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.filtering.DataFilter;
+import cardio_app.filtering.DataFilterModeEnum;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -38,6 +38,14 @@ public class StatisticsActivity extends AppCompatActivity {
                 Intent intentL = new Intent(this, StatisticsLastMeasurementsActivity.class);
                 intentL.putExtra("filterdata", dataFilter);
                 startActivity(intentL);
+                break;
+            case R.id.show_charts_btn:
+                onChartClick();
+                break;
+            case R.id.create_pdf_btn:
+                Intent intentP = new Intent(this, CreatePdfReportActivity.class);
+                intentP.putExtra("filterdata", dataFilter);
+                startActivityForResult(intentP, 1);
                 break;
             default:
                 break;
@@ -66,11 +74,11 @@ public class StatisticsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.filter_data: {
+            case R.id.menu_item_filter_data: {
                 onFilterDataClick();
                 return true;
             }
-            case R.id.chart: {
+            case R.id.menu_item_chart: {
                 onChartClick();
                 return true;
             }
@@ -89,8 +97,10 @@ public class StatisticsActivity extends AppCompatActivity {
     private void onChartClick() {
         Intent intent = new Intent(this, ChartActivity.class);
         intent.putExtra("filterdata", dataFilter);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -12,6 +12,9 @@ import cardio_app.activity.alert.AlertsActivity;
 import cardio_app.activity.diary.AddDiaryActivity;
 import cardio_app.activity.diary.DiaryActivity;
 import cardio_app.activity.drug.DrugsActivity;
+import cardio_app.activity.statistics.CreatePdfReportActivity;
+import cardio_app.activity.events.AddEventActivity;
+import cardio_app.activity.events.EventActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
 
 public class MainActivity extends AppCompatActivity{
@@ -54,6 +57,21 @@ public class MainActivity extends AppCompatActivity{
 
     public void showStatistics(View view) {
         Intent intent = new Intent(this, StatisticsActivity.class);
+        startActivity(intent);
+    }
+
+    public void showCreatePdfReport(View view) {
+        Intent intent = new Intent(this, CreatePdfReportActivity.class);
+        startActivity(intent);
+    }
+
+    public void addEvent(View view) {
+        Intent intent = new Intent(this, AddEventActivity.class);
+        startActivity(intent);
+    }
+
+    public void showEventsList(View view) {
+        Intent intent = new Intent(this, EventActivity.class);
         startActivity(intent);
     }
 }

@@ -24,8 +24,8 @@ import cardio_app.activity.filter.FilterActivity;
 import cardio_app.activity.statistics.ChartActivity;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
-import cardio_app.filtering_and_statistics.DataFilter;
-import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.filtering.DataFilter;
+import cardio_app.filtering.DataFilterModeEnum;
 
 public class DiaryActivity extends AppCompatActivity {
 
@@ -127,11 +127,11 @@ public class DiaryActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.filter_data: {
+            case R.id.menu_item_filter_data: {
                 onFilterDataClick();
                 return true;
             }
-            case R.id.chart: {
+            case R.id.menu_item_chart: {
                 onChartClick();
                 return true;
             }

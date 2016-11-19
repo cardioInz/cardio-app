@@ -16,22 +16,6 @@ public class InitialPressureData {
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat INIT_CONVERSION_DATETIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-//    private static Random r = new Random();
-//
-//    private static int randIntFromTo(int from, int to) {
-//        return r.nextInt(to - from) + from;
-//    }
-//
-//    public static PressureData getRandomPressureData() {
-//        int diastole = randIntFromTo(60, 100);
-//        int systole = randIntFromTo(diastole+29, diastole+60);
-//        int pulse = randIntFromTo(30, 100);
-//        boolean arrhythmia = r.nextBoolean();
-//        ;
-//        Date date = new Date();
-//        return new PressureData(systole, diastole, pulse, arrhythmia, date);
-//    }
-
     public static List<PressureData> makePressureDataList() {
         List<PressureData> paramsList = new ArrayList<>();
         int systole;
@@ -51,8 +35,11 @@ public class InitialPressureData {
             try {
                 systole = Integer.parseInt(params[1]);
                 diastole = Integer.parseInt(params[2]);
-                pulse = Integer.parseInt(params[3]);
                 arrhythmia = s.hashCode() % 11 == 0;
+
+                // data at this position is difference between systole and diastole
+                // we add this as pulse increased by 40, to be deterministic on every OnCreate action in dbhelper
+                pulse = Integer.parseInt(params[3]) + 40;
 
                 if (!params[0].isEmpty()) {
                     date = params[0];

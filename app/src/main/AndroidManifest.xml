@@ -3,6 +3,8 @@
     package="cardio_app">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -77,12 +79,15 @@
         <activity
             android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
             android:label="@string/title_statistics_last_measures" />
-
+        <activity
+            android:name=".activity.statistics.CreatePdfReportActivity"
+            android:label="@string/title_activity_create_pdf" />
         <activity
             android:name=".activity.statistics.ChartActivity"
-            android:label="@string/title_statistics_charts"
-            android:configChanges="orientation|screenSize"/>
-
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_statistics_charts" />
+        <activity android:name=".activity.events.AddEventActivity" />
+        <activity android:name=".activity.events.EventActivity"></activity>
     </application>
 
 </manifest>
