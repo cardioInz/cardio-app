@@ -19,7 +19,7 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
-import cardio_app.filtering.Statistics;
+import cardio_app.statistics.Statistics;
 import cardio_app.viewmodel.statistics.StatisticCounterViewModel;
 
 public class StatisticsCounterActivity extends AppCompatActivity {

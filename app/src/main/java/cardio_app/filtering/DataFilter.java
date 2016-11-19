@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class DataFilter implements Parcelable {
 
-    static final int DEFAULT_FILTER_LAST_X_DAYS = 14; // == X
+    private static final int DEFAULT_FILTER_LAST_X_DAYS = 14; // == X
     private static final String TAG = DataFilter.class.getName();
 
     @SuppressLint("SimpleDateFormat")
@@ -30,6 +30,13 @@ public class DataFilter implements Parcelable {
     public DataFilter() {
         // DEFAULT FILTER
         setLastXDaysFilterMode(DEFAULT_FILTER_LAST_X_DAYS);
+    }
+
+    public void copyValues(DataFilter dataFilter) {
+        this.mode = dataFilter.getMode();
+        this.dateFrom = dataFilter.getDateFrom();
+        this.dateTo = dataFilter.getDateTo();
+        this.xDays = dataFilter.getXDays();
     }
 
     public DataFilter(Date dateFrom, Date dateTo) {

@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.statistics.StatisticMeasure;
-import cardio_app.statistics.StatisticMeasureTypeEnum;
+import cardio_app.statistics.analyse.StatisticMeasure;
+import cardio_app.statistics.analyse.StatisticMeasureTypeEnum;
 import cardio_app.viewmodel.statistics.StatisticMeasureViewModel;
 
 /**

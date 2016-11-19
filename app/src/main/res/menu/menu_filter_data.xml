@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/chart"
+        android:id="@+id/menu_item_chart"
         android:icon="@android:drawable/arrow_up_float"
         android:title="@string/chart"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/filter_data"
+        android:id="@+id/menu_item_filter_data"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/filter"
         app:showAsAction="always" />

@@ -127,11 +127,11 @@ public class DiaryActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.filter_data: {
+            case R.id.menu_item_filter_data: {
                 onFilterDataClick();
                 return true;
             }
-            case R.id.chart: {
+            case R.id.menu_item_chart: {
                 onChartClick();
                 return true;
             }

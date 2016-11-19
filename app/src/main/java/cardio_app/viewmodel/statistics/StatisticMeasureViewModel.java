@@ -4,7 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import cardio_app.statistics.StatisticMeasure;
+import cardio_app.statistics.analyse.StatisticMeasure;
 import cardio_app.viewmodel.PressureDataViewModel;
 
 /**
