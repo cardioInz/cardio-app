@@ -80,14 +80,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/send_an_email"
-                        android:checked="@{pdfCreationVM.sendEmailOpt}"
+                        android:checked="@={pdfCreationVM.sendEmailOpt}"
                         android:onClick="changePdfCreationMode"/>
                     <RadioButton
                         android:id="@+id/radio_pdf_save_btn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/save_it_locally"
-                        android:checked="@{pdfCreationVM.saveOpt}"
+                        android:checked="@={pdfCreationVM.saveOpt}"
                         android:onClick="changePdfCreationMode"/>
                 </RadioGroup>
 
@@ -104,7 +104,7 @@
                         android:layout_gravity="fill"
                         android:textStyle="bold"
                         android:textSize="@dimen/statistic_header_size"/>
-                    <TextView android:text="@{pdfCreationVM.locationSave}"
+                    <TextView android:text="@={pdfCreationVM.locationSave}"
                         android:layout_gravity="fill"/>
                     <Button android:text="@string/choose_location"/>
                     <Space android:layout_width="@dimen/statistic_min_space_width"
@@ -112,7 +112,7 @@
                     <TextView android:text="@string/file_name"
                         android:textStyle="bold"
                         android:textSize="@dimen/statistic_header_size"/>
-                    <EditText android:text="@{pdfCreationVM.fileName}"
+                    <EditText android:text="@={pdfCreationVM.fileName}"
                         android:inputType="text"
                         android:layout_gravity="fill"/>
                 </TableLayout>
@@ -127,7 +127,7 @@
                         android:layout_gravity="fill"
                         android:textStyle="bold"
                         android:textSize="@dimen/statistic_header_size"/>
-                    <EditText android:text="@{pdfCreationVM.emailAddr}"
+                    <EditText android:text="@={pdfCreationVM.emailAddr}"
                         android:layout_gravity="fill"
                         android:inputType="text" />
                     <Space android:layout_width="@dimen/statistic_min_space_width"
@@ -135,7 +135,7 @@
                     <TextView android:text="@string/attachment_name"
                         android:textStyle="bold"
                         android:textSize="@dimen/statistic_header_size"/>
-                    <EditText android:text="@{pdfCreationVM.fileName}"
+                    <EditText android:text="@={pdfCreationVM.fileName}"
                         android:inputType="text"
                         android:layout_gravity="fill"/>
                 </TableLayout>

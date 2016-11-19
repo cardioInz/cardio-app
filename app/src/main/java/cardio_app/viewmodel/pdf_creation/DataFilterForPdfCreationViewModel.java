@@ -7,7 +7,6 @@ import java.util.Date;
 
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
-import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
 /**
  * Created by kisam on 18.11.2016.
@@ -19,7 +18,7 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
     private Date earliestDate = null;
     private Date latestDate = null;
 
-    DataFilterForPdfCreationViewModel(){
+    public DataFilterForPdfCreationViewModel(){
         this(null, null, null);
     }
 
@@ -57,8 +56,17 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
             return dataFilter.getDateToStr();
         }
     }
+//
+//    public void setDateToStr(String date){
+//        // stay empty
+//    }
+//
+//    public void setDateFromStr(String date){
+//        // stay empty
+//    }
 
 
+    @Bindable
     public DataFilter getDataFilter() {
         return dataFilter;
     }
@@ -67,4 +75,5 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
         this.earliestDate = early;
         this.latestDate = late;
     }
+
 }

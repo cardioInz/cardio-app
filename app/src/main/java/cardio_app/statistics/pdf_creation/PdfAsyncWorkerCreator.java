@@ -10,11 +10,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,11 +47,11 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
         this.contextActivity = contextActivity;
         this.isSendEmailMode = isSendEmailMode;
 
-        String LOCALE_APP_TMP_DIR = contextActivity.getCacheDir().getAbsolutePath();
+        String LOCALE_APP_TMP_DIR = contextActivity.getFilesDir().getAbsolutePath();
 
         if (isSendEmailMode){
             location = LOCALE_APP_TMP_DIR;
-            location = pdfDataModel.getLocationSave();
+//            location = pdfDataModel.getLocationSave();
             emailAddr = pdfDataModel.getEmailAddr();
         } else {
             location = pdfDataModel.getLocationSave();
@@ -83,11 +88,11 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
 
             if (isSendEmailMode){
                 file.setReadable(true, false);
+                writeToExternal(contextActivity, filename);
                 sendEmail();
                 file.deleteOnExit(); // TODO remove file after send
             } else {
                 file.setReadable(true);
-//                Toast.makeText(contextActivity, contextActivity.getText(R.string.pdf_report_successfuly_created), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 intent.setData(Uri.fromFile(file));
                 contextActivity.sendBroadcast(intent);
@@ -145,10 +150,6 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
     }
 
     private void sendEmail() {
-//        contextActivity.runOnUiThread(() -> {
-//
-//        });
-
         try {
             Uri path = Uri.fromFile(file);
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -195,7 +196,6 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
         if (wantThisPermissionsList.isEmpty())
             return;
 
-//        String [] WANT_PERMISSIONS = (String[]) wantThisPermissionsList.toArray();
         activity.runOnUiThread(() -> {
             ActivityCompat.requestPermissions(
                     activity,
@@ -203,5 +203,28 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
                     REQUEST_EXTERNAL_STORAGE
             );
         });
+    }
+
+
+    private void writeToExternal(Context context, String filename){
+        // source: http://stackoverflow.com/questions/27956669/permission-denied-for-the-attachment-on-gmail-5-0-trying-to-attach-file-to-e
+        // TODO rewrite to not use codes from internet
+        try {
+            File file = new File(context.getExternalFilesDir(null), filename); //Get file location from external source
+            InputStream is = new FileInputStream(context.getFilesDir() + File.separator + filename); //get file location from internal
+            OutputStream os = new FileOutputStream(file); //Open your OutputStream and pass in the file you want to write to
+            byte[] toWrite = new byte[is.available()]; //Init a byte array for handing data transfer
+            Log.i("Available ", is.available() + "");
+            int result = is.read(toWrite); //Read the data from the byte array
+            Log.i("Result", result + "");
+            os.write(toWrite); //Write it to the output stream
+            is.close(); //Close it
+            os.close(); //Close it
+            Log.i("Copying to", "" + context.getExternalFilesDir(null) + File.separator + filename);
+            Log.i("Copying from", context.getFilesDir() + File.separator + filename + "");
+            this.file = file;
+        } catch (Exception e) {
+            Toast.makeText(context, "File write failed: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show(); //if there's an error, make a piece of toast and serve it up
+        }
     }
 }

@@ -34,7 +34,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
     private DbHelper dbHelper;
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
     private DataFilter dataFilter = new DataFilter();
-    private DataFilterForPdfCreationViewModel dataFilterForPdfCreationViewModel = null;
+    private DataFilterForPdfCreationViewModel dataFilterForPdfCreationViewModel = new DataFilterForPdfCreationViewModel();
     private final PdfCreationViewModel pdfCreationViewModel = new PdfCreationViewModel();
 
     private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
@@ -85,16 +85,17 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         try {
             Date dateFrom = getHelper().getFirstDateFromPressureDataTable();
             Date dateTo = getHelper().getLastDateFromPressureDataTable();
-            pdfCreationViewModel.getDataFilterViewModel().setDatesBoundary(dateFrom, dateTo);
+
+           dataFilterForPdfCreationViewModel.setDatesBoundary(dateFrom, dateTo);
         } catch (Exception e) {
-            pdfCreationViewModel.getDataFilterViewModel().setDatesBoundary(null, null);
+            dataFilterForPdfCreationViewModel.setDatesBoundary(null, null);
         }
 
         // TODO sth wrong with binding in this simple model
         pdfCreationViewModel.setLocationSave(DEFAULT_LOCATION_FILE);
         pdfCreationViewModel.setFileName(DEFAULT_PDF_NAME);
         pdfCreationViewModel.setEmailAddr(DEFAULT_EMAIL_ADDR);
-        pdfCreationViewModel.getDataFilterViewModel().setDataFilter(df);
+        dataFilterForPdfCreationViewModel.setDataFilter(dataFilter);
 
         ActivityCreatePdfReportBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_pdf_report);
         binding.setDatesFromFilter(dataFilterForPdfCreationViewModel);

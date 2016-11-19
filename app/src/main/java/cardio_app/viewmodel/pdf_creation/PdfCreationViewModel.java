@@ -11,7 +11,7 @@ import cardio_app.statistics.pdf_creation.PdfCreationDataModel;
 
 public class PdfCreationViewModel extends BaseObservable {
 
-    private DataFilterForPdfCreationViewModel dataFilterViewModel = new DataFilterForPdfCreationViewModel();
+//    private DataFilterForPdfCreationViewModel dataFilterViewModel = new DataFilterForPdfCreationViewModel();
     private PdfCreationDataModel pdfDataModel = new PdfCreationDataModel();
 
     public PdfCreationViewModel() {
@@ -75,7 +75,7 @@ public class PdfCreationViewModel extends BaseObservable {
         this.pdfDataModel = pdfDataModel;
     }
 
-    public DataFilterForPdfCreationViewModel getDataFilterViewModel() {
-        return dataFilterViewModel;
-    }
+//    public DataFilterForPdfCreationViewModel getDataFilterViewModel() {
+//        return dataFilterViewModel;
+//    }
 }
