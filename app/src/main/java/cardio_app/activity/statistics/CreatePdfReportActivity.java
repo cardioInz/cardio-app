@@ -1,54 +1,74 @@
 package cardio_app.activity.statistics;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.Toast;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
-import cardio_app.databinding.ContentCreatePdfReportActivityBinding;
+import cardio_app.databinding.ActivityCreatePdfReportBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.statistics.pdf_creation.PdfAsyncWorkerCreator;
-import cardio_app.viewmodel.FileLocationViewModel;
+import cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel;
+import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 
 public class CreatePdfReportActivity extends AppCompatActivity {
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
+
+
 
     private DbHelper dbHelper;
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
-    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
-    private final FileLocationViewModel fileLocationViewModel = new FileLocationViewModel();
+    private DataFilterForPdfCreationViewModel dataFilterForPdfCreationViewModel = null;
+    private final PdfCreationViewModel pdfCreationViewModel = new PdfCreationViewModel();
 
     private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+    private static String DEFAULT_EMAIL_ADDR = "cardio.inzynierka@gmail.com";
+    private static String DEFAULT_PDF_NAME = "report_PDF"; // TODO name with some dates from -> to
 
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    private void correctVisibilities(boolean isSendOpt, boolean isSaveOpt) {
+        int sendVisib = isSendOpt ? View.VISIBLE : View.GONE;
+        int saveVisib = isSaveOpt ? View.VISIBLE : View.GONE;
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
+        Button saveBtn = (Button) findViewById(R.id.savePdfBtn);
+        Button sendBtn = (Button) findViewById(R.id.sendPdfBtn);
+        TableLayout saveTableLayout = (TableLayout) findViewById(R.id.create_pdf_save_mode_table_layout);
+        TableLayout sendTableLayout = (TableLayout) findViewById(R.id.create_pdf_send_mode_table_layout);
+
+        saveBtn.setVisibility(saveVisib);
+        sendBtn.setVisibility(sendVisib);
+        saveTableLayout.setVisibility(saveVisib);
+        sendTableLayout.setVisibility(sendVisib);
+    }
+
+    public void changePdfCreationMode(View view){
+        int id = view.getId();
+        switch (id){
+            case R.id.radio_pdf_save_btn:
+                pdfCreationViewModel.setSaveOpt(true);
+                correctVisibilities(false, true);
+//                refreshStatisticsView();
+                break;
+            case R.id.radio_pdf_send_btn:
+                pdfCreationViewModel.setSendEmailOpt(true);
+                correctVisibilities(true, false);
+//                refreshStatisticsView();
+                break;
+            default:
+                break;
         }
     }
 
@@ -58,40 +78,97 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_pdf_report);
 
         Intent intent = getIntent();
-        dataFilter = intent.getParcelableExtra("filterdata");
+        DataFilter df = intent.getParcelableExtra("filterdata");
 
-        fileLocationViewModel.setFileLocation(DEFAULT_LOCATION_FILE);
-        fileLocationViewModel.setFileName("reportPDF"); // TODO sth wrong with binding in this simple model
+        try {
+            String dateFrom = DataFilter.DATE_FORMATTER.format(getHelper().getFirstDateFromPressureDataTable());
+            String dateTo = DataFilter.DATE_FORMATTER.format(getHelper().getLastDateFromPressureDataTable());
+            dataFilterForPdfCreationViewModel = new DataFilterForPdfCreationViewModel(this, df, dateFrom, dateTo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataFilterForPdfCreationViewModel = new DataFilterForPdfCreationViewModel(this, new DataFilter(DEFAULT_DATA_FILTER), null, null);
+        }
 
-        ContentCreatePdfReportActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.content_create_pdf_report_activity);
-        binding.setDateFromStr(dataFilter.getDateFromStr());
-        binding.setDateToStr(dataFilter.getDateToStr());
-        binding.setFileLocVM(fileLocationViewModel);
+        pdfCreationViewModel.setLocationSave(DEFAULT_LOCATION_FILE);
+        pdfCreationViewModel.setFileName(DEFAULT_PDF_NAME); // TODO sth wrong with binding in this simple model
+        pdfCreationViewModel.setEmailAddr(DEFAULT_EMAIL_ADDR);
+
+        ActivityCreatePdfReportBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_pdf_report);
+        binding.setDatesFromFilter(dataFilterForPdfCreationViewModel);
+        binding.setPdfCreationVM(pdfCreationViewModel);
+
+        correctVisibilities(true, false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                DataFilter dataFilter = data.getParcelableExtra("filterdata");
+                if (dataFilter != null) {
+                    this.dataFilterForPdfCreationViewModel.setDataFilter(dataFilter);
+                }
+                refreshStatisticsView();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                refreshStatisticsView();
+            }
+        }
     }
 
     public void savePdf(View view){
         if (view.getId() != R.id.savePdfBtn){
             return;
         }
-        verifyStoragePermissions(this);
 
-        String locationFile = fileLocationViewModel.getFileLocation();
-        String fileName = fileLocationViewModel.getFileName();
+        String locationFile = pdfCreationViewModel.getLocationSave();
+        String fileName = pdfCreationViewModel.getFileName();
 
         if (locationFile == null || locationFile.isEmpty()) {
             Toast.makeText(this, getResources().getText(R.string.location_of_file_must_be_specified), Toast.LENGTH_LONG).show();
         } else if (fileName == null || fileName.isEmpty()){
             Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
         } else {
-            String fileLocationStr = String.format("%s/%s.pdf", locationFile, fileName);
-            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, fileLocationStr);
+            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, false, pdfCreationViewModel);
+            pdfAsyncWorkerCreator.execute();
+        }
+    }
+
+    public void sendPdf(View view) {
+        if (view.getId() != R.id.sendPdfBtn){
+            return;
+        }
+
+        String email = pdfCreationViewModel.getEmailAddr();
+        String attachedPdfFileName = pdfCreationViewModel.getFileName();
+
+        if (email == null || email.isEmpty()){
+            Toast.makeText(this, getResources().getText(R.string.email_addr_must_be_specified), Toast.LENGTH_LONG).show();
+        } else if (attachedPdfFileName == null || attachedPdfFileName.isEmpty()){
+            Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
+        } else {
+            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, true, pdfCreationViewModel);
             pdfAsyncWorkerCreator.execute();
         }
     }
 
 
     public void refreshStatisticsView() {
-        // if here will be some content that needs refresh
+//        TableLayout tableLayout = (TableLayout) findViewById(R.id.content_create_pdf_table_layout);
+//        invalidateAllRecursively(tableLayout);
+
+//        ContentCreatePdfReportActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.content_create_pdf_report_activity);
+//        binding.invalidateAll();
+//        binding.notifyChange();
+    }
+
+    private DbHelper getHelper() {
+        if (dbHelper == null) {
+            dbHelper = OpenHelperManager.getHelper(this, DbHelper.class);
+        }
+
+        return dbHelper;
     }
 
     @Override
@@ -111,7 +188,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.filter_data: {
+            case R.id.menu_item_filter_data: {
                 onFilterDataClick();
                 return true;
             }
@@ -123,26 +200,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
 
     private void onFilterDataClick() {
         Intent intent = new Intent(this, FilterActivity.class);
-        intent.putExtra("filterdata", dataFilter);
+        intent.putExtra("filterdata", dataFilterForPdfCreationViewModel.getDataFilter());
         startActivityForResult(intent, 1);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                DataFilter dataFilter = data.getParcelableExtra("filterdata");
-                if (dataFilter != null)
-                    this.dataFilter = dataFilter;
-                Toast.makeText(this, this.dataFilter.getFilterMsg(), Toast.LENGTH_LONG).show(); // TODO remove it
-                refreshStatisticsView();
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-//                dataFilter.setMode(DEFAULT_DATA_FILTER);
-                refreshStatisticsView();
-            }
-        }
     }
 }

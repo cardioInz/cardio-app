@@ -18,9 +18,9 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
-import cardio_app.filtering.Statistics;
-import cardio_app.statistics.StatisticMeasure;
-import cardio_app.statistics.StatisticMeasureTypeEnum;
+import cardio_app.statistics.Statistics;
+import cardio_app.statistics.analyse.StatisticMeasure;
+import cardio_app.statistics.analyse.StatisticMeasureTypeEnum;
 
 public class StatisticsLastMeasurementsActivity extends AppCompatActivity {
 

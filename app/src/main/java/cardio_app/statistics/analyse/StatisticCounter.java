@@ -1,4 +1,4 @@
-package cardio_app.statistics;
+package cardio_app.statistics.analyse;
 
 /**
  * Created by kisam on 15.11.2016.

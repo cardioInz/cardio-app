@@ -82,18 +82,17 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
 
     public List<PressureData> getAllOrderedPressureData() throws SQLException {
-        Dao<PressureData, Integer> dao = getDao(PressureData.class);
-        return getFilteredByDate(dao.queryBuilder(), "dateTime", false, null, null).query();
+        return getFilteredAndOrderedByDatePressureData(null, null);
     }
 
     public List<PressureData> getFilteredAndOrderedByDatePressureData(Date dateFrom, Date dateTo) throws SQLException {
         Dao<PressureData, Integer> dao = getDao(PressureData.class);
-        return getFilteredByDate(dao.queryBuilder(), "dateTime", false, dateFrom, dateTo).query();
+        return getFilteredByDate(dao.queryBuilder(), "dateTime", false, false, dateFrom, dateTo).query();
     }
 
-    private static Where getFilteredByDate(QueryBuilder queryBuilder, String columnName, boolean isOrderedNow, Date dateFrom, Date dateTo) throws SQLException {
+    private static Where getFilteredByDate(QueryBuilder queryBuilder, String columnName, boolean isOrderedNow, boolean isAscending, Date dateFrom, Date dateTo) throws SQLException {
 
-        QueryBuilder qb = isOrderedNow ? queryBuilder : queryBuilder.orderBy(columnName, false); // descending
+        QueryBuilder qb = isOrderedNow ? queryBuilder : queryBuilder.orderBy(columnName, isAscending);
 
         if (dateFrom != null && dateTo != null) {
             return qb.where().between(columnName, dateFrom, dateTo);
@@ -104,5 +103,19 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         } else {
             return qb.where().isNotNull(columnName);
         }
+    }
+
+    public Date getFirstDateFromPressureDataTable() throws Exception{
+        Dao<PressureData, Integer> dao = getDao(PressureData.class);
+        // descending date
+        PressureData pressureData = (PressureData) getFilteredByDate(dao.queryBuilder(), "dateTime", false, true, null, null).queryForFirst();
+        return pressureData.getDateTime();
+    }
+
+    public Date getLastDateFromPressureDataTable() throws Exception {
+        Dao<PressureData, Integer> dao = getDao(PressureData.class);
+        // ascending date
+        PressureData pressureData = (PressureData) getFilteredByDate(dao.queryBuilder(), "dateTime", false, false, null, null).queryForFirst();
+        return pressureData.getDateTime();
     }
 }

@@ -23,8 +23,6 @@ public class StatisticsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
-
-
     }
 
     public void moveToActivity(View view) {
@@ -47,7 +45,7 @@ public class StatisticsActivity extends AppCompatActivity {
             case R.id.create_pdf_btn:
                 Intent intentP = new Intent(this, CreatePdfReportActivity.class);
                 intentP.putExtra("filterdata", dataFilter);
-                startActivity(intentP);
+                startActivityForResult(intentP, 1);
                 break;
             default:
                 break;
@@ -76,11 +74,11 @@ public class StatisticsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.filter_data: {
+            case R.id.menu_item_filter_data: {
                 onFilterDataClick();
                 return true;
             }
-            case R.id.chart: {
+            case R.id.menu_item_chart: {
                 onChartClick();
                 return true;
             }
@@ -99,8 +97,10 @@ public class StatisticsActivity extends AppCompatActivity {
     private void onChartClick() {
         Intent intent = new Intent(this, ChartActivity.class);
         intent.putExtra("filterdata", dataFilter);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
