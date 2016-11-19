@@ -84,4 +84,12 @@
     <string name="chart">Chart</string>
     <string name="title_activity_chart">ChartActivity</string>
     <string name="title_statistics_charts">Chart</string>
+
+    <string name="label_axis_y">Pressure</string>
+    <string name="label_axis_x">Date</string>
+    <string name="chart_type_discrete">Discrete</string>
+    <string name="chart_type_continuous">Continuous</string>
+
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_title">Measurement</string>
 </resources>

@@ -1,19 +1,16 @@
 package cardio_app.activity.statistics;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import cardio_app.R;
@@ -21,10 +18,9 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering_and_statistics.DataFilter;
 import cardio_app.filtering_and_statistics.DataFilterModeEnum;
+import cardio_app.util.ChartBuilder;
 import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.Viewport;
@@ -33,13 +29,15 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class ChartActivity extends AppCompatActivity {
     private static final String TAG = ChartActivity.class.getName();
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
-    private static final long MILIS_IN_DAY = 24 * 3600 * 1000;
 
     private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
     private DbHelper dbHelper;
     private LineChartView lineChartView;
-    private int minDaysOnScreen = 2;
-    private int initialDaysOnScreen = 4;
+    List<PressureData> pressureList;
+    private ChartBuilder chartBuilder;
+
+    private float minDaysOnScreen = 1;
+    private float initialDaysOnScreen = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,65 +54,35 @@ public class ChartActivity extends AppCompatActivity {
 
         lineChartView = (LineChartView) findViewById(R.id.chart_view);
 
-        try {
-            List<PressureData> pressureList;
+        lineChartView.setZoomType(ZoomType.HORIZONTAL);
 
+        lineChartView.setOnValueTouchListener(new LineChartOnValueSelectListener() {
+            @Override
+            public void onValueSelected(int i, int i1, PointValue pointValue) {
+                if (pointValue instanceof CustomPointValue) {
+                    PressureData data = ((CustomPointValue) pointValue).getPressureData();
+
+                    DataDialog dialog = DataDialog.newInstance(data);
+
+                    dialog.show(getSupportFragmentManager(), "measerument");
+                }
+            }
+
+            @Override
+            public void onValueDeselected() {}
+        });
+
+        try {
             if (dataFilter.getMode().equals(DataFilterModeEnum.NO_FILTER)) {
                 pressureList = getHelper().getAllOrderedPressureData();
             } else {
                 pressureList = getHelper().getFilteredAndOrderedByDatePressureData(dataFilter.getDateFrom(), dataFilter.getDateTo());
             }
 
-            List<Line> lines = new ArrayList<>();
+            this.chartBuilder = new ChartBuilder(pressureList, getResources());
 
-            //each data is a single line
-            for (PressureData data : pressureList) {
-                List<PointValue> once = new ArrayList<>();
-                once.add(new PointValue(data.getDateTime().getTime(), data.getSystole()));
-                once.add(new PointValue(data.getDateTime().getTime(), data.getDiastole()));
-
-                lines.add(new Line(once).setColor(Color.RED));
-            }
-
-            long min = pressureList.get(pressureList.size()-1).getDateTime().getTime();
-            long max = pressureList.get(0).getDateTime().getTime();
-            long diff = max - min;
-            long days = diff / MILIS_IN_DAY;
-
-            lineChartView.setZoomType(ZoomType.HORIZONTAL);
-            lineChartView.setMaxZoom(days/minDaysOnScreen);
-
-            //x axis with formatted date
-            DateFormat simpleDateFormat = SimpleDateFormat.getDateInstance();
-            List<AxisValue> aList = new ArrayList<>();
-            Calendar calendar = Calendar.getInstance();
-            for (long a = min; a <= max; a += MILIS_IN_DAY) {
-                calendar.setTimeInMillis(a);
-                calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                String value = simpleDateFormat.format(new Date(calendar.getTimeInMillis()));
-                aList.add(new AxisValue(calendar.getTimeInMillis(), value.toCharArray()));
-            }
-
-            Axis axisY = new Axis()
-                    .setName("pressure")
-                    .setHasLines(true)
-                    .setAutoGenerated(true);
-
-            Axis axisX = new Axis()
-                    .setName("date")
-                    .setHasLines(true)
-                    .setMaxLabelChars(12)
-                    .setValues(aList);
-
-            LineChartData chartData = new LineChartData(lines);
-            chartData.setAxisYLeft(axisY);
-            chartData.setAxisXBottom(axisX);
-
-            lineChartView.setLineChartData(chartData);
-            Viewport viewport = lineChartView.getCurrentViewport();
-            lineChartView.setZoomLevel(viewport.centerX(), viewport.centerY(), days/initialDaysOnScreen);
+            changeType(ChartBuilder.ChartMode.DISCRETE);
+            lineChartView.setMaxZoom(chartBuilder.getDays()/minDaysOnScreen);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -136,5 +104,54 @@ public class ChartActivity extends AppCompatActivity {
         }
 
         return dbHelper;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_chart, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.chart_discrete: {
+                changeType(ChartBuilder.ChartMode.DISCRETE);
+                return true;
+            }
+            case R.id.chart_continuous: {
+                changeType(ChartBuilder.ChartMode.CONTINUOUS);
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+
+    private void changeType(ChartBuilder.ChartMode chartMode) {
+        LineChartData chartData = chartBuilder.setMode(chartMode).build();
+
+        lineChartView.setLineChartData(chartData);
+        Viewport viewport = lineChartView.getCurrentViewport();
+        lineChartView.setZoomLevel(viewport.centerX(), viewport.centerY(), chartBuilder.getDays() / initialDaysOnScreen);
+    }
+
+    public static class CustomPointValue extends PointValue {
+        private PressureData pressureData;
+
+        public CustomPointValue(float x, float y, PressureData pressureData) {
+            super(x, y);
+            this.pressureData = pressureData;
+        }
+
+        public PressureData getPressureData() {
+            return pressureData;
+        }
+
+        public void setPressureData(PressureData pressureData) {
+            this.pressureData = pressureData;
+        }
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/chart_discrete"
+        android:title="@string/chart_type_discrete"/>
+
+    <item
+        android:id="@+id/chart_continuous"
+        android:title="@string/chart_type_continuous"/>
+
+</menu>
