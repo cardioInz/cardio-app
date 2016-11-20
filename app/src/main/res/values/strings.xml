@@ -125,4 +125,6 @@
     <string name="save_it_locally">Save it locally</string>
     <string name="title_events_activity">Events</string>
     <string name="title_add_event">Add Event</string>
+
+    <string name="event_alert_title">Event</string>
 </resources>
