@@ -127,4 +127,7 @@
     <string name="title_add_event">Add Event</string>
 
     <string name="event_alert_title">Event</string>
+
+    <string name="toast_export">data exported</string>
+    <string name="export_error">cannot save file</string>
 </resources>

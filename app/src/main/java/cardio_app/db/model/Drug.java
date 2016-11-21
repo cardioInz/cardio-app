@@ -6,6 +6,10 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 @DatabaseTable
 public class Drug extends BaseModel implements Parcelable {
 
@@ -61,6 +65,16 @@ public class Drug extends BaseModel implements Parcelable {
         super(id);
         this.name = name;
         this.description = description;
+    }
+
+    public JSONObject convertToJson() throws JSONException {
+        JSONObject object = new JSONObject();
+
+        object.put("id", getId());
+        object.put("name", getName());
+        object.put("description", getDescription());
+
+        return object;
     }
 
     @Override

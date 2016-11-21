@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.Comparator;
 import java.util.Date;
@@ -143,6 +146,19 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         parcel.writeInt(pulse);
         parcel.writeString(arrhythmia ? PressureDataViewModel.ARRHYTHMIA_STR : PressureDataViewModel.NO_ARRHYTHMIA_STR);
         parcel.writeString(DateTimeViewModel.DATETIME_FORMATTER.format(dateTime));
+    }
+
+    public JSONObject convertToJson() throws JSONException {
+        JSONObject object = new JSONObject();
+
+        object.put("id", getId());
+        object.put("systole", getSystole());
+        object.put("diastole", getDiastole());
+        object.put("pulse", getPulse());
+        object.put("arrhythmia", isArrhythmia());
+        object.put("dateTime", DateTimeViewModel.DATETIME_FORMATTER.format(getDateTime()));
+
+        return object;
     }
 
     public HealthCondition getCondition() {

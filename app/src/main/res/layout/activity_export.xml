@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="path"
-            type="android.databinding.ObservableField"/>
+            name="view"
+            type="cardio_app.viewmodel.ImportExportViewModel"/>
     </data>
 
     <LinearLayout
@@ -23,21 +23,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@={path.get()}"/>
+            android:text="@={view.path}"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="change location"/>
+            android:text="change location"
+            android:onClick="onChangeLocationClick"/>
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@={view.fileName}"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/save"/>
+            android:text="@string/save"
+            android:onClick="onSaveClick"/>
 
     </LinearLayout>
 

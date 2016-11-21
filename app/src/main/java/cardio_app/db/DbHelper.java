@@ -11,6 +11,10 @@ import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
@@ -152,5 +156,26 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         // ascending date
         PressureData pressureData = (PressureData) getFilteredByDate(dao.queryBuilder(), "dateTime", false, false, null, null).queryForFirst();
         return pressureData.getDateTime();
+    }
+
+    public JSONObject exportToJson() throws SQLException, JSONException {
+        JSONArray drugs = new JSONArray();
+        List<Drug> drugList = getDao(Drug.class).queryForAll();
+        for (Drug drug : drugList) {
+            drugs.put(drug.convertToJson());
+        }
+
+        JSONArray pressures = new JSONArray();
+        List<PressureData> pressureDataList = getDao(PressureData.class).queryForAll();
+        for (PressureData pressure : pressureDataList) {
+            pressures.put(pressure.convertToJson());
+        }
+
+        JSONObject result = new JSONObject();
+
+        result.put("drugs", drugs);
+        result.put("pressures", pressures);
+
+        return result;
     }
 }

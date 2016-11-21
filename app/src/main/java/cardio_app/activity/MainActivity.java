@@ -16,6 +16,7 @@ import cardio_app.activity.statistics.CreatePdfReportActivity;
 import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
+import cardio_app.activity.util.ExportActivity;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -72,6 +73,11 @@ public class MainActivity extends AppCompatActivity{
 
     public void showEventsList(View view) {
         Intent intent = new Intent(this, EventActivity.class);
+        startActivity(intent);
+    }
+
+    public void showExportData(View view) {
+        Intent intent = new Intent(this, ExportActivity.class);
         startActivity(intent);
     }
 }
