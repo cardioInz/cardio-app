@@ -100,7 +100,8 @@
     <string name="location_of_file_must_be_specified">Location of file must be specified before creation.</string>
     <string name="filter_date_from">Date from:</string>
     <string name="filter_date_to">Date to:</string>
-    <string name="file_name">PDF File name:</string>
+    <string name="pdf_file_name">PDF File name:</string>
+    <string name="img_file_name">Image name:</string>
     <string name="file_location">File location:</string>
     <string name="name_of_file_must_be_specified">Name of file must be specified before creation</string>
     <string name="choose_location">Choose location</string>
@@ -130,4 +131,9 @@
 
     <string name="toast_export">data exported</string>
     <string name="export_error">cannot save file</string>
+    <string name="save_img_btn">SAVE AS IMAGE</string>
+    <string name="save_chart_view_as_image">Save your chart view as image</string>
+    <string name="title_activity_save_chart">Save chart</string>
+    <string name="chart_save_successfully">Chart saved successfully</string>
+    <string name="chart_has_not_been_saved">Chart has not been saved</string>
 </resources>

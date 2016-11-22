@@ -52,13 +52,23 @@ public class ChartBuilder {
         List<Line> lines = new ArrayList<>();
         switch (chartMode) {
             case DISCRETE: {
+                List<PointValue> diastoles = new ArrayList<>();
+                List<PointValue> systoles = new ArrayList<>();
+
+                List<Line> systoleToDiastoleList = new ArrayList<>();
                 for (PressureData entity : data) {
                     List<PointValue> once = new ArrayList<>();
                     once.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getSystole(), entity));
                     once.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getDiastole(), entity));
+                    systoleToDiastoleList.add(new Line(once).setColor(Color.RED));
 
-                    lines.add(new Line(once).setColor(Color.RED));
+                    diastoles.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getDiastole(), entity));
+                    systoles.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getSystole(), entity));
                 }
+
+                lines.addAll(systoleToDiastoleList);
+                lines.add(new Line(diastoles).setColor(Color.TRANSPARENT));
+                lines.add(new Line(systoles).setColor(Color.TRANSPARENT));
 
                 break;
             }
@@ -78,9 +88,13 @@ public class ChartBuilder {
             }
         }
 
-        long min = data.get(data.size()-1).getDateTime().getTime();
-        long max = data.get(0).getDateTime().getTime();
-        long diff = max - min;
+        long min = 0, max = 0, diff = 0;
+
+        if (data.size() > 0) {
+            min = data.get(data.size() - 1).getDateTime().getTime();
+            max = data.get(0).getDateTime().getTime();
+            diff = max - min;
+        }
         days = diff / MILLIS_IN_DAY;
 
         //x axis with formatted date

@@ -3,16 +3,14 @@ package cardio_app.viewmodel.pdf_creation;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import cardio_app.statistics.pdf_creation.PdfCreationDataModel;
+import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
 
 /**
  * Created by kisam on 17.11.2016.
  */
 
 public class PdfCreationViewModel extends BaseObservable {
-
-//    private DataFilterForPdfCreationViewModel dataFilterViewModel = new DataFilterForPdfCreationViewModel();
-    private PdfCreationDataModel pdfDataModel = new PdfCreationDataModel();
+    private PdfCreationDataParam pdfDataModel = new PdfCreationDataParam();
 
     public PdfCreationViewModel() {
         pdfDataModel.setSendEmailOpt(true); // by default "send email" redio button checkeds
@@ -67,15 +65,12 @@ public class PdfCreationViewModel extends BaseObservable {
         pdfDataModel.setSendEmailOpt(sendEmailOpt);
     }
 
-    public PdfCreationDataModel getPdfDataModel() {
+    public PdfCreationDataParam getPdfDataModel() {
         return pdfDataModel;
     }
 
-    public void setPdfDataModel(PdfCreationDataModel pdfDataModel) {
+    public void setPdfDataModel(PdfCreationDataParam pdfDataModel) {
         this.pdfDataModel = pdfDataModel;
     }
 
-//    public DataFilterForPdfCreationViewModel getDataFilterViewModel() {
-//        return dataFilterViewModel;
-//    }
 }

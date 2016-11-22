@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,26 +15,32 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import com.itextpdf.text.Image;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
 import cardio_app.databinding.ActivityCreatePdfReportBinding;
 import cardio_app.db.DbHelper;
+import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
-import cardio_app.statistics.pdf_creation.PdfAsyncWorkerCreator;
-import cardio_app.statistics.pdf_creation.PdfCreationDataModel;
+import cardio_app.pdf_creation.PdfCreatorAsyncWorker;
+import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
+import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
+import cardio_app.util.BitmapUtil;
 import cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel;
 import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 
 public class CreatePdfReportActivity extends AppCompatActivity {
-
+    private static final String TAG = CreatePdfReportActivity.class.toString();
     private DbHelper dbHelper;
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
-    private DataFilter dataFilter = new DataFilter();
+    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
     private DataFilterForPdfCreationViewModel dataFilterForPdfCreationViewModel = new DataFilterForPdfCreationViewModel();
     private final PdfCreationViewModel pdfCreationViewModel = new PdfCreationViewModel();
 
@@ -121,6 +128,10 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         }
     }
 
+    public PdfRecordsContainer getPdfRecordContainer(){
+        return new PdfRecordsContainer(getHelper(), dataFilter.getDateFrom(), dataFilter.getDateTo());
+    }
+
     public void savePdf(View view){
         if (view.getId() != R.id.savePdfBtn){
             return;
@@ -134,9 +145,10 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         } else if (fileName == null || fileName.isEmpty()){
             Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
         } else {
-            PdfCreationDataModel pdfDataModel = pdfCreationViewModel.getPdfDataModel();
-            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, false, pdfDataModel);
-            pdfAsyncWorkerCreator.execute();
+            PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
+            PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
+            PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, false, pdfDataModel, pdfRecordsContainer);
+            pdfCreatorAsyncWorker.execute();
         }
     }
 
@@ -153,20 +165,16 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         } else if (attachedPdfFileName == null || attachedPdfFileName.isEmpty()){
             Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
         } else {
-            PdfCreationDataModel pdfDataModel = pdfCreationViewModel.getPdfDataModel();
-            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, true, pdfDataModel);
-            pdfAsyncWorkerCreator.execute();
+            PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
+            PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
+            PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, true, pdfDataModel, pdfRecordsContainer);
+            pdfCreatorAsyncWorker.execute();
         }
     }
 
 
     public void refreshStatisticsView() {
-//        TableLayout tableLayout = (TableLayout) findViewById(R.id.content_create_pdf_table_layout);
-//        invalidateAllRecursively(tableLayout);
 
-//        ContentCreatePdfReportActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.content_create_pdf_report_activity);
-//        binding.invalidateAll();
-//        binding.notifyChange();
     }
 
     private DbHelper getHelper() {

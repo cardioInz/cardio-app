@@ -18,7 +18,10 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.pdf_creation.param_models.BitmapFromChart;
+import cardio_app.util.BitmapUtil;
 import cardio_app.util.ChartBuilder;
+import cardio_app.util.PermissionUtil;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.LineChartData;
@@ -124,6 +127,17 @@ public class ChartActivity extends AppCompatActivity {
                 changeType(ChartBuilder.ChartMode.CONTINUOUS);
                 return true;
             }
+            case R.id.menu_chart_item_save_view: {
+                BitmapFromChart bitmapFromChart = new BitmapFromChart(lineChartView, this.getResources()); // set bitmap inside
+                bitmapFromChart.setFileName("tmp_chart_from_view");
+                bitmapFromChart.setPath(PermissionUtil.getTmpDir(this));
+                bitmapFromChart.setExt(BitmapUtil.EXT_IMG.PNG);
+                BitmapUtil.saveBitmapToFile(bitmapFromChart);
+                Intent intent = new Intent(this, ChartSaveActivity.class);
+                intent.putExtra("bitmapFromChart", bitmapFromChart);
+                startActivity(intent);
+                return true;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
@@ -132,7 +146,6 @@ public class ChartActivity extends AppCompatActivity {
 
     private void changeType(ChartBuilder.ChartMode chartMode) {
         LineChartData chartData = chartBuilder.setMode(chartMode).build();
-
         lineChartView.setLineChartData(chartData);
         Viewport viewport = lineChartView.getCurrentViewport();
         lineChartView.setZoomLevel(viewport.centerX(), viewport.centerY(), chartBuilder.getDays() / initialDaysOnScreen);
@@ -154,4 +167,5 @@ public class ChartActivity extends AppCompatActivity {
             this.pressureData = pressureData;
         }
     }
+
 }
