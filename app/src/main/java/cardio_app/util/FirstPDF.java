@@ -1,4 +1,4 @@
-package cardio_app.pdf_creation.utils;
+package cardio_app.util;
 
 // source: http://www.vogella.com/tutorials/JavaPDF/article.html // TODO not use "copy-paste"-ed codes
 
@@ -38,11 +38,11 @@ public class FirstPDF {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
 
-    public static void createAndSavePdf(String fileLocation, Image image) {
-        makePdfFile(fileLocation, image);
+    public static void createAndSavePdf(String fileLocation, java.util.List<Image> imageList) {
+        makePdfFile(fileLocation, imageList);
     }
 
-    private static void makePdfFile(String fileLocation, Image image) {
+    private static void makePdfFile(String fileLocation, java.util.List<Image> imageList) {
 
         try {
             Document document = new Document();
@@ -52,7 +52,9 @@ public class FirstPDF {
             addTitlePage(document);
             addContent(document);
 
-            addChart(document, image);
+            for (Image image : imageList) {
+                addChart(document, image);
+            }
 
             document.close();
         } catch (Exception e) {

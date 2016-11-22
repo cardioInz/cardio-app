@@ -109,7 +109,7 @@
                     <Button android:text="@string/choose_location"/>
                     <Space android:layout_width="@dimen/statistic_min_space_width"
                         android:layout_height="@dimen/statistic_min_space_height"/>
-                    <TextView android:text="@string/file_name"
+                    <TextView android:text="@string/pdf_file_name"
                         android:textStyle="bold"
                         android:textSize="@dimen/statistic_header_size"/>
                     <EditText android:text="@={pdfCreationVM.fileName}"

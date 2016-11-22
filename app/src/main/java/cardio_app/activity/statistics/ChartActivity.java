@@ -1,7 +1,6 @@
 package cardio_app.activity.statistics;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,8 +18,10 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
-import cardio_app.pdf_creation.utils.ImageUtil;
+import cardio_app.pdf_creation.param_models.BitmapFromChart;
+import cardio_app.util.BitmapUtil;
 import cardio_app.util.ChartBuilder;
+import cardio_app.util.PermissionUtil;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.LineChartData;
@@ -127,7 +128,14 @@ public class ChartActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.menu_chart_item_save_view: {
-                Bitmap bm = ImageUtil.getBitmapFromChartView(lineChartView);
+                BitmapFromChart bitmapFromChart = new BitmapFromChart(lineChartView, this.getResources()); // set bitmap inside
+                bitmapFromChart.setFileName("tmp_chart_from_view");
+                bitmapFromChart.setPath(PermissionUtil.getTmpDir(this));
+                bitmapFromChart.setExt(BitmapUtil.EXT_IMG.PNG);
+                BitmapUtil.saveBitmapToFile(bitmapFromChart);
+                Intent intent = new Intent(this, ChartSaveActivity.class);
+                intent.putExtra("bitmapFromChart", bitmapFromChart);
+                startActivity(intent);
                 return true;
             }
             default: {

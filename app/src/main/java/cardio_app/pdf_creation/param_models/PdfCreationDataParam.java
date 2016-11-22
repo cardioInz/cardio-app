@@ -4,11 +4,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import cardio_app.db.model.BaseModel;
-import lecho.lib.hellocharts.view.AbstractChartView;
 import lecho.lib.hellocharts.view.LineChartView;
 
 import static android.content.ContentValues.TAG;
@@ -22,22 +20,14 @@ public class PdfCreationDataParam extends BaseModel {
     private String fileName;
     private boolean isSendEmailOpt;
     private String emailAddr;
-    private List<ImageFromChart> listOfImages = new ArrayList<>();
+    private List<BitmapFromChart> listOfImages = new ArrayList<>();
 
     public PdfCreationDataParam() {
 
     }
 
     public void sortImages(){
-        Collections.sort(listOfImages, ImageFromChart.getComparator());
-    }
-
-    public void addImageFromChart(LineChartView chartView){
-        ImageFromChart imageFromChart = new ImageFromChart(chartView);
-        if (imageFromChart.hasCompletedValues())
-            listOfImages.add(imageFromChart);
-        else
-            Log.w(TAG, "addImageFromChart: has not completed values");
+        Collections.sort(listOfImages, BitmapFromChart.getComparator());
     }
 
     public String getLocationSave() {

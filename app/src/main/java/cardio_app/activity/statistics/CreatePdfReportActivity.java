@@ -29,10 +29,10 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
-import cardio_app.pdf_creation.PdfAsyncWorkerCreator;
+import cardio_app.pdf_creation.PdfCreatorAsyncWorker;
 import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
-import cardio_app.pdf_creation.utils.ImageUtil;
+import cardio_app.util.BitmapUtil;
 import cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel;
 import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 
@@ -147,8 +147,8 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         } else {
             PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
             PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
-            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, false, pdfDataModel, pdfRecordsContainer);
-            pdfAsyncWorkerCreator.execute();
+            PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, false, pdfDataModel, pdfRecordsContainer);
+            pdfCreatorAsyncWorker.execute();
         }
     }
 
@@ -167,22 +167,11 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         } else {
             PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
             PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
-            PdfAsyncWorkerCreator pdfAsyncWorkerCreator = new PdfAsyncWorkerCreator(this, true, pdfDataModel, pdfRecordsContainer);
-            pdfAsyncWorkerCreator.execute();
+            PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, true, pdfDataModel, pdfRecordsContainer);
+            pdfCreatorAsyncWorker.execute();
         }
     }
 
-    private Image getChartImage() {
-        List<PressureData> pressureList = null;
-        try {
-            pressureList = getHelper().getFilteredAndOrderedByDatePressureData(dataFilter.getDateFrom(), dataFilter.getDateTo());
-            return ImageUtil.prepareChartImage(this, pressureList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Log.e(TAG, "refreshStatisticsView: ", e);
-            return null;
-        }
-    }
 
     public void refreshStatisticsView() {
 
