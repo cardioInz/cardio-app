@@ -126,14 +126,18 @@
     <string name="save_it_locally">Save it locally</string>
     <string name="title_events_activity">Events</string>
     <string name="title_add_event">Add Event</string>
-
     <string name="event_alert_title">Event</string>
 
-    <string name="toast_export">data exported</string>
-    <string name="export_error">cannot save file</string>
     <string name="save_img_btn">SAVE AS IMAGE</string>
     <string name="save_chart_view_as_image">Save your chart view as image</string>
     <string name="title_activity_save_chart">Save chart</string>
     <string name="chart_save_successfully">Chart saved successfully</string>
     <string name="chart_has_not_been_saved">Chart has not been saved</string>
+
+    <string name="toast_export">data exported</string>
+    <string name="export_error">cannot save file</string>
+
+    <string name="import_choose_file">choose file</string>
+    <string name="import_success">data saved</string>
+    <string name="import_error">cannot save data from this file</string>
 </resources>

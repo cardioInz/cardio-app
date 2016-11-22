@@ -151,7 +151,6 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
     public JSONObject convertToJson() throws JSONException {
         JSONObject object = new JSONObject();
 
-        object.put("id", getId());
         object.put("systole", getSystole());
         object.put("diastole", getDiastole());
         object.put("pulse", getPulse());
@@ -159,6 +158,16 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         object.put("dateTime", DateTimeViewModel.DATETIME_FORMATTER.format(getDateTime()));
 
         return object;
+    }
+
+    public static PressureData convert(JSONObject object) throws JSONException, ParseException {
+        int systole = object.getInt("systole");
+        int diastole = object.getInt("diastole");
+        int pulse = object.getInt("pulse");
+        boolean arrhythmia = object.getBoolean("arrhythmia");
+        Date date = DateTimeViewModel.DATETIME_FORMATTER.parse(object.getString("dateTime"));
+
+        return new PressureData(systole, diastole, pulse, arrhythmia, date);
     }
 
     public HealthCondition getCondition() {

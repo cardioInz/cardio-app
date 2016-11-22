@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -209,5 +210,30 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         result.put("pressures", pressures);
 
         return result;
+    }
+
+    public void importFromJson(JSONObject data) throws JSONException, SQLException, ParseException {
+        Dao<Drug, Integer> drugDao = getDao(Drug.class);
+        int drugsDeleted = drugDao.deleteBuilder().delete();
+        Log.d(TAG, "Delete " + drugsDeleted + " drugs");
+
+        Dao<PressureData, Integer> pressureDao = getDao(PressureData.class);
+        int pressureDeleted = pressureDao.deleteBuilder().delete();
+        Log.d(TAG, "Delete " + pressureDeleted + " pressures");
+
+        JSONArray drugs = data.getJSONArray("drugs");
+        JSONArray pressures = data.getJSONArray("pressures");
+
+        for (int i = 0; i < drugs.length(); i++) {
+            JSONObject drugObject = drugs.getJSONObject(i);
+            Drug drug = Drug.convert(drugObject);
+            drugDao.create(drug);
+        }
+
+        for (int i = 0; i < pressures.length(); i++) {
+            JSONObject pressureObject = pressures.getJSONObject(i);
+            PressureData pressureData = PressureData.convert(pressureObject);
+            pressureDao.create(pressureData);
+        }
     }
 }

@@ -70,11 +70,17 @@ public class Drug extends BaseModel implements Parcelable {
     public JSONObject convertToJson() throws JSONException {
         JSONObject object = new JSONObject();
 
-        object.put("id", getId());
         object.put("name", getName());
         object.put("description", getDescription());
 
         return object;
+    }
+
+    public static Drug convert(JSONObject object) throws JSONException {
+        String name = object.getString("name");
+        String description = object.getString("description");
+
+        return new Drug(name, description);
     }
 
     @Override

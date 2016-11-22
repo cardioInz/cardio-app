@@ -105,7 +105,8 @@
             android:id="@+id/button_import"
             android:layout_row="3"
             android:layout_column="1"
-            android:drawableTop="@drawable/import_ic"/>
+            android:drawableTop="@drawable/import_ic"
+            android:onClick="showImportData"/>
 
         <Button
             style="@style/MenuButton"
