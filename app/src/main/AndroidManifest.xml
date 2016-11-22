@@ -93,7 +93,8 @@
             android:name=".activity.events.EventActivity"
             android:label="@string/title_events_activity" />
         <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
-        <activity android:name=".activity.util.ExportActivity"></activity>
+        <activity android:name=".activity.util.ExportActivity" />
+        <activity android:name=".activity.util.ImportActivity" />
     </application>
 
 </manifest>

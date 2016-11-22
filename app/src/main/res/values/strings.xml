@@ -130,4 +130,8 @@
 
     <string name="toast_export">data exported</string>
     <string name="export_error">cannot save file</string>
+    <string name="import_choose_file">choose file</string>
+
+    <string name="import_success">data saved</string>
+    <string name="import_error">cannot save data from this file</string>
 </resources>
