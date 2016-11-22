@@ -22,6 +22,7 @@ import java.util.List;
 
 import cardio_app.db.model.Alarm;
 import cardio_app.db.model.AlarmDrug;
+import cardio_app.db.model.DailyActivitiesRecord;
 import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Drug;
 import cardio_app.db.model.Emotion;
@@ -77,10 +78,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         DoctorsAppointment da = new DoctorsAppointment(true, true, true, false, false);
         daoAppointment.create(da);
         Dao<Event, Integer> daoHp = getDao(Event.class);
-        Event e1 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), false, 0, "description1", null, Emotion.HAPPY, osr, da);
-        Event e2 = new Event(getDate(19, 10, 2016), getDate(20, 11, 2016), false,  0, "description2", null, Emotion.SAD, osr, da);
-        Event e3 = new Event(getDate(19, 10, 2016), getDate(19, 12, 2016), true,  2, "description3", TimeUnit.WEEK, Emotion.ANGRY, osr, da);
-        Event e4 = new Event(new Date(2016, 10, 20, 16, 0), new Date(2016, 10, 30), true, 1, "description4", TimeUnit.DAY, Emotion.CRYING, osr, da);
+        Event e1 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), false,  TimeUnit.NONE, 0, "description1", osr, Emotion.HAPPY,  da, DailyActivitiesRecord.DRIVING_CAR, false);
+        Event e2 = new Event(getDate(19, 10, 2016), getDate(20, 11, 2016), false,  TimeUnit.NONE, 0, "description2", osr, Emotion.SAD,  da, DailyActivitiesRecord.ARGUE, false);
+        Event e3 = new Event(getDate(19, 10, 2016), getDate(19, 12, 2016), true,  TimeUnit.WEEK, 2, "description3", osr, Emotion.ANGRY,  da, DailyActivitiesRecord.HOUSE_DUTIES, false);
+        Event e4 = new Event(new Date(2016, 10, 20, 16, 0), new Date(2016, 10, 30), true, TimeUnit.DAY, 1, "description4",  osr, Emotion.CRYING,  da, DailyActivitiesRecord.PARTY, false);
         daoHp.create(e1);
         daoHp.create(e2);
         daoHp.create(e3);
@@ -122,6 +123,15 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     public List<PressureData> getAllOrderedPressureData() throws SQLException {
         return getFilteredAndOrderedByDatePressureData(null, null);
+    }
+
+    public List<Event> getAllOrderedEventData() throws SQLException {
+        return getFilteredAndOrderedByDateEvent(null, null);
+    }
+
+    public List<Event> getFilteredAndOrderedByDateEvent(Date dateFrom, Date dateTo) throws SQLException {
+        Dao<Event, Integer> dao = getDao(Event.class);
+        return getFilteredByDate(dao.queryBuilder(), "startDate", false, false, dateFrom, dateTo).query();
     }
 
     public List<PressureData> getFilteredAndOrderedByDatePressureData(Date dateFrom, Date dateTo) throws SQLException {
