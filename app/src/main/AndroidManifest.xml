@@ -88,10 +88,12 @@
             android:label="@string/title_statistics_charts" />
         <activity
             android:name=".activity.events.AddEventActivity"
-            android:label="@string/title_add_event"/>
+            android:label="@string/title_add_event" />
         <activity
             android:name=".activity.events.EventActivity"
-            android:label="@string/title_events_activity"/>
+            android:label="@string/title_events_activity" />
+        <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
+        <activity android:name=".activity.util.ExportActivity"></activity>
     </application>
 
 </manifest>

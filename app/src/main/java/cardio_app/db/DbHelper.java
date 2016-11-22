@@ -11,6 +11,10 @@ import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,20 +71,21 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private void initEventData() throws SQLException {
-            Dao<OtherSymptomsRecord, Integer> daoOtherS = getDao(OtherSymptomsRecord.class);
-            OtherSymptomsRecord osr = new OtherSymptomsRecord(true, true, true, false, false);
-            daoOtherS.create(osr);
-            Dao<DoctorsAppointment, Integer> daoAppointment = getDao(DoctorsAppointment.class);
-            DoctorsAppointment da = new DoctorsAppointment(true, true, true, false, false);
-            daoAppointment.create(da);
-            Dao<Event, Integer> daoHp = getDao(Event.class);
-            Event e1 = new Event(getDate(19, 11, 2016), getDate(19, 11, 2016), false, 0, "description1", null, Emotion.HAPPY, osr, da);
-            Event e2 = new Event(getDate(19, 11, 2016), getDate(20, 11, 2016), false,  0, "description2", null, Emotion.SAD, osr, da);
-            Event e3 = new Event(getDate(19, 11, 2016), getDate(19, 12, 2016), true,  2, "description3", TimeUnit.WEEK, Emotion.ANGRY, osr, da);
-            daoHp.create(e1);
-            daoHp.create(e2);
-            daoHp.create(e3);
-
+        Dao<OtherSymptomsRecord, Integer> daoOtherS = getDao(OtherSymptomsRecord.class);
+        OtherSymptomsRecord osr = new OtherSymptomsRecord(true, true, true, false, false);
+        daoOtherS.create(osr);
+        Dao<DoctorsAppointment, Integer> daoAppointment = getDao(DoctorsAppointment.class);
+        DoctorsAppointment da = new DoctorsAppointment(true, true, true, false, false);
+        daoAppointment.create(da);
+        Dao<Event, Integer> daoHp = getDao(Event.class);
+        Event e1 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), false, 0, "description1", null, Emotion.HAPPY, osr, da);
+        Event e2 = new Event(getDate(19, 10, 2016), getDate(20, 11, 2016), false,  0, "description2", null, Emotion.SAD, osr, da);
+        Event e3 = new Event(getDate(19, 10, 2016), getDate(19, 12, 2016), true,  2, "description3", TimeUnit.WEEK, Emotion.ANGRY, osr, da);
+        Event e4 = new Event(new Date(2016, 10, 20, 16, 0), new Date(2016, 10, 30), true, 1, "description4", TimeUnit.DAY, Emotion.CRYING, osr, da);
+        daoHp.create(e1);
+        daoHp.create(e2);
+        daoHp.create(e3);
+        daoHp.create(e4);
     }
 
     private String getStringFromClassArray(ArrayList<Class> array) {
@@ -183,5 +188,26 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         // ascending date
         PressureData pressureData = (PressureData) getFilteredByDate(dao.queryBuilder(), "dateTime", false, false, null, null).queryForFirst();
         return pressureData.getDateTime();
+    }
+
+    public JSONObject exportToJson() throws SQLException, JSONException {
+        JSONArray drugs = new JSONArray();
+        List<Drug> drugList = getDao(Drug.class).queryForAll();
+        for (Drug drug : drugList) {
+            drugs.put(drug.convertToJson());
+        }
+
+        JSONArray pressures = new JSONArray();
+        List<PressureData> pressureDataList = getDao(PressureData.class).queryForAll();
+        for (PressureData pressure : pressureDataList) {
+            pressures.put(pressure.convertToJson());
+        }
+
+        JSONObject result = new JSONObject();
+
+        result.put("drugs", drugs);
+        result.put("pressures", pressures);
+
+        return result;
     }
 }

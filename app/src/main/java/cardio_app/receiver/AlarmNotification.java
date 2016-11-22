@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import cardio_app.activity.MainActivity;
+import cardio_app.service.SetAlarmService;
 
 import static cardio_app.util.IntentContentUtil.*;
 
@@ -37,5 +38,11 @@ public class AlarmNotification extends BroadcastReceiver {
 
         Log.wtf("Notify", "Set new notification");
         nm.notify(id, builder.build());
+
+        Intent returnIntent = new Intent(context, SetAlarmService.class);
+        intent.setAction("UPDATE");
+        intent.putExtra("eventId", id);
+
+        context.startService(returnIntent);
     }
 }
