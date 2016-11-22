@@ -1,4 +1,4 @@
-package cardio_app.statistics.pdf_creation;
+package cardio_app.pdf_creation;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.itextpdf.text.Image;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,12 +27,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import cardio_app.R;
+import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
+import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
+import cardio_app.pdf_creation.utils.FirstPDF;
+import cardio_app.pdf_creation.utils.ImageUtil;
 
 /**
  * Created by kisam on 18.11.2016.
  */
 
 public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
+    private PdfRecordsContainer pdfRecordsContainer;
     private AppCompatActivity contextActivity = null;
     private static final String EXT = ".pdf";
     private Boolean isSendEmailMode = null;
@@ -42,8 +49,12 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
     private String DEFAULT_SUBJECT;
     private String DEFAULT_BODY;
 
-    public PdfAsyncWorkerCreator(AppCompatActivity contextActivity, boolean isSendEmailMode, PdfCreationDataModel pdfDataModel) {
+    public PdfAsyncWorkerCreator(AppCompatActivity contextActivity,
+                                 boolean isSendEmailMode,
+                                 PdfCreationDataParam pdfDataModel,
+                                 PdfRecordsContainer pdfRecordsContainer) {
         super();
+        this.pdfRecordsContainer = pdfRecordsContainer;
         this.contextActivity = contextActivity;
         this.isSendEmailMode = isSendEmailMode;
 
@@ -51,7 +62,6 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
 
         if (isSendEmailMode){
             location = LOCALE_APP_TMP_DIR;
-//            location = pdfDataModel.getLocationSave();
             emailAddr = pdfDataModel.getEmailAddr();
         } else {
             location = pdfDataModel.getLocationSave();
@@ -85,7 +95,6 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(result);
 
         if (file.exists()) {
-
             if (isSendEmailMode){
                 file.setReadable(true, false);
                 writeToExternal(contextActivity, filename);
@@ -115,7 +124,11 @@ public class PdfAsyncWorkerCreator extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         if (verifyFileNameAndLocation()){
             String absolutePathStr = file.getAbsolutePath();
-            FirstPDF.createAndSavePdf(absolutePathStr);
+
+            // TODO chart as image
+            Image image = ImageUtil.prepareChartImage(contextActivity, pdfRecordsContainer.getPressureDatas());
+
+            FirstPDF.createAndSavePdf(absolutePathStr, image);
         }
         return null;
     }

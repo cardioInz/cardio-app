@@ -1,6 +1,7 @@
 package cardio_app.activity.statistics;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +19,7 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.pdf_creation.utils.ImageUtil;
 import cardio_app.util.ChartBuilder;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
@@ -124,6 +126,10 @@ public class ChartActivity extends AppCompatActivity {
                 changeType(ChartBuilder.ChartMode.CONTINUOUS);
                 return true;
             }
+            case R.id.menu_chart_item_save_view: {
+                Bitmap bm = ImageUtil.getBitmapFromChartView(lineChartView);
+                return true;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
@@ -132,7 +138,6 @@ public class ChartActivity extends AppCompatActivity {
 
     private void changeType(ChartBuilder.ChartMode chartMode) {
         LineChartData chartData = chartBuilder.setMode(chartMode).build();
-
         lineChartView.setLineChartData(chartData);
         Viewport viewport = lineChartView.getCurrentViewport();
         lineChartView.setZoomLevel(viewport.centerX(), viewport.centerY(), chartBuilder.getDays() / initialDaysOnScreen);
@@ -154,4 +159,5 @@ public class ChartActivity extends AppCompatActivity {
             this.pressureData = pressureData;
         }
     }
+
 }

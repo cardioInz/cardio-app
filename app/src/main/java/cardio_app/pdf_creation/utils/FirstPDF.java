@@ -1,4 +1,4 @@
-package cardio_app.statistics.pdf_creation;
+package cardio_app.pdf_creation.utils;
 
 // source: http://www.vogella.com/tutorials/JavaPDF/article.html // TODO not use "copy-paste"-ed codes
 
@@ -12,6 +12,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.List;
 import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
@@ -37,11 +38,12 @@ public class FirstPDF {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
 
-    public static void createAndSavePdf(String fileLocation) {
-        makePdfFile(fileLocation);
+    public static void createAndSavePdf(String fileLocation, Image image) {
+        makePdfFile(fileLocation, image);
     }
 
-    private static void makePdfFile(String fileLocation) {
+    private static void makePdfFile(String fileLocation, Image image) {
+
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
@@ -49,12 +51,24 @@ public class FirstPDF {
             addMetaData(document);
             addTitlePage(document);
             addContent(document);
+
+            addChart(document, image);
+
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "makePdfFile: eror while trying to create/save pdf report", e);
+            Log.e(TAG, "makePdfFile: error while trying to create/save pdf report", e);
         }
     }
+
+    private static void addChart(Document document, Image image) throws DocumentException {
+        if (image != null)
+            document.add(image);
+        else
+            Log.e(TAG, "addChart: image = null");
+    }
+
+
 
     // iText allows to add metadata to the PDF which can be viewed in your Adobe
     // Reader

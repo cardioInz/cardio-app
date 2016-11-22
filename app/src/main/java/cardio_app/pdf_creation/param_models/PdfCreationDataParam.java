@@ -1,23 +1,43 @@
-package cardio_app.statistics.pdf_creation;
+package cardio_app.pdf_creation.param_models;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import cardio_app.db.model.BaseModel;
+import lecho.lib.hellocharts.view.AbstractChartView;
+import lecho.lib.hellocharts.view.LineChartView;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by kisam on 19.11.2016.
  */
 
-public class PdfCreationDataModel extends BaseModel {
+public class PdfCreationDataParam extends BaseModel {
     private String locationSave;
     private String fileName;
     private boolean isSendEmailOpt;
     private String emailAddr;
-    private Date dateFrom = null;
-    private Date dateTo = null;
+    private List<ImageFromChart> listOfImages = new ArrayList<>();
 
-    public PdfCreationDataModel() {
+    public PdfCreationDataParam() {
 
+    }
+
+    public void sortImages(){
+        Collections.sort(listOfImages, ImageFromChart.getComparator());
+    }
+
+    public void addImageFromChart(LineChartView chartView){
+        ImageFromChart imageFromChart = new ImageFromChart(chartView);
+        if (imageFromChart.hasCompletedValues())
+            listOfImages.add(imageFromChart);
+        else
+            Log.w(TAG, "addImageFromChart: has not completed values");
     }
 
     public String getLocationSave() {
@@ -51,22 +71,4 @@ public class PdfCreationDataModel extends BaseModel {
     public void setEmailAddr(String emailAddr) {
         this.emailAddr = emailAddr;
     }
-
-    public Date getDateFrom() {
-        return dateFrom;
-    }
-
-    public void setDateFrom(Date dateFrom) {
-        this.dateFrom = dateFrom;
-    }
-
-    public Date getDateTo() {
-        return dateTo;
-    }
-
-    public void setDateTo(Date dateTo) {
-        this.dateTo = dateTo;
-    }
-
-
 }
