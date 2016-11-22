@@ -140,4 +140,6 @@
     <string name="import_choose_file">choose file</string>
     <string name="import_success">data saved</string>
     <string name="import_error">cannot save data from this file</string>
+    <string name="label_export_data">Export Data</string>
+    <string name="label_import_data">Import Data</string>
 </resources>
