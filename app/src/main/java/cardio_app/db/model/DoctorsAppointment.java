@@ -79,6 +79,14 @@ public class DoctorsAppointment extends BaseModel implements Parcelable{
         isFlu = flu;
     }
 
+    public boolean isDoctorsAppointment(){
+        return isRoutineCheck ||
+                isEmergency ||
+                isFlu ||
+                isForPrescription ||
+                isExamination;
+    }
+
     private DoctorsAppointment(Parcel in) {
         setId(in.readInt());
         isRoutineCheck = in.readByte() != 0;
