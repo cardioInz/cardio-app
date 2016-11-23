@@ -1,6 +1,7 @@
 package cardio_app.activity.statistics;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Environment;
@@ -16,8 +17,10 @@ import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import java.io.File;
 import java.util.Date;
 
+import ar.com.daidalos.afiledialog.FileChooserDialog;
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
 import cardio_app.databinding.ActivityCreatePdfReportBinding;
@@ -27,6 +30,7 @@ import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.pdf_creation.PdfCreatorAsyncWorker;
 import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
+import cardio_app.util.PermissionUtil;
 import cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel;
 import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 
@@ -40,7 +44,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
 
     private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
     private static String DEFAULT_EMAIL_ADDR = "cardio.inzynierka@gmail.com";
-    private static String DEFAULT_PDF_NAME = "report_PDF_TEST"; // TODO name with some dates from -> to
+    private static String DEFAULT_PDF_NAME = "report"; // TODO name with some dates from -> to
 
     private void correctVisibilities(boolean isSendOpt, boolean isSaveOpt) {
         int sendVisib = isSendOpt ? View.VISIBLE : View.GONE;
@@ -92,7 +96,6 @@ public class CreatePdfReportActivity extends AppCompatActivity {
             dataFilterForPdfCreationViewModel.setDatesBoundary(null, null);
         }
 
-        // TODO sth wrong with binding in this simple model
         pdfCreationViewModel.setLocationSave(DEFAULT_LOCATION_FILE);
         pdfCreationViewModel.setFileName(DEFAULT_PDF_NAME);
         pdfCreationViewModel.setEmailAddr(DEFAULT_EMAIL_ADDR);
@@ -127,42 +130,68 @@ public class CreatePdfReportActivity extends AppCompatActivity {
     }
 
     public void savePdf(View view){
-        if (view.getId() != R.id.savePdfBtn){
-            return;
-        }
+        if (PermissionUtil.isStoragePermissionGranted(this)) {
+            if (view.getId() != R.id.savePdfBtn) {
+                return;
+            }
 
-        String locationFile = pdfCreationViewModel.getLocationSave();
-        String fileName = pdfCreationViewModel.getFileName();
+            String locationFile = pdfCreationViewModel.getLocationSave();
+            String fileName = pdfCreationViewModel.getFileName();
 
-        if (locationFile == null || locationFile.isEmpty()) {
-            Toast.makeText(this, getResources().getText(R.string.location_of_file_must_be_specified), Toast.LENGTH_LONG).show();
-        } else if (fileName == null || fileName.isEmpty()){
-            Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
-        } else {
-            PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
-            PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
-            PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, false, pdfDataModel, pdfRecordsContainer);
-            pdfCreatorAsyncWorker.execute();
+            if (locationFile == null || locationFile.isEmpty()) {
+                Toast.makeText(this, getResources().getText(R.string.location_of_file_must_be_specified), Toast.LENGTH_LONG).show();
+            } else if (fileName == null || fileName.isEmpty()) {
+                Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
+            } else {
+                PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
+                PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
+                PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, false, pdfDataModel, pdfRecordsContainer);
+                pdfCreatorAsyncWorker.execute();
+            }
         }
     }
 
     public void sendPdf(View view) {
-        if (view.getId() != R.id.sendPdfBtn){
-            return;
+        if (PermissionUtil.isStoragePermissionGranted(this)) {
+            if (view.getId() != R.id.sendPdfBtn) {
+                return;
+            }
+
+            String email = pdfCreationViewModel.getEmailAddr();
+            String attachedPdfFileName = pdfCreationViewModel.getFileName();
+
+            if (email == null || email.isEmpty()) {
+                Toast.makeText(this, getResources().getText(R.string.email_addr_must_be_specified), Toast.LENGTH_LONG).show();
+            } else if (attachedPdfFileName == null || attachedPdfFileName.isEmpty()) {
+                Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
+            } else {
+                PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
+                PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
+                PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, true, pdfDataModel, pdfRecordsContainer);
+                pdfCreatorAsyncWorker.execute();
+            }
         }
+    }
 
-        String email = pdfCreationViewModel.getEmailAddr();
-        String attachedPdfFileName = pdfCreationViewModel.getFileName();
+    public void onChangeLocationClick_InCreatePdfReportActivity(View view) {
+        if (PermissionUtil.isStoragePermissionGranted(this)) {
+            FileChooserDialog dialog = new FileChooserDialog(this, pdfCreationViewModel.getLocationSave());
+            dialog.setFolderMode(true);
+            dialog.addListener(new FileChooserDialog.OnFileSelectedListener() {
 
-        if (email == null || email.isEmpty()){
-            Toast.makeText(this, getResources().getText(R.string.email_addr_must_be_specified), Toast.LENGTH_LONG).show();
-        } else if (attachedPdfFileName == null || attachedPdfFileName.isEmpty()){
-            Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
-        } else {
-            PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
-            PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
-            PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, true, pdfDataModel, pdfRecordsContainer);
-            pdfCreatorAsyncWorker.execute();
+                @Override
+                public void onFileSelected(Dialog source, File file) {
+                    pdfCreationViewModel.setLocationSave(file.getPath());
+                    pdfCreationViewModel.notifyChange();
+                    source.hide();
+                }
+
+                @Override
+                public void onFileSelected(Dialog source, File folder, String name) {
+
+                }
+            });
+            dialog.show();
         }
     }
 

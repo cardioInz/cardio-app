@@ -29,6 +29,7 @@ import ar.com.daidalos.afiledialog.FileChooserDialog;
 import cardio_app.R;
 import cardio_app.databinding.ActivityImportBinding;
 import cardio_app.db.DbHelper;
+import cardio_app.util.PermissionUtil;
 import cardio_app.viewmodel.ImportExportViewModel;
 
 public class ImportActivity extends AppCompatActivity {
@@ -47,7 +48,7 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     public void onChooseFileClick(View view) {
-        if (isStoragePermissionGranted()) {
+        if (PermissionUtil.isStoragePermissionGranted(this)) {
             FileChooserDialog dialog = new FileChooserDialog(this);
             dialog.addListener(new FileChooserDialog.OnFileSelectedListener() {
                 @Override
@@ -85,7 +86,7 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     public void onSaveClick(View view) {
-        if (isStoragePermissionGranted()) {
+        if (PermissionUtil.isStoragePermissionGranted(this)) {
             BufferedReader in = null;
             StringBuilder builder = new StringBuilder();
             boolean success = true;
@@ -115,25 +116,6 @@ public class ImportActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, getResources().getString(R.string.import_error), Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private boolean isStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG,"Permission is granted");
-                return true;
-            } else {
-
-                Log.v(TAG,"Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                return false;
-            }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG,"Permission is granted");
-            return true;
         }
     }
 }

@@ -87,17 +87,17 @@
                             android:text="@={pdfCreationVM.chartsListSize}"/>
                     </TableRow>
 
-                    <Space
-                        android:layout_width="@dimen/statistic_min_space_width"
-                        android:layout_height="@dimen/statistic_min_space_height"/>
-                    <Button
-                        android:text="@string/get_charts"
-                        android:id="@+id/get_chart_btn"
-                        android:onClick="getChartsOnClick"
-                        />
-
                 </TableLayout>
 
+                <Space
+                    android:layout_width="@dimen/statistic_min_space_width"
+                    android:layout_height="@dimen/statistic_min_space_height"/>
+                <Button
+                    android:text="@string/get_charts"
+                    android:id="@+id/get_chart_btn"
+                    android:onClick="getChartsOnClick"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent" />
 
                 <Space android:layout_width="@dimen/statistic_min_space_width"
                     android:layout_height="@dimen/statistic_min_space_height"/>
@@ -142,7 +142,8 @@
                         android:textSize="@dimen/statistic_header_size"/>
                     <TextView android:text="@={pdfCreationVM.locationSave}"
                         android:layout_gravity="fill"/>
-                    <Button android:text="@string/choose_location"/>
+                    <Button android:text="@string/choose_location"
+                        android:onClick="onChangeLocationClick_InCreatePdfReportActivity"/>
                     <Space android:layout_width="@dimen/statistic_min_space_width"
                         android:layout_height="@dimen/statistic_min_space_height"/>
                     <TextView android:text="@string/pdf_file_name"

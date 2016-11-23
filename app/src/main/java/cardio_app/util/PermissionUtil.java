@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 
 public class PermissionUtil {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final String TAG = PermissionUtil.class.toString();
     private static String[] PERMISSIONS_REQUIRED = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -30,26 +33,28 @@ public class PermissionUtil {
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
 
-        ArrayList<String> wantThisPermissionsList = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= 23) {
+            ArrayList<String> wantThisPermissionsList = new ArrayList<>();
 
-        for (String perm : PERMISSIONS_REQUIRED) {
-            int permissionState = ActivityCompat.checkSelfPermission(activity, perm);
-            if (permissionState != PackageManager.PERMISSION_GRANTED) {
-                // We don't have permission so prompt the user
-                wantThisPermissionsList.add(perm);
+            for (String perm : PERMISSIONS_REQUIRED) {
+                int permissionState = ActivityCompat.checkSelfPermission(activity, perm);
+                if (permissionState != PackageManager.PERMISSION_GRANTED) {
+                    // We don't have permission so prompt the user
+                    wantThisPermissionsList.add(perm);
+                }
             }
+
+            if (wantThisPermissionsList.isEmpty())
+                return;
+
+            activity.runOnUiThread(() -> {
+                ActivityCompat.requestPermissions(
+                        activity,
+                        PERMISSIONS_REQUIRED,
+                        REQUEST_EXTERNAL_STORAGE
+                );
+            });
         }
-
-        if (wantThisPermissionsList.isEmpty())
-            return;
-
-        activity.runOnUiThread(() -> {
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_REQUIRED,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        });
     }
 
 
@@ -79,5 +84,26 @@ public class PermissionUtil {
     public static String getTmpDir(Context context){
         // TODO make sure that is correct dir for tmp files (shared between activities)
         return context.getFilesDir().getAbsolutePath();
+    }
+
+
+
+    public static boolean isStoragePermissionGranted(AppCompatActivity activity) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (activity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
+
+                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG,"Permission is granted");
+            return true;
+        }
     }
 }

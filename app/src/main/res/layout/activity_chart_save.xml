@@ -58,7 +58,8 @@
                         android:textSize="@dimen/statistic_header_size"/>
                     <TextView android:text="@={bitmapFromChart.path}"
                         android:layout_gravity="fill"/>
-                    <Button android:text="@string/choose_location"/>
+                    <Button android:text="@string/choose_location"
+                        android:onClick="onChangeLocationClick_InSaveChartActivity"/>
                     <Space android:layout_width="@dimen/statistic_min_space_width"
                         android:layout_height="@dimen/statistic_min_space_height"/>
                     <TextView android:text="@string/img_file_name"
