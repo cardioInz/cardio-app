@@ -89,4 +89,12 @@ public class PdfCreationViewModel extends BaseObservable {
     public void setChartsListSize(String size){
         // pass
     }
+
+    public void setListImages(List<BitmapFromChart> listImages){
+        pdfDataModel.setListOfImages(listImages);
+    }
+
+    public List<BitmapFromChart> getListImages(){
+        return pdfDataModel.listOfBitmapsFromCharts();
+    }
 }

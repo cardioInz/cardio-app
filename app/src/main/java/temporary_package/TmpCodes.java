@@ -40,7 +40,7 @@ class TmpCodes {
 //            return getImageFromAbstractCharView_vol2(lineChartView);
 //        } catch (Exception e) {
 //            e.printStackTrace();
-//            Log.e(TAG, "refreshStatisticsView: ", e);
+//            Log.e(TAG, "refreshContentView: ", e);
 //            return null;
 //        }
 //    }

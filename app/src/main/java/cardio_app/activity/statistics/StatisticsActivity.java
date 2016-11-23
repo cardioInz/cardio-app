@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
+import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
 
@@ -68,6 +69,11 @@ public class StatisticsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_filter_data, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.menu_item_chart);
+        menuItem.setEnabled(false);
+        menuItem.setVisible(false);
+
         return true;
     }
 

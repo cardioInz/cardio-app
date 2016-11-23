@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:contextActivity="cardio_app.activity.statistics.CreatePdfReportActivity">
+        tools:contextActivity="cardio_app.activity.pdf_creation.CreatePdfReportActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                     <TableRow>
                         <TextView
                             android:textSize="@dimen/statistic_header_size"
-                            android:text="@string/selected"
+                            android:text="@string/nr_of_chosen_charts"
                             android:textStyle="bold"
                             />
                         <Space
@@ -84,6 +84,7 @@
                             android:layout_height="@dimen/statistic_min_space_height"/>
                         <TextView
                             android:textSize="@dimen/statistic_header_size"
+                            android:id="@+id/chosen_charts_cnt_text_view"
                             android:text="@={pdfCreationVM.chartsListSize}"/>
                     </TableRow>
 

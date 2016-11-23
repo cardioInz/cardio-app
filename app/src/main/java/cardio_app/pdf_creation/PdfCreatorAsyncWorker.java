@@ -97,7 +97,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
                 file = PermissionUtil.writeFromContextFilesDirToExternal(contextActivity, filename);
                 sendEmail();
                 try {
-                    file.deleteOnExit();
+                    file.delete();
                 } catch (Exception e){
                     // silent
                 }
