@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,24 +14,19 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
-import com.itextpdf.text.Image;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
 import cardio_app.databinding.ActivityCreatePdfReportBinding;
 import cardio_app.db.DbHelper;
-import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.pdf_creation.PdfCreatorAsyncWorker;
 import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
-import cardio_app.util.BitmapUtil;
 import cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel;
 import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 
@@ -216,5 +210,10 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FilterActivity.class);
         intent.putExtra("filterdata", dataFilterForPdfCreationViewModel.getDataFilter());
         startActivityForResult(intent, 1);
+    }
+
+    public void getChartsOnClick(View view) {
+        Intent intent = new Intent(this, CollectedChartsActivity.class);
+        startActivity(intent);
     }
 }

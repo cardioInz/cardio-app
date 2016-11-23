@@ -1,11 +1,12 @@
 package cardio_app.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.GridLayout;
 
 import cardio_app.R;
 import cardio_app.activity.alert.AlertsActivity;
@@ -20,15 +21,33 @@ import cardio_app.activity.util.ExportActivity;
 import cardio_app.activity.util.ImportActivity;
 
 public class MainActivity extends AppCompatActivity{
+    private GridLayout gridLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        gridLayout = (GridLayout) findViewById(R.id.menu_grid_layout);
+        gridLayout.setColumnCount(3);
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // TODO why the code below doesn't change number of
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridLayout.setColumnCount(3);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            gridLayout.setColumnCount(4);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_UNDEFINED) {
+            return;
+        }
+
+        gridLayout.invalidate();
+        gridLayout.refreshDrawableState();
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

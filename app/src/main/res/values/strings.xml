@@ -143,4 +143,8 @@
     <string name="import_error">cannot save data from this file</string>
     <string name="label_export_data">Export Data</string>
     <string name="label_import_data">Import Data</string>
+    <string name="choose_charts_to_attach_to_pdf">Choose charts to attach to PDF</string>
+    <string name="selected">Selected:</string>
+    <string name="get_charts">Get Charts</string>
+    <string name="title_activity_collected_charts">Sollected Charts</string>
 </resources>

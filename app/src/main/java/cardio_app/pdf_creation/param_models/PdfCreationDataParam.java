@@ -61,4 +61,12 @@ public class PdfCreationDataParam extends BaseModel {
     public void setEmailAddr(String emailAddr) {
         this.emailAddr = emailAddr;
     }
+
+    public List<BitmapFromChart> listOfBitmapsFromCharts(){
+        return listOfImages;
+    }
+
+    public void setListOfImages(List<BitmapFromChart> listOfImages) {
+        this.listOfImages = listOfImages;
+    }
 }

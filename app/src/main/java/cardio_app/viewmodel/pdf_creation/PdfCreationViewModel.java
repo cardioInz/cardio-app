@@ -3,6 +3,9 @@ package cardio_app.viewmodel.pdf_creation;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import java.util.List;
+
+import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
 
 /**
@@ -73,4 +76,17 @@ public class PdfCreationViewModel extends BaseObservable {
         this.pdfDataModel = pdfDataModel;
     }
 
+    @Bindable
+    public String getChartsListSize(){
+        if (pdfDataModel == null)
+            return String.valueOf(0);
+        List<BitmapFromChart> list = pdfDataModel.listOfBitmapsFromCharts();
+        if (list == null)
+            return String.valueOf(0);
+        return String.valueOf(list.size());
+    }
+
+    public void setChartsListSize(String size){
+        // pass
+    }
 }

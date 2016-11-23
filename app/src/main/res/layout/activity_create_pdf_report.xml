@@ -67,6 +67,42 @@
                     android:layout_height="@dimen/statistic_min_space_height"/>
 
 
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView android:text="@string/choose_charts_to_attach_to_pdf"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/statistic_header_size"/>
+                    <TableRow>
+                        <TextView
+                            android:textSize="@dimen/statistic_header_size"
+                            android:text="@string/selected"
+                            android:textStyle="bold"
+                            />
+                        <Space
+                            android:layout_width="@dimen/statistic_min_space_width"
+                            android:layout_height="@dimen/statistic_min_space_height"/>
+                        <TextView
+                            android:textSize="@dimen/statistic_header_size"
+                            android:text="@={pdfCreationVM.chartsListSize}"/>
+                    </TableRow>
+
+                    <Space
+                        android:layout_width="@dimen/statistic_min_space_width"
+                        android:layout_height="@dimen/statistic_min_space_height"/>
+                    <Button
+                        android:text="@string/get_charts"
+                        android:id="@+id/get_chart_btn"
+                        android:onClick="getChartsOnClick"
+                        />
+
+                </TableLayout>
+
+
+                <Space android:layout_width="@dimen/statistic_min_space_width"
+                    android:layout_height="@dimen/statistic_min_space_height"/>
+
+
                 <TextView android:text="@string/choose_mode_for_pdf_creation"
                     android:textStyle="bold"
                     android:textSize="@dimen/statistic_header_size"
