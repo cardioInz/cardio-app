@@ -33,4 +33,9 @@ public class ImportExportViewModel extends BaseObservable {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+
+    @Bindable
+    public boolean isPathSet() {
+        return !path.isEmpty();
+    }
 }

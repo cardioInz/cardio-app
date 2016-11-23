@@ -17,6 +17,7 @@ import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
 import cardio_app.activity.util.ExportActivity;
+import cardio_app.activity.util.ImportActivity;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -78,6 +79,11 @@ public class MainActivity extends AppCompatActivity{
 
     public void showExportData(View view) {
         Intent intent = new Intent(this, ExportActivity.class);
+        startActivity(intent);
+    }
+
+    public void showImportData(View view) {
+        Intent intent = new Intent(this, ImportActivity.class);
         startActivity(intent);
     }
 }
