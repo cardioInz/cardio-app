@@ -79,7 +79,7 @@
             android:name=".activity.statistics.StatisticsLastMeasurementsActivity"
             android:label="@string/title_statistics_last_measures" />
         <activity
-            android:name=".activity.statistics.CreatePdfReportActivity"
+            android:name=".activity.pdf_creation.CreatePdfReportActivity"
             android:label="@string/title_activity_create_pdf" />
         <activity
             android:name=".activity.statistics.ChartActivity"
@@ -93,16 +93,16 @@
             android:label="@string/title_events_activity" />
         <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
         <activity
-            android:name=".activity.util.ExportActivity"
+            android:name=".activity.synchro.ExportActivity"
             android:label="@string/label_export_data" />
         <activity
-            android:name=".activity.util.ImportActivity"
+            android:name=".activity.synchro.ImportActivity"
             android:label="@string/label_import_data" />
         <activity
             android:name=".activity.statistics.ChartSaveActivity"
             android:label="@string/title_activity_save_chart" />
         <activity
-            android:name=".activity.statistics.CollectedChartsActivity"
+            android:name=".activity.pdf_creation.CollectedChartsActivity"
             android:label="@string/title_activity_collected_charts"/>
     </application>
 

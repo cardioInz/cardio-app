@@ -13,12 +13,12 @@ import cardio_app.activity.alert.AlertsActivity;
 import cardio_app.activity.diary.AddDiaryActivity;
 import cardio_app.activity.diary.DiaryActivity;
 import cardio_app.activity.drug.DrugsActivity;
-import cardio_app.activity.statistics.CreatePdfReportActivity;
+import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
-import cardio_app.activity.util.ExportActivity;
-import cardio_app.activity.util.ImportActivity;
+import cardio_app.activity.synchro.ExportActivity;
+import cardio_app.activity.synchro.ImportActivity;
 
 public class MainActivity extends AppCompatActivity{
     private GridLayout gridLayout;

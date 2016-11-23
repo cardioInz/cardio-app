@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -16,24 +17,27 @@ import cardio_app.databinding.ActivityChartSaveBinding;
 import cardio_app.pdf_creation.SaveImageChartAsyncWorker;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.BitmapUtil;
+import cardio_app.util.FileWalkerUtil;
 import cardio_app.util.PermissionUtil;
 
 public class ChartSaveActivity extends AppCompatActivity {
 
+    private static final String TAG = ChartSaveActivity.class.toString();
     final BitmapFromChart bitmapViewModel = new BitmapFromChart();
     BitmapFromChart sourceBitmapFromChart;
-    private static final String DEFAULT_SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+    private static final String DEFAULT_SAVE_PATH = FileWalkerUtil.getDirToSaveCharts();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart_save);
 
-        bitmapViewModel.setPath(DEFAULT_SAVE_PATH);
-        // bitmapViewModel.setFileName( ??? ); // TODO make some generic name maybe sth + date?
-
         Intent intent = getIntent();
         sourceBitmapFromChart = intent.getParcelableExtra("bitmapFromChart");
+
+        bitmapViewModel.setPath(DEFAULT_SAVE_PATH);
+        bitmapViewModel.setFileName(FileWalkerUtil.getSomeUniqueImageName());
 
         ActivityChartSaveBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_chart_save);
         binding.setBitmapFromChart(bitmapViewModel);

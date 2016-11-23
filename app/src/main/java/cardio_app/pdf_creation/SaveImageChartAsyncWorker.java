@@ -46,7 +46,7 @@ public class SaveImageChartAsyncWorker extends AsyncTask<Void, Void, Void> {
             if (deleteSourceOnSucceed) {
                 try {
                     File sourceFile = new File(source.getFilePathWithExt());
-                    sourceFile.deleteOnExit();
+                    sourceFile.delete();
                 } catch (Exception e) {
                     // silent
                 }

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -21,6 +22,7 @@ import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.BitmapUtil;
 import cardio_app.util.ChartBuilder;
+import cardio_app.util.FileWalkerUtil;
 import cardio_app.util.PermissionUtil;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
@@ -41,6 +43,7 @@ public class ChartActivity extends AppCompatActivity {
 
     private float minDaysOnScreen = 1;
     private float initialDaysOnScreen = 4;
+    private boolean collectedChartsInvoked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,14 @@ public class ChartActivity extends AppCompatActivity {
             dataFilter = df;
         }
 
+        try {
+            collectedChartsInvoked = intent.getBooleanExtra("collectedChartsInvoked", false);
+        } catch (Exception e){
+            Log.i(TAG, "onCreate: collectedChartsInvoked not passed");
+        }
+
+        if (collectedChartsInvoked)
+            setTitle(getText(R.string.title_activity_get_chart_to_pdf));
         lineChartView = (LineChartView) findViewById(R.id.chart_view);
 
         lineChartView.setZoomType(ZoomType.HORIZONTAL);
@@ -128,14 +139,33 @@ public class ChartActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.menu_chart_item_save_view: {
-                BitmapFromChart bitmapFromChart = new BitmapFromChart(lineChartView, this.getResources()); // set bitmap inside
-                bitmapFromChart.setFileName("tmp_chart_from_view");
-                bitmapFromChart.setPath(PermissionUtil.getTmpDir(this));
-                bitmapFromChart.setExt(BitmapUtil.EXT_IMG.PNG);
-                BitmapUtil.saveBitmapToFile(bitmapFromChart);
-                Intent intent = new Intent(this, ChartSaveActivity.class);
-                intent.putExtra("bitmapFromChart", bitmapFromChart);
-                startActivity(intent);
+                if (!PermissionUtil.isStoragePermissionGranted(this))
+                    return true;
+                if (!collectedChartsInvoked) {
+                    BitmapFromChart bitmapFromChart = new BitmapFromChart(lineChartView, this.getResources()); // set bitmap inside
+                    bitmapFromChart.setFileName("tmp_chart_from_view");
+                    bitmapFromChart.setPath(PermissionUtil.getTmpDir(this));
+                    bitmapFromChart.setExt(BitmapUtil.EXT_IMG.PNG);
+                    if (BitmapUtil.saveBitmapToFile(bitmapFromChart)){
+                        Intent intent = new Intent(this, ChartSaveActivity.class);
+                        intent.putExtra("bitmapFromChart", bitmapFromChart);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, R.string.chart_could_not_be_saved, Toast.LENGTH_SHORT);
+                    }
+
+                } else {
+                    BitmapFromChart bitmapFromChart = new BitmapFromChart(lineChartView, this.getResources()); // set bitmap inside
+                    bitmapFromChart.setFileName(FileWalkerUtil.getSomeUniqueImageName());
+                    bitmapFromChart.setPath(FileWalkerUtil.getDirectoryToCollectCharts());
+                    bitmapFromChart.setExt(BitmapUtil.EXT_IMG.PNG);
+                    if (BitmapUtil.saveBitmapToFile(bitmapFromChart)){
+                        Toast.makeText(this, R.string.chart_save_successfully, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, R.string.chart_could_not_be_saved, Toast.LENGTH_SHORT);
+                    }
+
+                }
                 return true;
             }
             default: {

@@ -89,21 +89,52 @@ public class PermissionUtil {
 
 
     public static boolean isStoragePermissionGranted(AppCompatActivity activity) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (activity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG,"Permission is granted");
-                return true;
-            } else {
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            if (activity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                    == PackageManager.PERMISSION_GRANTED) {
+//                Log.v(TAG,"Permissions is granted");
+//                return true;
+//            } else {
+//
+//                Log.v(TAG,"Permissions is revoked");
+//                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+//                return false;
+//            }
+//        }
+//        else { //permission is automatically granted on sdk<23 upon installation
+//            Log.v(TAG,"Permissions is granted");
+//            return true;
+//        }
 
-                Log.v(TAG,"Permission is revoked");
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                return false;
+        if (Build.VERSION.SDK_INT >= 23) {
+            ArrayList<String> wantThisPermissionsList = new ArrayList<>();
+
+            for (String perm : PERMISSIONS_REQUIRED) {
+                int permissionState = ActivityCompat.checkSelfPermission(activity, perm);
+                if (permissionState != PackageManager.PERMISSION_GRANTED) {
+                    // We don't have permission so prompt the user
+                    wantThisPermissionsList.add(perm);
+                }
             }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG,"Permission is granted");
+
+            if (wantThisPermissionsList.isEmpty()) {
+                Log.v(TAG,"Permissions is granted");
+                return true;
+            }
+
+            Log.v(TAG,"Permissions is revoked");
+            activity.runOnUiThread(() -> {
+                ActivityCompat.requestPermissions(
+                        activity,
+                        PERMISSIONS_REQUIRED,
+                        REQUEST_EXTERNAL_STORAGE
+                );
+            });
+            return false;
+        } else {
+            Log.v(TAG,"Permissions is granted");
             return true;
         }
+
     }
 }
