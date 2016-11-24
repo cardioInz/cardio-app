@@ -84,6 +84,7 @@
         <activity
             android:name=".activity.statistics.ChartActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape"
             android:label="@string/title_statistics_charts" />
         <activity
             android:name=".activity.events.AddEventActivity"

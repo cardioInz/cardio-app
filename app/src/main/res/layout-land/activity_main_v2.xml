@@ -14,10 +14,12 @@
         tools:showIn="@layout/activity_main"
         android:layout_gravity="center"
         android:numColumns="auto_fit"
-        android:columnCount="3"
+        android:columnCount="4"
         android:stretchMode="columnWidth"
         >
-        
+        <!--android:columnCount="3"-->
+
+
         <Button
             style="@style/MenuButton"
             android:text="@string/my_profile"
