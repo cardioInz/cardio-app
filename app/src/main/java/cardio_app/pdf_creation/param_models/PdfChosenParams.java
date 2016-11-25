@@ -1,33 +1,28 @@
 package cardio_app.pdf_creation.param_models;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import cardio_app.db.model.BaseModel;
-import lecho.lib.hellocharts.view.LineChartView;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by kisam on 19.11.2016.
  */
 
-public class PdfCreationDataParam extends BaseModel {
+public class PdfChosenParams extends BaseModel {
     private String locationSave;
     private String fileName;
     private boolean isSendEmailOpt;
     private String emailAddr;
-    private List<BitmapFromChart> listOfImages = new ArrayList<>();
+    private List<BitmapFromChart> extraBitmapFromChartList = new ArrayList<>();
 
-    public PdfCreationDataParam() {
+    public PdfChosenParams() {
 
     }
 
     public void sortImages(){
-        Collections.sort(listOfImages, BitmapFromChart.getComparator());
+        Collections.sort(extraBitmapFromChartList, BitmapFromChart.getComparator());
     }
 
     public String getLocationSave() {
@@ -62,11 +57,11 @@ public class PdfCreationDataParam extends BaseModel {
         this.emailAddr = emailAddr;
     }
 
-    public List<BitmapFromChart> listOfBitmapsFromCharts(){
-        return listOfImages;
+    public List<BitmapFromChart> getExtraBitmapFromChartList(){
+        return extraBitmapFromChartList;
     }
 
-    public void setListOfImages(List<BitmapFromChart> listOfImages) {
-        this.listOfImages = listOfImages;
+    public void setExtraBitmapFromChartList(List<BitmapFromChart> listOfImages) {
+        this.extraBitmapFromChartList = listOfImages;
     }
 }

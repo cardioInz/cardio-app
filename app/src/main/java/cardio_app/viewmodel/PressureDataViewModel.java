@@ -13,7 +13,7 @@ import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
 public class PressureDataViewModel extends BaseObservable implements Comparable<PressureDataViewModel> {
     private PressureData pressureData;
-    private DateTimeViewModel dateTimeViewModel;
+    private DateTimeViewModel dateTimeViewModel = new DateTimeViewModel();
 
     public static final String ARRHYTHMIA_STR = "A";
     public static final String NO_ARRHYTHMIA_STR = "-";

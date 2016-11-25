@@ -8,9 +8,17 @@
         android:title="@string/collected_charts_add_new_chart"/>
 
     <item
-        android:id="@+id/collected_charts_clear"
-        android:title="@string/collected_charts_clear"/>
+        android:id="@+id/collected_charts_remove_all"
+        android:title="@string/collected_charts_remove_all"/>
 
 
+    // TODO
+    <!--<item-->
+        <!--android:id="@+id/collected_charts_select_all"-->
+        <!--android:title="@string/collected_charts_select_all"/>-->
+
+    <!--<item-->
+        <!--android:id="@+id/collected_charts_deselect_all"-->
+        <!--android:title="@string/collected_charts_deselect_all"/>-->
 
 </menu>

@@ -19,7 +19,7 @@ import cardio_app.util.PermissionUtil;
  * Created by kisam on 22.11.2016.
  */
 
-public class SaveImageChartAsyncWorker extends AsyncTask<Void, Void, Void> {
+public class SaveChartFromTmpDirAsyncWorker extends AsyncTask<Void, Void, Void> {
 
     private BitmapFromChart source;
     private BitmapFromChart dest;
@@ -27,13 +27,14 @@ public class SaveImageChartAsyncWorker extends AsyncTask<Void, Void, Void> {
     private boolean isSuccess;
     private boolean deleteSourceOnSucceed = false;
 
-    public SaveImageChartAsyncWorker(AppCompatActivity activity, BitmapFromChart source, BitmapFromChart dest){
+    public SaveChartFromTmpDirAsyncWorker(AppCompatActivity activity, BitmapFromChart source, BitmapFromChart dest){
         this.contextActivity = activity;
         this.source = source;
         this.dest = dest;
         PermissionUtil.verifyStoragePermissions(contextActivity);
     }
 
+    @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
 

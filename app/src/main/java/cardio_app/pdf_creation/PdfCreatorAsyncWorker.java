@@ -1,6 +1,5 @@
 package cardio_app.pdf_creation;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -14,17 +13,17 @@ import android.widget.Toast;
 import com.itextpdf.text.Image;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import cardio_app.R;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
-import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
+import cardio_app.pdf_creation.param_models.PdfChosenParams;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
-import cardio_app.util.FirstPDF;
+import cardio_app.util.CreatePdfUtil;
 import cardio_app.util.BitmapUtil;
+import cardio_app.util.DateTimeUtil;
 import cardio_app.util.PermissionUtil;
 
 import static android.content.ContentValues.TAG;
@@ -34,6 +33,10 @@ import static android.content.ContentValues.TAG;
  */
 
 public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
+
+    private static boolean ADD_EXTRA_CHARTS = true;
+    private static boolean ADD_SIMPLE_CHARTS = false; // TODO , false because simple is too difficult :(
+
     private PdfRecordsContainer pdfRecordsContainer;
     private AppCompatActivity contextActivity = null;
     private static final String EXT_PDF = ".pdf";
@@ -43,15 +46,17 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     private String filename = null;
     private File file = null;
 
-    private String DEFAULT_SUBJECT;
-    private String DEFAULT_BODY;
+    private String DEFAULT_EMAIL_SUBJECT;
+    private String DEFAULT_EMAIL_BODY;
 
     public PdfCreatorAsyncWorker(AppCompatActivity contextActivity,
                                  boolean isSendEmailMode,
-                                 PdfCreationDataParam pdfDataModel,
+                                 PdfChosenParams pdfChosenParams,
                                  PdfRecordsContainer pdfRecordsContainer) {
         super();
         this.pdfRecordsContainer = pdfRecordsContainer;
+
+        this.pdfRecordsContainer.setExtra_bitmapFromChartList(pdfChosenParams.getExtraBitmapFromChartList());
         this.contextActivity = contextActivity;
         this.isSendEmailMode = isSendEmailMode;
 
@@ -59,24 +64,23 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
 
         if (isSendEmailMode){
             location = LOCALE_APP_TMP_DIR;
-            emailAddr = pdfDataModel.getEmailAddr();
+            emailAddr = pdfChosenParams.getEmailAddr();
         } else {
-            location = pdfDataModel.getLocationSave();
+            location = pdfChosenParams.getLocationSave();
         }
 
-        filename = pdfDataModel.getFileName() + EXT_PDF;
+        filename = pdfChosenParams.getFileName() + EXT_PDF;
         file = new File(location, filename);
 
-        DEFAULT_SUBJECT = prepareSubject(contextActivity.getResources()); // TODO subject nice
-        DEFAULT_BODY = prepareBody(contextActivity.getResources()); // TODO email msg body
+        DEFAULT_EMAIL_SUBJECT = prepareSubject(contextActivity.getResources()); // TODO subject nice
+        DEFAULT_EMAIL_BODY = prepareBody(contextActivity.getResources()); // TODO email msg body
 
         PermissionUtil.verifyStoragePermissions(contextActivity);
     }
 
     private static String prepareBody(Resources resources) {
         Calendar calendar = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") final SimpleDateFormat DATETIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String dateTimeStr = DATETIME_FORMATTER.format(calendar.getTime());
+        String dateTimeStr = DateTimeUtil.DATETIME_FORMATTER.format(calendar.getTime());
 
         return String.format("%s %s",
                 resources.getString(R.string.pdf_created),
@@ -96,11 +100,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
                 file.setReadable(true, false);
                 file = PermissionUtil.writeFromContextFilesDirToExternal(contextActivity, filename);
                 sendEmail();
-                try {
-                    file.delete();
-                } catch (Exception e){
-                    // silent
-                }
+                // TODO delete file after send action
             } else {
                 file.setReadable(true);
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -119,28 +119,64 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         getProgressBar().setVisibility(View.VISIBLE);
+        pdfRecordsContainer.initRecordsByHelper();
+        initCharts();
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         if (verifyFileNameAndLocation()){
-            String absolutePathStr = file.getAbsolutePath();
-
-            // TODO chart as image
             List<Image> imageList = new ArrayList<>();
-            for (BitmapFromChart bitmapFromChart : pdfRecordsContainer.getBitmapFromChartList()) {
-                try {
-                    Image image = BitmapUtil.convertBitmapToImage(bitmapFromChart.getBitmap());
-                    imageList.add(image);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "doInBackground: ", e);
-                }
+
+            if (ADD_EXTRA_CHARTS) {
+                List<BitmapFromChart> extraCharts = pdfRecordsContainer.getExtra_bitmapFromChartList();
+                List<Image> extraImageList = prepareImagesToPdf(extraCharts);
+                imageList.addAll(extraImageList);
             }
 
-            FirstPDF.createAndSavePdf(absolutePathStr, imageList);
+            if (ADD_SIMPLE_CHARTS) {
+                List<BitmapFromChart> simpleCharts = pdfRecordsContainer.getSimple_bitmapFromChartList();
+                List<Image> simpleImageList = prepareImagesToPdf(simpleCharts); // should be empty now
+                imageList.addAll(simpleImageList);
+            }
+
+
+            String absolutePathStr = file.getAbsolutePath();
+            CreatePdfUtil.createAndSavePdf(absolutePathStr, pdfRecordsContainer, imageList);
         }
         return null;
+    }
+
+
+    private void initCharts() {
+        if (ADD_EXTRA_CHARTS) {
+            pdfRecordsContainer.cleanExtraBitmapWithoutPaths();
+            for (BitmapFromChart fromChart : pdfRecordsContainer.getExtra_bitmapFromChartList()) {
+                if (!BitmapUtil.loadBitmapFromFile(fromChart))
+                    continue;
+                BitmapUtil.loadBitmapFromFile(fromChart);
+            }
+        }
+
+        if (ADD_SIMPLE_CHARTS) {
+            // TODO generate charts with dates from-to
+        }
+    }
+
+    private static List<Image> prepareImagesToPdf(List<BitmapFromChart> list){
+        // TODO chart as image
+        List<Image> imageList = new ArrayList<>();
+        for (BitmapFromChart bitmapFromChart : list) {
+            try {
+                Image image = bitmapFromChart.getImage();
+                imageList.add(image);
+                bitmapFromChart.setBitmap(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "doInBackground: ", e);
+            }
+        }
+        return imageList;
     }
 
     private ProgressBar getProgressBar() {
@@ -185,8 +221,8 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
             // the attachment
             emailIntent.putExtra(Intent.EXTRA_STREAM, path);
             // the mail subject
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, DEFAULT_SUBJECT);
-            emailIntent.putExtra(Intent.EXTRA_TEXT, DEFAULT_BODY);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, DEFAULT_EMAIL_SUBJECT);
+            emailIntent.putExtra(Intent.EXTRA_TEXT, DEFAULT_EMAIL_BODY);
             contextActivity.startActivity(Intent.createChooser(emailIntent, contextActivity.getString(R.string.sending_email)));
         } catch (Exception e) {
             e.printStackTrace();

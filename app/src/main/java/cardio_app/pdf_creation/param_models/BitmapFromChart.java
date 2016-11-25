@@ -1,6 +1,5 @@
 package cardio_app.pdf_creation.param_models;
 
-import android.content.res.Resources;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.Bitmap;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.Date;
 
+import cardio_app.BR;
 import cardio_app.util.BitmapUtil;
 import lecho.lib.hellocharts.view.LineChartView;
 
@@ -29,11 +29,20 @@ public class BitmapFromChart extends BaseObservable implements Parcelable, Compa
     private String fileName;
     private BitmapUtil.EXT_IMG ext;
     private Bitmap bitmap;
-    private Date dateFrom;
-    private Date dateTo;
+    private Date dateFrom; // TODO
+    private Date dateTo; // TODO
+    private boolean isChecked = false; // TODO in context of selection in collected charts list
+    private LineChartView chartView;
 
     public BitmapFromChart(){
 
+    }
+
+    public BitmapFromChart(Bitmap bitmap, String path, String fileName, BitmapUtil.EXT_IMG ext){
+        this.bitmap = bitmap;
+        this.path = path;
+        this.fileName = fileName;
+        this.ext = ext;
     }
 
     public BitmapFromChart(Parcel in){
@@ -46,9 +55,11 @@ public class BitmapFromChart extends BaseObservable implements Parcelable, Compa
         }
     }
 
-    public BitmapFromChart(LineChartView chartView, Resources resources) {
-        bitmap = BitmapUtil.getBitmapFromChartView(chartView, resources);
+    public BitmapFromChart(LineChartView chartView) {
+        this.chartView = chartView;
     }
+
+
 
     public static final Creator<BitmapFromChart> CREATOR = new Creator<BitmapFromChart>() {
         @Override
@@ -63,7 +74,7 @@ public class BitmapFromChart extends BaseObservable implements Parcelable, Compa
     };
 
     public Image getImage() throws IOException, BadElementException {
-        return BitmapUtil.convertBitmapToImage(bitmap);
+        return BitmapUtil.convertBitmapToImage(bitmap, ext);
     }
 
     public Bitmap getBitmap() {
@@ -158,6 +169,20 @@ public class BitmapFromChart extends BaseObservable implements Parcelable, Compa
         this.ext = ext;
     }
 
+    @Bindable
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+        notifyPropertyChanged(BR.checked);
+    }
+
+    public LineChartView getChartView() {
+        return chartView;
+    }
+
     private static class ImageFromChartComparator implements Comparator<BitmapFromChart>
     {
         public int compare(BitmapFromChart c1, BitmapFromChart c2)
@@ -179,4 +204,13 @@ public class BitmapFromChart extends BaseObservable implements Parcelable, Compa
                 fileName != null ? fileName : "",
                 path != null ? path : "");
     }
+
+    public void setExtPNG(){
+        this.ext = BitmapUtil.EXT_IMG.PNG;
+    }
+
+//    public void setExtJPEG(){
+//        this.ext = BitmapUtil.EXT_IMG.JPEG;
+//    }
+
 }

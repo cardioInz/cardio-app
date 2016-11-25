@@ -8,6 +8,8 @@ import java.util.Date;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
 
+import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
+
 /**
  * Created by kisam on 18.11.2016.
  */
@@ -40,7 +42,7 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
         if (dataFilter == null)
             return "-";
         else if (dataFilter.getMode().equals(DataFilterModeEnum.NO_FILTER) && earliestDate != null) {
-            return DataFilter.DATE_FORMATTER.format(earliestDate);
+            return DATE_FORMATTER.format(earliestDate);
         } else {
             return dataFilter.getDateToStr();
         }
@@ -51,7 +53,7 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
         if (dataFilter == null)
             return "-";
         else if (dataFilter.getMode().equals(DataFilterModeEnum.NO_FILTER) && latestDate != null) {
-            return DataFilter.DATE_FORMATTER.format(latestDate);
+            return DATE_FORMATTER.format(latestDate);
         } else {
             return dataFilter.getDateToStr();
         }

@@ -10,14 +10,36 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
+        >
+
+        // TODO clickable checkbox
+        <!--<CheckBox-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:checked="@={bitmapFromChart.checked}"-->
+            <!--android:focusable="false"-->
+
+            <!--/>-->
+        <!--android:clickable="true"-->
+        <!--android:focusableInTouchMode="true"-->
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/_8sdp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/image_name_text_view"
             android:text="@{bitmapFromChart.fileName}"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/_15sdp"
+            android:layout_gravity="center_vertical"
+            />
+
 
     </LinearLayout>
 

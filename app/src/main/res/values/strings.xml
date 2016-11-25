@@ -148,8 +148,12 @@
     <string name="get_charts">Add Charts</string>
     <string name="title_activity_collected_charts">Collected Charts</string>
     <string name="collected_charts_add_new_chart">Add new chart</string>
-    <string name="collected_charts_clear">Clear all collected charts</string>
+    <string name="collected_charts_deselect_all">Deselect all</string>
+    <string name="collected_charts_select_all">Select all</string>
+    <string name="collected_charts_remove_all">Remove all</string>
     <string name="chart_could_not_be_saved">Error! Chart could not be saved...</string>
     <string name="title_activity_get_chart_to_pdf">Get chart to PDF</string>
     <string name="after_chart_delete">Chart has been successfully deleted.</string>
+    <string name="chart_is_being_saved">Chart is being saved...</string>
+    <string name="are_you_sure_to_delete_all_items">Are you sure that you want to delete all items?</string>
 </resources>

@@ -20,16 +20,16 @@ public enum StatisticMeasureTypeEnum {
     LAST_NO_ARRHYTHMIA,
     LAST_ARRHYTHMIA;
 
-    private static HashMap<StatisticMeasureTypeEnum, Integer> measureTitlesMap = new HashMap<>();
-    static {
-        measureTitlesMap.put(LAST, R.string.statistics_last_measure);
-        measureTitlesMap.put(LAST_BAD, R.string.statistics_last_bad_condition_measure);
-        measureTitlesMap.put(LAST_MIDDLE, R.string.statistics_last__middle_condition_measure);
-        measureTitlesMap.put(LAST_WELL, R.string.statistics_last_well_condition_measure);
-        measureTitlesMap.put(LAST_BAD_DIFF, R.string.statistics_bad_difference_condition_measure);
-        measureTitlesMap.put(LAST_ARRHYTHMIA, R.string.statistics_last_arrhythmia_measure);
-        measureTitlesMap.put(LAST_NO_ARRHYTHMIA, R.string.statistics_last_no_arrhythmia_measure);
-    }
+    private static final HashMap<StatisticMeasureTypeEnum, Integer> measureTitlesMap =
+            new HashMap<StatisticMeasureTypeEnum, Integer>(){{
+        put(LAST, R.string.statistics_last_measure);
+        put(LAST_BAD, R.string.statistics_last_bad_condition_measure);
+        put(LAST_MIDDLE, R.string.statistics_last__middle_condition_measure);
+        put(LAST_WELL, R.string.statistics_last_well_condition_measure);
+        put(LAST_BAD_DIFF, R.string.statistics_bad_difference_condition_measure);
+        put(LAST_ARRHYTHMIA, R.string.statistics_last_arrhythmia_measure);
+        put(LAST_NO_ARRHYTHMIA, R.string.statistics_last_no_arrhythmia_measure);
+    }};
 
     public Integer mapToTitleStringId(){
         return measureTitlesMap.get(this);
