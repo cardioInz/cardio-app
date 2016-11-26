@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
-import cardio_app.viewmodel.date_time.DateTimeViewModel;
+import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 
 @DatabaseTable(tableName = "event")
 public class Event extends BaseModel implements Parcelable {
@@ -87,8 +87,8 @@ public class Event extends BaseModel implements Parcelable {
         otherSymptomsRecord = in.readParcelable(OtherSymptomsRecord.class.getClassLoader());
         doctorsAppointment = in.readParcelable(DoctorsAppointment.class.getClassLoader());
         try {
-            startDate = DateTimeViewModel.DATETIME_FORMATTER.parse(in.readString());
-            endDate = DateTimeViewModel.DATETIME_FORMATTER.parse(in.readString());
+            startDate = DATETIME_FORMATTER.parse(in.readString());
+            endDate = DATETIME_FORMATTER.parse(in.readString());
         } catch (Exception e) {
 
         }
@@ -97,8 +97,8 @@ public class Event extends BaseModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(getId());
-        parcel.writeString(DateTimeViewModel.DATETIME_FORMATTER.format(startDate));
-        parcel.writeString(DateTimeViewModel.DATETIME_FORMATTER.format(endDate));
+        parcel.writeString(DATETIME_FORMATTER.format(startDate));
+        parcel.writeString(DATETIME_FORMATTER.format(endDate));
         parcel.writeByte((byte) (isRepeatable ? 1 : 0));
         parcel.writeString(timeUnit.name());
         parcel.writeInt(timeDelta);

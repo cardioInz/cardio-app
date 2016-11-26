@@ -16,7 +16,8 @@ import java.util.Date;
 
 import cardio_app.statistics.analyse.HealthCondition;
 import cardio_app.viewmodel.PressureDataViewModel;
-import cardio_app.viewmodel.date_time.DateTimeViewModel;
+
+import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 
 @DatabaseTable
 public class PressureData extends BaseModel implements Parcelable, Comparable<PressureData> {
@@ -68,7 +69,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         pulse = in.readInt();
         arrhythmia = in.readString().equals(PressureDataViewModel.ARRHYTHMIA_STR);
         try {
-            this.dateTime = DateTimeViewModel.DATETIME_FORMATTER.parse(in.readString());
+            this.dateTime = DATETIME_FORMATTER.parse(in.readString());
         } catch (ParseException e) {
             e.printStackTrace();
             this.dateTime = new Date(0);
@@ -145,7 +146,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         parcel.writeInt(diastole);
         parcel.writeInt(pulse);
         parcel.writeString(arrhythmia ? PressureDataViewModel.ARRHYTHMIA_STR : PressureDataViewModel.NO_ARRHYTHMIA_STR);
-        parcel.writeString(DateTimeViewModel.DATETIME_FORMATTER.format(dateTime));
+        parcel.writeString(DATETIME_FORMATTER.format(dateTime));
     }
 
     public JSONObject convertToJson() throws JSONException {
@@ -155,7 +156,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         object.put("diastole", getDiastole());
         object.put("pulse", getPulse());
         object.put("arrhythmia", isArrhythmia());
-        object.put("dateTime", DateTimeViewModel.DATETIME_FORMATTER.format(getDateTime()));
+        object.put("dateTime", DATETIME_FORMATTER.format(getDateTime()));
 
         return object;
     }
@@ -165,7 +166,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         int diastole = object.getInt("diastole");
         int pulse = object.getInt("pulse");
         boolean arrhythmia = object.getBoolean("arrhythmia");
-        Date date = DateTimeViewModel.DATETIME_FORMATTER.parse(object.getString("dateTime"));
+        Date date = DATETIME_FORMATTER.parse(object.getString("dateTime"));
 
         return new PressureData(systole, diastole, pulse, arrhythmia, date);
     }

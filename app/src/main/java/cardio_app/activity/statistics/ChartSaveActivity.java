@@ -3,10 +3,8 @@ package cardio_app.activity.statistics;
 import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -14,7 +12,7 @@ import java.io.File;
 import ar.com.daidalos.afiledialog.FileChooserDialog;
 import cardio_app.R;
 import cardio_app.databinding.ActivityChartSaveBinding;
-import cardio_app.pdf_creation.SaveImageChartAsyncWorker;
+import cardio_app.pdf_creation.SaveChartFromTmpDirAsyncWorker;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.BitmapUtil;
 import cardio_app.util.FileWalkerUtil;
@@ -45,8 +43,8 @@ public class ChartSaveActivity extends AppCompatActivity {
 
     public void saveImg(View view) {
         if (PermissionUtil.isStoragePermissionGranted(this)) {
-            bitmapViewModel.setExt(BitmapUtil.EXT_IMG.JPEG);
-            SaveImageChartAsyncWorker worker = new SaveImageChartAsyncWorker(this, sourceBitmapFromChart, bitmapViewModel);
+            bitmapViewModel.setExt(BitmapUtil.EXT_IMG.PNG);
+            SaveChartFromTmpDirAsyncWorker worker = new SaveChartFromTmpDirAsyncWorker(this, sourceBitmapFromChart, bitmapViewModel);
             worker.setDeleteSourceOnSucceed(true); // because at first we save it in tmp dir
             worker.execute();
         }

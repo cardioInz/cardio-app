@@ -27,13 +27,16 @@ public class CollectedChartsActivity extends AppCompatActivity {
 
     private static final String TAG = CollectedChartsActivity.class.toString();
     private BitmapFromChartDataAdapter bitmapFromChartDataAdapter;
+    private ListView listView;
+    private CollectedChartsActivity self;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collected_charts);
+        self = this;
 
-        ListView listView = (ListView) findViewById(R.id.collected_charts_list_view);
+        listView = (ListView) findViewById(R.id.collected_charts_list_view);
 
         listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
             BitmapFromChart bitmapFromChart = (BitmapFromChart) adapterView.getItemAtPosition(i);
@@ -95,7 +98,7 @@ public class CollectedChartsActivity extends AppCompatActivity {
 
     private void assignDataToListView(){
         List<BitmapFromChart> dataList = FileWalkerUtil.getBitmapFromChartList_fromSavedDir();
-        ListView listView = (ListView) findViewById(R.id.collected_charts_list_view);
+        listView = (ListView) findViewById(R.id.collected_charts_list_view);
         bitmapFromChartDataAdapter = new BitmapFromChartDataAdapter(CollectedChartsActivity.this, dataList);
         listView.setAdapter(bitmapFromChartDataAdapter);
         listView.invalidateViews();
@@ -115,6 +118,7 @@ public class CollectedChartsActivity extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -124,9 +128,18 @@ public class CollectedChartsActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
-            case R.id.collected_charts_clear: {
-                FileWalkerUtil.deleteAllCollectedCharts();
-                refreshListView();
+            case R.id.collected_charts_remove_all: {
+                View contextView = findViewById(R.id.activity_collected_charts);
+                Snackbar
+                        .make(contextView, R.string.are_you_sure_to_delete_all_items, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.delete, view -> {
+                            if (PermissionUtil.isStoragePermissionGranted(this)) {
+                                FileWalkerUtil.deleteAllCollectedCharts();
+                                refreshListView();
+                            }
+                        })
+                        .setActionTextColor(ContextCompat.getColor(this, R.color.brightOnDarkBg))
+                        .show();
                 return true;
             }
             default: {

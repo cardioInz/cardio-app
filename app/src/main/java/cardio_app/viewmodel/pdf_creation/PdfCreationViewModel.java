@@ -6,14 +6,14 @@ import android.databinding.Bindable;
 import java.util.List;
 
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
-import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
+import cardio_app.pdf_creation.param_models.PdfChosenParams;
 
 /**
  * Created by kisam on 17.11.2016.
  */
 
 public class PdfCreationViewModel extends BaseObservable {
-    private PdfCreationDataParam pdfDataModel = new PdfCreationDataParam();
+    private PdfChosenParams pdfDataModel = new PdfChosenParams();
 
     public PdfCreationViewModel() {
         pdfDataModel.setSendEmailOpt(true); // by default "send email" redio button checkeds
@@ -68,11 +68,11 @@ public class PdfCreationViewModel extends BaseObservable {
         pdfDataModel.setSendEmailOpt(sendEmailOpt);
     }
 
-    public PdfCreationDataParam getPdfDataModel() {
+    public PdfChosenParams getPdfDataModel() {
         return pdfDataModel;
     }
 
-    public void setPdfDataModel(PdfCreationDataParam pdfDataModel) {
+    public void setPdfDataModel(PdfChosenParams pdfDataModel) {
         this.pdfDataModel = pdfDataModel;
     }
 
@@ -80,7 +80,7 @@ public class PdfCreationViewModel extends BaseObservable {
     public String getChartsListSize(){
         if (pdfDataModel == null)
             return String.valueOf(0);
-        List<BitmapFromChart> list = pdfDataModel.listOfBitmapsFromCharts();
+        List<BitmapFromChart> list = pdfDataModel.getExtraBitmapFromChartList();
         if (list == null)
             return String.valueOf(0);
         return String.valueOf(list.size());
@@ -90,11 +90,11 @@ public class PdfCreationViewModel extends BaseObservable {
         // pass
     }
 
-    public void setListImages(List<BitmapFromChart> listImages){
-        pdfDataModel.setListOfImages(listImages);
+    public void setExtraChartsList(List<BitmapFromChart> listImages){
+        pdfDataModel.setExtraBitmapFromChartList(listImages);
     }
 
-    public List<BitmapFromChart> getListImages(){
-        return pdfDataModel.listOfBitmapsFromCharts();
+    public List<BitmapFromChart> getExtraChartsList(){
+        return pdfDataModel.getExtraBitmapFromChartList();
     }
 }

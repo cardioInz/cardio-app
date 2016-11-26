@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,8 +20,8 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.pdf_creation.SaveBitmapFromChartAsyncWorker;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
-import cardio_app.util.BitmapUtil;
 import cardio_app.util.ChartBuilder;
 import cardio_app.util.FileWalkerUtil;
 import cardio_app.util.PermissionUtil;
@@ -141,31 +142,22 @@ public class ChartActivity extends AppCompatActivity {
             case R.id.menu_chart_item_save_view: {
                 if (!PermissionUtil.isStoragePermissionGranted(this))
                     return true;
+                Toast.makeText(this, R.string.chart_is_being_saved, Toast.LENGTH_SHORT).show();
+                BitmapFromChart bitmapFromChart = null;
                 if (!collectedChartsInvoked) {
-                    BitmapFromChart bitmapFromChart = new BitmapFromChart(lineChartView, this.getResources()); // set bitmap inside
+                    bitmapFromChart = new BitmapFromChart(lineChartView); // set bitmap inside
                     bitmapFromChart.setFileName("tmp_chart_from_view");
                     bitmapFromChart.setPath(PermissionUtil.getTmpDir(this));
-                    bitmapFromChart.setExt(BitmapUtil.EXT_IMG.PNG);
-                    if (BitmapUtil.saveBitmapToFile(bitmapFromChart)){
-                        Intent intent = new Intent(this, ChartSaveActivity.class);
-                        intent.putExtra("bitmapFromChart", bitmapFromChart);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(this, R.string.chart_could_not_be_saved, Toast.LENGTH_SHORT);
-                    }
-
+                    bitmapFromChart.setExtPNG();
                 } else {
-                    BitmapFromChart bitmapFromChart = new BitmapFromChart(lineChartView, this.getResources()); // set bitmap inside
+                    bitmapFromChart = new BitmapFromChart(lineChartView); // set bitmap inside
                     bitmapFromChart.setFileName(FileWalkerUtil.getSomeUniqueImageName());
                     bitmapFromChart.setPath(FileWalkerUtil.getDirectoryToCollectCharts());
-                    bitmapFromChart.setExt(BitmapUtil.EXT_IMG.PNG);
-                    if (BitmapUtil.saveBitmapToFile(bitmapFromChart)){
-                        Toast.makeText(this, R.string.chart_save_successfully, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, R.string.chart_could_not_be_saved, Toast.LENGTH_SHORT);
-                    }
-
+                    bitmapFromChart.setExtPNG();
                 }
+
+                SaveBitmapFromChartAsyncWorker worker = new SaveBitmapFromChartAsyncWorker(this, bitmapFromChart, !collectedChartsInvoked);
+                worker.execute();
                 return true;
             }
             default: {

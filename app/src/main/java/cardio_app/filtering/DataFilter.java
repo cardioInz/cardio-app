@@ -1,14 +1,14 @@
 package cardio_app.filtering;
 
-import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
 
 /**
  * Created by kisam on 04.11.2016.
@@ -19,8 +19,7 @@ public class DataFilter implements Parcelable {
     private static final int DEFAULT_FILTER_LAST_X_DAYS = 14; // == X
     private static final String TAG = DataFilter.class.getName();
 
-    @SuppressLint("SimpleDateFormat")
-    public static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+
 
     private DataFilterModeEnum mode;
     private Date dateFrom;

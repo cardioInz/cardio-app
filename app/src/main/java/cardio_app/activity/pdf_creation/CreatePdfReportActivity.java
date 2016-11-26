@@ -29,7 +29,7 @@ import cardio_app.db.DbHelper;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.pdf_creation.PdfCreatorAsyncWorker;
-import cardio_app.pdf_creation.param_models.PdfCreationDataParam;
+import cardio_app.pdf_creation.param_models.PdfChosenParams;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
 import cardio_app.util.FileWalkerUtil;
 import cardio_app.util.PermissionUtil;
@@ -45,7 +45,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
     private final PdfCreationViewModel pdfCreationViewModel = new PdfCreationViewModel();
 
     private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-    private static String DEFAULT_EMAIL_ADDR = "cardio.inzynierka@gmail.com";
+    private static String DEFAULT_EMAIL_ADDR = "cardio.inzynierka@gmail.com"; // TODO stay empty
 
     private void correctVisibilities(boolean isSendOpt, boolean isSaveOpt) {
         int sendVisib = isSendOpt ? View.VISIBLE : View.GONE;
@@ -62,7 +62,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         sendTableLayout.setVisibility(sendVisib);
     }
 
-    public void changePdfCreationMode(View view){
+    public void changePdfCreation_SendeSaveOptMode(View view){
         int id = view.getId();
         switch (id){
             case R.id.radio_pdf_save_btn:
@@ -100,7 +100,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         pdfCreationViewModel.setEmailAddr(DEFAULT_EMAIL_ADDR);
         dataFilterForPdfCreationViewModel.setDataFilter(dataFilter);
         setGenericFileName();
-        pdfCreationViewModel.setListImages(FileWalkerUtil.getBitmapFromChartList_fromSavedDir());
+        pdfCreationViewModel.setExtraChartsList(FileWalkerUtil.getBitmapFromChartList_fromSavedDir());
 
         ActivityCreatePdfReportBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_pdf_report);
         binding.setDatesFromFilter(dataFilterForPdfCreationViewModel);
@@ -152,7 +152,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
             } else if (fileName == null || fileName.isEmpty()) {
                 Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
             } else {
-                PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
+                PdfChosenParams pdfDataModel = pdfCreationViewModel.getPdfDataModel();
                 PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
                 PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, false, pdfDataModel, pdfRecordsContainer);
                 pdfCreatorAsyncWorker.execute();
@@ -174,7 +174,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
             } else if (attachedPdfFileName == null || attachedPdfFileName.isEmpty()) {
                 Toast.makeText(this, getResources().getText(R.string.name_of_file_must_be_specified), Toast.LENGTH_LONG).show();
             } else {
-                PdfCreationDataParam pdfDataModel = pdfCreationViewModel.getPdfDataModel();
+                PdfChosenParams pdfDataModel = pdfCreationViewModel.getPdfDataModel();
                 PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
                 PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, true, pdfDataModel, pdfRecordsContainer);
                 pdfCreatorAsyncWorker.execute();
@@ -207,7 +207,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
 
     public void refreshContentView() {
         boolean isSaveOpt = ((RadioButton)findViewById(R.id.radio_pdf_save_btn)).isChecked();
-        pdfCreationViewModel.setListImages(FileWalkerUtil.getBitmapFromChartList_fromSavedDir());
+        pdfCreationViewModel.setExtraChartsList(FileWalkerUtil.getBitmapFromChartList_fromSavedDir());
         findViewById(R.id.chosen_charts_cnt_text_view).invalidate();
         ActivityCreatePdfReportBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_pdf_report);
         binding.setPdfCreationVM(pdfCreationViewModel);
