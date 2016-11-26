@@ -57,17 +57,4 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
     static Comparator<PressureData> getComparator() {
         return PressureData.getComparator();
     }
-
-//    @Override
-//    public void notifyDataSetChanged() {
-//        this.setNotifyOnChange(false);
-//        this.sort(getComparator());
-//        this.setNotifyOnChange(true);
-//    }
-
-//        @Override
-//        public void add(PressureData pressureData) {
-//            super.add(pressureData);
-//            this.sort(COMPARATOR);
-//        }
 }

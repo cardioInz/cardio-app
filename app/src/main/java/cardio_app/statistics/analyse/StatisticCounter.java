@@ -1,133 +1,82 @@
 package cardio_app.statistics.analyse;
 
-/**
- * Created by kisam on 15.11.2016.
- */
+import java.util.HashMap;
+
+import cardio_app.R;
 
 public class StatisticCounter {
 
+    public enum TypeEnum {
+        TOTAL,
+        WELL,
+        LITTLE_LOW_OR_HIGH,
+        BAD,
+        BAD_DIFF,
+        NO_ARRHYTHMIA,
+        ARRHYTHMIA,
+        UNKNOWN;
 
-    private int totalCnt;
-    private int badCnt;
-    private int badDiffCnt;
-    private int middleCnt;
-    private int wellCnt;
-    private int arrhythmiaCnt;
-    private int noArrhythmiaCnt;
-    private int unknownCnt;
+        private static final HashMap<TypeEnum, Integer> mapTitleID = new HashMap<TypeEnum, Integer>(){{
+            put(TOTAL, R.string.statistics_counter_total);
+            put(WELL, R.string.statistics_counter_well);
+            put(LITTLE_LOW_OR_HIGH, R.string.statistics_counter_middle);
+            put(BAD, R.string.statistics_counter_bad);
+            put(BAD_DIFF, R.string.statistics_counter_bad_diff);
+            put(NO_ARRHYTHMIA, R.string.statistics_counter_no_arrhythmia);
+            put(ARRHYTHMIA, R.string.statistics_counter_arrhythmia);
+            put(UNKNOWN, R.string.statistics_counter_errors);
+        }};
+
+        private static Integer mapToTitleId(TypeEnum key){
+            if (mapTitleID.containsKey(key))
+                return mapTitleID.get(key);
+            else
+                return null;
+        }
+
+        public Integer toTitleId(){
+            return mapToTitleId(this);
+        }
+    }
+
+
+
+    private final HashMap<TypeEnum, Integer> mapCounter = new HashMap<TypeEnum, Integer>(){{
+        for (TypeEnum measureEnum : TypeEnum.values()) {
+            put(measureEnum, 0);
+        }
+    }};
+
 
     public StatisticCounter(){
         zeroAll();
     }
 
+    public void incValueOfKey(TypeEnum key){
+        if (mapCounter.containsKey(key))
+            mapCounter.put(key, mapCounter.get(key) + 1);
+    }
+
     public void zeroAll(){
-        totalCnt = 0;
-        badCnt = 0;
-        badDiffCnt = 0;
-        middleCnt = 0;
-        wellCnt = 0;
-        arrhythmiaCnt = 0;
-        noArrhythmiaCnt = 0;
-        unknownCnt = 0;
+        for (TypeEnum key : mapCounter.keySet()) {
+            mapCounter.put(key, 0);
+        }
     }
 
 
-
-    public int getTotalCnt() {
-        return totalCnt;
+    public Integer getCnt(TypeEnum key){
+        if (mapCounter.containsKey(key))
+            return mapCounter.get(key);
+        else
+            return null;
     }
 
-    public void setTotalCnt(int totalCnt) {
-        this.totalCnt = totalCnt;
+    public void setCntOfKey(TypeEnum key, Integer value) {
+        if (mapCounter.containsKey(key))
+            mapCounter.put(key, value);
     }
 
-    public int getBadCnt() {
-        return badCnt;
-    }
-
-    public void setBadCnt(int badCnt) {
-        this.badCnt = badCnt;
-    }
-
-    public int getBadDiffCnt() {
-        return badDiffCnt;
-    }
-
-    public void setBadDiffCnt(int badDiffCnt) {
-        this.badDiffCnt = badDiffCnt;
-    }
-
-    public int getMiddleCnt() {
-        return middleCnt;
-    }
-
-    public void setMiddleCnt(int middleCnt) {
-        this.middleCnt = middleCnt;
-    }
-
-    public int getWellCnt() {
-        return wellCnt;
-    }
-
-    public void setWellCnt(int wellCnt) {
-        this.wellCnt = wellCnt;
-    }
-
-    public int getArrhythmiaCnt() {
-        return arrhythmiaCnt;
-    }
-
-    public void setArrhythmiaCnt(int arrhythmiaCnt) {
-        this.arrhythmiaCnt = arrhythmiaCnt;
-    }
-
-    public int getNoArrhythmiaCnt() {
-        return noArrhythmiaCnt;
-    }
-
-    public void setNoArrhythmiaCnt(int noArrhythmiaCnt) {
-        this.noArrhythmiaCnt = noArrhythmiaCnt;
-    }
-
-    public int getUnknownCnt() {
-        return unknownCnt;
-    }
-
-    public void setUnknownCnt(int unknownCnt) {
-        this.unknownCnt = unknownCnt;
-    }
-
-
-
-    public void incUnknownCnt() {
-        this.unknownCnt++;
-    }
-
-    public void incTotalCnt() {
-        this.totalCnt++;
-    }
-
-    public void incBadCnt() {
-        this.badCnt++;
-    }
-
-    public void incBadDiffCnt() {
-        this.badDiffCnt++;
-    }
-
-    public void incMiddleCnt() {
-        this.middleCnt++;
-    }
-
-    public void incWellCnt() {
-        this.wellCnt++;
-    }
-
-    public void incArrhythmiaCnt() {
-        this.arrhythmiaCnt++;
-    }
-
-    public void incNoArrhythmiaCnt() {
-        this.noArrhythmiaCnt++;
+    public HashMap<TypeEnum, Integer> getMapCounter() {
+        return mapCounter;
     }
 }

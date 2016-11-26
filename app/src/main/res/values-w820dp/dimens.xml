@@ -3,4 +3,16 @@
          (such as screen margins) for screens with more than 820dp of available width. This
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
     <dimen name="activity_horizontal_margin">64dp</dimen>
+
+
+    <dimen name="menu_button_layout_size">110sp</dimen>
+    <!--@dimen/_95sdp-->
+
+    <dimen name="menu_button_text_size">12sp</dimen>
+    <!--@dimen/_10sdp-->
+
+    <dimen name="menu_button_size">80sp</dimen>
+    <!--@dimen/_70sdp-->
+
+    <!--drawable images - @dimen/_60sdp-->
 </resources>

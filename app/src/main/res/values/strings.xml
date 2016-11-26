@@ -100,7 +100,8 @@
     <string name="location_of_file_must_be_specified">Location of file must be specified before creation.</string>
     <string name="filter_date_from">Date from:</string>
     <string name="filter_date_to">Date to:</string>
-    <string name="file_name">PDF File name:</string>
+    <string name="pdf_file_name">PDF File name:</string>
+    <string name="img_file_name">Image name:</string>
     <string name="file_location">File location:</string>
     <string name="name_of_file_must_be_specified">Name of file must be specified before creation</string>
     <string name="choose_location">Choose location</string>
@@ -128,6 +129,43 @@
 
     <string name="event_alert_title">Event</string>
 
+    <string name="save_img_btn">SAVE AS IMAGE</string>
+    <string name="save_chart_view_as_image">Save your chart view as image</string>
+    <string name="title_activity_save_chart">Save chart</string>
+    <string name="chart_save_successfully">Chart saved successfully</string>
+    <string name="chart_has_not_been_saved">Chart has not been saved</string>
+
     <string name="toast_export">data exported</string>
     <string name="export_error">cannot save file</string>
+
+    <string name="import_choose_file">choose file</string>
+    <string name="import_success">data saved</string>
+    <string name="import_error">cannot save data from this file</string>
+    <string name="label_export_data">Export Data</string>
+    <string name="label_import_data">Import Data</string>
+    <string name="choose_charts_to_attach_to_pdf">Choose charts to attach to PDF</string>
+    <string name="nr_of_chosen_charts">Number of chosen charts:</string>
+    <string name="get_charts">Add Charts</string>
+    <string name="title_activity_collected_charts">Collected Charts</string>
+    <string name="collected_charts_add_new_chart">Add new chart</string>
+    <string name="collected_charts_deselect_all">Deselect all</string>
+    <string name="collected_charts_select_all">Select all</string>
+    <string name="collected_charts_remove_all">Remove all</string>
+    <string name="chart_could_not_be_saved">Error! Chart could not be saved…</string>
+    <string name="title_activity_get_chart_to_pdf">Get chart to PDF</string>
+    <string name="after_chart_delete">Chart has been successfully deleted.</string>
+    <string name="chart_is_being_saved">Chart is being saved…</string>
+    <string name="are_you_sure_to_delete_all_items">Are you sure that you want to delete all items?</string>
+
+    <string name="pdf_chapter_statistics">Statistics</string>
+    <string name="pdf_chapter_blood_pressure">Blood pressure records</string>
+    <string name="pdf_systole">Systole</string>
+    <string name="pdf_diastole">Diastole</string>
+    <string name="pdf_difference">Difference</string>
+    <string name="pdf_pulse">Pulse</string>
+    <string name="pdf_arrhythmia">Arrhythmia</string>
+    <string name="pdf_date">Date</string>
+    <string name="pdf_time">Time</string>
+
+
 </resources>

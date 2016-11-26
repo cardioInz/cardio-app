@@ -4,28 +4,30 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import cardio_app.statistics.analyse.StatisticMeasure;
+import cardio_app.statistics.analyse.StatisticLastMeasure;
 import cardio_app.viewmodel.PressureDataViewModel;
 
-/**
- * Created by kisam on 15.11.2016.
- */
 
-public class StatisticMeasureViewModel extends BaseObservable {
+public class StatisticLastMeasureViewModel extends BaseObservable {
 
-    private StatisticMeasure statisticMeasure;
+    private StatisticLastMeasure statisticLastMeasure;
     private PressureDataViewModel pressureDataViewModel;
 
-    public StatisticMeasureViewModel(StatisticMeasure statisticMeasure){
-        setStatisticMeasure(statisticMeasure);
+
+    public StatisticLastMeasureViewModel(){
+
     }
 
-    public void setStatisticMeasure(StatisticMeasure statisticMeasure) {
-        this.statisticMeasure = statisticMeasure;
+    public StatisticLastMeasureViewModel(StatisticLastMeasure statisticLastMeasure){
+        setStatisticLastMeasure(statisticLastMeasure);
+    }
+
+    public void setStatisticLastMeasure(StatisticLastMeasure statisticLastMeasure) {
+        this.statisticLastMeasure = statisticLastMeasure;
         if (pressureDataViewModel == null)
-            pressureDataViewModel = new PressureDataViewModel(statisticMeasure.getPressureData());
+            pressureDataViewModel = new PressureDataViewModel(statisticLastMeasure.getPressureData());
         else
-            this.pressureDataViewModel.setPressureData(statisticMeasure.getPressureData());
+            this.pressureDataViewModel.setPressureData(statisticLastMeasure.getPressureData());
     }
 
     @Bindable
@@ -50,9 +52,9 @@ public class StatisticMeasureViewModel extends BaseObservable {
 
     public boolean shouldShowArrhythmia() {
         return !(pressureDataViewModel == null || pressureDataViewModel.getPressureData() == null)
-                && statisticMeasure != null
-                && statisticMeasure.isArrhythmiaImportant()
-                && statisticMeasure.getPressureData().isArrhythmia();
+                && statisticLastMeasure != null
+                && statisticLastMeasure.isArrhythmiaImportant()
+                && statisticLastMeasure.getPressureData().isArrhythmia();
     }
 
     @Bindable
@@ -62,6 +64,6 @@ public class StatisticMeasureViewModel extends BaseObservable {
 
     @Bindable
     public String getTitle() {
-        return statisticMeasure.getTitle();
+        return statisticLastMeasure.getTitle();
     }
 }

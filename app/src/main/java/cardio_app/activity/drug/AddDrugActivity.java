@@ -1,26 +1,16 @@
 package cardio_app.activity.drug;
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -35,8 +25,6 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.databinding.ActivityAddDrugBinding;
-import cardio_app.databinding.AlarmInDrugListItemBinding;
-import cardio_app.databinding.AlarmListItemBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Alarm;
 import cardio_app.db.model.AlarmDrug;
@@ -72,8 +60,6 @@ public class AddDrugActivity extends AppCompatActivity {
         ActivityAddDrugBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_drug);
         binding.setDrug(drugViewModel);
 
-        ListView alarmsListView = (ListView) findViewById(R.id.alarms);
-
         try {
             dbHelper = getHelper();
             Dao<Alarm, Integer> dao = dbHelper.getDao(Alarm.class);
@@ -102,8 +88,6 @@ public class AddDrugActivity extends AppCompatActivity {
                     alarms.add(new AlarmInDrugViewModel(alarm, false));
                 }
             }
-
-            alarmsListView.setAdapter(new AlarmAdapter(alarms));
         } catch (SQLException e) {
             Log.e(TAG, "Cannot fetch data from database", e);
             throw new RuntimeException(e);
@@ -227,54 +211,4 @@ public class AddDrugActivity extends AppCompatActivity {
 
         onBackPressed();
     }
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("AddDrug Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    private class AlarmAdapter extends ArrayAdapter<AlarmInDrugViewModel> {
-
-        AlarmAdapter(List<AlarmInDrugViewModel> data) {
-            super(AddDrugActivity.this, R.layout.alarm_in_drug_list_item, data);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            AlarmInDrugListItemBinding alarmBinding;
-            if (convertView != null) {
-                alarmBinding = DataBindingUtil.bind(convertView);
-            } else {
-                alarmBinding = DataBindingUtil.inflate(inflater, R.layout.alarm_in_drug_list_item, parent, false);
-            }
-
-            convertView = alarmBinding.getRoot();
-
-            //TODO: This piece of code generates binding issues but is necessary to avoid drawing animation when scrolling listview
-//            final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.alarm_enable);
-//            checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
-//                checkBox.jumpDrawablesToCurrentState();
-//                checkBox.setOnCheckedChangeListener(null);
-//            });
-
-            alarmBinding.setAlarm(getItem(position));
-
-            return convertView;
-        }
-    }
-
 }

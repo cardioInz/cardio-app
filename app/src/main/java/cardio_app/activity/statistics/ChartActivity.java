@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,7 +20,11 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.pdf_creation.SaveBitmapFromChartAsyncWorker;
+import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.ChartBuilder;
+import cardio_app.util.FileWalkerUtil;
+import cardio_app.util.PermissionUtil;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.LineChartData;
@@ -38,6 +44,7 @@ public class ChartActivity extends AppCompatActivity {
 
     private float minDaysOnScreen = 1;
     private float initialDaysOnScreen = 4;
+    private boolean collectedChartsInvoked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,14 @@ public class ChartActivity extends AppCompatActivity {
             dataFilter = df;
         }
 
+        try {
+            collectedChartsInvoked = intent.getBooleanExtra("collectedChartsInvoked", false);
+        } catch (Exception e){
+            Log.i(TAG, "onCreate: collectedChartsInvoked not passed");
+        }
+
+        if (collectedChartsInvoked)
+            setTitle(getText(R.string.title_activity_get_chart_to_pdf));
         lineChartView = (LineChartView) findViewById(R.id.chart_view);
 
         lineChartView.setZoomType(ZoomType.HORIZONTAL);
@@ -124,6 +139,27 @@ public class ChartActivity extends AppCompatActivity {
                 changeType(ChartBuilder.ChartMode.CONTINUOUS);
                 return true;
             }
+            case R.id.menu_chart_item_save_view: {
+                if (!PermissionUtil.isStoragePermissionGranted(this))
+                    return true;
+                Toast.makeText(this, R.string.chart_is_being_saved, Toast.LENGTH_SHORT).show();
+                BitmapFromChart bitmapFromChart = null;
+                if (!collectedChartsInvoked) {
+                    bitmapFromChart = new BitmapFromChart(lineChartView); // set bitmap inside
+                    bitmapFromChart.setFileName("tmp_chart_from_view");
+                    bitmapFromChart.setPath(PermissionUtil.getTmpDir(this));
+                    bitmapFromChart.setExtPNG();
+                } else {
+                    bitmapFromChart = new BitmapFromChart(lineChartView); // set bitmap inside
+                    bitmapFromChart.setFileName(FileWalkerUtil.getSomeUniqueImageName());
+                    bitmapFromChart.setPath(FileWalkerUtil.getDirectoryToCollectCharts());
+                    bitmapFromChart.setExtPNG();
+                }
+
+                SaveBitmapFromChartAsyncWorker worker = new SaveBitmapFromChartAsyncWorker(this, bitmapFromChart, !collectedChartsInvoked);
+                worker.execute();
+                return true;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
@@ -132,7 +168,6 @@ public class ChartActivity extends AppCompatActivity {
 
     private void changeType(ChartBuilder.ChartMode chartMode) {
         LineChartData chartData = chartBuilder.setMode(chartMode).build();
-
         lineChartView.setLineChartData(chartData);
         Viewport viewport = lineChartView.getCurrentViewport();
         lineChartView.setZoomLevel(viewport.centerX(), viewport.centerY(), chartBuilder.getDays() / initialDaysOnScreen);
@@ -154,4 +189,5 @@ public class ChartActivity extends AppCompatActivity {
             this.pressureData = pressureData;
         }
     }
+
 }

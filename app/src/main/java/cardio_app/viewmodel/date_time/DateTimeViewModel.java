@@ -1,12 +1,12 @@
 package cardio_app.viewmodel.date_time;
 
-import android.annotation.SuppressLint;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import cardio_app.util.DateTimeUtil;
 
 /**
  * Created by kisam on 01.11.2016.
@@ -14,12 +14,7 @@ import java.util.Date;
 
 public class DateTimeViewModel extends BaseObservable {
 
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm");
-    @SuppressLint("SimpleDateFormat")
-    public static final SimpleDateFormat DATETIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
 
     private final PickedDateViewModel pickedDateViewModel;
     private final PickedTimeViewModel pickedTimeViewModel;
@@ -99,11 +94,11 @@ public class DateTimeViewModel extends BaseObservable {
     }
 
     private static String makeDateStr(Date date) {
-        return DATE_FORMATTER.format(date);
+        return DateTimeUtil.DATE_FORMATTER.format(date);
     }
 
     private static String makeTimeStr(Date date) {
-        return TIME_FORMATTER.format(date);
+        return DateTimeUtil.TIME_FORMATTER.format(date);
     }
 
     @Bindable

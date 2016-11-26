@@ -16,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -88,21 +90,49 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         daoHp.create(e4);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
-        try {
-            TableUtils.createTable(connectionSource, Alarm.class);
-            TableUtils.createTable(connectionSource, Drug.class);
-            TableUtils.createTable(connectionSource, AlarmDrug.class);
-            TableUtils.createTable(connectionSource, PressureData.class);
-            TableUtils.createTable(connectionSource, OtherSymptomsRecord.class);
-            TableUtils.createTable(connectionSource, DoctorsAppointment.class);
-            TableUtils.createTable(connectionSource, Event.class);
-        } catch (SQLException e) {
-            Log.e(TAG, "Can't create database", e);
-            throw new RuntimeException(e);
+    private String getStringFromClassArray(ArrayList<Class> array) {
+        StringBuilder sb = new StringBuilder();
+        for (Class aClass : array) {
+            sb.append(aClass.getName()).append(" ");
+        }
+        return sb.toString().trim().replaceAll(" ", ", ");
+    }
+
+    private void createTables(){
+        final Class[] tablesToCreateInOrder = {
+                Alarm.class,
+                Drug.class,
+                AlarmDrug.class,
+                PressureData.class,
+                OtherSymptomsRecord.class,
+                DoctorsAppointment.class,
+                Event.class
+        };
+
+        ArrayList<Class> notCreatedTables = new ArrayList<>();
+
+        for (Class table : tablesToCreateInOrder) {
+            try {
+                TableUtils.createTable(connectionSource, table);
+                Log.i(TAG, String.format("Table created successfully: %s", table.getName()));
+            } catch (SQLException e) {
+                Log.e(TAG, String.format("Can't create table: %s", table.getName()), e);
+                notCreatedTables.add(table);
+            }
         }
 
+        if (notCreatedTables.size() != 0)
+            throw new RuntimeException(
+                    String.format("Cant create database, because of error while creating tables: %s",
+                            getStringFromClassArray(notCreatedTables))
+            );
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
+        createTables();
+
+        // TODO remove init before release if should not be hardcoded
         try {
             initAlarms();
             initPressureDataTable();
@@ -111,8 +141,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             Log.e(TAG, "Can't insert initial data", e);
             throw new RuntimeException(e);
         }
-
-
     }
 
     @Override
@@ -137,6 +165,11 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     public List<PressureData> getFilteredAndOrderedByDatePressureData(Date dateFrom, Date dateTo) throws SQLException {
         Dao<PressureData, Integer> dao = getDao(PressureData.class);
         return getFilteredByDate(dao.queryBuilder(), "dateTime", false, false, dateFrom, dateTo).query();
+    }
+
+    public List<Event> getFilteredAndOrderedByDateEvents(Date dateFrom, Date dateTo) throws SQLException {
+        Dao<Event, Integer> dao = getDao(Event.class);
+        return getFilteredByDate(dao.queryBuilder(), "startDate", false, false, dateFrom, dateTo).query();
     }
 
     private static Where getFilteredByDate(QueryBuilder queryBuilder, String columnName, boolean isOrderedNow, boolean isAscending, Date dateFrom, Date dateTo) throws SQLException {
@@ -187,5 +220,30 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         result.put("pressures", pressures);
 
         return result;
+    }
+
+    public void importFromJson(JSONObject data) throws JSONException, SQLException, ParseException {
+        Dao<Drug, Integer> drugDao = getDao(Drug.class);
+        int drugsDeleted = drugDao.deleteBuilder().delete();
+        Log.d(TAG, "Delete " + drugsDeleted + " drugs");
+
+        Dao<PressureData, Integer> pressureDao = getDao(PressureData.class);
+        int pressureDeleted = pressureDao.deleteBuilder().delete();
+        Log.d(TAG, "Delete " + pressureDeleted + " pressures");
+
+        JSONArray drugs = data.getJSONArray("drugs");
+        JSONArray pressures = data.getJSONArray("pressures");
+
+        for (int i = 0; i < drugs.length(); i++) {
+            JSONObject drugObject = drugs.getJSONObject(i);
+            Drug drug = Drug.convert(drugObject);
+            drugDao.create(drug);
+        }
+
+        for (int i = 0; i < pressures.length(); i++) {
+            JSONObject pressureObject = pressures.getJSONObject(i);
+            PressureData pressureData = PressureData.convert(pressureObject);
+            pressureDao.create(pressureData);
+        }
     }
 }

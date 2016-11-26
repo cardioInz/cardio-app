@@ -1,22 +1,24 @@
 package cardio_app.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.GridLayout;
 
 import cardio_app.R;
 import cardio_app.activity.alert.AlertsActivity;
 import cardio_app.activity.diary.AddDiaryActivity;
 import cardio_app.activity.diary.DiaryActivity;
 import cardio_app.activity.drug.DrugsActivity;
-import cardio_app.activity.statistics.CreatePdfReportActivity;
+import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
-import cardio_app.activity.util.ExportActivity;
+import cardio_app.activity.synchro.ExportActivity;
+import cardio_app.activity.synchro.ImportActivity;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -24,9 +26,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
     }
 
     @Override
@@ -78,6 +77,11 @@ public class MainActivity extends AppCompatActivity{
 
     public void showExportData(View view) {
         Intent intent = new Intent(this, ExportActivity.class);
+        startActivity(intent);
+    }
+
+    public void showImportData(View view) {
+        Intent intent = new Intent(this, ImportActivity.class);
         startActivity(intent);
     }
 }

@@ -3,16 +3,17 @@ package cardio_app.viewmodel.pdf_creation;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import cardio_app.statistics.pdf_creation.PdfCreationDataModel;
+import java.util.List;
+
+import cardio_app.pdf_creation.param_models.BitmapFromChart;
+import cardio_app.pdf_creation.param_models.PdfChosenParams;
 
 /**
  * Created by kisam on 17.11.2016.
  */
 
 public class PdfCreationViewModel extends BaseObservable {
-
-//    private DataFilterForPdfCreationViewModel dataFilterViewModel = new DataFilterForPdfCreationViewModel();
-    private PdfCreationDataModel pdfDataModel = new PdfCreationDataModel();
+    private PdfChosenParams pdfDataModel = new PdfChosenParams();
 
     public PdfCreationViewModel() {
         pdfDataModel.setSendEmailOpt(true); // by default "send email" redio button checkeds
@@ -67,15 +68,33 @@ public class PdfCreationViewModel extends BaseObservable {
         pdfDataModel.setSendEmailOpt(sendEmailOpt);
     }
 
-    public PdfCreationDataModel getPdfDataModel() {
+    public PdfChosenParams getPdfDataModel() {
         return pdfDataModel;
     }
 
-    public void setPdfDataModel(PdfCreationDataModel pdfDataModel) {
+    public void setPdfDataModel(PdfChosenParams pdfDataModel) {
         this.pdfDataModel = pdfDataModel;
     }
 
-//    public DataFilterForPdfCreationViewModel getDataFilterViewModel() {
-//        return dataFilterViewModel;
-//    }
+    @Bindable
+    public String getChartsListSize(){
+        if (pdfDataModel == null)
+            return String.valueOf(0);
+        List<BitmapFromChart> list = pdfDataModel.getExtraBitmapFromChartList();
+        if (list == null)
+            return String.valueOf(0);
+        return String.valueOf(list.size());
+    }
+
+    public void setChartsListSize(String size){
+        // pass
+    }
+
+    public void setExtraChartsList(List<BitmapFromChart> listImages){
+        pdfDataModel.setExtraBitmapFromChartList(listImages);
+    }
+
+    public List<BitmapFromChart> getExtraChartsList(){
+        return pdfDataModel.getExtraBitmapFromChartList();
+    }
 }

@@ -4,7 +4,7 @@
     <data>
         <variable
             name="measureStat"
-            type="cardio_app.viewmodel.statistics.StatisticMeasureViewModel"/>
+            type="cardio_app.viewmodel.statistics.StatisticLastMeasureViewModel"/>
     </data>
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"

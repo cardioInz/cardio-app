@@ -15,37 +15,33 @@ import java.util.HashMap;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.statistics.analyse.StatisticMeasure;
-import cardio_app.statistics.analyse.StatisticMeasureTypeEnum;
-import cardio_app.viewmodel.statistics.StatisticMeasureViewModel;
+import cardio_app.statistics.analyse.StatisticLastMeasure;
+import cardio_app.viewmodel.statistics.StatisticLastMeasureViewModel;
 
-/**
- * Created by kisam on 15.11.2016.
- */
 
-public class StatisticMeasureAdapter extends ArrayAdapter<StatisticMeasure> {
+class StatisticMeasureAdapter extends ArrayAdapter<StatisticLastMeasure> {
 
-    private StatisticMeasureAdapter(StatisticsLastMeasurementsActivity activity, List<StatisticMeasure> data) {
+    private StatisticMeasureAdapter(StatisticsLastMeasurementsActivity activity, List<StatisticLastMeasure> data) {
         super(activity, R.layout.diary_list_item, data);
     }
 
-    StatisticMeasureAdapter(StatisticsLastMeasurementsActivity activity, HashMap<StatisticMeasureTypeEnum, StatisticMeasure> map) {
+    StatisticMeasureAdapter(StatisticsLastMeasurementsActivity activity, HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> map) {
         this(activity, getListOrderedFromMap(map));
     }
 
-    private static List<StatisticMeasure> getListOrderedFromMap(HashMap<StatisticMeasureTypeEnum, StatisticMeasure> map){
-        List<StatisticMeasure> list = new ArrayList<>();
-        List<StatisticMeasureTypeEnum> keys = new ArrayList<>(map.keySet());
+    private static List<StatisticLastMeasure> getListOrderedFromMap(HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> map){
+        List<StatisticLastMeasure> list = new ArrayList<>();
+        List<StatisticLastMeasure.TypeEnum> keys = new ArrayList<>(map.keySet());
         Collections.sort(keys);
-        for (StatisticMeasureTypeEnum key : keys) {
+        for (StatisticLastMeasure.TypeEnum key : keys) {
             list.add(map.get(key));
-        };
+        }
         return list;
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.statistics_measure_list_item, parent, false);
@@ -57,16 +53,16 @@ public class StatisticMeasureAdapter extends ArrayAdapter<StatisticMeasure> {
         TextView dateTextView = (TextView) convertView.findViewById(R.id.measure_stat_date);
         TextView timeTextView = (TextView) convertView.findViewById(R.id.measure_stat_time);
 
-        StatisticMeasure statisticMeasure = getItem(position);
+        StatisticLastMeasure statisticLastMeasure = getItem(position);
 
-        if (statisticMeasure != null) {
-            StatisticMeasureViewModel viewModel = new StatisticMeasureViewModel(statisticMeasure);
+        if (statisticLastMeasure != null) {
+            StatisticLastMeasureViewModel viewModel = new StatisticLastMeasureViewModel(statisticLastMeasure);
             titleTextView.setText(viewModel.getTitle());
 
             try {
                 nullPtrFound(convertView, false);
                 valuesTextView.setText(viewModel.getValuesStr());
-                arrhythmiaTableRow.setEnabled(statisticMeasure.isArrhythmiaImportant());
+                arrhythmiaTableRow.setEnabled(statisticLastMeasure.isArrhythmiaImportant());
                 arrhythmiaTableRow.setVisibility(viewModel.shouldShowArrhythmia() ? View.VISIBLE : View.GONE);
                 dateTextView.setText(viewModel.getDateStr());
                 timeTextView.setText(viewModel.getTimeStr());

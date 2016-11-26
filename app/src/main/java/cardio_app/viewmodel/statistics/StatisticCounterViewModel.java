@@ -5,9 +5,8 @@ import android.databinding.Bindable;
 
 import cardio_app.statistics.analyse.StatisticCounter;
 
-/**
- * Created by kisam on 15.11.2016.
- */
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.*;
+
 
 public class StatisticCounterViewModel extends BaseObservable {
     private StatisticCounter statisticCounter;
@@ -16,7 +15,7 @@ public class StatisticCounterViewModel extends BaseObservable {
         this(new StatisticCounter());
     }
 
-    public StatisticCounterViewModel(StatisticCounter statisticCounter) {
+    private StatisticCounterViewModel(StatisticCounter statisticCounter) {
         this.statisticCounter = statisticCounter;
     }
 
@@ -32,55 +31,55 @@ public class StatisticCounterViewModel extends BaseObservable {
     public String getArrhythmiaCnt() {
         if (statisticCounter == null)
             return "-";
-        return String.valueOf(statisticCounter.getArrhythmiaCnt());
+        return String.valueOf(statisticCounter.getCnt(ARRHYTHMIA));
     }
 
     @Bindable
     public String getNoArrhythmiaCnt() {
         if (statisticCounter == null)
             return "-";
-        return String.valueOf(statisticCounter.getNoArrhythmiaCnt());
+        return String.valueOf(statisticCounter.getCnt(NO_ARRHYTHMIA));
     }
 
     @Bindable
     public String getUnknownCnt() {
         if (statisticCounter == null)
             return "-";
-        return String.valueOf(statisticCounter.getUnknownCnt());
+        return String.valueOf(statisticCounter.getCnt(UNKNOWN));
     }
 
     @Bindable
     public String getWellCnt() {
         if (statisticCounter == null)
             return "-";
-        return String.valueOf(statisticCounter.getWellCnt());
+        return String.valueOf(statisticCounter.getCnt(WELL));
     }
 
     @Bindable
     public String getMiddleCnt() {
         if (statisticCounter == null)
             return "-";
-        return String.valueOf(statisticCounter.getMiddleCnt());
+        return String.valueOf(statisticCounter.getCnt(LITTLE_LOW_OR_HIGH));
     }
 
     @Bindable
     public String getBadDiffCnt() {
         if (statisticCounter == null)
             return "-";
-        return String.valueOf(statisticCounter.getBadDiffCnt());
+        return String.valueOf(statisticCounter.getCnt(BAD_DIFF));
     }
 
     @Bindable
     public String getBadCnt() {
         if (statisticCounter == null)
             return "-";
-        return String.valueOf(statisticCounter.getBadCnt());
+        return String.valueOf(statisticCounter.getCnt(BAD));
     }
 
     @Bindable
     public String getTotalCnt() {
         if (statisticCounter == null)
             return "-";
-        return String.valueOf(statisticCounter.getTotalCnt());
+        return String.valueOf(statisticCounter.getCnt(TOTAL));
     }
 }
