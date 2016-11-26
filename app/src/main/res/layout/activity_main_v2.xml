@@ -17,7 +17,7 @@
         android:columnCount="3"
         android:stretchMode="columnWidth"
         >
-        
+
         <Button
             style="@style/MenuButton"
             android:text="@string/my_profile"

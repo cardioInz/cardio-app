@@ -52,6 +52,7 @@ public class CreatePdfUtil {
     private static PdfRecordsContainer recordsContainer;
     private static Resources resources;
 
+
     private static void scaleImage(Image image, Document document) {
 
         float w = image.getWidth(); // pdf 595
@@ -156,7 +157,7 @@ public class CreatePdfUtil {
                         + " from " + dateFromStr
                         + " to " + dateToStr,
                 smallBold));
-        addEmptyLine(preface, 4);
+        addEmptyLine(preface, 2);
         document.add(preface);
     }
 
@@ -172,12 +173,13 @@ public class CreatePdfUtil {
         anchor.setName(name);
 
         Chapter catPart = new Chapter(new Paragraph(anchor), 4);
+        catPart.setTriggerNewPage(false);
         addEmptyLine(catPart, 1);
 
         for (Image image : imageList) {
             if (image != null) {
                 scaleImage(image, document); // scale to page width
-                scaleImage(image, 0.5f); // percent
+                scaleImage(image, 0.4f); // percent
                 catPart.add(image);
             } else
                 Log.e(TAG, "addChart: image = null");
@@ -187,23 +189,26 @@ public class CreatePdfUtil {
     }
 
     private static void addQuestionnaire(Document document) throws DocumentException {
-        String name = "About patient";
+        String name = "About patient - Questionnaire";
         Anchor anchor = new Anchor(name, catFont);
         anchor.setName(name);
 
         // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+        catPart.setTriggerNewPage(false);
         addEmptyLine(catPart, 1);
 
-        Paragraph subPara = new Paragraph("Questionnaire", subFont);
-        Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Czy osoba pali: "));
-        subCatPart.add(new Paragraph("Czy jest cukrzykiem: "));
-        subCatPart.add(new Paragraph("Wiek: "));
-        subCatPart.add(new Paragraph("Wzrost [cm]: "));
-        subCatPart.add(new Paragraph("Waga [kg]: "));
-        subCatPart.add(new Paragraph("Plec: "));
+//        Paragraph subPara = new Paragraph("Questionnaire", subFont);
+//        Section subCatPart = catPart.addSection(subPara);
+        addEmptyLine(catPart, 1);
+        catPart.add(new Paragraph("Czy osoba pali: "));
+        catPart.add(new Paragraph("Czy jest cukrzykiem: "));
+        catPart.add(new Paragraph("Wiek: "));
+        catPart.add(new Paragraph("Wzrost [cm]: "));
+        catPart.add(new Paragraph("Waga [kg]: "));
+        catPart.add(new Paragraph("Plec: "));
 
+        addEmptyLine(catPart, 2);
         document.add(catPart);
     }
 
@@ -213,9 +218,11 @@ public class CreatePdfUtil {
         anchor.setName(name);
 
         Chapter catPart = new Chapter(new Paragraph(anchor), 2);
+        catPart.setTriggerNewPage(false);
         addEmptyLine(catPart, 1);
         createTableOfPressure(catPart);
 
+        addEmptyLine(catPart, 2);
         document.add(catPart);
     }
 
@@ -225,6 +232,7 @@ public class CreatePdfUtil {
         anchor.setName(name);
 
         Chapter catPart = new Chapter(new Paragraph(anchor), 3);
+//        catPart.setTriggerNewPage(false);
         addEmptyLine(catPart, 1);
 
         List listCnt = new List(false, false, 10);
@@ -244,6 +252,7 @@ public class CreatePdfUtil {
         addEmptyLine(subCatPart, 1);
         subCatPart.add(listLast);
 
+        addEmptyLine(catPart, 2);
         document.add(catPart);
     }
 
