@@ -29,14 +29,14 @@
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="@dimen/_8sdp"/>
+            android:minWidth="8sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/image_name_text_view"
             android:text="@{bitmapFromChart.fileName}"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="15sp"
             android:layout_gravity="center_vertical"
             />
 
