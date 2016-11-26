@@ -32,6 +32,7 @@ import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
 import cardio_app.db.model.PressureData;
 import cardio_app.db.model.TimeUnit;
+import cardio_app.db.model.UserProfile;
 import temporary_package.InitialPressureData;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
@@ -106,7 +107,8 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
                 PressureData.class,
                 OtherSymptomsRecord.class,
                 DoctorsAppointment.class,
-                Event.class
+                Event.class,
+                UserProfile.class
         };
 
         ArrayList<Class> notCreatedTables = new ArrayList<>();

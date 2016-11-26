@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -85,8 +85,8 @@
         <activity
             android:name=".activity.statistics.ChartActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="sensorLandscape"
-            android:label="@string/title_statistics_charts" />
+            android:label="@string/title_statistics_charts"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".activity.events.AddEventActivity"
             android:label="@string/title_add_event" />
@@ -105,7 +105,8 @@
             android:label="@string/title_activity_save_chart" />
         <activity
             android:name=".activity.pdf_creation.CollectedChartsActivity"
-            android:label="@string/title_activity_collected_charts"/>
+            android:label="@string/title_activity_collected_charts" />
+        <activity android:name=".activity.profile.ProfileActivity"></activity>
     </application>
 
 </manifest>

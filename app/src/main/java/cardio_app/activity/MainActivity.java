@@ -16,6 +16,7 @@ import cardio_app.activity.drug.DrugsActivity;
 import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
+import cardio_app.activity.profile.ProfileActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
 import cardio_app.activity.synchro.ExportActivity;
 import cardio_app.activity.synchro.ImportActivity;
@@ -82,6 +83,11 @@ public class MainActivity extends AppCompatActivity{
 
     public void showImportData(View view) {
         Intent intent = new Intent(this, ImportActivity.class);
+        startActivity(intent);
+    }
+
+    public void showProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 }
