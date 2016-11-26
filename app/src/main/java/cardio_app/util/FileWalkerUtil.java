@@ -1,13 +1,9 @@
 package cardio_app.util;
 
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -15,10 +11,6 @@ import java.util.List;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 
 import static android.content.ContentValues.TAG;
-
-/**
- * Created by kisam on 23.11.2016.
- */
 
 public class FileWalkerUtil {
 
@@ -103,22 +95,25 @@ public class FileWalkerUtil {
         if (outputFolder.isDirectory()) {
             final File[] files = outputFolder.listFiles();
             for (File file : files) {
-                if (file.isDirectory()) {
-                    try {
-                        FileUtils.deleteDirectory(file);
-                    } catch (IOException e) {
-                        // silent
-                    }
-                } else {
-                    try {
-                        file.delete();
-                    } catch (Exception e){
-                        // silent
-                    }
-                }
+                delete(file);
             }
 
         }
+    }
+
+    private static void delete(File file) {
+        if (file.isDirectory()) {
+            for (File c : file.listFiles())
+                delete(c);
+        }
+
+        try {
+            if (!file.delete())
+                Log.e(TAG, "delete: failed for:" + file.getAbsolutePath());;
+        } catch (Exception e){
+            Log.e(TAG, "delete: exception", e);
+        }
+
     }
 
     public static void deleteAllCollectedCharts(){

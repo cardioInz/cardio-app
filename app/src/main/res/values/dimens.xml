@@ -9,4 +9,15 @@
     <dimen name="statistic_header_size">17sp</dimen>
     <dimen name="statistic_min_space_width">10sp</dimen>
     <dimen name="statistic_min_space_height">10sp</dimen>
+
+    <dimen name="menu_button_layout_size">90sp</dimen>
+    <!--@dimen/_95sdp-->
+
+    <dimen name="menu_button_text_size">10sp</dimen>
+    <!--@dimen/_10sdp-->
+
+    <dimen name="menu_button_size">70sp</dimen>
+    <!--@dimen/_70sdp-->
+
+    <!--drawable images - @dimen/_60sdp-->
 </resources>

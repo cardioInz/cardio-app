@@ -25,11 +25,11 @@
             android:text="@string/my_profile"
             android:id="@+id/button_my_profile"
             android:drawableTop="@drawable/my_profile"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -38,11 +38,11 @@
             android:id="@+id/button_reports"
             android:drawableTop="@drawable/reports"
             android:onClick="showCreatePdfReport"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -51,11 +51,11 @@
             android:id="@+id/button_add_measure"
             android:drawableTop="@drawable/add_m"
             android:onClick="addMeasure"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -64,11 +64,11 @@
             android:id="@+id/button_events_list"
             android:drawableTop="@drawable/list_e"
             android:onClick="showEventsList"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -77,11 +77,11 @@
             android:id="@+id/button_add_event"
             android:drawableTop="@drawable/add_e"
             android:onClick="addEvent"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -90,11 +90,11 @@
             android:id="@+id/button_stats"
             android:drawableTop="@drawable/stats"
             android:onClick="showStatistics"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -103,11 +103,11 @@
             android:id="@+id/button_drugs"
             android:drawableTop="@drawable/drugs"
             android:onClick="showDrugsList"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -116,11 +116,11 @@
             android:id="@+id/button_alerts"
             android:drawableTop="@drawable/alerts"
             android:onClick="showAlertsList"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -129,11 +129,11 @@
             android:id="@+id/button_list_measures"
             android:drawableTop="@drawable/list_m"
             android:onClick="showMeasuresList"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -141,11 +141,11 @@
             android:text="@string/import_data"
             android:id="@+id/button_import"
             android:drawableTop="@drawable/import_ic"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
 	    android:onClick="showImportData"
             />
 
@@ -154,11 +154,11 @@
             android:text="@string/settings"
             android:id="@+id/button_settings"
             android:drawableTop="@drawable/settings"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
 
         <Button
@@ -167,11 +167,11 @@
             android:id="@+id/button_export"
             android:drawableTop="@drawable/export"
             android:onClick="showExportData"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:textSize="@dimen/menu_button_text_size"
+            android:width="@dimen/menu_button_size"
+            android:height="@dimen/menu_button_size"
+            android:layout_width="@dimen/menu_button_layout_size"
+            android:layout_height="@dimen/menu_button_layout_size"
             />
     </GridLayout>
 
