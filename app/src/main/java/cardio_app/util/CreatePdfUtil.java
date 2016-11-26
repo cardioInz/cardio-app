@@ -2,6 +2,7 @@ package cardio_app.util;
 
 // source: http://www.vogella.com/tutorials/JavaPDF/article.html // TODO not use "copy-paste"-ed codes
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.itextpdf.text.Anchor;
@@ -24,11 +25,17 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.HashMap;
 
+import cardio_app.R;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
+import cardio_app.statistics.Statistics;
+import cardio_app.statistics.analyse.StatisticCounter;
+import cardio_app.statistics.analyse.StatisticLastMeasure;
 import cardio_app.viewmodel.PressureDataViewModel;
+import cardio_app.viewmodel.statistics.StatisticLastMeasureViewModel;
 
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
@@ -43,6 +50,7 @@ public class CreatePdfUtil {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
     private static PdfRecordsContainer recordsContainer;
+    private static Resources resources;
 
     private static void scaleImage(Image image, Document document) {
 
@@ -72,8 +80,10 @@ public class CreatePdfUtil {
 //        return Bitmap.createScaledBitmap(bitmap, newW, newH, false);
 //    }
 
-    public static void createAndSavePdf(String fileLocation, PdfRecordsContainer recordsContainerParam, java.util.List<Image> imageList) {
+    public static void createAndSavePdf(String fileLocation, PdfRecordsContainer recordsContainerParam,
+                                        java.util.List<Image> imageList, Resources res) {
         try {
+            resources = res;
             recordsContainer = recordsContainerParam;
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
@@ -90,7 +100,6 @@ public class CreatePdfUtil {
             addContent(document);
             addExtraCharts(document, imageList);
 
-
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,6 +107,7 @@ public class CreatePdfUtil {
         }
 
         recordsContainer = null;
+        resources = null;
     }
 
     private static void addMetaData(Document document) {
@@ -167,7 +177,7 @@ public class CreatePdfUtil {
         for (Image image : imageList) {
             if (image != null) {
                 scaleImage(image, document); // scale to page width
-                scaleImage(image, 0.3f); // percent
+                scaleImage(image, 0.5f); // percent
                 catPart.add(image);
             } else
                 Log.e(TAG, "addChart: image = null");
@@ -198,31 +208,47 @@ public class CreatePdfUtil {
     }
 
     private static void addPressureData(Document document) throws DocumentException {
-        String name = "Blood pressure records";
+        String name = resources.getString(R.string.pdf_chapter_blood_pressure);
         Anchor anchor = new Anchor(name, catFont);
         anchor.setName(name);
 
         Chapter catPart = new Chapter(new Paragraph(anchor), 2);
         addEmptyLine(catPart, 1);
-        createTable(catPart);
+        createTableOfPressure(catPart);
 
         document.add(catPart);
     }
 
     private static void addStatistics(Document document) throws DocumentException {
-        String name = "Statistics";
+        String name = resources.getString(R.string.pdf_chapter_statistics);
         Anchor anchor = new Anchor(name, catFont);
         anchor.setName(name);
 
         Chapter catPart = new Chapter(new Paragraph(anchor), 3);
         addEmptyLine(catPart, 1);
-        createList(catPart);
+
+        List listCnt = new List(false, false, 10);
+        List listLast = new List(false, false, 10);
+        createListOfMeasurements(listCnt, listLast);
+
+
+        Paragraph subPara = new Paragraph(resources.getString(R.string.title_statistics_countered_measures), subFont);
+        Section subCatPart = catPart.addSection(subPara);
+        addEmptyLine(subCatPart, 1);
+        subCatPart.add(listCnt);
+
+        addEmptyLine(catPart, 2);
+
+        subPara = new Paragraph(resources.getString(R.string.title_statistics_last_measures), subFont);
+        subCatPart = catPart.addSection(subPara);
+        addEmptyLine(subCatPart, 1);
+        subCatPart.add(listLast);
 
         document.add(catPart);
     }
 
 
-    private static void createTable(Section subCatPart) throws BadElementException, DocumentException {
+    private static void createTableOfPressure(Section subCatPart) throws DocumentException {
         PdfPTable table = new PdfPTable(7);
 
         // t.setBorderColor(BaseColor.GRAY);
@@ -230,31 +256,31 @@ public class CreatePdfUtil {
         // t.setSpacing(4);
         // t.setBorderWidth(1);
 
-        PdfPCell c1 = new PdfPCell(new Phrase("Systole"));
+        PdfPCell c1 = new PdfPCell(new Phrase(resources.getString(R.string.pdf_systole)));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Diastole"));
+        c1 = new PdfPCell(new Phrase(resources.getString(R.string.pdf_diastole)));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Difference"));
+        c1 = new PdfPCell(new Phrase(resources.getString(R.string.pdf_difference)));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Pulse"));
+        c1 = new PdfPCell(new Phrase(resources.getString(R.string.pdf_pulse)));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Arrhythmia"));
+        c1 = new PdfPCell(new Phrase(resources.getString(R.string.pdf_arrhythmia)));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Date"));
+        c1 = new PdfPCell(new Phrase(resources.getString(R.string.pdf_date)));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Time"));
+        c1 = new PdfPCell(new Phrase(resources.getString(R.string.pdf_time)));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
@@ -280,13 +306,52 @@ public class CreatePdfUtil {
 
     }
 
-    private static void createList(Section subCatPart) {
-//        Statistics statistics = new Statistics(true, false); // counter
-        List list = new List(true, false, 10);
-        list.add(new ListItem("First point"));
-        list.add(new ListItem("Second point"));
-        list.add(new ListItem("Third point"));
-        subCatPart.add(list);
+    private static void createListOfMeasurements(List listCnt, List listLast) {
+        final boolean statCnt = listCnt != null;
+        final boolean statLast = listLast != null;
+        Statistics statistics = new Statistics(statCnt, statLast);
+        statistics.assignValues(recordsContainer.getPressureDataList());
+
+        if (statCnt) {
+            final HashMap<StatisticCounter.TypeEnum, Integer> mapCounter = statistics.getStatisticCounter().getMapCounter();
+            for (StatisticCounter.TypeEnum key : StatisticCounter.TypeEnum.values()) {
+                if (!mapCounter.containsKey(key))
+                    continue;
+
+                final int cnt = mapCounter.get(key);
+                final String title = resources.getString(key.toTitleId());
+                listCnt.add(new ListItem(title + " " + cnt));
+            }
+        }
+
+        if (statLast) {
+            final HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> mapLastMeasures = statistics.getStatisticMeasuresMap();
+            final StatisticLastMeasureViewModel measureViewModel = new StatisticLastMeasureViewModel();
+            for (StatisticLastMeasure.TypeEnum key : StatisticLastMeasure.TypeEnum.values()) {
+                if (!mapLastMeasures.keySet().contains(key))
+                    continue;
+
+                final String title = resources.getString(key.mapToTitleStringId());
+                final StatisticLastMeasure statisticLastMeasure = mapLastMeasures.get(key);
+                measureViewModel.setStatisticLastMeasure(statisticLastMeasure);
+
+                final String listItemStr = String.format("%s\n\t%s  %s\n\t%s  %s\n\t%s  %s%s\n\n",
+                        title,
+                        resources.getString(R.string.statistics_title_values), measureViewModel.getValuesStr(),
+                        resources.getString(R.string.statistics_title_date), measureViewModel.getDateStr(),
+                        resources.getString(R.string.statistics_title_time), measureViewModel.getTimeStr(),
+                        (
+                                !measureViewModel.shouldShowArrhythmia() ? "" :
+                                        String.format("\n%s", statisticLastMeasure.getPressureData().isArrhythmia() ?
+                                                resources.getString(R.string.statistics_title_arrhythmia) :
+                                                resources.getString(R.string.statistics_title_no_arrhythmia)
+                                        )
+                        )
+                );
+
+                listLast.add(new ListItem(listItemStr));
+            }
+        }
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
@@ -304,4 +369,5 @@ public class CreatePdfUtil {
     private static DbHelper getHelper(){
         return recordsContainer.getDbHelper();
     }
+
 }

@@ -19,8 +19,8 @@ import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.statistics.Statistics;
-import cardio_app.statistics.analyse.StatisticMeasure;
-import cardio_app.statistics.analyse.StatisticMeasureTypeEnum;
+import cardio_app.statistics.analyse.StatisticLastMeasure;
+import cardio_app.statistics.analyse.StatisticLastMeasure.TypeEnum;
 
 public class StatisticsLastMeasurementsActivity extends AppCompatActivity {
 
@@ -53,8 +53,8 @@ public class StatisticsLastMeasurementsActivity extends AppCompatActivity {
             statistics.assignValues(new ArrayList<>());
         }
 
-        HashMap<StatisticMeasureTypeEnum, StatisticMeasure> map = statistics.getStatisticMeasuresMap();
-        for (StatisticMeasureTypeEnum key : map.keySet()) {
+        HashMap<TypeEnum, StatisticLastMeasure> map = statistics.getStatisticMeasuresMap();
+        for (TypeEnum key : map.keySet()) {
             String title = getResources().getString(key.mapToTitleStringId());
             map.get(key).setTitle(title);
         }

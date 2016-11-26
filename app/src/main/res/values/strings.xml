@@ -151,9 +151,21 @@
     <string name="collected_charts_deselect_all">Deselect all</string>
     <string name="collected_charts_select_all">Select all</string>
     <string name="collected_charts_remove_all">Remove all</string>
-    <string name="chart_could_not_be_saved">Error! Chart could not be saved...</string>
+    <string name="chart_could_not_be_saved">Error! Chart could not be saved…</string>
     <string name="title_activity_get_chart_to_pdf">Get chart to PDF</string>
     <string name="after_chart_delete">Chart has been successfully deleted.</string>
-    <string name="chart_is_being_saved">Chart is being saved...</string>
+    <string name="chart_is_being_saved">Chart is being saved…</string>
     <string name="are_you_sure_to_delete_all_items">Are you sure that you want to delete all items?</string>
+
+    <string name="pdf_chapter_statistics">Statistics</string>
+    <string name="pdf_chapter_blood_pressure">Blood pressure records</string>
+    <string name="pdf_systole">Systole</string>
+    <string name="pdf_diastole">Diastole</string>
+    <string name="pdf_difference">Difference</string>
+    <string name="pdf_pulse">Pulse</string>
+    <string name="pdf_arrhythmia">Arrhythmia</string>
+    <string name="pdf_date">Date</string>
+    <string name="pdf_time">Time</string>
+
+
 </resources>

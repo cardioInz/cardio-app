@@ -28,9 +28,6 @@ import cardio_app.util.PermissionUtil;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * Created by kisam on 18.11.2016.
- */
 
 public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
 
@@ -142,7 +139,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
 
 
             String absolutePathStr = file.getAbsolutePath();
-            CreatePdfUtil.createAndSavePdf(absolutePathStr, pdfRecordsContainer, imageList);
+            CreatePdfUtil.createAndSavePdf(absolutePathStr, pdfRecordsContainer, imageList, contextActivity.getResources());
         }
         return null;
     }

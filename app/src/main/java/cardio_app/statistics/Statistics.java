@@ -6,20 +6,15 @@ import java.util.List;
 import cardio_app.db.model.PressureData;
 import cardio_app.statistics.analyse.HealthCondition;
 import cardio_app.statistics.analyse.StatisticCounter;
-import cardio_app.statistics.analyse.StatisticMeasure;
-import cardio_app.statistics.analyse.StatisticMeasureTypeEnum;
+import cardio_app.statistics.analyse.StatisticLastMeasure;
 
-import static cardio_app.statistics.analyse.StatisticMeasureTypeEnum.*;
-
-/**
- * Created by kisam on 14.11.2016.
- */
+import static cardio_app.statistics.analyse.StatisticLastMeasure.TypeEnum.*;
 
 public class Statistics {
 
     private static final String TAG = Statistics.class.toString();
     private StatisticCounter statisticCounter;
-    private HashMap<StatisticMeasureTypeEnum, StatisticMeasure> statisticMeasuresMap = new HashMap<>();
+    private HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> statisticMeasuresMap = new HashMap<>();
     private boolean doForCounter;
     private boolean doForMeasures;
 
@@ -38,13 +33,13 @@ public class Statistics {
         }
 
         if (this.doForMeasures) {
-            statisticMeasuresMap.put(LAST, new StatisticMeasure(true));
-            statisticMeasuresMap.put(LAST_BAD, new StatisticMeasure(true));
-            statisticMeasuresMap.put(LAST_MIDDLE, new StatisticMeasure(true));
-            statisticMeasuresMap.put(LAST_WELL, new StatisticMeasure(true));
-            statisticMeasuresMap.put(LAST_BAD_DIFF, new StatisticMeasure(true));
-            statisticMeasuresMap.put(LAST_ARRHYTHMIA, new StatisticMeasure(false));
-            statisticMeasuresMap.put(LAST_NO_ARRHYTHMIA, new StatisticMeasure(false));
+            statisticMeasuresMap.put(LAST, new StatisticLastMeasure(true));
+            statisticMeasuresMap.put(LAST_BAD, new StatisticLastMeasure(true));
+            statisticMeasuresMap.put(LAST_MIDDLE, new StatisticLastMeasure(true));
+            statisticMeasuresMap.put(LAST_WELL, new StatisticLastMeasure(true));
+            statisticMeasuresMap.put(LAST_BAD_DIFF, new StatisticLastMeasure(true));
+            statisticMeasuresMap.put(LAST_ARRHYTHMIA, new StatisticLastMeasure(false));
+            statisticMeasuresMap.put(LAST_NO_ARRHYTHMIA, new StatisticLastMeasure(false));
         }
 
         assignValues(pressureDataList);
@@ -55,90 +50,82 @@ public class Statistics {
         return statisticCounter;
     }
 
-    public HashMap<StatisticMeasureTypeEnum, StatisticMeasure> getStatisticMeasuresMap() {
+    public HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> getStatisticMeasuresMap() {
         return statisticMeasuresMap;
     }
 
     private void prepareForCounter(List<PressureData> list) {
         statisticCounter.zeroAll();
-        statisticCounter.setTotalCnt(list.size());
+        statisticCounter.setCntOfKey(StatisticCounter.TypeEnum.TOTAL, list.size());
 
-        for (int i = 0; i < list.size(); i++) {
-            PressureData currentPressureData = list.get(i);
-            HealthCondition hc = HealthCondition.classify(currentPressureData);
+        HealthCondition hc; // classified condition of pressure data
+        StatisticCounter.TypeEnum typeC; // condition
+        StatisticCounter.TypeEnum typeA; // arrhythmia
 
-            if (hc.isSimplifiedBadDiff()) {
-                statisticCounter.incBadDiffCnt();
-            } else if (hc.isSimplifiedBad()) {
-                statisticCounter.incBadCnt();
-            } else if (hc.isSimplifiedWell()) {
-                statisticCounter.incWellCnt();
-            } else if (hc.isSimplifiedMiddle()) {
-                statisticCounter.incMiddleCnt();
-            } else if (hc.isSimplifiedUnknown()) {
-                statisticCounter.incUnknownCnt();
-            }
+        for (PressureData pressureData : list) {
+            hc = HealthCondition.classify(pressureData);
+            if (hc == null)
+                continue;
 
-            if (currentPressureData.isArrhythmia()) {
-                statisticCounter.incArrhythmiaCnt();
-            } else {
-                statisticCounter.incNoArrhythmiaCnt();
-            }
+            typeC = mapConditionTo_CounteredMeasureEnum(hc);
+            statisticCounter.incValueOfKey(typeC);
+
+            typeA = pressureData.isArrhythmia() ?
+                    StatisticCounter.TypeEnum.ARRHYTHMIA :
+                    StatisticCounter.TypeEnum.NO_ARRHYTHMIA;
+            statisticCounter.incValueOfKey(typeA);
         }
     }
 
     private void prepareForLastMeasures(List<PressureData> list) {
-        PressureData lastMeasure = list.isEmpty() ? null : list.get(0);
 
-        PressureData lastBadConditionMeasure = null;
-        PressureData lastMiddleConditionMeasure = null;
-        PressureData lastWellConditionMeasure = null;
-        PressureData lastBadDiffConditionMeasure = null;
-        PressureData lastArrhythmiaMeasure = null;
-        PressureData lastNoArrhythmiaMeasure = null;
+        HashMap<StatisticLastMeasure.TypeEnum, PressureData> lastMap = new HashMap<StatisticLastMeasure.TypeEnum, PressureData>(){{
+            for (StatisticLastMeasure.TypeEnum typeEnum : statisticMeasuresMap.keySet()) {
+                put(typeEnum, null);
+            }
+        }};
 
-        for (int i = 0; i < list.size(); i++) {
-            PressureData currentPressureData = list.get(i);
-            HealthCondition hc = HealthCondition.classify(currentPressureData);
+        lastMap.put(LAST, list.isEmpty() ? null : list.get(0));
 
-            if (hc.isSimplifiedBadDiff() && lastBadDiffConditionMeasure == null) {
-                lastBadDiffConditionMeasure = currentPressureData;
-            } else if (hc.isSimplifiedBad() && lastBadConditionMeasure == null) {
-                lastBadConditionMeasure = currentPressureData;
-            } else if (hc.isSimplifiedWell() && lastWellConditionMeasure == null) {
-                lastWellConditionMeasure = currentPressureData;
-            } else if (hc.isSimplifiedMiddle() && lastMiddleConditionMeasure == null) {
-                lastMiddleConditionMeasure = currentPressureData;
+        StatisticLastMeasure.TypeEnum typeC;
+        StatisticLastMeasure.TypeEnum typeA;
+        HealthCondition hc;
+        boolean shouldFinish;
+
+        for (PressureData pressureData : list) {
+            hc = HealthCondition.classify(pressureData);
+
+            typeC = mapConditionTo_StatisticMeasureTypeEnum(hc);
+
+            if (lastMap.containsKey(typeC) && lastMap.get(typeC) == null) {
+                lastMap.put(typeC, pressureData);
             }
 
-            if (currentPressureData.isArrhythmia()) {
-                if (lastArrhythmiaMeasure == null) {
-                    lastArrhythmiaMeasure = currentPressureData;
-                }
-            } else {
-                if (lastNoArrhythmiaMeasure == null) {
-                    lastNoArrhythmiaMeasure = currentPressureData;
+
+            typeA = pressureData.isArrhythmia() ?
+                    StatisticLastMeasure.TypeEnum.LAST_ARRHYTHMIA :
+                    StatisticLastMeasure.TypeEnum.LAST_NO_ARRHYTHMIA;
+            if (lastMap.containsKey(typeA) && lastMap.get(typeA) == null) {
+                lastMap.put(typeA, pressureData);
+            }
+
+            shouldFinish = true;
+            for (StatisticLastMeasure.TypeEnum typeEnum : lastMap.keySet()) {
+                if (lastMap.get(typeEnum) == null){
+                    shouldFinish = false;
+                    break;
                 }
             }
 
-            if (lastBadConditionMeasure != null
-                    && lastMiddleConditionMeasure != null
-                    && lastWellConditionMeasure != null
-                    && lastBadDiffConditionMeasure != null
-                    && lastArrhythmiaMeasure != null
-                    && lastNoArrhythmiaMeasure != null){
+            if (shouldFinish)
                 break;
-            }
         }
 
-        statisticMeasuresMap.get(LAST).setPressureData(lastMeasure);
-
-        statisticMeasuresMap.get(LAST_BAD).setPressureData(lastBadConditionMeasure);
-        statisticMeasuresMap.get(LAST_MIDDLE).setPressureData(lastMiddleConditionMeasure);
-        statisticMeasuresMap.get(LAST_WELL).setPressureData(lastWellConditionMeasure);
-        statisticMeasuresMap.get(LAST_BAD_DIFF).setPressureData(lastBadDiffConditionMeasure);
-        statisticMeasuresMap.get(LAST_ARRHYTHMIA).setPressureData(lastArrhythmiaMeasure);
-        statisticMeasuresMap.get(LAST_NO_ARRHYTHMIA).setPressureData(lastNoArrhythmiaMeasure);
+        for (StatisticLastMeasure.TypeEnum key : statisticMeasuresMap.keySet()) {
+            if (!statisticMeasuresMap.containsKey(key) || !lastMap.containsKey(key))
+                continue;
+            statisticMeasuresMap.get(key).setPressureData(lastMap.get(key));
+        }
     }
 
     public void assignValues(List<PressureData> list) {
@@ -146,5 +133,47 @@ public class Statistics {
             prepareForCounter(list);
         if (doForMeasures)
             prepareForLastMeasures(list);
+    }
+
+    private static StatisticLastMeasure.TypeEnum mapConditionTo_StatisticMeasureTypeEnum(HealthCondition hc){
+        HealthCondition.Simplified condition = HealthCondition.mapToSimplifiedCondition(hc);
+        if (condition == null)
+            return null;
+
+        switch (condition){
+
+            case WELL:
+                return StatisticLastMeasure.TypeEnum.LAST_WELL;
+            case BAD:
+                return StatisticLastMeasure.TypeEnum.LAST_BAD;
+            case MIDDLE:
+                return StatisticLastMeasure.TypeEnum.LAST_MIDDLE;
+            case BAD_DIFF:
+                return StatisticLastMeasure.TypeEnum.LAST_BAD_DIFF;
+            default:
+                return null;
+        }
+    }
+
+
+    private static StatisticCounter.TypeEnum mapConditionTo_CounteredMeasureEnum(HealthCondition hc){
+        HealthCondition.Simplified condition = HealthCondition.mapToSimplifiedCondition(hc);
+        if (condition == null)
+            return null;
+
+        switch (condition){
+            case WELL:
+                return StatisticCounter.TypeEnum.WELL;
+            case BAD:
+                return StatisticCounter.TypeEnum.BAD;
+            case MIDDLE:
+                return StatisticCounter.TypeEnum.LITTLE_LOW_OR_HIGH;
+            case BAD_DIFF:
+                return StatisticCounter.TypeEnum.BAD_DIFF;
+            case UNKNOWN:
+                return StatisticCounter.TypeEnum.UNKNOWN;
+            default:
+                return null;
+        }
     }
 }
