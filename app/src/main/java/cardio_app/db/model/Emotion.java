@@ -6,5 +6,6 @@ public enum Emotion {
     SAD,
     ANGRY,
     CRYING,
-    STRESSED
+    STRESSED,
+    NONE
 }

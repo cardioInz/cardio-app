@@ -30,20 +30,41 @@ public class Event extends BaseModel implements Parcelable {
     private Emotion emotion;
     @DatabaseField(foreign = true)
     private DoctorsAppointment doctorsAppointment;
+    @DatabaseField
+    private DailyActivitiesRecord dailyActivitiesRecord;
+    @DatabaseField
+    private boolean isAlarmSet;
 
     public Event() {
+        this.startDate = getCurrentDate();
+        this.endDate = getCurrentDate();
+        this.isRepeatable = false;
+        this.timeUnit = TimeUnit.NONE;
+        this.timeDelta = 0;
+        this.description = "";
+        this.otherSymptomsRecord = new OtherSymptomsRecord();
+        this.emotion = Emotion.NONE;
+        this.doctorsAppointment = new DoctorsAppointment();
+        this.dailyActivitiesRecord = DailyActivitiesRecord.NONE;
+        this.isAlarmSet = false;
 
+    }
+
+    public Date getCurrentDate(){
+        return new Date(System.currentTimeMillis());
     }
 
     public Event(Date startDate,
                  Date endDate,
                  boolean isRepeatable,
+                 TimeUnit timeUnit,
                  int timeDelta,
                  String description,
-                 TimeUnit timeUnit,
-                 Emotion emotion,
                  OtherSymptomsRecord otherSymptomsRecord,
-                 DoctorsAppointment doctorsAppointment) {
+                 Emotion emotion,
+                 DoctorsAppointment doctorsAppointment,
+                 DailyActivitiesRecord dailyActivitiesRecord,
+                 boolean isAlarmSet) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.isRepeatable = isRepeatable;
@@ -53,18 +74,22 @@ public class Event extends BaseModel implements Parcelable {
         this.otherSymptomsRecord = otherSymptomsRecord;
         this.emotion = emotion;
         this.doctorsAppointment = doctorsAppointment;
+        this.dailyActivitiesRecord = dailyActivitiesRecord;
+        this.isAlarmSet = isAlarmSet;
     }
 
     public Event(int id,
                  Date startDate,
                  Date endDate,
                  boolean isRepeatable,
+                 TimeUnit timeUnit,
                  int timeDelta,
                  String description,
-                 TimeUnit timeUnit,
-                 Emotion emotion,
                  OtherSymptomsRecord otherSymptomsRecord,
-                 DoctorsAppointment doctorsAppointment) {
+                 Emotion emotion,
+                 DoctorsAppointment doctorsAppointment,
+                 DailyActivitiesRecord dailyActivitiesRecord,
+                 boolean isAlarmSet) {
         super(id);
         this.startDate = startDate;
         this.endDate = endDate;
@@ -75,23 +100,39 @@ public class Event extends BaseModel implements Parcelable {
         this.otherSymptomsRecord = otherSymptomsRecord;
         this.emotion = emotion;
         this.doctorsAppointment = doctorsAppointment;
+        this.dailyActivitiesRecord = dailyActivitiesRecord;
+        this.isAlarmSet = isAlarmSet;
     }
 
     protected Event(Parcel in) {
         super(in.readInt());
-        isRepeatable = in.readByte() != 0;
-        timeUnit = TimeUnit.valueOf(in.readString());
-        timeDelta = in.readInt();
-        description = in.readString();
-        emotion = Emotion.valueOf(in.readString());
-        otherSymptomsRecord = in.readParcelable(OtherSymptomsRecord.class.getClassLoader());
-        doctorsAppointment = in.readParcelable(DoctorsAppointment.class.getClassLoader());
         try {
             startDate = DATETIME_FORMATTER.parse(in.readString());
             endDate = DATETIME_FORMATTER.parse(in.readString());
         } catch (Exception e) {
 
         }
+        isRepeatable = in.readByte() != 0;
+        try {
+            timeUnit = TimeUnit.valueOf(in.readString());
+        } catch (Exception e) {
+            timeUnit = TimeUnit.NONE;
+        }
+        timeDelta = in.readInt();
+        description = in.readString();
+        otherSymptomsRecord = in.readParcelable(OtherSymptomsRecord.class.getClassLoader());
+        try {
+            emotion = Emotion.valueOf(in.readString());
+        } catch (Exception e) {
+            emotion = Emotion.NONE;
+        }
+        doctorsAppointment = in.readParcelable(DoctorsAppointment.class.getClassLoader());
+        try {
+            dailyActivitiesRecord = DailyActivitiesRecord.valueOf(in.readString());
+        } catch(Exception e) {
+            dailyActivitiesRecord = DailyActivitiesRecord.NONE;
+        }
+        isAlarmSet = in.readByte() != 0;
     }
 
     @Override
@@ -100,12 +141,14 @@ public class Event extends BaseModel implements Parcelable {
         parcel.writeString(DATETIME_FORMATTER.format(startDate));
         parcel.writeString(DATETIME_FORMATTER.format(endDate));
         parcel.writeByte((byte) (isRepeatable ? 1 : 0));
-        parcel.writeString(timeUnit.name());
+        parcel.writeString(timeUnit == null ? "" : timeUnit.name());
         parcel.writeInt(timeDelta);
         parcel.writeString(description);
-        parcel.writeString(emotion.name());
         parcel.writeParcelable(otherSymptomsRecord, i);
+        parcel.writeString(emotion == null ? "" : emotion.name());
         parcel.writeParcelable(doctorsAppointment, i);
+        parcel.writeString(dailyActivitiesRecord == null ? "" : dailyActivitiesRecord.name());
+        parcel.writeByte((byte) (isAlarmSet ? 1 : 0));
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -197,4 +240,19 @@ public class Event extends BaseModel implements Parcelable {
         this.doctorsAppointment = doctorsAppointment;
     }
 
+    public DailyActivitiesRecord getDailyActivitiesRecord() {
+        return dailyActivitiesRecord;
+    }
+
+    public void setDailyActivitiesRecord(DailyActivitiesRecord dailyActivitiesRecord) {
+        this.dailyActivitiesRecord = dailyActivitiesRecord;
+    }
+
+    public boolean isAlarmSet() {
+        return isAlarmSet;
+    }
+
+    public void setAlarmSet(boolean alarmSet) {
+        isAlarmSet = alarmSet;
+    }
 }
