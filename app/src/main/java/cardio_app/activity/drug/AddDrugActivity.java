@@ -26,8 +26,6 @@ import java.util.List;
 import cardio_app.R;
 import cardio_app.databinding.ActivityAddDrugBinding;
 import cardio_app.db.DbHelper;
-import cardio_app.db.model.Alarm;
-import cardio_app.db.model.AlarmDrug;
 import cardio_app.db.model.Drug;
 import cardio_app.service.SetAlarmService;
 import cardio_app.viewmodel.AlarmInDrugViewModel;

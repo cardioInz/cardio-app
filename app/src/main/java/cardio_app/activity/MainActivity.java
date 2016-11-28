@@ -1,15 +1,12 @@
 package cardio_app.activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.GridLayout;
 
 import cardio_app.R;
-import cardio_app.activity.alert.AlertsActivity;
 import cardio_app.activity.diary.AddDiaryActivity;
 import cardio_app.activity.diary.DiaryActivity;
 import cardio_app.activity.drug.DrugsActivity;
@@ -48,11 +45,6 @@ public class MainActivity extends AppCompatActivity{
 
     public void showDrugsList(View view) {
         Intent intent = new Intent(this, DrugsActivity.class);
-        startActivity(intent);
-    }
-
-    public void showAlertsList(View view) {
-        Intent intent = new Intent(this, AlertsActivity.class);
         startActivity(intent);
     }
 

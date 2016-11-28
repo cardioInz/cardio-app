@@ -13,22 +13,13 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cardio_app.R;
 import cardio_app.activity.MainActivity;
 import cardio_app.db.DbHelper;
-import cardio_app.db.model.Alarm;
-import cardio_app.db.model.AlarmDrug;
-import cardio_app.db.model.BaseModel;
-import cardio_app.db.model.Drug;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.TimeUnit;
 import cardio_app.receiver.AlarmNotification;

@@ -65,12 +65,6 @@
         </receiver>
 
         <activity
-            android:name=".activity.alert.AlertsActivity"
-            android:label="@string/title_activity_alerts" />
-        <activity
-            android:name=".activity.alert.AddAlarmActivity"
-            android:label="@string/title_activity_add_alarm" />
-        <activity
             android:name=".activity.statistics.StatisticsActivity"
             android:label="@string/title_activity_statistics" />
         <activity

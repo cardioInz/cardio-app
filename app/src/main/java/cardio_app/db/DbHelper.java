@@ -22,8 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import cardio_app.db.model.Alarm;
-import cardio_app.db.model.AlarmDrug;
 import cardio_app.db.model.DailyActivitiesRecord;
 import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Drug;
@@ -42,18 +40,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     public DbHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
-    }
-
-    private void initAlarms() throws SQLException {
-        Dao<Alarm, Integer> dao = getDao(Alarm.class);
-
-        Alarm morning = new Alarm(8, 0, "MORNING", null);
-        Alarm midday = new Alarm(12, 0, "MIDDAY", null);
-        Alarm evening = new Alarm(18, 0, "EVENING", null);
-
-        dao.create(morning);
-        dao.create(midday);
-        dao.create(evening);
     }
 
     private void initPressureDataTable() throws SQLException {
@@ -101,9 +87,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     private void createTables(){
         final Class[] tablesToCreateInOrder = {
-                Alarm.class,
                 Drug.class,
-                AlarmDrug.class,
                 PressureData.class,
                 OtherSymptomsRecord.class,
                 DoctorsAppointment.class,
@@ -136,7 +120,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
         // TODO remove init before release if should not be hardcoded
         try {
-            initAlarms();
             initPressureDataTable();
             initEventData();
         } catch (SQLException e) {

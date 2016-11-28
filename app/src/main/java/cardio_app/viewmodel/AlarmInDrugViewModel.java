@@ -4,7 +4,6 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import cardio_app.BR;
-import cardio_app.db.model.Alarm;
 
 public class AlarmInDrugViewModel extends BaseObservable {
     private final Alarm alarm;

@@ -3,11 +3,8 @@ package cardio_app.viewmodel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import cardio_app.db.model.Alarm;
 
 public class AlarmViewModel extends BaseObservable {
     private final Alarm alarm;
