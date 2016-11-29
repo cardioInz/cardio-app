@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 @DatabaseTable
 public class DoctorsAppointment extends BaseModel implements Parcelable{
     @DatabaseField
@@ -104,6 +107,28 @@ public class DoctorsAppointment extends BaseModel implements Parcelable{
         parcel.writeByte((byte) (isForPrescription ? 1: 0));
         parcel.writeByte((byte) (isEmergency ? 1: 0));
         parcel.writeByte((byte) (isFlu ? 1: 0));
+    }
+
+    public JSONObject convertToJson() throws JSONException {
+        JSONObject object = new JSONObject();
+
+        object.put("isRoutineCheck", isRoutineCheck());
+        object.put("isExamination", isExamination());
+        object.put("isForPrescription", isForPrescription());
+        object.put("isEmergency", isEmergency());
+        object.put("isFlu", isFlu());
+
+        return object;
+    }
+
+    public static DoctorsAppointment convert(JSONObject object) throws JSONException {
+        boolean isRoutineCheck = object.getBoolean("isRoutineCheck");
+        boolean isExamination = object.getBoolean("isExamination");
+        boolean isForPrescription = object.getBoolean("isForPrescription");
+        boolean isEmergency = object.getBoolean("isEmergency");
+        boolean isFlu = object.getBoolean("isFlu");
+
+        return new DoctorsAppointment(isRoutineCheck, isExamination, isForPrescription, isEmergency, isFlu);
     }
 
     public static final Creator<DoctorsAppointment> CREATOR = new Creator<DoctorsAppointment>() {

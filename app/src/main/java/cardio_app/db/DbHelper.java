@@ -19,9 +19,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import cardio_app.db.model.BaseModel;
 import cardio_app.db.model.DailyActivitiesRecord;
 import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Drug;
@@ -199,10 +202,39 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             pressures.put(pressure.convertToJson());
         }
 
+        JSONArray events = new JSONArray();
+        List<Event> eventsList = getDao(Event.class).queryForAll();
+        Comparator<BaseModel> comparator = (m1, m2) -> m1.getId() - m2.getId();
+        List<OtherSymptomsRecord> otherSymptomsRecordList = getDao(OtherSymptomsRecord.class).queryForAll();
+        Collections.sort(otherSymptomsRecordList, comparator);
+        List<DoctorsAppointment> doctorsAppointmentList = getDao(DoctorsAppointment.class).queryForAll();
+        Collections.sort(doctorsAppointmentList, comparator);
+        for (Event event : eventsList) {
+            int symptomId = Collections.binarySearch(otherSymptomsRecordList, event.getOtherSymptomsRecord(), comparator);
+            int doctorId = Collections.binarySearch(doctorsAppointmentList, event.getOtherSymptomsRecord(), comparator);
+
+            if (symptomId >= 0) {
+                event.setOtherSymptomsRecord(otherSymptomsRecordList.get(symptomId));
+            }
+            if (doctorId >= 0) {
+                event.setDoctorsAppointment(doctorsAppointmentList.get(doctorId));
+            }
+
+            events.put(event.convertToJson());
+        }
+
+        JSONArray profiles = new JSONArray();
+        List<UserProfile> profileList = getDao(UserProfile.class).queryForAll();
+        for (UserProfile userProfile : profileList) {
+            profiles.put(userProfile.convertToJson());
+        }
+
         JSONObject result = new JSONObject();
 
         result.put("drugs", drugs);
         result.put("pressures", pressures);
+        result.put("events", events);
+        result.put("userProfiles", profiles);
 
         return result;
     }
@@ -216,8 +248,26 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         int pressureDeleted = pressureDao.deleteBuilder().delete();
         Log.d(TAG, "Delete " + pressureDeleted + " pressures");
 
+        Dao<OtherSymptomsRecord, Integer> symptomsDao = getDao(OtherSymptomsRecord.class);
+        int symptomsDeleted = symptomsDao.deleteBuilder().delete();
+        Log.d(TAG, "Delete " + symptomsDeleted + " symptoms");
+
+        Dao<DoctorsAppointment, Integer> appointmentDao = getDao(DoctorsAppointment.class);
+        int appointmentsDeleted = appointmentDao.deleteBuilder().delete();
+        Log.d(TAG, "Delete " + appointmentsDeleted + " appointments");
+
+        Dao<Event, Integer> eventsDao = getDao(Event.class);
+        int eventsDeleted = eventsDao.deleteBuilder().delete();
+        Log.d(TAG, "Delete " + eventsDeleted + " events");
+
+        Dao<UserProfile, Integer> profilesDao = getDao(UserProfile.class);
+        int profilesDeleted = profilesDao.deleteBuilder().delete();
+        Log.d(TAG, "Delete " + profilesDeleted + " profiles");
+
         JSONArray drugs = data.getJSONArray("drugs");
         JSONArray pressures = data.getJSONArray("pressures");
+        JSONArray events = data.getJSONArray("events");
+        JSONArray profiles = data.getJSONArray("userProfiles");
 
         for (int i = 0; i < drugs.length(); i++) {
             JSONObject drugObject = drugs.getJSONObject(i);
@@ -229,6 +279,21 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             JSONObject pressureObject = pressures.getJSONObject(i);
             PressureData pressureData = PressureData.convert(pressureObject);
             pressureDao.create(pressureData);
+        }
+
+        for (int i = 0; i < events.length(); i++) {
+            JSONObject eventObject = events.getJSONObject(i);
+            Event event = Event.convert(eventObject);
+
+            symptomsDao.create(event.getOtherSymptomsRecord());
+            appointmentDao.create(event.getDoctorsAppointment());
+            eventsDao.create(event);
+        }
+
+        for (int i = 0; i < profiles.length(); i++) {
+            JSONObject profileObject = profiles.getJSONObject(i);
+            UserProfile userProfile = UserProfile.convert(profileObject);
+            profilesDao.create(userProfile);
         }
     }
 }

@@ -7,6 +7,9 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.Date;
 
@@ -118,6 +121,36 @@ public class UserProfile extends BaseModel implements Parcelable{
         parcel.writeInt(this.cholesterol);
         parcel.writeInt(this.glucose);
         parcel.writeByte((byte) (this.isSmoker ? 1 : 0));
+    }
+
+    public JSONObject convertToJson() throws JSONException {
+        JSONObject object = new JSONObject();
+
+        object.put("name", getName());
+        object.put("surname", getSurname());
+        object.put("dateOfBirth", DATETIME_FORMATTER.format(getDateOfBirth()));
+        object.put("sex", getSex());
+        object.put("weight", getWeight());
+        object.put("height", getHeight());
+        object.put("cholesterol", getCholesterol());
+        object.put("glucose", getGlucose());
+        object.put("isSmoker", isSmoker());
+
+        return object;
+    }
+
+    public static UserProfile convert(JSONObject object) throws JSONException, ParseException {
+        String name = object.getString("name");
+        String surname = object.getString("surname");
+        Date dateOfBirth = DATETIME_FORMATTER.parse(object.getString("dateOfBirth"));
+        String sex = object.getString("sex");
+        int weight = object.getInt("weight");
+        int height = object.getInt("height");
+        int cholesterol = object.getInt("cholesterol");
+        int glucose = object.getInt("glucose");
+        boolean isSmoker = object.getBoolean("isSmoker");
+
+        return new UserProfile(name, surname, dateOfBirth, sex, weight, height, cholesterol, glucose, isSmoker);
     }
 
     @Override
