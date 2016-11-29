@@ -18,6 +18,9 @@
         <variable
             name="endDate"
             type="cardio_app.viewmodel.date_time.PickedDateViewModel" />
+
+        <variable name="startTime"
+            type="cardio_app.viewmodel.date_time.PickedTimeViewModel" />
     </data>
 
 
@@ -52,6 +55,29 @@
                     android:year="@={startDate.year}">
 
                 </DatePicker>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_activities_background">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start time:" />
+
+                <TimePicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hour="@{startTime.hourOfDay}"
+                    android:minute="@{startTime.minute}"
+                    android:onTimeChanged="@{startTime::timeChanged}"
+                    android:timePickerMode="spinner"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"></TimePicker>
             </LinearLayout>
 
             <LinearLayout

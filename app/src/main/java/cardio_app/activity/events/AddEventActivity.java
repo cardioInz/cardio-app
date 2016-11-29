@@ -13,6 +13,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
 import cardio_app.viewmodel.EventDataViewModel;
 import cardio_app.viewmodel.date_time.PickedDateViewModel;
+import cardio_app.viewmodel.date_time.PickedTimeViewModel;
 
 
 public class AddEventActivity extends AppCompatActivity {
@@ -39,6 +41,7 @@ public class AddEventActivity extends AppCompatActivity {
     Event currentEvent;
     boolean isEditExistingItem;
     PickedDateViewModel startDateModel, endDateModel;
+    PickedTimeViewModel startTimeModel;
 
 
     @Override
@@ -63,9 +66,11 @@ public class AddEventActivity extends AppCompatActivity {
         }
         startDateModel = new PickedDateViewModel(currentEvent.getStartDate());
         endDateModel = new PickedDateViewModel(currentEvent.getEndDate());
+        startTimeModel = new PickedTimeViewModel(currentEvent.getStartDate());
         binding.setEvent(new EventDataViewModel(currentEvent));
         binding.setStartDate(startDateModel);
         binding.setEndDate(endDateModel);
+        binding.setStartTime(startTimeModel);
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         createButtonToEmotionMap();
         createButtonToOtherEventMap();
@@ -98,23 +103,25 @@ public class AddEventActivity extends AppCompatActivity {
         button.setBackgroundResource(R.drawable.event_chosen_option);
     }
 
-    private Calendar getCalendarForModel(PickedDateViewModel model) {
+    private Calendar getCalendarForModel(PickedDateViewModel dateModel, PickedTimeViewModel timeModel) {
         Calendar cal = Calendar.getInstance();
         cal.set(
-                model.getYear(),
-                model.getMonth(),
-                model.getDay()
+                dateModel.getYear(),
+                dateModel.getMonth(),
+                dateModel.getDay(),
+                timeModel.getHourOfDay(),
+                timeModel.getMinute()
         );
         return cal;
     }
 
     private void updateStartDate() {
-        Calendar cal = getCalendarForModel(startDateModel);
+        Calendar cal = getCalendarForModel(startDateModel, startTimeModel);
         currentEvent.setStartDate(cal.getTime());
     }
 
     private void updateEndDate() {
-        Calendar cal = getCalendarForModel(endDateModel);
+        Calendar cal = getCalendarForModel(endDateModel, new PickedTimeViewModel(new Date()));
         currentEvent.setEndDate(cal.getTime());
     }
 
