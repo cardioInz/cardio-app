@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 @DatabaseTable
 public class OtherSymptomsRecord extends BaseModel implements Parcelable {
     @DatabaseField
@@ -56,6 +59,28 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
         parcel.writeByte((byte) (isHighTemperature ? 1: 0));
         parcel.writeByte((byte) (isStomachAche ? 1: 0));
         parcel.writeByte((byte) (isToothache ? 1: 0));
+    }
+
+    public JSONObject convertToJSON() throws JSONException {
+        JSONObject object = new JSONObject();
+
+        object.put("isCough", isCough());
+        object.put("isHeadache", isHeadache());
+        object.put("isHighTemperature", isHighTemperature());
+        object.put("isStomachAche", isStomachAche());
+        object.put("isToothache", isToothache());
+
+        return object;
+    }
+
+    public static OtherSymptomsRecord convert(JSONObject object) throws JSONException {
+        boolean isCough = object.getBoolean("isCough");
+        boolean isHeadache = object.getBoolean("isHeadache");
+        boolean isHighTemperature = object.getBoolean("isHighTemperature");
+        boolean isStomachAche = object.getBoolean("isStomachAche");
+        boolean isToothache = object.getBoolean("isToothache");
+
+        return new OtherSymptomsRecord(isCough, isHeadache, isHighTemperature, isStomachAche, isToothache);
     }
 
     public static final Creator<OtherSymptomsRecord> CREATOR = new Creator<OtherSymptomsRecord>() {

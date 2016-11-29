@@ -167,5 +167,17 @@
     <string name="pdf_date">Date</string>
     <string name="pdf_time">Time</string>
 
+    <string name="first_name">NAME:</string>
+    <string name="surname">SURNAME:</string>
+    <string name="date_of_birth">DATE OF BIRTH:</string>
+    <string name="sex">SEX:</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="weight">WEIGHT:</string>
+    <string name="height">HEIGHT:</string>
+    <string name="smoker">I AM SMOKING</string>
+    <string name="cholesterol">CHOLESTEROL:</string>
+    <string name="glucose">GLUCOSE:</string>
+
 
 </resources>

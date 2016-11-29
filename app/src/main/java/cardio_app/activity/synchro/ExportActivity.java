@@ -84,33 +84,35 @@ public class ExportActivity extends AppCompatActivity {
     }
 
     public void onSaveClick(View view) {
-        String path = viewModel.getPath() + "/" + viewModel.getFileName() + EXTENSION;
+        if (PermissionUtil.isStoragePermissionGranted(this)) {
+            String path = viewModel.getPath() + "/" + viewModel.getFileName() + EXTENSION;
 
-        BufferedWriter out = null;
-        boolean successfullWrite = true;
-        try {
-            JSONObject object = getHelper().exportToJson();
-            out = new BufferedWriter(new FileWriter(new File(path)));
-            out.write(object.toString());
-        } catch (SQLException | JSONException | IOException e) {
-            e.printStackTrace();
-            successfullWrite = false;
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    successfullWrite = false;
-                    e.printStackTrace();
+            BufferedWriter out = null;
+            boolean successfullWrite = true;
+            try {
+                JSONObject object = getHelper().exportToJson();
+                out = new BufferedWriter(new FileWriter(new File(path)));
+                out.write(object.toString());
+            } catch (SQLException | JSONException | IOException e) {
+                e.printStackTrace();
+                successfullWrite = false;
+            } finally {
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        successfullWrite = false;
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
 
-        if (successfullWrite) {
-            Toast.makeText(this, R.string.toast_export, Toast.LENGTH_SHORT).show();
-            onBackPressed();
-        } else {
-            Toast.makeText(this, R.string.export_error, Toast.LENGTH_SHORT).show();
+            if (successfullWrite) {
+                Toast.makeText(this, R.string.toast_export, Toast.LENGTH_SHORT).show();
+                onBackPressed();
+            } else {
+                Toast.makeText(this, R.string.export_error, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

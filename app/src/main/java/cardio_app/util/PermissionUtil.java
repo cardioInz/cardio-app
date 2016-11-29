@@ -17,17 +17,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-/**
- * Created by kisam on 22.11.2016.
- */
-
 public class PermissionUtil {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final String TAG = PermissionUtil.class.toString();
     private static String[] PERMISSIONS_REQUIRED = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission_group.STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     public static void verifyStoragePermissions(Activity activity) {

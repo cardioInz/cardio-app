@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="profile"
+            type="cardio_app.viewmodel.ProfileViewModel" />
+
+        <variable
+            name="birthday"
+            type="cardio_app.viewmodel.date_time.PickedDateViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:text="@string/first_name" />
+
+                    <EditText
+                        android:id="@+id/name_value"
+                        style="@style/EditTextArea"
+                        android:layout_width="296dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView4"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/textView4"
+                        android:ems="20"
+                        android:inputType="textCapWords"
+                        android:text="@={profile.name}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:text="@string/surname" />
+
+                    <EditText
+                        android:id="@+id/surname_value"
+                        style="@style/EditTextArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView2"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:ems="20"
+                        android:inputType="textCapWords"
+                        android:text="@={profile.surname}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:text="@string/date_of_birth" />
+
+                    <DatePicker
+                        android:id="@+id/datePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/textView5"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner"
+                        android:day="@={birthday.day}"
+                        android:month="@={birthday.month}"
+                        android:spinnersShown="true"
+                        android:year="@={birthday.year}" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextArea"
+                        android:text="SEX:" />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_female"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="@={profile.female}"
+                            android:text="FEMALE" />
+
+                        <RadioButton
+                            android:id="@+id/radio_male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={profile.male}"
+                            android:text="MALE" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.06"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:text="@string/weight" />
+
+                    <EditText
+                        android:id="@+id/weight_value"
+                        style="@style/EditTextArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:ems="12"
+                        android:inputType="numberDecimal"
+                        android:text="@={profile.weight}" />
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="kg" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.06"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:text="@string/height" />
+
+                    <EditText
+                        android:id="@+id/height_value"
+                        style="@style/EditTextArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:ems="12"
+                        android:inputType="numberDecimal"
+                        android:text="@={profile.height}" />
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="cm" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.06"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:text="@string/cholesterol" />
+
+                    <EditText
+                        android:id="@+id/cholesterol_value"
+                        style="@style/EditTextArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:ems="9"
+                        android:inputType="numberDecimal"
+                        android:text="@={profile.cholesterol}" />
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="mmol/l" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.06"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:text="@string/glucose" />
+
+                    <EditText
+                        android:id="@+id/glucose_value"
+                        style="@style/EditTextArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:ems="9"
+                        android:inputType="numberDecimal"
+                        android:text="@={profile.glucose}" />
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="mmol/l" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/input_activities_background"
+                    android:gravity="center_vertical"
+                    android:paddingRight="0dip">
+
+                    <TextView
+                        style="@style/EditTextArea"
+                        android:text="@string/smoker" />
+
+                    <CheckBox
+                        android:id="@+id/arrhythmia_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/textView3"
+                        android:layout_alignBottom="@+id/textView3"
+                        android:layout_centerHorizontal="true"
+                        android:checked="@={profile.smoker}" />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/submit"
+                    android:onClick="saveProfileChanges"
+                    android:text="SUBMIT"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</layout>

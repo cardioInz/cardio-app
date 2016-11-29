@@ -6,6 +6,10 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.util.Date;
 
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
@@ -149,6 +153,56 @@ public class Event extends BaseModel implements Parcelable {
         parcel.writeParcelable(doctorsAppointment, i);
         parcel.writeString(dailyActivitiesRecord == null ? "" : dailyActivitiesRecord.name());
         parcel.writeByte((byte) (isAlarmSet ? 1 : 0));
+    }
+
+    public JSONObject convertToJson() throws JSONException {
+        JSONObject object = new JSONObject();
+
+        object.put("startDate", DATETIME_FORMATTER.format(getStartDate()));
+        object.put("endDate", DATETIME_FORMATTER.format(getEndDate()));
+        object.put("isRepeatable", isRepeatable());
+        object.put("timeUnit", timeUnit == null ? "" : timeUnit.name());
+        object.put("timeDelta", getTimeDelta());
+        object.put("description", getDescription());
+        object.put("otherSymptomsRecord", getOtherSymptomsRecord().convertToJSON());
+        object.put("emotion", emotion == null ? "" : emotion.name());
+        object.put("doctorsAppointment", getDoctorsAppointment().convertToJson());
+        object.put("dailyActivitiesRecord", dailyActivitiesRecord == null ? "" : dailyActivitiesRecord.name());
+        object.put("isAlarmSet", isAlarmSet());
+
+        return object;
+    }
+
+    public static Event convert(JSONObject object) throws JSONException, ParseException {
+        Date startDate = DATETIME_FORMATTER.parse(object.getString("startDate"));
+        Date endDate = DATETIME_FORMATTER.parse(object.getString("endDate"));
+        boolean isRepeatable = object.getBoolean("isRepeatable");
+        TimeUnit timeUnit;
+        try {
+            timeUnit = TimeUnit.valueOf(object.getString("timeUnit"));
+        } catch (Exception e) {
+            timeUnit = TimeUnit.NONE;
+        }
+        int timeDelta = object.getInt("timeDelta");
+        String description = object.getString("description");
+        OtherSymptomsRecord otherSymptomsRecord = OtherSymptomsRecord.convert(object.getJSONObject("otherSymptomsRecord"));
+        Emotion emotion;
+        try {
+            emotion = Emotion.valueOf(object.getString("emotion"));
+        } catch (Exception e) {
+            emotion = Emotion.NONE;
+        }
+        DoctorsAppointment doctorsAppointment = DoctorsAppointment.convert(object.getJSONObject("doctorsAppointment"));
+        DailyActivitiesRecord dailyActivitiesRecord;
+        try {
+            dailyActivitiesRecord = DailyActivitiesRecord.valueOf(object.getString("dailyActivitiesRecord"));
+        } catch (Exception e) {
+            dailyActivitiesRecord = DailyActivitiesRecord.NONE;
+        }
+        boolean isAlarmSet = object.getBoolean("isAlarmSet");
+
+        return new Event(startDate, endDate, isRepeatable, timeUnit, timeDelta, description,
+                otherSymptomsRecord, emotion, doctorsAppointment, dailyActivitiesRecord, isAlarmSet);
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {

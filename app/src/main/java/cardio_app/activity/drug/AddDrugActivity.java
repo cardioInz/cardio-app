@@ -14,23 +14,14 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.DeleteBuilder;
-import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import cardio_app.R;
 import cardio_app.databinding.ActivityAddDrugBinding;
 import cardio_app.db.DbHelper;
-import cardio_app.db.model.Alarm;
-import cardio_app.db.model.AlarmDrug;
 import cardio_app.db.model.Drug;
 import cardio_app.service.SetAlarmService;
-import cardio_app.viewmodel.AlarmInDrugViewModel;
 import cardio_app.viewmodel.DrugViewModel;
 
 public class AddDrugActivity extends AppCompatActivity {
@@ -38,7 +29,6 @@ public class AddDrugActivity extends AppCompatActivity {
 
     private DbHelper dbHelper;
     private final DrugViewModel drugViewModel = new DrugViewModel();
-    private final List<AlarmInDrugViewModel> alarms = new ArrayList<>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -60,38 +50,6 @@ public class AddDrugActivity extends AppCompatActivity {
         ActivityAddDrugBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_drug);
         binding.setDrug(drugViewModel);
 
-        try {
-            dbHelper = getHelper();
-            Dao<Alarm, Integer> dao = dbHelper.getDao(Alarm.class);
-
-            List<Alarm> checkedAlarms = new ArrayList<>();
-            if (drug != null) {
-                Dao<AlarmDrug, Integer> alarmDrugDao = dbHelper.getDao(AlarmDrug.class);
-                QueryBuilder<AlarmDrug, Integer> builder = alarmDrugDao.queryBuilder();
-
-                builder.where().eq("drug_id", drug);
-                builder.selectColumns("alarm_id");
-                Log.d(TAG, builder.prepareStatementString());
-
-                for (AlarmDrug alarmDrug : builder.query()) {
-                    checkedAlarms.add(alarmDrug.getAlarm());
-                }
-            }
-
-            for (Alarm alarm : dao.queryForAll()) {
-                Comparator<Alarm> comparator = (a1, a2) -> a1.getId() - a2.getId();
-
-                Collections.sort(checkedAlarms, comparator);
-                if (Collections.binarySearch(checkedAlarms, alarm, comparator) >= 0) {
-                    alarms.add(new AlarmInDrugViewModel(alarm, true));
-                } else {
-                    alarms.add(new AlarmInDrugViewModel(alarm, false));
-                }
-            }
-        } catch (SQLException e) {
-            Log.e(TAG, "Cannot fetch data from database", e);
-            throw new RuntimeException(e);
-        }
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -150,13 +108,6 @@ public class AddDrugActivity extends AppCompatActivity {
         if (drug != null) {
             try {
                 Dao<Drug, Integer> drugDao = getHelper().getDao(Drug.class);
-                Dao<AlarmDrug, Integer> alarmDrugDao = getHelper().getDao(AlarmDrug.class);
-
-                DeleteBuilder<AlarmDrug, Integer> builder = alarmDrugDao.deleteBuilder();
-                builder.where().eq("drug_id", drug);
-                int delete = builder.delete();
-                Log.d(TAG, "Deleted " + delete + " alarms");
-
                 int drugDelete = drugDao.delete(drug);
                 Log.d(TAG, "Deleted " + drugDelete + " drugs");
             } catch (SQLException e) {
@@ -176,7 +127,6 @@ public class AddDrugActivity extends AppCompatActivity {
     private void onSaveClick() {
         try {
             Dao<Drug, Integer> drugDao = getHelper().getDao(Drug.class);
-            Dao<AlarmDrug, Integer> alarmDrugDao = getHelper().getDao(AlarmDrug.class);
 
             Drug drug = drugViewModel.getDrug();
 
@@ -184,20 +134,6 @@ public class AddDrugActivity extends AppCompatActivity {
                 drugDao.create(drug);
             } else {
                 drugDao.update(drug);
-            }
-
-            for (AlarmInDrugViewModel alarmInDrugViewModel : alarms) {
-                if (alarmInDrugViewModel.checkedChanged()) {
-                    if (alarmInDrugViewModel.isChecked()) {
-                        alarmDrugDao.create(new AlarmDrug(alarmInDrugViewModel.getAlarm(), drug));
-                        Log.d(TAG, "Set drug to alarm: " + alarmInDrugViewModel.getAlarm());
-                    } else {
-                        DeleteBuilder<AlarmDrug, Integer> builder = alarmDrugDao.deleteBuilder();
-                        builder.where().eq("drug_id", drug).and().eq("alarm_id", alarmInDrugViewModel.getAlarm());
-                        builder.delete();
-                        Log.d(TAG, "Unset drug to alarm: " + alarmInDrugViewModel.getAlarm());
-                    }
-                }
             }
         } catch (SQLException e) {
             Log.e(TAG, "Can't save drug", e);
