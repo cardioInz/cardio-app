@@ -56,50 +56,50 @@ public class DrugsActivity extends AppCompatActivity {
 
         assignDataToListView();
 
-        LineChartView view = new LineChartView(this);
-        view.setZoomType(ZoomType.HORIZONTAL);
-
-        try {
-            List<PressureData> pressureDataList = getHelper().getDao(PressureData.class).queryForAll();
-            ChartBuilder builder = new ChartBuilder(pressureDataList, getResources());
-            LineChartData data = builder.setMode(ChartBuilder.ChartMode.DISCRETE).build();
-            view.setLineChartData(data);
-            Viewport viewport = view.getCurrentViewport();
-            view.setZoomLevel(viewport.centerX(), viewport.centerY(), builder.getDays() / 4);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        int sizePixels = 1080;
-        Bitmap result = Bitmap.createBitmap(sizePixels, sizePixels, Bitmap.Config.ARGB_8888);
-        result.eraseColor(Color.WHITE);
-        Canvas c = new Canvas(result);
-        int sizeSpec = View.MeasureSpec.makeMeasureSpec(sizePixels, View.MeasureSpec.EXACTLY);
-        view.measure(sizeSpec, sizeSpec);
-        int width = view.getMeasuredWidth();
-        int height = view.getMeasuredHeight();
-        view.layout(0, 0, width, height);
-        view.setBackgroundColor(Color.YELLOW);
-
-        view.draw(c);
-
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/plik.png");
-            result.compress(Bitmap.CompressFormat.PNG, 100, out);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+//        LineChartView view = new LineChartView(this);
+//        view.setZoomType(ZoomType.HORIZONTAL);
+//
+//        try {
+//            List<PressureData> pressureDataList = getHelper().getDao(PressureData.class).queryForAll();
+//            ChartBuilder builder = new ChartBuilder(pressureDataList, getResources());
+//            LineChartData data = builder.setMode(ChartBuilder.ChartMode.DISCRETE).build();
+//            view.setLineChartData(data);
+//            Viewport viewport = view.getCurrentViewport();
+//            view.setZoomLevel(viewport.centerX(), viewport.centerY(), builder.getDays() / 4);
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        int sizePixels = 1080;
+//        Bitmap result = Bitmap.createBitmap(sizePixels, sizePixels, Bitmap.Config.ARGB_8888);
+//        result.eraseColor(Color.WHITE);
+//        Canvas c = new Canvas(result);
+//        int sizeSpec = View.MeasureSpec.makeMeasureSpec(sizePixels, View.MeasureSpec.EXACTLY);
+//        view.measure(sizeSpec, sizeSpec);
+//        int width = view.getMeasuredWidth();
+//        int height = view.getMeasuredHeight();
+//        view.layout(0, 0, width, height);
+//        view.setBackgroundColor(Color.YELLOW);
+//
+//        view.draw(c);
+//
+//        FileOutputStream out = null;
+//        try {
+//            out = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/plik.png");
+//            result.compress(Bitmap.CompressFormat.PNG, 100, out);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (out != null) {
+//                try {
+//                    out.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
     }
 
     private void assignDataToListView() {

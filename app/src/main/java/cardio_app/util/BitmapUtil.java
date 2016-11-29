@@ -20,14 +20,22 @@ import java.util.HashMap;
 
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 
-/**
- * Created by kisam on 20.11.2016.
- */
-
 public class BitmapUtil {
 
     private static final String TAG = BitmapUtil.class.toString();
 
+    public static Bitmap generateBitmapFromView(View view, int width, int height) {
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        int heightSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
+
+        view.measure(widthSpec, heightSpec);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.draw(canvas);
+
+        return result;
+    }
 
     private static Bitmap getBitmapFromView(View view)
     {
