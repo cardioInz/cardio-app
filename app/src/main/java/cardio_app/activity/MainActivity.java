@@ -10,9 +10,9 @@ import cardio_app.R;
 import cardio_app.activity.diary.AddDiaryActivity;
 import cardio_app.activity.diary.DiaryActivity;
 import cardio_app.activity.drug.DrugsActivity;
-import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
+import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.activity.profile.ProfileActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
 import cardio_app.activity.synchro.ExportActivity;
@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
     }
 
     @Override

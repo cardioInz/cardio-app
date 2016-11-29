@@ -2,7 +2,11 @@ package cardio_app.activity.drug;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,12 +20,21 @@ import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 import cardio_app.R;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Drug;
+import cardio_app.db.model.PressureData;
+import cardio_app.util.ChartBuilder;
+import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.view.LineChartView;
 
 public class DrugsActivity extends AppCompatActivity {
     private static final String TAG = DrugsActivity.class.getName();
@@ -42,6 +55,51 @@ public class DrugsActivity extends AppCompatActivity {
         }));
 
         assignDataToListView();
+
+        LineChartView view = new LineChartView(this);
+        view.setZoomType(ZoomType.HORIZONTAL);
+
+        try {
+            List<PressureData> pressureDataList = getHelper().getDao(PressureData.class).queryForAll();
+            ChartBuilder builder = new ChartBuilder(pressureDataList, getResources());
+            LineChartData data = builder.setMode(ChartBuilder.ChartMode.DISCRETE).build();
+            view.setLineChartData(data);
+            Viewport viewport = view.getCurrentViewport();
+            view.setZoomLevel(viewport.centerX(), viewport.centerY(), builder.getDays() / 4);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        int sizePixels = 1080;
+        Bitmap result = Bitmap.createBitmap(sizePixels, sizePixels, Bitmap.Config.ARGB_8888);
+        result.eraseColor(Color.WHITE);
+        Canvas c = new Canvas(result);
+        int sizeSpec = View.MeasureSpec.makeMeasureSpec(sizePixels, View.MeasureSpec.EXACTLY);
+        view.measure(sizeSpec, sizeSpec);
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
+        view.layout(0, 0, width, height);
+        view.setBackgroundColor(Color.YELLOW);
+
+        view.draw(c);
+
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/plik.png");
+            result.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void assignDataToListView() {
