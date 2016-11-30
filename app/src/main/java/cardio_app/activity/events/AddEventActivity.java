@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import cardio_app.R;
 import cardio_app.databinding.ActivityAddEventBinding;
@@ -56,10 +57,12 @@ public class AddEventActivity extends AppCompatActivity {
         ActivityAddEventBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_event);
         if (isEditExistingItem) {
             currentEvent = event;
-//            createEmotionToButtonMap();
-//            initializeEmotionButton();
-//            createOtherEventToButtonMap();
-//            initializeOtherEventButton();
+            createEmotionToButtonMap();
+            initializeEmotionButton();
+            createOtherEventToButtonMap();
+            initializeOtherEventButton();
+            initializeSymptomButtons();
+            initializeMedicalAppointmentButtons();
         } else {
             currentEvent = new Event();
         }
@@ -83,23 +86,59 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     private void initializeEmotionButton() {
-        Integer id = emotionToButtonMap.get(currentEvent.getEmotion());
-        Button button = (Button) findViewById(id);
-        button.setBackgroundResource(R.drawable.event_chosen_option);
+        if(emotionToButtonMap.containsKey(currentEvent.getEmotion())) {
+            Integer id = emotionToButtonMap.get(currentEvent.getEmotion());
+            Button button = (Button) findViewById(id);
+            button.setBackgroundResource(R.drawable.event_chosen_option);
+        }
     }
 
     private void initializeSymptomButtons() {
+        Map<Integer, Callable<Boolean>> buttonToSymptomFunction = new HashMap<>();
+        buttonToSymptomFunction.put(R.id.button_cough, currentEvent.getOtherSymptomsRecord()::isCough);
+        buttonToSymptomFunction.put(R.id.button_fever, currentEvent.getOtherSymptomsRecord()::isHighTemperature);
+        buttonToSymptomFunction.put(R.id.button_toothache, currentEvent.getOtherSymptomsRecord()::isToothache);
+        buttonToSymptomFunction.put(R.id.button_headache, currentEvent.getOtherSymptomsRecord()::isHeadache);
+        buttonToSymptomFunction.put(R.id.button_stomachache, currentEvent.getOtherSymptomsRecord()::isStomachAche);
+        try {
+            for (Integer buttonId : buttonToSymptomFunction.keySet()) {
+                boolean isChecked = buttonToSymptomFunction.get(buttonId).call();
+                if(isChecked) {
+                    Button button = (Button) findViewById(buttonId);
+                    button.setBackgroundResource(R.drawable.event_chosen_option);
+                }
+            }
+        } catch (Exception e) {
 
+        }
     }
 
     private void initializeMedicalAppointmentButtons() {
+        Map<Integer, Callable<Boolean>> buttonToVisitTypeFunction = new HashMap<>();
+        buttonToVisitTypeFunction.put(R.id.button_medical_checkout, currentEvent.getDoctorsAppointment()::isRoutineCheck);
+        buttonToVisitTypeFunction.put(R.id.button_flu, currentEvent.getDoctorsAppointment()::isFlu);
+        buttonToVisitTypeFunction.put(R.id.button_examination, currentEvent.getDoctorsAppointment()::isExamination);
+        buttonToVisitTypeFunction.put(R.id.button_prescription, currentEvent.getDoctorsAppointment()::isForPrescription);
+        buttonToVisitTypeFunction.put(R.id.button_emergency, currentEvent.getDoctorsAppointment()::isEmergency);
+        try {
+            for (Integer buttonId : buttonToVisitTypeFunction.keySet()) {
+                boolean isChecked = buttonToVisitTypeFunction.get(buttonId).call();
+                if(isChecked) {
+                    Button button = (Button) findViewById(buttonId);
+                    button.setBackgroundResource(R.drawable.event_chosen_option);
+                }
+            }
+        } catch (Exception e) {
 
+        }
     }
 
     private void initializeOtherEventButton() {
-        Integer id = otherEventToButtonMap.get(currentEvent.getDailyActivitiesRecord());
-        Button button = (Button) findViewById(id);
-        button.setBackgroundResource(R.drawable.event_chosen_option);
+        if(otherEventToButtonMap.containsKey(currentEvent.getDailyActivitiesRecord())) {
+            Integer id = otherEventToButtonMap.get(currentEvent.getDailyActivitiesRecord());
+            Button button = (Button) findViewById(id);
+            button.setBackgroundResource(R.drawable.event_chosen_option);
+        }
     }
 
     private Calendar getCalendarForModel(PickedDateViewModel dateModel, PickedTimeViewModel timeModel) {
