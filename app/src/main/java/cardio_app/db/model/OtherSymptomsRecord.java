@@ -34,6 +34,11 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
     private boolean isToothache;
 
     public OtherSymptomsRecord() {
+        isCough=false;
+        isHeadache = false;
+        isHighTemperature = false;
+        isStomachAche = false;
+        isToothache = false;
     }
 
     public OtherSymptomsRecord(boolean isCough, boolean isHeadache, boolean isHighTemperature, boolean isStomachAche, boolean isToothache) {

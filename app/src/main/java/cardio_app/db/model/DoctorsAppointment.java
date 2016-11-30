@@ -34,6 +34,11 @@ public class DoctorsAppointment extends BaseModel implements Parcelable {
     private boolean isFlu;
 
     public DoctorsAppointment() {
+        isRoutineCheck = false;
+        isExamination = false;
+        isForPrescription = false;
+        isEmergency = false;
+        isFlu = false;
     }
 
     public DoctorsAppointment(int id, boolean isRoutineCheck, boolean isExamination, boolean isForPrescription, boolean isEmergency, boolean isFlu) {
