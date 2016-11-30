@@ -8,15 +8,12 @@ import java.util.List;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.pdf_creation.param_models.PdfChosenParams;
 
-/**
- * Created by kisam on 17.11.2016.
- */
 
 public class PdfCreationViewModel extends BaseObservable {
     private PdfChosenParams pdfDataModel = new PdfChosenParams();
 
     public PdfCreationViewModel() {
-        pdfDataModel.setSendEmailOpt(true); // by default "send email" redio button checkeds
+        pdfDataModel.setSendEmailOpt(true); // by default "send email" radio button checked
     }
 
     private static String getStrIfNotNull(String str){

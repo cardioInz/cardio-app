@@ -24,6 +24,7 @@ import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
 import cardio_app.util.CreatePdfUtil;
 import cardio_app.util.BitmapUtil;
 import cardio_app.util.DateTimeUtil;
+import cardio_app.util.Defaults;
 import cardio_app.util.PermissionUtil;
 
 import static android.content.ContentValues.TAG;
@@ -42,9 +43,6 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     private String location = null;
     private String filename = null;
     private File file = null;
-
-    private String DEFAULT_EMAIL_SUBJECT;
-    private String DEFAULT_EMAIL_BODY;
 
     public PdfCreatorAsyncWorker(AppCompatActivity contextActivity,
                                  boolean isSendEmailMode,
@@ -68,25 +66,9 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
 
         filename = pdfChosenParams.getFileName() + EXT_PDF;
         file = new File(location, filename);
-
-        DEFAULT_EMAIL_SUBJECT = prepareSubject(contextActivity.getResources()); // TODO subject nice
-        DEFAULT_EMAIL_BODY = prepareBody(contextActivity.getResources()); // TODO email msg body
-
-        PermissionUtil.verifyStoragePermissions(contextActivity);
     }
 
-    private static String prepareBody(Resources resources) {
-        Calendar calendar = Calendar.getInstance();
-        String dateTimeStr = DateTimeUtil.DATETIME_FORMATTER.format(calendar.getTime());
 
-        return String.format("%s %s",
-                resources.getString(R.string.pdf_created),
-                dateTimeStr);
-    }
-
-    private static String prepareSubject(Resources resources) {
-        return String.format("%s - %s", resources.getString(R.string.app_name), resources.getString(R.string.pdf_report));
-    }
 
     @Override
     protected void onPostExecute(Void result) {
@@ -161,7 +143,6 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     }
 
     private static List<Image> prepareImagesToPdf(List<BitmapFromChart> list){
-        // TODO chart as image
         List<Image> imageList = new ArrayList<>();
         for (BitmapFromChart bitmapFromChart : list) {
             try {
@@ -206,10 +187,14 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     }
 
     private void sendEmail() {
+        if (!PermissionUtil.isStoragePermissionGranted(contextActivity)){
+            Log.e(TAG, "sendEmail: does not have parmision -> return");
+            return;
+        }
+
         try {
             Uri path = Uri.fromFile(file);
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            PermissionUtil.verifyStoragePermissions(contextActivity);
 
             // set the type to 'email'
             emailIntent.setType("vnd.android.cursor.dir/email");
@@ -218,8 +203,12 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
             // the attachment
             emailIntent.putExtra(Intent.EXTRA_STREAM, path);
             // the mail subject
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, DEFAULT_EMAIL_SUBJECT);
-            emailIntent.putExtra(Intent.EXTRA_TEXT, DEFAULT_EMAIL_BODY);
+
+            String subject = Defaults.prepareSubject(contextActivity.getResources());
+            String body = Defaults.prepareBody(contextActivity.getResources());
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+            emailIntent.putExtra(Intent.EXTRA_TEXT, body);
+
             contextActivity.startActivity(Intent.createChooser(emailIntent, contextActivity.getString(R.string.sending_email)));
         } catch (Exception e) {
             e.printStackTrace();

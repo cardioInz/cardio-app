@@ -10,15 +10,26 @@ import java.util.List;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;
+import cardio_app.db.model.UserProfile;
 import cardio_app.util.BitmapUtil;
 
-/**
- * Created by kisam on 20.11.2016.
- */
 
 public class PdfRecordsContainer {
     private static final String TAG = PdfRecordsContainer.class.toString();
     private DbHelper dbHelper;
+    private Date dateFrom;
+    private Date dateTo;
+    private List<PressureData> pressureDataList;
+    private List<Event> eventsDataList;
+    private List<BitmapFromChart> bitmapFromChartList = new ArrayList<>();
+    private List<BitmapFromChart> extraBitmapCharts = new ArrayList<>();
+    private UserProfile userProfile = null;
+
+    public PdfRecordsContainer(DbHelper dbHelper, Date dateFrom, Date dateTo){
+        this.dbHelper = dbHelper;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+    }
 
     public Date getDateFrom() {
         return dateFrom;
@@ -30,20 +41,6 @@ public class PdfRecordsContainer {
 
     public DbHelper getDbHelper() {
         return dbHelper;
-    }
-
-    private Date dateFrom;
-    private Date dateTo;
-
-    private List<PressureData> pressureDataList;
-    private List<Event> eventsDataList;
-    private List<BitmapFromChart> bitmapFromChartList = new ArrayList<>();
-    private List<BitmapFromChart> extraBitmapCharts = new ArrayList<>();
-
-    public PdfRecordsContainer(DbHelper dbHelper, Date dateFrom, Date dateTo){
-        this.dbHelper = dbHelper;
-        this.dateFrom = dateFrom;
-        this.dateTo = dateTo;
     }
 
     public void initRecordsByHelper(){
@@ -60,7 +57,12 @@ public class PdfRecordsContainer {
             e.printStackTrace();
         }
 
-        // TODO initialize bitmapFromChartList
+        try {
+            userProfile = dbHelper.getUserProfile();
+        } catch (SQLException e) {
+            Log.e(TAG, "initRecordsByHelper: can't get userProfile", e);
+            e.printStackTrace();
+        }
     }
 
     public List<PressureData> getPressureDataList() {
@@ -119,5 +121,9 @@ public class PdfRecordsContainer {
 
     public void cleanSimpleBitmapWithoutPaths(){
         cleanBitmapWithoutPaths(bitmapFromChartList);
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 }

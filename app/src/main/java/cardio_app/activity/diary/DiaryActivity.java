@@ -26,14 +26,14 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.util.Defaults;
 
 public class DiaryActivity extends AppCompatActivity {
 
-    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
     private static final String TAG = DiaryActivity.class.getName();
     private DbHelper dbHelper;
     private PressureDataAdapter pressureDataAdapter;
-    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
+    private DataFilter dataFilter = Defaults.getDefaultDataFilter();
 
     public void addPressureData(View view) {
         Intent intent = new Intent(this, AddDiaryActivity.class);
@@ -58,7 +58,7 @@ public class DiaryActivity extends AppCompatActivity {
             pressureDataAdapter = new PressureDataAdapter(DiaryActivity.this, pressureDataList);
             listView.setAdapter(pressureDataAdapter);
             listView.invalidateViews();
-            Log.i(TAG, "assignDataToListView: Filter applied\n" + dataFilter.getFilterMsg());
+            Log.i(TAG, "assignDataToListView: Filter applied\n" + dataFilter.getFilterMsgForLogger());
         } catch (SQLException e) {
             Log.e(TAG, "Can't get pressure data records from sql dao", e);
             throw new RuntimeException(e);
@@ -161,11 +161,10 @@ public class DiaryActivity extends AppCompatActivity {
                 DataFilter dataFilter = data.getParcelableExtra("filterdata");
                 if (dataFilter != null)
                     this.dataFilter = dataFilter;
-                Toast.makeText(this, this.dataFilter.getFilterMsg(), Toast.LENGTH_LONG).show(); // TODO remove it
+                Log.i(TAG, "onActivityResult: " + this.dataFilter.getFilterMsgForLogger());
                 refreshListView();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-//                dataFilter.setMode(DEFAULT_DATA_FILTER);
                 refreshListView();
             }
         }

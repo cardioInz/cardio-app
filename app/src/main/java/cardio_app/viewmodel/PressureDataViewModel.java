@@ -7,14 +7,12 @@ import android.support.annotation.NonNull;
 import cardio_app.db.model.PressureData;
 import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
-/**
- * Created by kisam on 27.10.2016.
- */
 
 public class PressureDataViewModel extends BaseObservable implements Comparable<PressureDataViewModel> {
     private PressureData pressureData;
     private DateTimeViewModel dateTimeViewModel = new DateTimeViewModel();
 
+    // TODO better, maybe graphical representation for arrhythmia than "A" : "-"
     public static final String ARRHYTHMIA_STR = "A";
     public static final String NO_ARRHYTHMIA_STR = "-";
 
@@ -90,7 +88,6 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
     @Bindable
     public String getArrhythmiaStr() {
         // just for one-way binding
-        // TODO better, maybe graphical representation for arrhythmia than "A" : "-"
         return pressureData.isArrhythmia() ? ARRHYTHMIA_STR : NO_ARRHYTHMIA_STR;
     }
 

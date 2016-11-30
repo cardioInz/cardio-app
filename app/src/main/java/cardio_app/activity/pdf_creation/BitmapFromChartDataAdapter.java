@@ -16,9 +16,6 @@ import cardio_app.pdf_creation.param_models.BitmapFromChart;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * Created by kisam on 23.11.2016.
- */
 
 public class BitmapFromChartDataAdapter extends ArrayAdapter<BitmapFromChart> {
 
@@ -26,17 +23,6 @@ public class BitmapFromChartDataAdapter extends ArrayAdapter<BitmapFromChart> {
         super(activity, R.layout.diary_list_item, data);
     }
 
-    public void setCheckedEnableForAll(boolean isChecked) {
-        for (int i = 0; i < this.getCount(); i++) {
-            try {
-                BitmapFromChart bfc = this.getItem(i);
-                if (bfc != null)
-                    bfc.setChecked(isChecked);
-            } catch (Exception e) {
-                Log.e(TAG, "setCheckedEnableForAll: ", e);
-            }
-        }
-    }
 
     @NonNull
     @Override

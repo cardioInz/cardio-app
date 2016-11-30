@@ -20,9 +20,6 @@ import java.util.HashMap;
 
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 
-/**
- * Created by kisam on 20.11.2016.
- */
 
 public class BitmapUtil {
 
@@ -31,43 +28,22 @@ public class BitmapUtil {
 
     private static Bitmap getBitmapFromView(View view)
     {
-        // TODO small rewrite of this code
+        int w = view.getWidth();
+        int h = view.getHeight();
 
-        //Get the dimensions of the view so we can re-layout the view at its current size
-        //and create a bitmap of the same size
-        int width = view.getWidth();
-        int height = view.getHeight();
-
-        if (width > 0 && height > 0 ) {
-            int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-            int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
-
-            //Cause the view to re-layout
-            view.measure(measuredWidth, measuredHeight);
-            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-
-            //Create a bitmap backed Canvas to draw the view into
-            Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas c = new Canvas(b);
-
-            //Now that the view is laid out and we have a canvas, ask the view to draw itself into the canvas
-            view.draw(c);
-            return b;
-        } else {
+        if (w <= 0 || h <= 0 )
             return null;
-        }
-    }
+        int measuredW = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY);
+        int measuredH = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
 
+        view.measure(measuredW, measuredH);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
 
-    private static Bitmap getBitmapWithSpecifiedSize(View chartView, int x, int y) {
-        ViewGroup.LayoutParams paramsBackup = chartView.getLayoutParams();
-        ViewGroup.LayoutParams params = chartView.getLayoutParams();
-        params.height = y;
-        params.width = x;
-        chartView.setLayoutParams(params);
-        Bitmap bitmap = getBitmapFromView(chartView);
-        chartView.setLayoutParams(paramsBackup);
-        return bitmap;
+        Bitmap b = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+
+        view.draw(c);
+        return b;
     }
 
 
@@ -80,24 +56,6 @@ public class BitmapUtil {
     }
 
 
-
-//    private static Image compressBitmapToImage(Bitmap bitmap) {
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bitmap.compress( Bitmap.CompressFormat.JPEG, 97, baos );
-//        try {
-//            baos.close();
-//        } catch (IOException e) {
-//            Log.e(TAG, "compressBitmapToImage: ", e);
-//            e.printStackTrace();
-//        }
-//        try {
-//            return Image.getInstance(baos.toByteArray());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Log.e(TAG, "compressBitmapToImage: ", e);
-//            return null;
-//        }
-//    }
 
     public static Image convertBitmapToImage(Bitmap bitmap, EXT_IMG ext) throws IOException, BadElementException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -159,24 +117,24 @@ public class BitmapUtil {
 
     public enum EXT_IMG {
 
-//        JPEG,
+        //JPEG,
         PNG;
 
         private static final HashMap<EXT_IMG, String> mapStr = new HashMap<EXT_IMG, String>(){
             {
-//                put(JPEG, ".jpeg");
+                //put(JPEG, ".jpeg");
                 put(PNG, ".png");
             }
         };
 
         private static final HashMap<EXT_IMG, Bitmap.CompressFormat> mapToCompression = new HashMap<EXT_IMG, Bitmap.CompressFormat>(){
             {
-//                put(JPEG, Bitmap.CompressFormat.JPEG);
+                //put(JPEG, Bitmap.CompressFormat.JPEG);
                 put(PNG, Bitmap.CompressFormat.PNG);
             }
         };
 
-        // Bitmap.CompressFormat.PNG
+
         @Override
         public String toString(){
             return mapStr.get(this);
@@ -196,46 +154,4 @@ public class BitmapUtil {
             return mapToCompression.get(this);
         }
     }
-
-
-//    public static Bitmap getBitmapFromChartView_oldWay(AbstractChartView abstractChartView, AppCompatActivity activity) throws Exception {
-//        // in this method we need to have layout already displayed
-//
-//        try {
-//            abstractChartView.setDrawingCacheEnabled(true);
-//            Drawable lastBg = abstractChartView.getBackground();
-////            abstractChartView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
-//            abstractChartView.setBackgroundColor(Color.WHITE);
-//            abstractChartView.buildDrawingCache();
-//            Bitmap bm = abstractChartView.getDrawingCache();
-//            Bitmap bitmap = bm.copy(bm.getConfig(), true);
-//            abstractChartView.setDrawingCacheEnabled(false);
-//            abstractChartView.destroyDrawingCache();
-//            abstractChartView.setBackground(lastBg);
-//            return bitmap;
-//        } catch (Exception e) {
-//            Log.e(TAG, "getBitmapFromChartView: ", e);
-//            throw e; // possible exception while getting bitmap from drawing cache
-//        }
-//    }
-
-
-
-//    public static Bitmap getBitmapFromView_v2(View v){
-//        try {
-//            if (v.getMeasuredHeight() <= 0) {
-//                return getBitmapWithSpecifiedSize(v, 842, 595);
-//            } else {
-//                Bitmap b = Bitmap.createBitmap(v.getLayoutParams().width, v.getLayoutParams().height, Bitmap.Config.ARGB_8888);
-//                Canvas c = new Canvas(b);
-//                v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-//                v.draw(c);
-//                return b;
-//            }
-//
-//        } catch (Exception e) {
-//            Log.e(TAG, "getBitmapFromView: ", e);
-//            return null;
-//        }
-//    }
 }

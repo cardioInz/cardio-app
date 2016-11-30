@@ -31,6 +31,7 @@ import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.pdf_creation.PdfCreatorAsyncWorker;
 import cardio_app.pdf_creation.param_models.PdfChosenParams;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
+import cardio_app.util.Defaults;
 import cardio_app.util.FileWalkerUtil;
 import cardio_app.util.PermissionUtil;
 import cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel;
@@ -39,13 +40,11 @@ import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 public class CreatePdfReportActivity extends AppCompatActivity {
     private static final String TAG = CreatePdfReportActivity.class.toString();
     private DbHelper dbHelper;
-    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
-    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
+    private DataFilter dataFilter = Defaults.getDefaultDataFilter();
     private DataFilterForPdfCreationViewModel dataFilterForPdfCreationViewModel = new DataFilterForPdfCreationViewModel();
     private final PdfCreationViewModel pdfCreationViewModel = new PdfCreationViewModel();
 
     private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-    private static String DEFAULT_EMAIL_ADDR = "cardio.inzynierka@gmail.com"; // TODO stay empty
 
     private void correctVisibilities(boolean isSendOpt, boolean isSaveOpt) {
         int sendVisib = isSendOpt ? View.VISIBLE : View.GONE;
@@ -97,7 +96,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         }
 
         pdfCreationViewModel.setLocationSave(DEFAULT_LOCATION_FILE);
-        pdfCreationViewModel.setEmailAddr(DEFAULT_EMAIL_ADDR);
+        pdfCreationViewModel.setEmailAddr(Defaults.DEFAULT_EMAIL);
         dataFilterForPdfCreationViewModel.setDataFilter(dataFilter);
         setGenericFileName();
         pdfCreationViewModel.setExtraChartsList(FileWalkerUtil.getBitmapFromChartList_fromSavedDir());

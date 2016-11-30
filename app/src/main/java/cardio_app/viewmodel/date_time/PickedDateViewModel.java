@@ -7,23 +7,12 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by kisam on 02.11.2016.
- */
 
 public class PickedDateViewModel extends BaseObservable {
 
     private int year;
     private int month;
     private int day;
-//
-//    public PickedDateViewModel() {
-//        this(Calendar.getInstance());
-//    }
-//
-//    public PickedDateViewModel(Calendar calendar) {
-//        initFromCalendar(calendar);
-//    }
 
 
     public PickedDateViewModel(Date date) {

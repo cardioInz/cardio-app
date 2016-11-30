@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -15,9 +16,8 @@ import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.BitmapUtil;
 import cardio_app.util.PermissionUtil;
 
-/**
- * Created by kisam on 22.11.2016.
- */
+import static android.content.ContentValues.TAG;
+
 
 public class SaveChartFromTmpDirAsyncWorker extends AsyncTask<Void, Void, Void> {
 
@@ -31,7 +31,6 @@ public class SaveChartFromTmpDirAsyncWorker extends AsyncTask<Void, Void, Void> 
         this.contextActivity = activity;
         this.source = source;
         this.dest = dest;
-        PermissionUtil.verifyStoragePermissions(contextActivity);
     }
 
     @Override
@@ -67,6 +66,11 @@ public class SaveChartFromTmpDirAsyncWorker extends AsyncTask<Void, Void, Void> 
 
     @Override
     protected Void doInBackground(Void... voids) {
+        if (!PermissionUtil.isStoragePermissionGranted(contextActivity)){
+            Log.e(TAG, "doInBackground: doesn't have permission to do that -> return");
+            return null;
+        }
+
         boolean isLoaded = BitmapUtil.loadBitmapFromFile(source);
         if (isLoaded) {
             dest.setBitmap(source.getBitmap());

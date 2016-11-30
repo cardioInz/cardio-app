@@ -28,13 +28,11 @@ public class CollectedChartsActivity extends AppCompatActivity {
     private static final String TAG = CollectedChartsActivity.class.toString();
     private BitmapFromChartDataAdapter bitmapFromChartDataAdapter;
     private ListView listView;
-    private CollectedChartsActivity self;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collected_charts);
-        self = this;
 
         listView = (ListView) findViewById(R.id.collected_charts_list_view);
 

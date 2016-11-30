@@ -88,7 +88,7 @@ public class ImportActivity extends AppCompatActivity {
                 in = new BufferedReader(new FileReader(data.getPath()));
                 builder.append(in.readLine());
 
-                //this method performs too long, consider put it in Background Worker
+                //TODO this method performs too long, consider put it in Background Worker
                 getHelper().importFromJson(new JSONObject(builder.toString()));
             } catch (IOException | JSONException | SQLException | ParseException e) {
                 e.printStackTrace();

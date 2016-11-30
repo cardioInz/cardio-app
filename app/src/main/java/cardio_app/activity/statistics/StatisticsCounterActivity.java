@@ -20,12 +20,12 @@ import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.statistics.Statistics;
+import cardio_app.util.Defaults;
 import cardio_app.viewmodel.statistics.StatisticCounterViewModel;
 
 public class StatisticsCounterActivity extends AppCompatActivity {
     private DbHelper dbHelper;
-    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
-    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
+    private DataFilter dataFilter = Defaults.getDefaultDataFilter();
     private final StatisticCounterViewModel statisticCounterViewModel = new StatisticCounterViewModel();
     private static final String TAG = StatisticsCounterActivity.class.getName();
     private final Statistics statistics = new Statistics(true, false);

@@ -57,21 +57,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pressuredata_condition"
-            android:text="@{pressuredata.conditionStr}"
-            android:layout_gravity="fill"
-            android:textSize="20sp"
-            android:minWidth="30sp"
-            android:gravity="center"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/pressuredata_arrhythmia"
             android:text="@{pressuredata.arrhythmiaStr}"
             android:layout_gravity="fill"
@@ -87,10 +72,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pressuredata_datetime"
+            android:id="@+id/pressuredata_date"
             android:layout_gravity="fill"
-            android:text="@{pressuredata.dateTimeStr}"
-            android:textSize="12sp"
+            android:text="@{pressuredata.dateStr}"
+            android:textSize="20sp"
+            android:gravity="end"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pressuredata_time"
+            android:layout_gravity="fill"
+            android:text="@{pressuredata.timeStr}"
+            android:textSize="20sp"
             android:gravity="end"/>
 
         <Space

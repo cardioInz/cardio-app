@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
 
-/**
- * Created by kisam on 25.11.2016.
- */
 
 public class DateTimeUtil {
 

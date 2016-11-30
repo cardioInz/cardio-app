@@ -21,11 +21,11 @@ import java.util.HashMap;
 import cardio_app.R;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.util.Defaults;
 
 public class FilterActivity extends AppCompatActivity {
-    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
     private final static String TAG = FilterActivity.class.toString();
-    final DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
+    final DataFilter dataFilter = Defaults.getDefaultDataFilter();
     @SuppressLint("UseSparseArrays")
     final static HashMap<Integer, DataFilterModeEnum> mapFilter = new HashMap<>();
 

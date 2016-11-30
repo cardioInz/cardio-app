@@ -4,9 +4,10 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import cardio_app.db.model.UserProfile;
+import cardio_app.util.DateTimeUtil;
 
 public class ProfileViewModel  extends BaseObservable {
-
+    private static final String EMPTY_IN_PDF = "-";
     private UserProfile userProfile;
 
     public ProfileViewModel() {
@@ -116,5 +117,72 @@ public class ProfileViewModel  extends BaseObservable {
     }
 
 
+
+    public String getDateOfBirthStr() {
+        if (userProfile == null || userProfile.getDateOfBirth() == null)
+            return EMPTY_IN_PDF;
+        return DateTimeUtil.DATE_FORMATTER.format(userProfile.getDateOfBirth());
+    }
+
+    public String getCholesterolStr() {
+        try {
+            int val = userProfile.getCholesterol();
+            if (val <= 0)
+                return EMPTY_IN_PDF;
+            return String.valueOf(val);
+        } catch (Exception e) {
+            return EMPTY_IN_PDF;
+        }
+    }
+
+    public String getGlucoseStr(){
+        try {
+            int val = userProfile.getGlucose();
+            if (val <= 0)
+                return EMPTY_IN_PDF;
+            return String.valueOf(val);
+        } catch (Exception e) {
+            return EMPTY_IN_PDF;
+        }
+    }
+
+
+    public String getWeightStr() {
+        try {
+            int val = userProfile.getHeight();
+            if (val <= 0)
+                return EMPTY_IN_PDF;
+            return String.valueOf(val);
+        } catch (Exception e) {
+            return EMPTY_IN_PDF;
+        }
+    }
+
+    public String getHeightStr() {
+        try {
+            int val = userProfile.getHeight();
+            if (val <= 0)
+                return EMPTY_IN_PDF;
+            return String.valueOf(val);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public String getSurnameStr() {
+        if (userProfile.getSurname() == null)
+            return EMPTY_IN_PDF;
+        return getSurname();
+    }
+
+    public String getNameStr() {
+        try {
+            if (userProfile.getName() == null)
+                return EMPTY_IN_PDF;
+            return getName();
+        } catch (Exception e){
+            return EMPTY_IN_PDF;
+        }
+    }
 }
 

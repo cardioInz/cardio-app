@@ -8,9 +8,6 @@ import java.util.Date;
 
 import cardio_app.util.DateTimeUtil;
 
-/**
- * Created by kisam on 01.11.2016.
- */
 
 public class DateTimeViewModel extends BaseObservable {
 
@@ -54,7 +51,6 @@ public class DateTimeViewModel extends BaseObservable {
 
     public void setMonth(int month) {
         pickedDateViewModel.setMonth(month);
-        ;
     }
 
     @Bindable

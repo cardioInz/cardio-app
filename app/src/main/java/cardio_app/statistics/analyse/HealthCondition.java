@@ -4,7 +4,7 @@ package cardio_app.statistics.analyse;
 import android.annotation.SuppressLint;
 
 import cardio_app.db.model.PressureData;
-import cardio_app.db.model.Questionnaire;
+import cardio_app.statistics.Statistics;
 
 
 public enum HealthCondition {
@@ -66,7 +66,7 @@ public enum HealthCondition {
     }
 
     private static HealthCondition classifyBySystole(int s) {
-        if (Questionnaire.isMale) {
+        if (Statistics.isMale()) {
             if (s < 100)
                 return TOO_LOW;
             else if (s <= 110)
@@ -91,7 +91,7 @@ public enum HealthCondition {
     }
 
     private static HealthCondition classifyByDiastole(int d) {
-        if (Questionnaire.isMale) {
+        if (Statistics.isMale()) {
             if (d < 70)
                 return TOO_LOW;
             else if (d < 75)
@@ -117,7 +117,6 @@ public enum HealthCondition {
 
     @SuppressLint("DefaultLocale")
     private static String mapToStr(HealthCondition c) {
-        // TODO - in future it will be name of some drawable resource to show in diary
         switch (c) {
             default:
                 return String.format("%d", c.getValue()); // just as a precaution

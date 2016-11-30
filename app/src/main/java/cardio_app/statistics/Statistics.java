@@ -17,6 +17,11 @@ public class Statistics {
     private HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> statisticMeasuresMap = new HashMap<>();
     private boolean doForCounter;
     private boolean doForMeasures;
+    private static boolean isMale = true;
+
+
+
+
 
 
     public Statistics(boolean doForCounter, boolean doForMeasures) {
@@ -175,5 +180,13 @@ public class Statistics {
             default:
                 return null;
         }
+    }
+
+    public static boolean isMale() {
+        return isMale;
+    }
+
+    public static void setIsMale(boolean isMale) {
+        Statistics.isMale = isMale;
     }
 }

@@ -142,12 +142,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public List<Event> getAllOrderedEventData() throws SQLException {
-        return getFilteredAndOrderedByDateEvent(null, null);
-    }
-
-    public List<Event> getFilteredAndOrderedByDateEvent(Date dateFrom, Date dateTo) throws SQLException {
-        Dao<Event, Integer> dao = getDao(Event.class);
-        return getFilteredByDate(dao.queryBuilder(), "startDate", false, false, dateFrom, dateTo).query();
+        return getFilteredAndOrderedByDateEvents(null, null);
     }
 
     public List<PressureData> getFilteredAndOrderedByDatePressureData(Date dateFrom, Date dateTo) throws SQLException {
@@ -187,6 +182,12 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         // ascending date
         PressureData pressureData = (PressureData) getFilteredByDate(dao.queryBuilder(), "dateTime", false, false, null, null).queryForFirst();
         return pressureData.getDateTime();
+    }
+
+    public UserProfile getUserProfile() throws SQLException {
+        // TODO does not work -> no user profile
+        Dao<UserProfile, Integer> dao = getDao(UserProfile.class);
+        return dao.queryBuilder().queryForFirst();
     }
 
     public JSONObject exportToJson() throws SQLException, JSONException {

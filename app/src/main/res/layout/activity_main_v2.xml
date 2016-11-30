@@ -18,7 +18,7 @@
         android:stretchMode="columnWidth"
         >
 
-        <!--example how to scale it with vector graphics-->
+        <!--TODO not so pretty example how to scale it with vector graphics-->
         <!--<LinearLayout-->
             <!--android:id="@+id/button"-->
             <!--android:layout_width="wrap_content"-->

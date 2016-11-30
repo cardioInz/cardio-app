@@ -10,9 +10,6 @@ import android.widget.ImageView;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.BitmapUtil;
 
-/**
- * Created by kisam on 23.11.2016.
- */
 
 public class ImageViewModel extends ImageView {
 

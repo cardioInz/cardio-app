@@ -7,21 +7,10 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by kisam on 02.11.2016.
- */
 
 public class PickedTimeViewModel extends BaseObservable {
     private int hourOfDay;
     private int minute;
-
-//    public PickedTimeViewModel() {
-//        this(Calendar.getInstance());
-//    }
-//
-//    public PickedTimeViewModel(Calendar calendar) {
-//        initFromCalendar(calendar);
-//    }
 
     public PickedTimeViewModel(Date date) {
         Calendar calendar = Calendar.getInstance();

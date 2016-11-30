@@ -21,13 +21,13 @@ import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.statistics.Statistics;
 import cardio_app.statistics.analyse.StatisticLastMeasure;
 import cardio_app.statistics.analyse.StatisticLastMeasure.TypeEnum;
+import cardio_app.util.Defaults;
 
 public class StatisticsLastMeasurementsActivity extends AppCompatActivity {
 
-    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
     private static final String TAG = StatisticsLastMeasurementsActivity.class.getName();
     private DbHelper dbHelper;
-    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
+    private DataFilter dataFilter = Defaults.getDefaultDataFilter();
     private final Statistics statistics = new Statistics(false, true);
     private ListView listView;
 

@@ -23,6 +23,7 @@ import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.pdf_creation.SaveBitmapFromChartAsyncWorker;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.ChartBuilder;
+import cardio_app.util.Defaults;
 import cardio_app.util.FileWalkerUtil;
 import cardio_app.util.PermissionUtil;
 import lecho.lib.hellocharts.gesture.ZoomType;
@@ -34,16 +35,14 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class ChartActivity extends AppCompatActivity {
     private static final String TAG = ChartActivity.class.getName();
-    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
-
-    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
+    private DataFilter dataFilter = Defaults.getDefaultDataFilter();
     private DbHelper dbHelper;
     private LineChartView lineChartView;
     List<PressureData> pressureList;
     private ChartBuilder chartBuilder;
 
-    private float minDaysOnScreen = 1;
-    private float initialDaysOnScreen = 4;
+    private float minDaysOnScreen = 1f;
+    private float initialDaysOnScreen = 4f;
     private boolean collectedChartsInvoked = false;
 
     @Override

@@ -59,7 +59,7 @@ public class StatisticLastMeasureViewModel extends BaseObservable {
 
     @Bindable
     public String getArrhythmiaStr() {
-        return shouldShowArrhythmia() ? "A" : ""; // TODO string could not be initialize in code
+        return shouldShowArrhythmia() ? PressureDataViewModel.ARRHYTHMIA_STR: "";
     }
 
     @Bindable

@@ -10,9 +10,6 @@ import cardio_app.filtering.DataFilterModeEnum;
 
 import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
 
-/**
- * Created by kisam on 18.11.2016.
- */
 
 public class DataFilterForPdfCreationViewModel extends BaseObservable {
 

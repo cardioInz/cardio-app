@@ -14,9 +14,6 @@ import cardio_app.util.BitmapUtil;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * Created by kisam on 25.11.2016.
- */
 
 public class SaveBitmapFromChartAsyncWorker extends AsyncTask<Void, Void, Void> {
 
@@ -62,8 +59,7 @@ public class SaveBitmapFromChartAsyncWorker extends AsyncTask<Void, Void, Void> 
         return null;
     }
 
-    // TODO should be private and not used not-in async workers
-    public static boolean assignBitmapValueFromChartView(AppCompatActivity activity, BitmapFromChart bitmapFromChart){
+    private static boolean assignBitmapValueFromChartView(AppCompatActivity activity, BitmapFromChart bitmapFromChart){
         try {
             final Bitmap[] bitmap = new Bitmap[1];
             activity.runOnUiThread(() -> {

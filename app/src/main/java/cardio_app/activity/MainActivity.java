@@ -3,8 +3,11 @@ package cardio_app.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import cardio_app.R;
 import cardio_app.activity.diary.AddDiaryActivity;
@@ -17,13 +20,26 @@ import cardio_app.activity.profile.ProfileActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
 import cardio_app.activity.synchro.ExportActivity;
 import cardio_app.activity.synchro.ImportActivity;
+import cardio_app.db.DbHelper;
+import cardio_app.db.model.UserProfile;
+import cardio_app.statistics.Statistics;
 
 public class MainActivity extends AppCompatActivity{
+    private static final String TAG = MainActivity.class.toString();
+    private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            UserProfile userProfile = getHelper().getUserProfile();
+            if (userProfile != null)
+                Statistics.setIsMale(!userProfile.getSex().equals("F"));
+        } catch (Exception e){
+            Log.e(TAG, "onCreate: ", e);
+        }
     }
 
     @Override
@@ -81,5 +97,23 @@ public class MainActivity extends AppCompatActivity{
     public void showProfile(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (dbHelper != null) {
+            OpenHelperManager.releaseHelper();
+            dbHelper = null;
+        }
+    }
+
+    private DbHelper getHelper() {
+        if (dbHelper == null) {
+            dbHelper = OpenHelperManager.getHelper(this, DbHelper.class);
+        }
+
+        return dbHelper;
     }
 }

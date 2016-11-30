@@ -128,9 +128,12 @@ public class FileWalkerUtil {
     }
 
     public static String getSomeUniquePdfName(String from, String to){
-        String sthUnique = getSthUnique();
-        return String.format("%s_%s_%s%s",
-                "report", from, to, sthUnique.isEmpty() ? "" : "_" + sthUnique);
+// TODO below code makes pdf name unique, but until we won't delete file after sending email, it will be better to override it every time
+//        String sthUnique = getSthUnique();
+//        return String.format("%s_%s_%s%s",
+//                "report", from, to, sthUnique.isEmpty() ? "" : "_" + sthUnique);
+
+        return "report";
     }
 
 }

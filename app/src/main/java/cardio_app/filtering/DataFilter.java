@@ -10,26 +10,15 @@ import java.util.Date;
 
 import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
 
-/**
- * Created by kisam on 04.11.2016.
- */
 
 public class DataFilter implements Parcelable {
 
-    private static final int DEFAULT_FILTER_LAST_X_DAYS = 14; // == X
     private static final String TAG = DataFilter.class.getName();
-
-
-
     private DataFilterModeEnum mode;
     private Date dateFrom;
     private Date dateTo;
     private int xDays;
 
-    public DataFilter() {
-        // DEFAULT FILTER
-        setLastXDaysFilterMode(DEFAULT_FILTER_LAST_X_DAYS);
-    }
 
     public void copyValues(DataFilter dataFilter) {
         this.mode = dataFilter.getMode();
@@ -209,7 +198,7 @@ public class DataFilter implements Parcelable {
     }
 
     // just for development
-    public String getFilterMsg() {
+    public String getFilterMsgForLogger() {
         if (mode == DataFilterModeEnum.NO_FILTER)
             return "Mode: " + mode.name();
         else
@@ -232,7 +221,7 @@ public class DataFilter implements Parcelable {
         return xDays;
     }
 
-//    private void setXDays(int xDays) {
-//        this.xDays = xDays;
-//    }
+    private void setXDays(int xDays) {
+        this.xDays = xDays;
+    }
 }

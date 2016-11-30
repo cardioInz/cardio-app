@@ -23,15 +23,12 @@ import lecho.lib.hellocharts.view.LineChartView;
 import static android.content.ContentValues.TAG;
 
 
-public class BitmapFromChart extends BaseObservable implements Parcelable, Comparable<BitmapFromChart> {
+public class BitmapFromChart extends BaseObservable implements Parcelable{
 
     private String path;
     private String fileName;
     private BitmapUtil.EXT_IMG ext;
     private Bitmap bitmap;
-    private Date dateFrom; // TODO
-    private Date dateTo; // TODO
-    private boolean isChecked = false; // TODO in context of selection in collected charts list
     private LineChartView chartView;
 
     public BitmapFromChart(){
@@ -81,17 +78,6 @@ public class BitmapFromChart extends BaseObservable implements Parcelable, Compa
         return bitmap;
     }
 
-    public Date getDateFrom() {
-        return dateFrom;
-    }
-
-    public Date getDateTo() {
-        return dateTo;
-    }
-
-    public boolean hasCompletedValues(){
-        return (hasBitmap() || hasFilePathExt()); // && hasDates();
-    }
 
     public String getFilePathWithExt(){
         if (hasFilePathExt())
@@ -100,31 +86,12 @@ public class BitmapFromChart extends BaseObservable implements Parcelable, Compa
             return null;
     }
 
-    private boolean hasDates(){
-        return dateFrom != null && dateTo != null;
-    }
-
     public boolean hasFilePathExt(){
         return ext != null && fileName != null && path != null && !fileName.isEmpty() && !path.isEmpty();
     }
 
     public boolean hasBitmap(){
         return bitmap != null;
-    }
-
-    public static ImageFromChartComparator getComparator(){
-        return new ImageFromChartComparator();
-    }
-
-    @Override
-    public int compareTo(@NonNull BitmapFromChart bitmapFromChart) {
-        if (!bitmapFromChart.hasCompletedValues() && this.hasCompletedValues())
-            return 1;
-        else if (bitmapFromChart.hasCompletedValues() && !this.hasCompletedValues())
-            return -1;
-        int result = this.dateFrom.compareTo(bitmapFromChart.dateFrom);
-        if (result != 0) return result;
-        return this.dateTo.compareTo(bitmapFromChart.dateTo);
     }
 
     @Bindable
@@ -169,36 +136,13 @@ public class BitmapFromChart extends BaseObservable implements Parcelable, Compa
         this.ext = ext;
     }
 
-    @Bindable
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-        notifyPropertyChanged(BR.checked);
-    }
 
     public LineChartView getChartView() {
         return chartView;
     }
 
-    private static class ImageFromChartComparator implements Comparator<BitmapFromChart>
-    {
-        public int compare(BitmapFromChart c1, BitmapFromChart c2)
-        {
-            if (c1 == null && c2 == null)
-                return 0;
-            else if (c1 == null)
-                return 1;
-            else if (c2 == null)
-                return -1;
-            else
-                return c1.compareTo(c2);
-        }
-    }
 
-    public String infoStrForLogger(){
+    String infoStrForLogger(){
         return String.format("bitmap: %s, fileName: %s, path: %s",
                 bitmap == null ? "null" : "not null",
                 fileName != null ? fileName : "",

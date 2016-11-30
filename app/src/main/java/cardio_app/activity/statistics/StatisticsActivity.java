@@ -8,17 +8,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
 import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.filtering.DataFilter;
-import cardio_app.filtering.DataFilterModeEnum;
+import cardio_app.util.Defaults;
 
 public class StatisticsActivity extends AppCompatActivity {
 
-    private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER;
-    private DataFilter dataFilter = new DataFilter(DEFAULT_DATA_FILTER);
+    private DataFilter dataFilter = Defaults.getDefaultDataFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +114,9 @@ public class StatisticsActivity extends AppCompatActivity {
                 DataFilter dataFilter = data.getParcelableExtra("filterdata");
                 if (dataFilter != null)
                     this.dataFilter = dataFilter;
-                Toast.makeText(this, this.dataFilter.getFilterMsg(), Toast.LENGTH_LONG).show(); // TODO remove it
                 refreshStatisticsView();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-//                dataFilter.setMode(DEFAULT_DATA_FILTER);
                 refreshStatisticsView();
             }
         }

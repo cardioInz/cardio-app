@@ -28,10 +28,7 @@
         <activity
             android:name=".activity.drug.AddDrugActivity"
             android:label="@string/title_activity_add_drug" />
-        <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -100,7 +97,8 @@
         <activity
             android:name=".activity.pdf_creation.CollectedChartsActivity"
             android:label="@string/title_activity_collected_charts" />
-        <activity android:name=".activity.profile.ProfileActivity"></activity>
+        <activity android:name=".activity.profile.ProfileActivity"
+            android:label="@string/my_profile"/>
     </application>
 
 </manifest>

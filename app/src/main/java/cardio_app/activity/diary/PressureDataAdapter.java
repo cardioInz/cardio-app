@@ -34,27 +34,22 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
         TextView systoleTextView = (TextView) convertView.findViewById(R.id.pressuredata_systole);
         TextView diastoleTextView = (TextView) convertView.findViewById(R.id.pressuredata_diastole);
         TextView pulseTextView = (TextView) convertView.findViewById(R.id.pressuredata_pulse);
-        TextView conditionTextView = (TextView) convertView.findViewById(R.id.pressuredata_condition);
         TextView arrhythmiaTextView = (TextView) convertView.findViewById(R.id.pressuredata_arrhythmia);
-        TextView dateTimeTextView = (TextView) convertView.findViewById(R.id.pressuredata_datetime);
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.pressuredata_date);
+        TextView timeTextView = (TextView) convertView.findViewById(R.id.pressuredata_time);
 
         PressureData pressureData = getItem(position);
 
         if (pressureData != null) {
             PressureDataViewModel viewModel = new PressureDataViewModel(pressureData);
-//                valuesTextView.setText(viewModel.getValuesStr());
             systoleTextView.setText(viewModel.getSystoleStr());
             diastoleTextView.setText(viewModel.getDiastoleStr());
             pulseTextView.setText(viewModel.getPulseStr());
-            conditionTextView.setText(viewModel.getConditionStr());
             arrhythmiaTextView.setText(viewModel.getArrhythmiaStr());
-            dateTimeTextView.setText(viewModel.getDateTimeInTwoLinesStr());
+            dateTextView.setText(viewModel.getDateStr());
+            timeTextView.setText(viewModel.getTimeStr());
         }
 
         return convertView;
-    }
-
-    static Comparator<PressureData> getComparator() {
-        return PressureData.getComparator();
     }
 }

@@ -6,9 +6,6 @@ import java.util.List;
 
 import cardio_app.db.model.BaseModel;
 
-/**
- * Created by kisam on 19.11.2016.
- */
 
 public class PdfChosenParams extends BaseModel {
     private String locationSave;
@@ -21,9 +18,6 @@ public class PdfChosenParams extends BaseModel {
 
     }
 
-    public void sortImages(){
-        Collections.sort(extraBitmapFromChartList, BitmapFromChart.getComparator());
-    }
 
     public String getLocationSave() {
         return locationSave;
