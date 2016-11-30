@@ -187,6 +187,10 @@
     <string name="pdf_content_about_patient">About patient - \"My Profile\"</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="start_date">START DATE:</string>
+    <string name="end_date">END DATE:</string>
+    <string name="is_repeatable">IS REPEATABLE:</string>
+    <string name="description_dialog">DESCRIPTION:</string>
 
 
 </resources>

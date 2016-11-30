@@ -12,6 +12,7 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.activity.statistics.ChartActivity;
+import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -22,10 +23,13 @@ import lecho.lib.hellocharts.model.PointValue;
 public class ChartBuilder {
     private static final long MILLIS_IN_DAY = 24 * 3600 * 1000;
     private List<PressureData> data;
+    private List<Event> eventData;
     private ChartMode chartMode = ChartMode.DISCRETE;
 
     private Resources resources;
     private long days;
+    private long startTime;
+    private long endTIme;
 
     public ChartBuilder(List<PressureData> data, Resources resources) {
         this.data = data;
@@ -44,12 +48,51 @@ public class ChartBuilder {
         return this;
     }
 
+    public ChartBuilder setStartTime(long startTime) {
+        this.startTime = startTime;
+
+        return this;
+    }
+
+    public ChartBuilder setEndTIme(long endTIme) {
+        this.endTIme = endTIme;
+
+        return this;
+    }
+
+    public ChartBuilder setEvents(List<Event> events) {
+        this.eventData = events;
+
+        return this;
+    }
+
     public long getDays() {
         return days;
     }
 
     public LineChartData build() {
         List<Line> lines = new ArrayList<>();
+        long min = 0, max = 0, diff = 0;
+
+        if (data.size() > 0 && startTime == 0 && endTIme == 0) {
+            min = data.get(data.size() - 1).getDateTime().getTime();
+            max = data.get(0).getDateTime().getTime();
+            if (eventData != null && eventData.size() > 0) {
+                long tempMin = eventData.get(eventData.size() - 1).getStartDate().getTime();
+                long tempMax = eventData.get(0).getEndDate().getTime();
+
+                if (tempMin < min) {
+                    min = tempMin;
+                }
+                if (tempMax > max) {
+                    max = tempMax;
+                }
+            }
+            diff = max - min;
+        } else {
+            min = startTime;
+            max = endTIme;
+        }
         switch (chartMode) {
             case DISCRETE: {
                 List<PointValue> diastoles = new ArrayList<>();
@@ -88,13 +131,31 @@ public class ChartBuilder {
             }
         }
 
-        long min = 0, max = 0, diff = 0;
+        if (eventData != null) {
+            List<PointValue> pointEvent = new ArrayList<>();
 
-        if (data.size() > 0) {
-            min = data.get(data.size() - 1).getDateTime().getTime();
-            max = data.get(0).getDateTime().getTime();
-            diff = max - min;
+            for (Event event : eventData) {
+                if (event.getStartDate().equals(event.getEndDate())) {
+                    PointValue point = new ChartActivity.CustomPointValue(event.getStartDate().getTime(), 10, event);
+                    pointEvent.add(point);
+                } else {
+                    if (event.isRepeatable()) {
+                        for (long i = event.getStartDate().getTime(); i < event.getEndDate().getTime(); i = Event.appendTime(i, event)) {
+                            PointValue point = new ChartActivity.CustomPointValue(i, 10, event);
+                            pointEvent.add(point);
+                        }
+                    } else {
+                        List<PointValue> continous = new ArrayList<>();
+                        continous.add(new ChartActivity.CustomPointValue(event.getStartDate().getTime(), 20, event));
+                        continous.add(new ChartActivity.CustomPointValue(event.getEndDate().getTime(), 20, event));
+                        lines.add(new Line(continous).setColor(Color.GRAY));
+                    }
+                }
+            }
+
+            lines.add(new Line(pointEvent).setColor(Color.GRAY).setHasLines(false));
         }
+
         days = diff / MILLIS_IN_DAY;
 
         //x axis with formatted date

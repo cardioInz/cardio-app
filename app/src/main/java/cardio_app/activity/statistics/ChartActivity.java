@@ -16,6 +16,8 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.db.DbHelper;
+import cardio_app.db.model.BaseModel;
+import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
 import cardio_app.filtering.DataFilterModeEnum;
@@ -35,6 +37,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class ChartActivity extends AppCompatActivity {
     private static final String TAG = ChartActivity.class.getName();
     List<PressureData> pressureList;
+    List<Event> eventList;
     private DataFilter dataFilter = Defaults.getDefaultDataFilter();
     private DbHelper dbHelper;
     private LineChartView lineChartView;
@@ -73,11 +76,20 @@ public class ChartActivity extends AppCompatActivity {
             @Override
             public void onValueSelected(int i, int i1, PointValue pointValue) {
                 if (pointValue instanceof CustomPointValue) {
-                    PressureData data = ((CustomPointValue) pointValue).getPressureData();
+                    CustomPointValue point = (CustomPointValue) pointValue;
+                    if (point.getPressureData() instanceof PressureData) {
+                        PressureData data = (PressureData) point.getPressureData();
 
-                    DataDialog dialog = DataDialog.newInstance(data);
+                        DataDialog dialog = DataDialog.newInstance(data);
 
-                    dialog.show(getSupportFragmentManager(), "measerument");
+                        dialog.show(getSupportFragmentManager(), "measurement");
+                    } else if (point.getPressureData() instanceof Event) {
+                        Event event = (Event) point.getPressureData();
+
+                        EventDialog dialog = EventDialog.newInstance(event);
+
+                        dialog.show(getSupportFragmentManager(), "measurement");
+                    }
                 }
             }
 
@@ -89,11 +101,13 @@ public class ChartActivity extends AppCompatActivity {
         try {
             if (dataFilter.getMode().equals(DataFilterModeEnum.NO_FILTER)) {
                 pressureList = getHelper().getAllOrderedPressureData();
+                eventList = getHelper().getAllOrderedEventData();
             } else {
                 pressureList = getHelper().getFilteredAndOrderedByDatePressureData(dataFilter.getDateFrom(), dataFilter.getDateTo());
+                eventList = getHelper().getFilteredAndOrderedByDateEvents(dataFilter.getDateFrom(), dataFilter.getDateTo());
             }
 
-            this.chartBuilder = new ChartBuilder(pressureList, getResources());
+            this.chartBuilder = new ChartBuilder(pressureList, getResources()).setEvents(eventList);
 
             changeType(ChartBuilder.ChartMode.DISCRETE);
             lineChartView.setMaxZoom(chartBuilder.getDays() / minDaysOnScreen);
@@ -173,18 +187,18 @@ public class ChartActivity extends AppCompatActivity {
     }
 
     public static class CustomPointValue extends PointValue {
-        private PressureData pressureData;
+        private BaseModel pressureData;
 
-        public CustomPointValue(float x, float y, PressureData pressureData) {
+        public CustomPointValue(float x, float y, BaseModel pressureData) {
             super(x, y);
             this.pressureData = pressureData;
         }
 
-        public PressureData getPressureData() {
+        public BaseModel getPressureData() {
             return pressureData;
         }
 
-        public void setPressureData(PressureData pressureData) {
+        public void setPressureData(BaseModel pressureData) {
             this.pressureData = pressureData;
         }
     }

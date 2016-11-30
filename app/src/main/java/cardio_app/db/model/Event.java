@@ -16,6 +16,7 @@ import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 
 @DatabaseTable(tableName = "event")
 public class Event extends BaseModel implements Parcelable {
+    private static final long DAY_MILLIS = 24 * 60 * 60 * 1000;
     public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
         public Event createFromParcel(Parcel in) {
@@ -307,5 +308,25 @@ public class Event extends BaseModel implements Parcelable {
 
     public void setAlarmSet(boolean alarmSet) {
         isAlarmSet = alarmSet;
+    }
+
+    public static long appendTime(long time, Event event) {
+        long interval = DAY_MILLIS;
+
+        switch (event.getTimeUnit()) {
+            case DAY: {
+                break;
+            }
+            case WEEK: {
+                interval *= 7;
+                break;
+            }
+            case MONTH: {
+                interval *= 30;
+            }
+        }
+        interval *= event.getTimeDelta();
+
+        return time + interval;
     }
 }

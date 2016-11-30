@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="event"
+            type="cardio_app.viewmodel.EventDataViewModel"/>
+    </data>
+
+    <GridLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:columnCount="2"
+        android:rowCount="5"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:text="@string/start_date"
+            android:textStyle="bold"/>
+        <TextView
+            android:text="@{event.startDate}"/>
+        <TextView
+            android:text="@string/end_date"
+            android:textStyle="bold"/>
+        <TextView
+            android:text="@{event.endDate}"/>
+        <TextView
+            android:text="@string/is_repeatable"
+            android:textStyle="bold"/>
+        <CheckBox
+            android:checked="@={event.repeatable}"
+            android:enabled="false"/>
+        <TextView
+            android:text="@string/description_dialog"
+            android:textStyle="bold"/>
+        <TextView
+            android:text="@{event.description}"/>
+
+    </GridLayout>
+
+</layout>

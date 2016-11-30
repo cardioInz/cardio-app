@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 
 import cardio_app.db.model.Event;
 import cardio_app.db.model.TimeUnit;
+import cardio_app.util.DateTimeUtil;
 
 public class EventDataViewModel extends BaseObservable {
     private Event event;
@@ -112,18 +113,15 @@ public class EventDataViewModel extends BaseObservable {
         this.event = event;
     }
 
+    //TODO: better
     @Bindable
     public String getStartDate() {
-        return event.getStartDate().getDay() + "." +
-                event.getStartDate().getMonth() + "." +
-                event.getStartDate().getYear();
+        return DateTimeUtil.DATE_FORMATTER.format(event.getStartDate());
     }
 
     @Bindable
     public String getEndDate() {
-        return event.getEndDate().getDay() + "." +
-                event.getEndDate().getMonth() + "." +
-                event.getEndDate().getYear();
+        return DateTimeUtil.DATE_FORMATTER.format(event.getEndDate());
     }
 
     @Bindable

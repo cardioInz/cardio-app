@@ -87,8 +87,8 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         Dao<Event, Integer> daoHp = getDao(Event.class);
         Event e1 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), false, TimeUnit.NONE, 0, "description1", osr, Emotion.HAPPY, da, DailyActivitiesRecord.DRIVING_CAR, false);
         Event e2 = new Event(getDate(19, 10, 2016), getDate(20, 11, 2016), false, TimeUnit.NONE, 0, "description2", osr, Emotion.SAD, da, DailyActivitiesRecord.ARGUE, false);
-        Event e3 = new Event(getDate(19, 10, 2016), getDate(19, 12, 2016), true, TimeUnit.WEEK, 2, "description3", osr, Emotion.ANGRY, da, DailyActivitiesRecord.HOUSE_DUTIES, false);
-        Event e4 = new Event(new Date(2016, 10, 20, 16, 0), new Date(2016, 10, 30), true, TimeUnit.DAY, 1, "description4", osr, Emotion.CRYING, da, DailyActivitiesRecord.PARTY, false);
+        Event e3 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), true, TimeUnit.WEEK, 2, "description3", osr, Emotion.ANGRY, da, DailyActivitiesRecord.HOUSE_DUTIES, false);
+        Event e4 = new Event(getDate(23, 10, 2016), getDate(29, 11, 2016), true, TimeUnit.DAY, 1, "description4", osr, Emotion.CRYING, da, DailyActivitiesRecord.PARTY, false);
         daoHp.create(e1);
         daoHp.create(e2);
         daoHp.create(e3);
