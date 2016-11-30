@@ -19,7 +19,8 @@
             name="endDate"
             type="cardio_app.viewmodel.date_time.PickedDateViewModel" />
 
-        <variable name="startTime"
+        <variable
+            name="startTime"
             type="cardio_app.viewmodel.date_time.PickedTimeViewModel" />
     </data>
 
@@ -37,12 +38,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/input_activities_background">
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/EditTextArea"
                     android:text="Start date:" />
 
                 <DatePicker
@@ -60,35 +63,39 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/input_activities_background">
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/EditTextArea"
                     android:text="Start time:" />
 
                 <TimePicker
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
                     android:hour="@{startTime.hourOfDay}"
                     android:minute="@{startTime.minute}"
                     android:onTimeChanged="@{startTime::timeChanged}"
-                    android:timePickerMode="spinner"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"></TimePicker>
+                    android:timePickerMode="spinner"></TimePicker>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/input_activities_background">
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/EditTextArea"
                     android:text="End Date:" />
 
                 <DatePicker
@@ -105,12 +112,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/input_activities_background">
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/EditTextArea"
                     android:text="Do you want to repeat?" />
 
                 <CheckBox
@@ -122,12 +131,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/input_activities_background">
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/EditTextArea"
                     android:text="Powtarzaj co" />
 
                 <EditText
@@ -139,12 +150,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/input_activities_background">
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/EditTextArea"
                     android:text="Time unit:" />
 
                 <RadioGroup
@@ -180,12 +193,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/input_activities_background">
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/EditTextArea"
                     android:text="Description" />
 
                 <EditText
@@ -200,394 +215,465 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/input_activities_background">
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="EMOTIONS:" />
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextArea"
+                        android:text="EMOTIONS:" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/button_happy"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/happy"
+                                android:onClick="changeEmotion"
+                                android:text="Happy"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_sad"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/sad"
+                                android:onClick="changeEmotion"
+                                android:text="Sad"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_angry"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/angry"
+                                android:onClick="changeEmotion"
+                                android:text="Angry"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_crying"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/crying"
+                                android:onClick="changeEmotion"
+                                android:text="Crying"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_stressed"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/stressed"
+                                android:onClick="changeEmotion"
+                                android:text="Stressed"
+                                style="@style/BtnEvent"/>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextArea"
+                        android:text="SYMPTOMS:" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:orientation="horizontal">
+
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+
+                            <Button
+                                android:id="@+id/button_cough"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/cough"
+                                android:onClick="changeSymptomps"
+                                android:text="Cough"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_headache"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/headache"
+                                android:onClick="changeSymptomps"
+                                android:text="Headache"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_fever"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/high_temperature"
+                                android:onClick="changeSymptomps"
+                                android:text="High temperature"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_stomachache"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/stomachache"
+                                android:onClick="changeSymptomps"
+                                android:text="Stomachache"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_toothache"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/toothache"
+                                android:onClick="changeSymptomps"
+                                android:text="Toothache"
+                                style="@style/BtnEvent"/>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextArea"
+                        android:text="MEDICAL APPOINTMENT:" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:orientation="horizontal">
+
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+
+                            <Button
+                                android:id="@+id/button_medical_checkout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/medical_checkout"
+                                android:onClick="changeVisitType"
+                                android:text="Medical checkout"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_examination"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/examination"
+                                android:onClick="changeVisitType"
+                                android:text="Examination"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_prescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/prescription"
+                                android:onClick="changeVisitType"
+                                android:text="Prescription"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_emergency"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/emergency"
+                                android:onClick="changeVisitType"
+                                android:text="Emergency"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_flu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/infection"
+                                android:onClick="changeVisitType"
+                                android:text="Flu"
+                                style="@style/BtnEvent"/>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_activities_background"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextArea"
+                        android:text="OTHER EVENTS:" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:orientation="horizontal">
+
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+
+                            <Button
+                                android:id="@+id/button_other_fight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_fight"
+                                android:onClick="changeEventType"
+                                android:text="Argue"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_work"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_work"
+                                android:onClick="changeEventType"
+                                android:text="Work"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_relax"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_relax"
+                                android:onClick="changeEventType"
+                                android:text="Relax"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_exam"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_exam"
+                                android:onClick="changeEventType"
+                                android:text="Exam"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_walk"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_walk"
+                                android:onClick="changeEventType"
+                                android:text="Walk"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_sport"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_sport"
+                                android:onClick="changeEventType"
+                                android:text="Sport"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_party"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_party"
+                                android:onClick="changeEventType"
+                                android:text="Party"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_travel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_travel"
+                                android:onClick="changeEventType"
+                                android:text="Travel"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_house_duties"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_house_duties"
+                                android:onClick="changeEventType"
+                                android:text="House duties"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_car_driving"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_car_driving"
+                                android:onClick="changeEventType"
+                                android:text="Car driving"
+                                style="@style/BtnEvent"/>
+
+                            <Button
+                                android:id="@+id/button_other_shopping"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:drawableTop="@drawable/event_other_shopping"
+                                android:onClick="changeEventType"
+                                android:text="Shopping"
+                                style="@style/BtnEvent"/>
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/input_activities_background"
-                android:orientation="horizontal">
-
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/button_happy"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/happy"
-                            android:text="Happy"
-                            android:onClick="changeEmotion"/>
-
-                        <Button
-                            android:id="@+id/button_sad"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/sad"
-                            android:text="Sad"
-                            android:onClick="changeEmotion"/>
-
-                        <Button
-                            android:id="@+id/button_angry"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/angry"
-                            android:text="Angry"
-                            android:onClick="changeEmotion"/>
-
-                        <Button
-                            android:id="@+id/button_crying"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/crying"
-                            android:text="Crying"
-                            android:onClick="changeEmotion"/>
-
-                        <Button
-                            android:id="@+id/button_stressed"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/stressed"
-                            android:text="Stressed"
-                            android:onClick="changeEmotion"/>
-                    </LinearLayout>
-                </HorizontalScrollView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SYMPTOMS:" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:orientation="horizontal">
-
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-
-                        <Button
-                            android:id="@+id/button_cough"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/cough"
-                            android:text="Cough"
-                            android:onClick="changeSymptomps"/>
-
-                        <Button
-                            android:id="@+id/button_headache"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/headache"
-                            android:text="Headache"
-                            android:onClick="changeSymptomps"/>
-
-                        <Button
-                            android:id="@+id/button_fever"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/high_temperature"
-                            android:text="High temperature"
-                            android:onClick="changeSymptomps"/>
-
-                        <Button
-                            android:id="@+id/button_stomachache"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/stomachache"
-                            android:text="Stomachache"
-                            android:onClick="changeSymptomps"/>
-
-                        <Button
-                            android:id="@+id/button_toothache"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/toothache"
-                            android:text="Toothache"
-                            android:onClick="changeSymptomps"/>
-                    </LinearLayout>
-                </HorizontalScrollView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="MEDICAL APPOINTMENT:" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:orientation="horizontal">
-
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-
-                        <Button
-                            android:id="@+id/button_medical_checkout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/medical_checkout"
-                            android:text="Medical checkout"
-                            android:onClick="changeVisitType"/>
-
-                        <Button
-                            android:id="@+id/button_examination"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/examination"
-                            android:text="Examination"
-                            android:onClick="changeVisitType"/>
-
-                        <Button
-                            android:id="@+id/button_prescription"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/prescription"
-                            android:text="Prescription"
-                            android:onClick="changeVisitType"/>
-
-                        <Button
-                            android:id="@+id/button_emergency"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/emergency"
-                            android:text="Emergency"
-                            android:onClick="changeVisitType"/>
-
-                        <Button
-                            android:id="@+id/button_flu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/infection"
-                            android:text="Flu"
-                            android:onClick="changeVisitType"/>
-                    </LinearLayout>
-                </HorizontalScrollView>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="OTHER EVENTS:" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:orientation="horizontal">
-
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-
-                        <Button
-                            android:id="@+id/button_other_fight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_fight"
-                            android:text="Argue"
-                            android:onClick="changeEventType"/>
-
-                        <Button
-                            android:id="@+id/button_other_work"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_work"
-                            android:text="Work"
-                            android:onClick="changeEventType"/>
-
-                        <Button
-                            android:id="@+id/button_other_relax"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_relax"
-                            android:text="Relax"
-                            android:onClick="changeEventType"/>
-
-                        <Button
-                            android:id="@+id/button_other_exam"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_exam"
-                            android:text="Exam"
-                            android:onClick="changeEventType"/>
-
-                        <Button
-                            android:id="@+id/button_other_walk"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_walk"
-                            android:text="Walk"
-                            android:onClick="changeEventType"/>
-
-                        <Button
-                            android:id="@+id/button_other_sport"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_sport"
-                            android:text="Sport"
-                            android:onClick="changeEventType"/>
-
-                        <Button
-                            android:id="@+id/button_other_party"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_party"
-                            android:text="Party"
-                            android:onClick="changeEventType"/>
-                        <Button
-                            android:id="@+id/button_other_travel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_travel"
-                            android:text="Travel"
-                            android:onClick="changeEventType"/>
-                        <Button
-                            android:id="@+id/button_other_house_duties"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_house_duties"
-                            android:text="House duties"
-                            android:onClick="changeEventType"/>
-                        <Button
-                            android:id="@+id/button_other_car_driving"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_car_driving"
-                            android:text="Car driving"
-                            android:onClick="changeEventType"/>
-                        <Button
-                            android:id="@+id/button_other_shopping"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:drawableTop="@drawable/event_other_shopping"
-                            android:text="Shopping"
-                            android:onClick="changeEventType"/>
-
-                    </LinearLayout>
-                </HorizontalScrollView>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@null">
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/EditTextArea"
                     android:text="Set an alert for this event" />
 
                 <CheckBox
@@ -602,14 +688,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:text="SUBMIT"
+                    android:id="@+id/button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/button"
                     android:background="@color/submit"
+                    android:onClick="saveEvent"
+                    android:text="SUBMIT"
                     android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:onClick="saveEvent"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>
