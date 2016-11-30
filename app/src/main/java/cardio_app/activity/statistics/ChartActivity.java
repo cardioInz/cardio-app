@@ -109,7 +109,7 @@ public class ChartActivity extends AppCompatActivity {
 
             this.chartBuilder = new ChartBuilder(pressureList, getResources()).setEvents(eventList);
 
-            changeType(ChartBuilder.ChartMode.DISCRETE);
+            changeType(ChartBuilder.ChartMode.DISCRETE, false);
             lineChartView.setMaxZoom(chartBuilder.getDays() / minDaysOnScreen);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -145,11 +145,11 @@ public class ChartActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.chart_discrete: {
-                changeType(ChartBuilder.ChartMode.DISCRETE);
+                changeType(ChartBuilder.ChartMode.DISCRETE, true);
                 return true;
             }
             case R.id.chart_continuous: {
-                changeType(ChartBuilder.ChartMode.CONTINUOUS);
+                changeType(ChartBuilder.ChartMode.CONTINUOUS, true);
                 return true;
             }
             case R.id.menu_chart_item_save_view: {
@@ -179,11 +179,23 @@ public class ChartActivity extends AppCompatActivity {
         }
     }
 
-    private void changeType(ChartBuilder.ChartMode chartMode) {
+    private void changeType(ChartBuilder.ChartMode chartMode, boolean computePosition) {
+        float centerX = 0;
+        float centerY = 0;
+        float zoom = 0;
+        if (computePosition) {
+            centerX = lineChartView.getChartComputator().getVisibleViewport().centerX();
+            centerY = lineChartView.getChartComputator().getVisibleViewport().centerY();
+            zoom = lineChartView.getZoomLevel();
+        }
         LineChartData chartData = chartBuilder.setMode(chartMode).build();
         lineChartView.setLineChartData(chartData);
-        Viewport viewport = lineChartView.getCurrentViewport();
-        lineChartView.setZoomLevel(viewport.centerX(), viewport.centerY(), chartBuilder.getDays() / initialDaysOnScreen);
+        if (computePosition) {
+            lineChartView.setZoomLevel(centerX, centerY, zoom);
+        } else {
+            Viewport viewport = lineChartView.getCurrentViewport();
+            lineChartView.setZoomLevel(viewport.centerX(), viewport.centerY(), chartBuilder.getDays() / initialDaysOnScreen);
+        }
     }
 
     public static class CustomPointValue extends PointValue {

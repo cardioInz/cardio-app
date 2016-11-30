@@ -77,22 +77,22 @@ public class ChartBuilder {
         if (data.size() > 0 && startTime == 0 && endTIme == 0) {
             min = data.get(data.size() - 1).getDateTime().getTime();
             max = data.get(0).getDateTime().getTime();
-            if (eventData != null && eventData.size() > 0) {
-                long tempMin = eventData.get(eventData.size() - 1).getStartDate().getTime();
-                long tempMax = eventData.get(0).getEndDate().getTime();
-
-                if (tempMin < min) {
-                    min = tempMin;
-                }
-                if (tempMax > max) {
-                    max = tempMax;
-                }
-            }
-            diff = max - min;
         } else {
             min = startTime;
             max = endTIme;
         }
+        if (eventData != null && eventData.size() > 0) {
+            long tempMin = eventData.get(eventData.size() - 1).getStartDate().getTime();
+            long tempMax = eventData.get(0).getEndDate().getTime();
+
+            if (tempMin < min) {
+                min = tempMin;
+            }
+            if (tempMax > max) {
+                max = tempMax;
+            }
+        }
+        diff = max - min;
         switch (chartMode) {
             case DISCRETE: {
                 List<PointValue> diastoles = new ArrayList<>();
