@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
@@ -25,6 +23,7 @@ import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Emotion;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
+import cardio_app.service.SetAlarmService;
 import cardio_app.viewmodel.EventDataViewModel;
 import cardio_app.viewmodel.date_time.PickedDateViewModel;
 import cardio_app.viewmodel.date_time.PickedTimeViewModel;
@@ -36,7 +35,6 @@ public class AddEventActivity extends AppCompatActivity {
     boolean isEditExistingItem;
     PickedDateViewModel startDateModel, endDateModel;
     PickedTimeViewModel startTimeModel;
-    private GoogleApiClient client;
     private DbHelper dbHelper;
     private Map<Integer, Emotion> buttonToEmotionMap;
     private Map<Integer, DailyActivitiesRecord> buttonToOtherEventMap;
@@ -70,7 +68,6 @@ public class AddEventActivity extends AppCompatActivity {
         binding.setStartDate(startDateModel);
         binding.setEndDate(endDateModel);
         binding.setStartTime(startTimeModel);
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         createButtonToEmotionMap();
         createButtonToOtherEventMap();
     }
@@ -171,6 +168,10 @@ public class AddEventActivity extends AppCompatActivity {
                 dao.update(currentEvent);
             }
 
+            Intent updateAlarm = new Intent(this, SetAlarmService.class);
+            updateAlarm.setAction(SetAlarmService.UPDATE);
+            updateAlarm.putExtra(SetAlarmService.EVENT_ID, currentEvent.getId());
+            startService(updateAlarm);
         } catch (Exception e) {
 
         }

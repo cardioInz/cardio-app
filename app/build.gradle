@@ -47,5 +47,6 @@ dependencies {
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
     compile 'com.itextpdf:itextg:5.5.9'
     compile 'com.intuit.sdp:sdp-android:1.0.3'
+    compile 'joda-time:joda-time:2.9.6'
     compile project(':aFileDialog')
 }

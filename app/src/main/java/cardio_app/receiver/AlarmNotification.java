@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -18,6 +19,7 @@ import static cardio_app.util.IntentContentUtil.NOTIFICATION_TEXT;
 import static cardio_app.util.IntentContentUtil.NOTIFICATION_TITLE;
 
 public class AlarmNotification extends BroadcastReceiver {
+    private static final String TAG = AlarmNotification.class.getName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -25,7 +27,7 @@ public class AlarmNotification extends BroadcastReceiver {
         String title = intent.getStringExtra(NOTIFICATION_TITLE);
         String text = intent.getStringExtra(NOTIFICATION_TEXT);
 
-        Log.wtf("DWW", "Id alarmu: " + id);
+        Log.wtf(TAG, "Id alarmu: " + id);
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent returnToMainActivity = new Intent(context, MainActivity.class);
@@ -38,12 +40,12 @@ public class AlarmNotification extends BroadcastReceiver {
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setContentIntent(PendingIntent.getActivity(context, 0, returnToMainActivity, 0));
 
-        Log.wtf("Notify", "Set new notification");
+        Log.wtf(TAG, "Set new notification");
         nm.notify(id, builder.build());
 
         Intent returnIntent = new Intent(context, SetAlarmService.class);
-        intent.setAction("UPDATE");
-        intent.putExtra("eventId", id);
+        intent.setAction(SetAlarmService.UPDATE);
+        intent.putExtra(SetAlarmService.EVENT_ID, id);
 
         context.startService(returnIntent);
     }
