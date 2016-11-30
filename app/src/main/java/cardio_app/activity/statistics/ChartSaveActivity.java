@@ -3,8 +3,8 @@ package cardio_app.activity.statistics;
 import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.io.File;
@@ -21,10 +21,9 @@ import cardio_app.util.PermissionUtil;
 public class ChartSaveActivity extends AppCompatActivity {
 
     private static final String TAG = ChartSaveActivity.class.toString();
+    private static final String DEFAULT_SAVE_PATH = FileWalkerUtil.getDirToSaveCharts();
     final BitmapFromChart bitmapViewModel = new BitmapFromChart();
     BitmapFromChart sourceBitmapFromChart;
-    private static final String DEFAULT_SAVE_PATH = FileWalkerUtil.getDirToSaveCharts();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

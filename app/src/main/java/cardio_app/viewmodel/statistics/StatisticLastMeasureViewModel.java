@@ -14,11 +14,11 @@ public class StatisticLastMeasureViewModel extends BaseObservable {
     private PressureDataViewModel pressureDataViewModel;
 
 
-    public StatisticLastMeasureViewModel(){
+    public StatisticLastMeasureViewModel() {
 
     }
 
-    public StatisticLastMeasureViewModel(StatisticLastMeasure statisticLastMeasure){
+    public StatisticLastMeasureViewModel(StatisticLastMeasure statisticLastMeasure) {
         setStatisticLastMeasure(statisticLastMeasure);
     }
 
@@ -59,7 +59,7 @@ public class StatisticLastMeasureViewModel extends BaseObservable {
 
     @Bindable
     public String getArrhythmiaStr() {
-        return shouldShowArrhythmia() ? PressureDataViewModel.ARRHYTHMIA_STR: "";
+        return shouldShowArrhythmia() ? PressureDataViewModel.ARRHYTHMIA_STR : "";
     }
 
     @Bindable

@@ -1,33 +1,10 @@
 package temporary_package;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.Image;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.List;
-
-import cardio_app.db.model.PressureData;
-import cardio_app.pdf_creation.param_models.BitmapFromChart;
-import cardio_app.util.ChartBuilder;
-import cardio_app.util.BitmapUtil;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.view.AbstractChartView;
-import lecho.lib.hellocharts.view.LineChartView;
-
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by kisam on 22.11.2016.
  */
 
 class TmpCodes {
-
 
 
 //    public static Image prepareChartImage(AppCompatActivity activity, List<PressureData> pressureList) {

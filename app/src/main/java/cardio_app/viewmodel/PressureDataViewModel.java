@@ -9,12 +9,11 @@ import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
 
 public class PressureDataViewModel extends BaseObservable implements Comparable<PressureDataViewModel> {
-    private PressureData pressureData;
-    private DateTimeViewModel dateTimeViewModel = new DateTimeViewModel();
-
     // TODO better, maybe graphical representation for arrhythmia than "A" : "-"
     public static final String ARRHYTHMIA_STR = "A";
     public static final String NO_ARRHYTHMIA_STR = "-";
+    private PressureData pressureData;
+    private DateTimeViewModel dateTimeViewModel = new DateTimeViewModel();
 
     public PressureDataViewModel() {
         this(new PressureData());
@@ -110,12 +109,12 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
         return this.pressureData.compareTo(pressureDataViewModel.pressureData);
     }
 
-    public void setPressureData(PressureData pressureData) {
-        this.pressureData = pressureData;
-    }
-
     public PressureData getPressureData() {
         return pressureData;
+    }
+
+    public void setPressureData(PressureData pressureData) {
+        this.pressureData = pressureData;
     }
 
     @Bindable

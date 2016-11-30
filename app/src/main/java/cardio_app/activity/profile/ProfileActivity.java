@@ -1,8 +1,8 @@
 package cardio_app.activity.profile;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -20,10 +20,11 @@ import cardio_app.viewmodel.date_time.PickedDateViewModel;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    PickedDateViewModel dateOfBirthViewModel;
     private DbHelper dbHelper;
     private UserProfile currentUser;
     private boolean isProfileAlreadyCreated = false;
-    PickedDateViewModel dateOfBirthViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
         updateBirthDate();
         try {
             Dao<UserProfile, Integer> dao = getDbHelper().getDao(UserProfile.class);
-            if(!isProfileAlreadyCreated) {
+            if (!isProfileAlreadyCreated) {
                 dao.create(currentUser);
             } else {
                 dao.update(currentUser);

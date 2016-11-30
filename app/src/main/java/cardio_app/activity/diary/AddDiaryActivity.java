@@ -35,12 +35,12 @@ import cardio_app.viewmodel.date_time.PickedTimeViewModel;
 
 public class AddDiaryActivity extends AppCompatActivity {
     private static final String TAG = AddDiaryActivity.class.getName();
-    private DbHelper dbHelper;
     private final PressureDataViewModel pressureDataViewModel = new PressureDataViewModel();
     private final PickedDateViewModel pickedDateViewModel =
             new PickedDateViewModel(pressureDataViewModel.getPressureData().getDateTime());
     private final PickedTimeViewModel pickedTimeViewModel =
             new PickedTimeViewModel(pressureDataViewModel.getPressureData().getDateTime());
+    private DbHelper dbHelper;
     private GoogleApiClient client;
     private boolean isActivityOnExistingItem;
 

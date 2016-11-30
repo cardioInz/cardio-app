@@ -24,10 +24,10 @@ import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.util.Defaults;
 
 public class FilterActivity extends AppCompatActivity {
-    private final static String TAG = FilterActivity.class.toString();
-    final DataFilter dataFilter = Defaults.getDefaultDataFilter();
     @SuppressLint("UseSparseArrays")
     final static HashMap<Integer, DataFilterModeEnum> mapFilter = new HashMap<>();
+    private final static String TAG = FilterActivity.class.toString();
+    final DataFilter dataFilter = Defaults.getDefaultDataFilter();
 
     public static Integer getIdFromMode(DataFilterModeEnum mode) {
         for (Integer id : mapFilter.keySet()) {

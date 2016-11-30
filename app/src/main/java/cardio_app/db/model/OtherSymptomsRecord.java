@@ -11,6 +11,17 @@ import org.json.JSONObject;
 
 @DatabaseTable
 public class OtherSymptomsRecord extends BaseModel implements Parcelable {
+    public static final Creator<OtherSymptomsRecord> CREATOR = new Creator<OtherSymptomsRecord>() {
+        @Override
+        public OtherSymptomsRecord createFromParcel(Parcel in) {
+            return new OtherSymptomsRecord(in);
+        }
+
+        @Override
+        public OtherSymptomsRecord[] newArray(int size) {
+            return new OtherSymptomsRecord[size];
+        }
+    };
     @DatabaseField
     private boolean isCough;
     @DatabaseField
@@ -22,7 +33,7 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
     @DatabaseField
     private boolean isToothache;
 
-    public OtherSymptomsRecord(){
+    public OtherSymptomsRecord() {
     }
 
     public OtherSymptomsRecord(boolean isCough, boolean isHeadache, boolean isHighTemperature, boolean isStomachAche, boolean isToothache) {
@@ -51,14 +62,24 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
         isToothache = in.readByte() != 0;
     }
 
+    public static OtherSymptomsRecord convert(JSONObject object) throws JSONException {
+        boolean isCough = object.getBoolean("isCough");
+        boolean isHeadache = object.getBoolean("isHeadache");
+        boolean isHighTemperature = object.getBoolean("isHighTemperature");
+        boolean isStomachAche = object.getBoolean("isStomachAche");
+        boolean isToothache = object.getBoolean("isToothache");
+
+        return new OtherSymptomsRecord(isCough, isHeadache, isHighTemperature, isStomachAche, isToothache);
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(getId());
-        parcel.writeByte((byte) (isCough ? 1: 0));
-        parcel.writeByte((byte) (isHeadache ? 1: 0));
-        parcel.writeByte((byte) (isHighTemperature ? 1: 0));
-        parcel.writeByte((byte) (isStomachAche ? 1: 0));
-        parcel.writeByte((byte) (isToothache ? 1: 0));
+        parcel.writeByte((byte) (isCough ? 1 : 0));
+        parcel.writeByte((byte) (isHeadache ? 1 : 0));
+        parcel.writeByte((byte) (isHighTemperature ? 1 : 0));
+        parcel.writeByte((byte) (isStomachAche ? 1 : 0));
+        parcel.writeByte((byte) (isToothache ? 1 : 0));
     }
 
     public JSONObject convertToJSON() throws JSONException {
@@ -73,33 +94,10 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
         return object;
     }
 
-    public static OtherSymptomsRecord convert(JSONObject object) throws JSONException {
-        boolean isCough = object.getBoolean("isCough");
-        boolean isHeadache = object.getBoolean("isHeadache");
-        boolean isHighTemperature = object.getBoolean("isHighTemperature");
-        boolean isStomachAche = object.getBoolean("isStomachAche");
-        boolean isToothache = object.getBoolean("isToothache");
-
-        return new OtherSymptomsRecord(isCough, isHeadache, isHighTemperature, isStomachAche, isToothache);
-    }
-
-    public static final Creator<OtherSymptomsRecord> CREATOR = new Creator<OtherSymptomsRecord>() {
-        @Override
-        public OtherSymptomsRecord createFromParcel(Parcel in) {
-            return new OtherSymptomsRecord(in);
-        }
-
-        @Override
-        public OtherSymptomsRecord[] newArray(int size) {
-            return new OtherSymptomsRecord[size];
-        }
-    };
-
     @Override
     public int describeContents() {
         return 0;
     }
-
 
 
     public boolean isStomachAche() {
@@ -141,7 +139,6 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
     public void setToothache(boolean toothache) {
         isToothache = toothache;
     }
-
 
 
 }

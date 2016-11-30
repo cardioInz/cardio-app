@@ -12,7 +12,6 @@ import cardio_app.util.DateTimeUtil;
 public class DateTimeViewModel extends BaseObservable {
 
 
-
     private final PickedDateViewModel pickedDateViewModel;
     private final PickedTimeViewModel pickedTimeViewModel;
 
@@ -23,6 +22,14 @@ public class DateTimeViewModel extends BaseObservable {
     public DateTimeViewModel(Date dateTime) {
         pickedDateViewModel = new PickedDateViewModel(dateTime);
         pickedTimeViewModel = new PickedTimeViewModel(dateTime);
+    }
+
+    private static String makeDateStr(Date date) {
+        return DateTimeUtil.DATE_FORMATTER.format(date);
+    }
+
+    private static String makeTimeStr(Date date) {
+        return DateTimeUtil.TIME_FORMATTER.format(date);
     }
 
     @Bindable
@@ -87,14 +94,6 @@ public class DateTimeViewModel extends BaseObservable {
 
     public void setMinute(int minute) {
         pickedTimeViewModel.setMinute(minute);
-    }
-
-    private static String makeDateStr(Date date) {
-        return DateTimeUtil.DATE_FORMATTER.format(date);
-    }
-
-    private static String makeTimeStr(Date date) {
-        return DateTimeUtil.TIME_FORMATTER.format(date);
     }
 
     @Bindable

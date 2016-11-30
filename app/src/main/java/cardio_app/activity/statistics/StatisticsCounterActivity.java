@@ -2,8 +2,8 @@ package cardio_app.activity.statistics;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TableLayout;
 
@@ -18,17 +18,16 @@ import cardio_app.databinding.ContentStatisticsCounterInfoBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
-import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.statistics.Statistics;
 import cardio_app.util.Defaults;
 import cardio_app.viewmodel.statistics.StatisticCounterViewModel;
 
 public class StatisticsCounterActivity extends AppCompatActivity {
+    private static final String TAG = StatisticsCounterActivity.class.getName();
+    private final StatisticCounterViewModel statisticCounterViewModel = new StatisticCounterViewModel();
+    private final Statistics statistics = new Statistics(true, false);
     private DbHelper dbHelper;
     private DataFilter dataFilter = Defaults.getDefaultDataFilter();
-    private final StatisticCounterViewModel statisticCounterViewModel = new StatisticCounterViewModel();
-    private static final String TAG = StatisticsCounterActivity.class.getName();
-    private final Statistics statistics = new Statistics(true, false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

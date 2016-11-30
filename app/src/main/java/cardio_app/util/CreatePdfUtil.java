@@ -62,7 +62,7 @@ public class CreatePdfUtil {
         image.scaleAbsolute(newW, newH);
     }
 
-    private static void scaleImage(Image image, float scale){
+    private static void scaleImage(Image image, float scale) {
         int w = (int) (image.getWidth() * scale);
         int h = (int) (image.getHeight() * scale);
         image.scaleAbsolute(w, h);
@@ -114,7 +114,7 @@ public class CreatePdfUtil {
 
     private static void addMetaData(Document document) {
         final String APP_NAME = "Cardio-Inz";
-        
+
         document.addTitle(getResourceString(R.string.pdf_report_generated_by) + " " + APP_NAME + " App");
         document.addSubject(APP_NAME + " " + getResourceString(R.string.report));
         document.addKeywords(APP_NAME + " " + getResourceString(R.string.report));
@@ -154,8 +154,8 @@ public class CreatePdfUtil {
         }
 
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph( getResourceString(R.string.pdf_generation_interval_dates)
-                        + " " + getResourceString(R.string.from_date) + " " + dateFromStr
+        preface.add(new Paragraph(getResourceString(R.string.pdf_generation_interval_dates)
+                + " " + getResourceString(R.string.from_date) + " " + dateFromStr
                 + " " + getResourceString(R.string.to_date) + " " + dateToStr,
                 fontDates));
         addEmptyLine(preface, 2);
@@ -203,16 +203,17 @@ public class CreatePdfUtil {
 
         try {
             ProfileViewModel profileViewModel = new ProfileViewModel(recordsContainer.getUserProfile());
+            HashMap<String, String> map = profileViewModel.getHashMapFields(resources);
+            boolean throwSomeEx = true;
+            for (String key : map.keySet()) {
+                if (!map.get(key).equals("-")) {
+                    throwSomeEx = false;
+                    catPart.add(new Paragraph(key + "  " + map.get(key)));
+                }
+            }
 
-            catPart.add(new Paragraph(getResourceString(R.string.name) + ": " + profileViewModel.getNameStr()));
-            catPart.add(new Paragraph(getResourceString(R.string.surname) + ": " + profileViewModel.getSurnameStr()));
-            catPart.add(new Paragraph(getResourceString(R.string.date_of_birth) + ": " + profileViewModel.getDateOfBirthStr()));
-            catPart.add(new Paragraph(getResourceString(R.string.sex) + profileViewModel.getSex()));
-            catPart.add(new Paragraph(getResourceString(R.string.height) + " [cm]: " + profileViewModel.getHeightStr()));
-            catPart.add(new Paragraph(getResourceString(R.string.weight) + " [kg]: " + profileViewModel.getWeightStr()));
-            catPart.add(new Paragraph(getResourceString(R.string.smoker) + ": " + (profileViewModel.getSmoker() ? getResourceString(R.string.yes) : getResourceString(R.string.no))));
-            catPart.add(new Paragraph(getResourceString(R.string.glucose) + " [mmol/l]: " + profileViewModel.getGlucoseStr()));
-            catPart.add(new Paragraph(getResourceString(R.string.cholesterol) + " [mmol/l]: " + profileViewModel.getCholesterolStr()));
+            if (throwSomeEx)
+                throw new Exception("UserProfile is empty, so I don't attach it to the pdf report");
 
             addEmptyLine(catPart, 2);
             document.add(catPart);
@@ -313,12 +314,12 @@ public class CreatePdfUtil {
             table.addCell(pressureDataViewModel.getDiastoleStr());
             table.addCell(String.valueOf(pressureData.getSystole() - pressureData.getDiastole()));
             table.addCell(pressureDataViewModel.getPulseStr());
-            table.addCell("  " +pressureDataViewModel.getArrhythmiaStr());
+            table.addCell("  " + pressureDataViewModel.getArrhythmiaStr());
             table.addCell(DATE_FORMATTER.format(pressureData.getDateTime()));
             table.addCell(TIME_FORMATTER.format(pressureData.getDateTime()));
         }
 
-        float[] columnWidths = new float[] {15f, 15f, 17f, 10f, 16f, 17f, 10f};
+        float[] columnWidths = new float[]{15f, 15f, 17f, 10f, 16f, 17f, 10f};
         table.setWidths(columnWidths);
 
         subCatPart.add(table);
@@ -354,9 +355,9 @@ public class CreatePdfUtil {
                 final StatisticLastMeasure statisticLastMeasure = mapLastMeasures.get(key);
                 measureViewModel.setStatisticLastMeasure(statisticLastMeasure);
 
-                final String listItemStr = String.format("%s\n\t%s  %s\n\t%s  %s\n\t%s  %s%s\n\n",
+                final String listItemStr = String.format("%s\n\t%s    %s\n\t%s  %s\n\t%s  %s%s\n\n",
                         title,
-                        getResourceString(R.string.statistics_title_values), measureViewModel.getValuesStr(),
+                        getResourceString(R.string.statistics_title_values).replaceAll("/", " / "), measureViewModel.getValuesStr().replaceAll("/", " / "),
                         getResourceString(R.string.statistics_title_date), measureViewModel.getDateStr(),
                         getResourceString(R.string.statistics_title_time), measureViewModel.getTimeStr(),
                         (
@@ -385,11 +386,11 @@ public class CreatePdfUtil {
         }
     }
 
-    private static DbHelper getHelper(){
+    private static DbHelper getHelper() {
         return recordsContainer.getDbHelper();
     }
 
-    private static String getResourceString(int id){
+    private static String getResourceString(int id) {
         return resources.getString(id);
     }
 }

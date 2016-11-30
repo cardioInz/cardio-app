@@ -27,7 +27,7 @@ public class SaveChartFromTmpDirAsyncWorker extends AsyncTask<Void, Void, Void> 
     private boolean isSuccess;
     private boolean deleteSourceOnSucceed = false;
 
-    public SaveChartFromTmpDirAsyncWorker(AppCompatActivity activity, BitmapFromChart source, BitmapFromChart dest){
+    public SaveChartFromTmpDirAsyncWorker(AppCompatActivity activity, BitmapFromChart source, BitmapFromChart dest) {
         this.contextActivity = activity;
         this.source = source;
         this.dest = dest;
@@ -66,7 +66,7 @@ public class SaveChartFromTmpDirAsyncWorker extends AsyncTask<Void, Void, Void> 
 
     @Override
     protected Void doInBackground(Void... voids) {
-        if (!PermissionUtil.isStoragePermissionGranted(contextActivity)){
+        if (!PermissionUtil.isStoragePermissionGranted(contextActivity)) {
             Log.e(TAG, "doInBackground: doesn't have permission to do that -> return");
             return null;
         }

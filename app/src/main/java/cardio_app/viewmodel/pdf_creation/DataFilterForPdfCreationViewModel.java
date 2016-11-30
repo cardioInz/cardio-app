@@ -17,16 +17,12 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
     private Date earliestDate = null;
     private Date latestDate = null;
 
-    public DataFilterForPdfCreationViewModel(){
+    public DataFilterForPdfCreationViewModel() {
         this(null, null, null);
     }
 
-    public DataFilterForPdfCreationViewModel(DataFilter dataFilter, Date earliestDate, Date latestDate){
+    public DataFilterForPdfCreationViewModel(DataFilter dataFilter, Date earliestDate, Date latestDate) {
         setDatesBoundary(earliestDate, latestDate);
-        this.dataFilter = dataFilter;
-    }
-
-    public void setDataFilter(DataFilter dataFilter) {
         this.dataFilter = dataFilter;
     }
 
@@ -35,7 +31,7 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getDateFromStr(){
+    public String getDateFromStr() {
         if (dataFilter == null)
             return "-";
         else if (dataFilter.getMode().equals(DataFilterModeEnum.NO_FILTER) && earliestDate != null) {
@@ -46,7 +42,7 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getDateToStr(){
+    public String getDateToStr() {
         if (dataFilter == null)
             return "-";
         else if (dataFilter.getMode().equals(DataFilterModeEnum.NO_FILTER) && latestDate != null) {
@@ -54,6 +50,11 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
         } else {
             return dataFilter.getDateToStr();
         }
+    }
+
+    @Bindable
+    public DataFilter getDataFilter() {
+        return dataFilter;
     }
 //
 //    public void setDateToStr(String date){
@@ -64,13 +65,11 @@ public class DataFilterForPdfCreationViewModel extends BaseObservable {
 //        // stay empty
 //    }
 
-
-    @Bindable
-    public DataFilter getDataFilter() {
-        return dataFilter;
+    public void setDataFilter(DataFilter dataFilter) {
+        this.dataFilter = dataFilter;
     }
 
-    public void setDatesBoundary(Date early, Date late){
+    public void setDatesBoundary(Date early, Date late) {
         this.earliestDate = early;
         this.latestDate = late;
     }

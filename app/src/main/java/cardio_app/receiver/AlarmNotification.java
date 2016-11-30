@@ -13,7 +13,9 @@ import android.util.Log;
 import cardio_app.activity.MainActivity;
 import cardio_app.service.SetAlarmService;
 
-import static cardio_app.util.IntentContentUtil.*;
+import static cardio_app.util.IntentContentUtil.NOTIFICATION_ID;
+import static cardio_app.util.IntentContentUtil.NOTIFICATION_TEXT;
+import static cardio_app.util.IntentContentUtil.NOTIFICATION_TITLE;
 
 public class AlarmNotification extends BroadcastReceiver {
 
@@ -28,7 +30,7 @@ public class AlarmNotification extends BroadcastReceiver {
 
         Intent returnToMainActivity = new Intent(context, MainActivity.class);
 
-        NotificationCompat.Builder  builder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(android.R.drawable.stat_notify_more)
                 .setContentTitle(title)
                 .setContentText(text)

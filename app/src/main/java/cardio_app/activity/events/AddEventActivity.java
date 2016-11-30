@@ -2,8 +2,8 @@ package cardio_app.activity.events;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,6 +13,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,20 +27,21 @@ import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
 import cardio_app.viewmodel.EventDataViewModel;
 import cardio_app.viewmodel.date_time.PickedDateViewModel;
+import cardio_app.viewmodel.date_time.PickedTimeViewModel;
 
 
 public class AddEventActivity extends AppCompatActivity {
 
+    Event currentEvent;
+    boolean isEditExistingItem;
+    PickedDateViewModel startDateModel, endDateModel;
+    PickedTimeViewModel startTimeModel;
     private GoogleApiClient client;
     private DbHelper dbHelper;
     private Map<Integer, Emotion> buttonToEmotionMap;
     private Map<Integer, DailyActivitiesRecord> buttonToOtherEventMap;
     private Map<Emotion, Integer> emotionToButtonMap;
     private Map<DailyActivitiesRecord, Integer> otherEventToButtonMap;
-    Event currentEvent;
-    boolean isEditExistingItem;
-    PickedDateViewModel startDateModel, endDateModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +65,11 @@ public class AddEventActivity extends AppCompatActivity {
         }
         startDateModel = new PickedDateViewModel(currentEvent.getStartDate());
         endDateModel = new PickedDateViewModel(currentEvent.getEndDate());
+        startTimeModel = new PickedTimeViewModel(currentEvent.getStartDate());
         binding.setEvent(new EventDataViewModel(currentEvent));
         binding.setStartDate(startDateModel);
         binding.setEndDate(endDateModel);
+        binding.setStartTime(startTimeModel);
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         createButtonToEmotionMap();
         createButtonToOtherEventMap();
@@ -80,7 +84,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     private void initializeEmotionButton() {
         Integer id = emotionToButtonMap.get(currentEvent.getEmotion());
-        Button button = (Button)findViewById(id);
+        Button button = (Button) findViewById(id);
         button.setBackgroundResource(R.drawable.event_chosen_option);
     }
 
@@ -94,58 +98,60 @@ public class AddEventActivity extends AppCompatActivity {
 
     private void initializeOtherEventButton() {
         Integer id = otherEventToButtonMap.get(currentEvent.getDailyActivitiesRecord());
-        Button button = (Button)findViewById(id);
+        Button button = (Button) findViewById(id);
         button.setBackgroundResource(R.drawable.event_chosen_option);
     }
 
-    private Calendar getCalendarForModel(PickedDateViewModel model) {
+    private Calendar getCalendarForModel(PickedDateViewModel dateModel, PickedTimeViewModel timeModel) {
         Calendar cal = Calendar.getInstance();
         cal.set(
-                model.getYear(),
-                model.getMonth(),
-                model.getDay()
+                dateModel.getYear(),
+                dateModel.getMonth(),
+                dateModel.getDay(),
+                timeModel.getHourOfDay(),
+                timeModel.getMinute()
         );
         return cal;
     }
 
     private void updateStartDate() {
-        Calendar cal = getCalendarForModel(startDateModel);
+        Calendar cal = getCalendarForModel(startDateModel, startTimeModel);
         currentEvent.setStartDate(cal.getTime());
     }
 
     private void updateEndDate() {
-        Calendar cal = getCalendarForModel(endDateModel);
+        Calendar cal = getCalendarForModel(endDateModel, new PickedTimeViewModel(new Date()));
         currentEvent.setEndDate(cal.getTime());
     }
 
     public void changeEmotion(View v) {
         currentEvent.setEmotion(buttonToEmotionMap.get(v.getId()));
-        for(Integer id: buttonToEmotionMap.keySet()) {
+        for (Integer id : buttonToEmotionMap.keySet()) {
             Button b = (Button) findViewById(id);
             b.setBackground(null);
         }
-        Button buttonClicked = (Button)findViewById(v.getId());
+        Button buttonClicked = (Button) findViewById(v.getId());
         buttonClicked.setBackgroundResource(R.drawable.event_chosen_option);
     }
 
     public void changeEventType(View v) {
         currentEvent.setDailyActivitiesRecord(buttonToOtherEventMap.get(v.getId()));
-        for(Integer id: buttonToOtherEventMap.keySet()) {
+        for (Integer id : buttonToOtherEventMap.keySet()) {
             Button b = (Button) findViewById(id);
             b.setBackground(null);
         }
-        Button buttonClicked = (Button)findViewById(v.getId());
+        Button buttonClicked = (Button) findViewById(v.getId());
         buttonClicked.setBackgroundResource(R.drawable.event_chosen_option);
     }
 
     public void changeSymptomps(View v) {
         setSymptomProperty(v.getId());
-        changeBackgroundForButton((Button)findViewById(v.getId()));
+        changeBackgroundForButton((Button) findViewById(v.getId()));
     }
 
     public void changeVisitType(View v) {
         setVisitProperty(v.getId());
-        changeBackgroundForButton((Button)findViewById(v.getId()));
+        changeBackgroundForButton((Button) findViewById(v.getId()));
     }
 
     public void saveEvent(View v) {
@@ -155,7 +161,7 @@ public class AddEventActivity extends AppCompatActivity {
             Dao<DoctorsAppointment, Integer> daoDoctorsAppointment = getDbHelper().getDao(DoctorsAppointment.class);
             Dao<OtherSymptomsRecord, Integer> daoSymptomsRecord = getDbHelper().getDao(OtherSymptomsRecord.class);
             Dao<Event, Integer> dao = getDbHelper().getDao(Event.class);
-            if(!isEditExistingItem) {
+            if (!isEditExistingItem) {
                 daoDoctorsAppointment.create(currentEvent.getDoctorsAppointment());
                 daoSymptomsRecord.create(currentEvent.getOtherSymptomsRecord());
                 dao.create(currentEvent);
@@ -193,7 +199,7 @@ public class AddEventActivity extends AppCompatActivity {
     public void createEmotionToButtonMap() {
         emotionToButtonMap = new HashMap<Emotion, Integer>();
         emotionToButtonMap.put(Emotion.HAPPY, R.id.button_happy);
-        emotionToButtonMap.put(Emotion.SAD, R.id.button_sad );
+        emotionToButtonMap.put(Emotion.SAD, R.id.button_sad);
         emotionToButtonMap.put(Emotion.ANGRY, R.id.button_angry);
         emotionToButtonMap.put(Emotion.CRYING, R.id.button_crying);
         emotionToButtonMap.put(Emotion.STRESSED, R.id.button_stressed);
@@ -229,7 +235,6 @@ public class AddEventActivity extends AppCompatActivity {
         otherEventToButtonMap.put(DailyActivitiesRecord.WALK, R.id.button_other_walk);
         otherEventToButtonMap.put(DailyActivitiesRecord.PARTY, R.id.button_other_party);
     }
-
 
 
     public void setSymptomProperty(int id) {

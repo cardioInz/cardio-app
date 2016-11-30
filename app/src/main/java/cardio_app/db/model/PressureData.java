@@ -23,6 +23,17 @@ import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 public class PressureData extends BaseModel implements Parcelable, Comparable<PressureData> {
 
 
+    public static final Creator<PressureData> CREATOR = new Creator<PressureData>() {
+        @Override
+        public PressureData createFromParcel(Parcel in) {
+            return new PressureData(in);
+        }
+
+        @Override
+        public PressureData[] newArray(int size) {
+            return new PressureData[size];
+        }
+    };
     @DatabaseField
     private int systole;
     @DatabaseField
@@ -40,14 +51,6 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         this.pulse = 0;
         this.arrhythmia = false;
         this.dateTime = new Date();
-    }
-
-    private void initParams(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
-        this.systole = systole;
-        this.diastole = diastole;
-        this.pulse = pulse;
-        this.arrhythmia = arrhythmia;
-        this.dateTime = dateTime;
     }
 
     public PressureData(PressureData pressureData) {
@@ -77,17 +80,32 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
 
     }
 
-    public static final Creator<PressureData> CREATOR = new Creator<PressureData>() {
-        @Override
-        public PressureData createFromParcel(Parcel in) {
-            return new PressureData(in);
-        }
+    public static PressureData convert(JSONObject object) throws JSONException, ParseException {
+        int systole = object.getInt("systole");
+        int diastole = object.getInt("diastole");
+        int pulse = object.getInt("pulse");
+        boolean arrhythmia = object.getBoolean("arrhythmia");
+        Date date = DATETIME_FORMATTER.parse(object.getString("dateTime"));
 
-        @Override
-        public PressureData[] newArray(int size) {
-            return new PressureData[size];
-        }
-    };
+        return new PressureData(systole, diastole, pulse, arrhythmia, date);
+    }
+
+    private static Comparator<PressureData> getComparator() {
+        return (a1, a2) -> {
+            int dateCmp = a2.compareTo(a1);
+            if (dateCmp != 0)
+                return dateCmp;
+            return a2.getId() - a1.getId();
+        };
+    }
+
+    private void initParams(int systole, int diastole, int pulse, boolean arrhythmia, Date dateTime) {
+        this.systole = systole;
+        this.diastole = diastole;
+        this.pulse = pulse;
+        this.arrhythmia = arrhythmia;
+        this.dateTime = dateTime;
+    }
 
     public Date getDateTime() {
         return dateTime;
@@ -161,27 +179,7 @@ public class PressureData extends BaseModel implements Parcelable, Comparable<Pr
         return object;
     }
 
-    public static PressureData convert(JSONObject object) throws JSONException, ParseException {
-        int systole = object.getInt("systole");
-        int diastole = object.getInt("diastole");
-        int pulse = object.getInt("pulse");
-        boolean arrhythmia = object.getBoolean("arrhythmia");
-        Date date = DATETIME_FORMATTER.parse(object.getString("dateTime"));
-
-        return new PressureData(systole, diastole, pulse, arrhythmia, date);
-    }
-
     public HealthCondition getCondition() {
         return HealthCondition.classify(this);
-    }
-
-
-    private static Comparator<PressureData> getComparator() {
-        return (a1, a2) -> {
-            int dateCmp = a2.compareTo(a1);
-            if (dateCmp != 0)
-                return dateCmp;
-            return a2.getId() - a1.getId();
-        };
     }
 }

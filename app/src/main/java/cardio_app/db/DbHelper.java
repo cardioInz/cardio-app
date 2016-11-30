@@ -45,6 +45,21 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         super(context, DB_NAME, null, VERSION);
     }
 
+    private static Where getFilteredByDate(QueryBuilder queryBuilder, String columnName, boolean isOrderedNow, boolean isAscending, Date dateFrom, Date dateTo) throws SQLException {
+
+        QueryBuilder qb = isOrderedNow ? queryBuilder : queryBuilder.orderBy(columnName, isAscending);
+
+        if (dateFrom != null && dateTo != null) {
+            return qb.where().between(columnName, dateFrom, dateTo);
+        } else if (dateFrom != null) {
+            return qb.where().ge(columnName, dateFrom);
+        } else if (dateTo != null) {
+            return qb.where().le(columnName, dateTo);
+        } else {
+            return qb.where().isNotNull(columnName);
+        }
+    }
+
     private void initPressureDataTable() throws SQLException {
         // TODO -> to remove, it's just to fill layout with records
         Dao<PressureData, Integer> daoHp = getDao(PressureData.class);
@@ -70,10 +85,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         DoctorsAppointment da = new DoctorsAppointment(true, true, true, false, false);
         daoAppointment.create(da);
         Dao<Event, Integer> daoHp = getDao(Event.class);
-        Event e1 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), false,  TimeUnit.NONE, 0, "description1", osr, Emotion.HAPPY,  da, DailyActivitiesRecord.DRIVING_CAR, false);
-        Event e2 = new Event(getDate(19, 10, 2016), getDate(20, 11, 2016), false,  TimeUnit.NONE, 0, "description2", osr, Emotion.SAD,  da, DailyActivitiesRecord.ARGUE, false);
-        Event e3 = new Event(getDate(19, 10, 2016), getDate(19, 12, 2016), true,  TimeUnit.WEEK, 2, "description3", osr, Emotion.ANGRY,  da, DailyActivitiesRecord.HOUSE_DUTIES, false);
-        Event e4 = new Event(new Date(2016, 10, 20, 16, 0), new Date(2016, 10, 30), true, TimeUnit.DAY, 1, "description4",  osr, Emotion.CRYING,  da, DailyActivitiesRecord.PARTY, false);
+        Event e1 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), false, TimeUnit.NONE, 0, "description1", osr, Emotion.HAPPY, da, DailyActivitiesRecord.DRIVING_CAR, false);
+        Event e2 = new Event(getDate(19, 10, 2016), getDate(20, 11, 2016), false, TimeUnit.NONE, 0, "description2", osr, Emotion.SAD, da, DailyActivitiesRecord.ARGUE, false);
+        Event e3 = new Event(getDate(19, 10, 2016), getDate(19, 12, 2016), true, TimeUnit.WEEK, 2, "description3", osr, Emotion.ANGRY, da, DailyActivitiesRecord.HOUSE_DUTIES, false);
+        Event e4 = new Event(new Date(2016, 10, 20, 16, 0), new Date(2016, 10, 30), true, TimeUnit.DAY, 1, "description4", osr, Emotion.CRYING, da, DailyActivitiesRecord.PARTY, false);
         daoHp.create(e1);
         daoHp.create(e2);
         daoHp.create(e3);
@@ -88,7 +103,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         return sb.toString().trim().replaceAll(" ", ", ");
     }
 
-    private void createTables(){
+    private void createTables() {
         final Class[] tablesToCreateInOrder = {
                 Drug.class,
                 PressureData.class,
@@ -136,7 +151,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     }
 
-
     public List<PressureData> getAllOrderedPressureData() throws SQLException {
         return getFilteredAndOrderedByDatePressureData(null, null);
     }
@@ -155,22 +169,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         return getFilteredByDate(dao.queryBuilder(), "startDate", false, false, dateFrom, dateTo).query();
     }
 
-    private static Where getFilteredByDate(QueryBuilder queryBuilder, String columnName, boolean isOrderedNow, boolean isAscending, Date dateFrom, Date dateTo) throws SQLException {
-
-        QueryBuilder qb = isOrderedNow ? queryBuilder : queryBuilder.orderBy(columnName, isAscending);
-
-        if (dateFrom != null && dateTo != null) {
-            return qb.where().between(columnName, dateFrom, dateTo);
-        } else if (dateFrom != null) {
-            return qb.where().ge(columnName, dateFrom);
-        } else if (dateTo != null) {
-            return qb.where().le(columnName, dateTo);
-        } else {
-            return qb.where().isNotNull(columnName);
-        }
-    }
-
-    public Date getFirstDateFromPressureDataTable() throws Exception{
+    public Date getFirstDateFromPressureDataTable() throws Exception {
         Dao<PressureData, Integer> dao = getDao(PressureData.class);
         // descending date
         PressureData pressureData = (PressureData) getFilteredByDate(dao.queryBuilder(), "dateTime", false, true, null, null).queryForFirst();

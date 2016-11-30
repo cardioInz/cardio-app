@@ -16,6 +16,17 @@ import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 
 @DatabaseTable(tableName = "event")
 public class Event extends BaseModel implements Parcelable {
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
     @DatabaseField
     private Date startDate;
     @DatabaseField
@@ -52,10 +63,6 @@ public class Event extends BaseModel implements Parcelable {
         this.dailyActivitiesRecord = DailyActivitiesRecord.NONE;
         this.isAlarmSet = false;
 
-    }
-
-    public Date getCurrentDate(){
-        return new Date(System.currentTimeMillis());
     }
 
     public Event(Date startDate,
@@ -133,10 +140,46 @@ public class Event extends BaseModel implements Parcelable {
         doctorsAppointment = in.readParcelable(DoctorsAppointment.class.getClassLoader());
         try {
             dailyActivitiesRecord = DailyActivitiesRecord.valueOf(in.readString());
-        } catch(Exception e) {
+        } catch (Exception e) {
             dailyActivitiesRecord = DailyActivitiesRecord.NONE;
         }
         isAlarmSet = in.readByte() != 0;
+    }
+
+    public static Event convert(JSONObject object) throws JSONException, ParseException {
+        Date startDate = DATETIME_FORMATTER.parse(object.getString("startDate"));
+        Date endDate = DATETIME_FORMATTER.parse(object.getString("endDate"));
+        boolean isRepeatable = object.getBoolean("isRepeatable");
+        TimeUnit timeUnit;
+        try {
+            timeUnit = TimeUnit.valueOf(object.getString("timeUnit"));
+        } catch (Exception e) {
+            timeUnit = TimeUnit.NONE;
+        }
+        int timeDelta = object.getInt("timeDelta");
+        String description = object.getString("description");
+        OtherSymptomsRecord otherSymptomsRecord = OtherSymptomsRecord.convert(object.getJSONObject("otherSymptomsRecord"));
+        Emotion emotion;
+        try {
+            emotion = Emotion.valueOf(object.getString("emotion"));
+        } catch (Exception e) {
+            emotion = Emotion.NONE;
+        }
+        DoctorsAppointment doctorsAppointment = DoctorsAppointment.convert(object.getJSONObject("doctorsAppointment"));
+        DailyActivitiesRecord dailyActivitiesRecord;
+        try {
+            dailyActivitiesRecord = DailyActivitiesRecord.valueOf(object.getString("dailyActivitiesRecord"));
+        } catch (Exception e) {
+            dailyActivitiesRecord = DailyActivitiesRecord.NONE;
+        }
+        boolean isAlarmSet = object.getBoolean("isAlarmSet");
+
+        return new Event(startDate, endDate, isRepeatable, timeUnit, timeDelta, description,
+                otherSymptomsRecord, emotion, doctorsAppointment, dailyActivitiesRecord, isAlarmSet);
+    }
+
+    public Date getCurrentDate() {
+        return new Date(System.currentTimeMillis());
     }
 
     @Override
@@ -172,50 +215,6 @@ public class Event extends BaseModel implements Parcelable {
 
         return object;
     }
-
-    public static Event convert(JSONObject object) throws JSONException, ParseException {
-        Date startDate = DATETIME_FORMATTER.parse(object.getString("startDate"));
-        Date endDate = DATETIME_FORMATTER.parse(object.getString("endDate"));
-        boolean isRepeatable = object.getBoolean("isRepeatable");
-        TimeUnit timeUnit;
-        try {
-            timeUnit = TimeUnit.valueOf(object.getString("timeUnit"));
-        } catch (Exception e) {
-            timeUnit = TimeUnit.NONE;
-        }
-        int timeDelta = object.getInt("timeDelta");
-        String description = object.getString("description");
-        OtherSymptomsRecord otherSymptomsRecord = OtherSymptomsRecord.convert(object.getJSONObject("otherSymptomsRecord"));
-        Emotion emotion;
-        try {
-            emotion = Emotion.valueOf(object.getString("emotion"));
-        } catch (Exception e) {
-            emotion = Emotion.NONE;
-        }
-        DoctorsAppointment doctorsAppointment = DoctorsAppointment.convert(object.getJSONObject("doctorsAppointment"));
-        DailyActivitiesRecord dailyActivitiesRecord;
-        try {
-            dailyActivitiesRecord = DailyActivitiesRecord.valueOf(object.getString("dailyActivitiesRecord"));
-        } catch (Exception e) {
-            dailyActivitiesRecord = DailyActivitiesRecord.NONE;
-        }
-        boolean isAlarmSet = object.getBoolean("isAlarmSet");
-
-        return new Event(startDate, endDate, isRepeatable, timeUnit, timeDelta, description,
-                otherSymptomsRecord, emotion, doctorsAppointment, dailyActivitiesRecord, isAlarmSet);
-    }
-
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
-        }
-
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
 
     @Override
     public int describeContents() {

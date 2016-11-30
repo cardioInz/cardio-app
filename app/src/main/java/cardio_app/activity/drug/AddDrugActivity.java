@@ -26,9 +26,8 @@ import cardio_app.viewmodel.DrugViewModel;
 
 public class AddDrugActivity extends AppCompatActivity {
     private static final String TAG = AddDrugActivity.class.getName();
-
-    private DbHelper dbHelper;
     private final DrugViewModel drugViewModel = new DrugViewModel();
+    private DbHelper dbHelper;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.

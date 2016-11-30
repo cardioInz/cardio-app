@@ -13,9 +13,9 @@ import cardio_app.R;
 import cardio_app.activity.diary.AddDiaryActivity;
 import cardio_app.activity.diary.DiaryActivity;
 import cardio_app.activity.drug.DrugsActivity;
-import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
+import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.activity.profile.ProfileActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
 import cardio_app.activity.synchro.ExportActivity;
@@ -24,7 +24,7 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.UserProfile;
 import cardio_app.statistics.Statistics;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.toString();
     private DbHelper dbHelper;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity{
             UserProfile userProfile = getHelper().getUserProfile();
             if (userProfile != null)
                 Statistics.setIsMale(!userProfile.getSex().equals("F"));
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "onCreate: ", e);
         }
     }

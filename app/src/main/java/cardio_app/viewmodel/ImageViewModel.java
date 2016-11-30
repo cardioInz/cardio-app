@@ -13,9 +13,9 @@ import cardio_app.util.BitmapUtil;
 
 public class ImageViewModel extends ImageView {
 
-    public ImageViewModel(Context context, BitmapFromChart bitmapFromChart){
+    public ImageViewModel(Context context, BitmapFromChart bitmapFromChart) {
         super(context);
-        if(BitmapUtil.loadBitmapFromFile(bitmapFromChart)) {
+        if (BitmapUtil.loadBitmapFromFile(bitmapFromChart)) {
             Bitmap bitmap = bitmapFromChart.getBitmap();
             Drawable d = new BitmapDrawable(getResources(), bitmap);
             this.setImageDrawable(d);

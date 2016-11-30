@@ -16,8 +16,19 @@ import java.util.Date;
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 
 @DatabaseTable
-public class UserProfile extends BaseModel implements Parcelable{
+public class UserProfile extends BaseModel implements Parcelable {
 
+    public static final Parcelable.Creator<UserProfile> CREATOR = new Parcelable.Creator<UserProfile>() {
+        @Override
+        public UserProfile createFromParcel(Parcel in) {
+            return new UserProfile(in);
+        }
+
+        @Override
+        public UserProfile[] newArray(int size) {
+            return new UserProfile[size];
+        }
+    };
     @DatabaseField
     private String name;
     @DatabaseField
@@ -50,14 +61,14 @@ public class UserProfile extends BaseModel implements Parcelable{
     }
 
     public UserProfile(String name,
-                        String surname,
-                        Date dateOfBirth,
-                        String sex,
-                        int weight,
-                        int height,
-                        int cholesterol,
-                        int glucose,
-                        boolean isSmoker) {
+                       String surname,
+                       Date dateOfBirth,
+                       String sex,
+                       int weight,
+                       int height,
+                       int cholesterol,
+                       int glucose,
+                       boolean isSmoker) {
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
@@ -70,7 +81,7 @@ public class UserProfile extends BaseModel implements Parcelable{
     }
 
     public UserProfile(int id,
-                        String name,
+                       String name,
                        String surname,
                        Date dateOfBirth,
                        String sex,
@@ -109,6 +120,20 @@ public class UserProfile extends BaseModel implements Parcelable{
         this.isSmoker = in.readByte() != 0;
     }
 
+    public static UserProfile convert(JSONObject object) throws JSONException, ParseException {
+        String name = object.getString("name");
+        String surname = object.getString("surname");
+        Date dateOfBirth = DATETIME_FORMATTER.parse(object.getString("dateOfBirth"));
+        String sex = object.getString("sex");
+        int weight = object.getInt("weight");
+        int height = object.getInt("height");
+        int cholesterol = object.getInt("cholesterol");
+        int glucose = object.getInt("glucose");
+        boolean isSmoker = object.getBoolean("isSmoker");
+
+        return new UserProfile(name, surname, dateOfBirth, sex, weight, height, cholesterol, glucose, isSmoker);
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(getId());
@@ -139,36 +164,10 @@ public class UserProfile extends BaseModel implements Parcelable{
         return object;
     }
 
-    public static UserProfile convert(JSONObject object) throws JSONException, ParseException {
-        String name = object.getString("name");
-        String surname = object.getString("surname");
-        Date dateOfBirth = DATETIME_FORMATTER.parse(object.getString("dateOfBirth"));
-        String sex = object.getString("sex");
-        int weight = object.getInt("weight");
-        int height = object.getInt("height");
-        int cholesterol = object.getInt("cholesterol");
-        int glucose = object.getInt("glucose");
-        boolean isSmoker = object.getBoolean("isSmoker");
-
-        return new UserProfile(name, surname, dateOfBirth, sex, weight, height, cholesterol, glucose, isSmoker);
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
-
-    public static final Parcelable.Creator<UserProfile> CREATOR = new Parcelable.Creator<UserProfile>() {
-        @Override
-        public UserProfile createFromParcel(Parcel in) {
-            return new UserProfile(in);
-        }
-
-        @Override
-        public UserProfile[] newArray(int size) {
-            return new UserProfile[size];
-        }
-    };
 
     public String getName() {
         return name;

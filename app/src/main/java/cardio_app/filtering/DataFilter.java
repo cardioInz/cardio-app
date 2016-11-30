@@ -13,19 +13,22 @@ import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
 
 public class DataFilter implements Parcelable {
 
+    public static final Creator<DataFilter> CREATOR = new Creator<DataFilter>() {
+        @Override
+        public DataFilter createFromParcel(Parcel in) {
+            return new DataFilter(in);
+        }
+
+        @Override
+        public DataFilter[] newArray(int size) {
+            return new DataFilter[size];
+        }
+    };
     private static final String TAG = DataFilter.class.getName();
     private DataFilterModeEnum mode;
     private Date dateFrom;
     private Date dateTo;
     private int xDays;
-
-
-    public void copyValues(DataFilter dataFilter) {
-        this.mode = dataFilter.getMode();
-        this.dateFrom = dataFilter.getDateFrom();
-        this.dateTo = dataFilter.getDateTo();
-        this.xDays = dataFilter.getXDays();
-    }
 
     public DataFilter(Date dateFrom, Date dateTo) {
         setCustomDatesFilterMode(dateFrom, dateTo);
@@ -62,22 +65,17 @@ public class DataFilter implements Parcelable {
         }
     }
 
+    public void copyValues(DataFilter dataFilter) {
+        this.mode = dataFilter.getMode();
+        this.dateFrom = dataFilter.getDateFrom();
+        this.dateTo = dataFilter.getDateTo();
+        this.xDays = dataFilter.getXDays();
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<DataFilter> CREATOR = new Creator<DataFilter>() {
-        @Override
-        public DataFilter createFromParcel(Parcel in) {
-            return new DataFilter(in);
-        }
-
-        @Override
-        public DataFilter[] newArray(int size) {
-            return new DataFilter[size];
-        }
-    };
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
@@ -142,18 +140,6 @@ public class DataFilter implements Parcelable {
         return mode;
     }
 
-    public String getDateFromStr() {
-        if (dateFrom == null)
-            return "-";
-        return DATE_FORMATTER.format(dateFrom);
-    }
-
-    public String getDateToStr() {
-        if (dateTo == null)
-            return "-";
-        return DATE_FORMATTER.format(dateTo);
-    }
-
     public void setMode(DataFilterModeEnum mode) {
         switch (mode) {
             case LAST_X_DAYS:
@@ -179,6 +165,18 @@ public class DataFilter implements Parcelable {
                 Log.e(TAG, "Unexpected invocation: try to set mode with param " + modeStr);
                 break;
         }
+    }
+
+    public String getDateFromStr() {
+        if (dateFrom == null)
+            return "-";
+        return DATE_FORMATTER.format(dateFrom);
+    }
+
+    public String getDateToStr() {
+        if (dateTo == null)
+            return "-";
+        return DATE_FORMATTER.format(dateTo);
     }
 
     public Date getDateFrom() {

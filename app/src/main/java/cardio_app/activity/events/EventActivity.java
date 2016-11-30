@@ -14,19 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.activity.diary.AddDiaryActivity;
-import cardio_app.activity.diary.DiaryActivity;
-import cardio_app.activity.diary.PressureDataAdapter;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
-import cardio_app.db.model.PressureData;
 
 public class EventActivity extends AppCompatActivity {
 
     private DbHelper dbHelper;
     private EventAdapter eventAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

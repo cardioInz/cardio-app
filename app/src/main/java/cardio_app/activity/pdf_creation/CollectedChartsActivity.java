@@ -2,10 +2,10 @@ package cardio_app.activity.pdf_creation;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +38,7 @@ public class CollectedChartsActivity extends AppCompatActivity {
 
         listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
             BitmapFromChart bitmapFromChart = (BitmapFromChart) adapterView.getItemAtPosition(i);
-                deleteOnLongClick(bitmapFromChart);
+            deleteOnLongClick(bitmapFromChart);
             return true;
         });
 
@@ -46,11 +46,11 @@ public class CollectedChartsActivity extends AppCompatActivity {
             BitmapFromChart bitmapFromChart = (BitmapFromChart) adapterView.getItemAtPosition(i);
             if (bitmapFromChart.hasFilePathExt()) {
                 File file = new File(bitmapFromChart.getFilePathWithExt());
-                if (file.exists()){
+                if (file.exists()) {
                     Uri path = Uri.fromFile(file);
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     intent.setDataAndType(path, "image/*");
                     startActivity(intent);
                 }
@@ -80,7 +80,7 @@ public class CollectedChartsActivity extends AppCompatActivity {
     }
 
     private void deleteBitmapFromChart(BitmapFromChart pressureData) {
-        if(PermissionUtil.isStoragePermissionGranted(this)) {
+        if (PermissionUtil.isStoragePermissionGranted(this)) {
             File file = new File(pressureData.getFilePathWithExt());
             if (file.exists()) {
                 boolean isDeleted = file.delete();
@@ -94,7 +94,7 @@ public class CollectedChartsActivity extends AppCompatActivity {
         }
     }
 
-    private void assignDataToListView(){
+    private void assignDataToListView() {
         List<BitmapFromChart> dataList = FileWalkerUtil.getBitmapFromChartList_fromSavedDir();
         listView = (ListView) findViewById(R.id.collected_charts_list_view);
         bitmapFromChartDataAdapter = new BitmapFromChartDataAdapter(CollectedChartsActivity.this, dataList);

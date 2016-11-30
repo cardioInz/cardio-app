@@ -29,7 +29,7 @@ class StatisticMeasureAdapter extends ArrayAdapter<StatisticLastMeasure> {
         this(activity, getListOrderedFromMap(map));
     }
 
-    private static List<StatisticLastMeasure> getListOrderedFromMap(HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> map){
+    private static List<StatisticLastMeasure> getListOrderedFromMap(HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> map) {
         List<StatisticLastMeasure> list = new ArrayList<>();
         List<StatisticLastMeasure.TypeEnum> keys = new ArrayList<>(map.keySet());
         Collections.sort(keys);
@@ -76,7 +76,7 @@ class StatisticMeasureAdapter extends ArrayAdapter<StatisticLastMeasure> {
         return convertView;
     }
 
-    private void nullPtrFound(View convertView, boolean isFound){
+    private void nullPtrFound(View convertView, boolean isFound) {
         TableRow valuesTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_values_table_row);
         TableRow dateTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_date_table_row);
         TableRow timeTableRow = (TableRow) convertView.findViewById(R.id.measure_stat_time_table_row);

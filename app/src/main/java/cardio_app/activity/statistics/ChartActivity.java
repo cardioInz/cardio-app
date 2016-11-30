@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -35,10 +34,10 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class ChartActivity extends AppCompatActivity {
     private static final String TAG = ChartActivity.class.getName();
+    List<PressureData> pressureList;
     private DataFilter dataFilter = Defaults.getDefaultDataFilter();
     private DbHelper dbHelper;
     private LineChartView lineChartView;
-    List<PressureData> pressureList;
     private ChartBuilder chartBuilder;
 
     private float minDaysOnScreen = 1f;
@@ -52,7 +51,7 @@ public class ChartActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         DataFilter df = intent.getParcelableExtra("filterdata");
-        if (df == null){
+        if (df == null) {
             Log.e(TAG, "onCreate: filterdata is null, maybe not passed, lol ?");
         } else {
             dataFilter = df;
@@ -60,7 +59,7 @@ public class ChartActivity extends AppCompatActivity {
 
         try {
             collectedChartsInvoked = intent.getBooleanExtra("collectedChartsInvoked", false);
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.i(TAG, "onCreate: collectedChartsInvoked not passed");
         }
 
@@ -83,7 +82,8 @@ public class ChartActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onValueDeselected() {}
+            public void onValueDeselected() {
+            }
         });
 
         try {
@@ -96,7 +96,7 @@ public class ChartActivity extends AppCompatActivity {
             this.chartBuilder = new ChartBuilder(pressureList, getResources());
 
             changeType(ChartBuilder.ChartMode.DISCRETE);
-            lineChartView.setMaxZoom(chartBuilder.getDays()/minDaysOnScreen);
+            lineChartView.setMaxZoom(chartBuilder.getDays() / minDaysOnScreen);
         } catch (SQLException e) {
             e.printStackTrace();
         }

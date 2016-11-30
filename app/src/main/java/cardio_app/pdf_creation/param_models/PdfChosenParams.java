@@ -1,7 +1,6 @@
 package cardio_app.pdf_creation.param_models;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import cardio_app.db.model.BaseModel;
@@ -51,7 +50,7 @@ public class PdfChosenParams extends BaseModel {
         this.emailAddr = emailAddr;
     }
 
-    public List<BitmapFromChart> getExtraBitmapFromChartList(){
+    public List<BitmapFromChart> getExtraBitmapFromChartList() {
         return extraBitmapFromChartList;
     }
 

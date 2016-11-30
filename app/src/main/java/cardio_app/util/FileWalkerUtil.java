@@ -19,12 +19,12 @@ public class FileWalkerUtil {
             + File.separator + PREFIX_PATH + File.separator + "to_pdf";
 
 
-    public static List<BitmapFromChart> getBitmapFromChartList_fromSavedDir(){
+    public static List<BitmapFromChart> getBitmapFromChartList_fromSavedDir() {
         List<BitmapFromChart> list = new ArrayList<>();
         File dir = new File(DIRECTORY_TO_COLLECT_CHARTS);
         if (dir.isDirectory()) {
             for (File file : dir.listFiles()) {
-                if(file.isFile()){
+                if (file.isFile()) {
                     BitmapFromChart bitmapFromChart = new BitmapFromChart();
                     try {
                         String absPath = file.getAbsolutePath();
@@ -50,12 +50,12 @@ public class FileWalkerUtil {
         return list;
     }
 
-    private static String getSthUnique(){
+    private static String getSthUnique() {
         Calendar calendar = Calendar.getInstance();
         return String.valueOf(calendar.getTimeInMillis());
     }
 
-    private static String getFileNameWithoutExt(String filename){
+    private static String getFileNameWithoutExt(String filename) {
         int i = filename.lastIndexOf('.');
         if (i > 0) {
             return filename.substring(0, i);
@@ -63,7 +63,7 @@ public class FileWalkerUtil {
         return null;
     }
 
-    private static String getExtFromAbsPath(String absPath){
+    private static String getExtFromAbsPath(String absPath) {
         int i = absPath.lastIndexOf('.');
         if (i > 0) {
             return absPath.substring(i);
@@ -71,26 +71,26 @@ public class FileWalkerUtil {
         return null;
     }
 
-    public static String getDirToSaveCharts(){
+    public static String getDirToSaveCharts() {
         // directory not to create pdf, just to save
         final String directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()
                 + File.separator + PREFIX_PATH + File.separator + "saved_charts";
         File file = new File(directory);
-        if (!file.exists()){
+        if (!file.exists()) {
             file.mkdirs();
         }
         return directory;
     }
 
-    public static String getDirectoryToCollectCharts(){
+    public static String getDirectoryToCollectCharts() {
         File file = new File(DIRECTORY_TO_COLLECT_CHARTS);
-        if (!file.exists()){
+        if (!file.exists()) {
             file.mkdirs();
         }
         return DIRECTORY_TO_COLLECT_CHARTS;
     }
 
-    private static void deleteAllContentFromDir(String path){
+    private static void deleteAllContentFromDir(String path) {
         File outputFolder = new File(path);
         if (outputFolder.isDirectory()) {
             final File[] files = outputFolder.listFiles();
@@ -109,25 +109,26 @@ public class FileWalkerUtil {
 
         try {
             if (!file.delete())
-                Log.e(TAG, "delete: failed for:" + file.getAbsolutePath());;
-        } catch (Exception e){
+                Log.e(TAG, "delete: failed for:" + file.getAbsolutePath());
+            ;
+        } catch (Exception e) {
             Log.e(TAG, "delete: exception", e);
         }
 
     }
 
-    public static void deleteAllCollectedCharts(){
+    public static void deleteAllCollectedCharts() {
         if (DIRECTORY_TO_COLLECT_CHARTS != null)
             deleteAllContentFromDir(DIRECTORY_TO_COLLECT_CHARTS);
     }
 
-    public static String getSomeUniqueImageName(){
+    public static String getSomeUniqueImageName() {
         // return values without extension
         String sthUnique = getSthUnique();
         return "chart_src" + (sthUnique.isEmpty() ? "" : "_" + sthUnique);
     }
 
-    public static String getSomeUniquePdfName(String from, String to){
+    public static String getSomeUniquePdfName(String from, String to) {
 // TODO below code makes pdf name unique, but until we won't delete file after sending email, it will be better to override it every time
 //        String sthUnique = getSthUnique();
 //        return String.format("%s_%s_%s%s",

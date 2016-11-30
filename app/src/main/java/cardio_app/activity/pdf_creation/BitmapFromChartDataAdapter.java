@@ -2,7 +2,6 @@ package cardio_app.activity.pdf_creation;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,6 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
-
-import static android.content.ContentValues.TAG;
 
 
 public class BitmapFromChartDataAdapter extends ArrayAdapter<BitmapFromChart> {

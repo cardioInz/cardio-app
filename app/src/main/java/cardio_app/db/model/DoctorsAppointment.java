@@ -10,7 +10,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @DatabaseTable
-public class DoctorsAppointment extends BaseModel implements Parcelable{
+public class DoctorsAppointment extends BaseModel implements Parcelable {
+    public static final Creator<DoctorsAppointment> CREATOR = new Creator<DoctorsAppointment>() {
+        @Override
+        public DoctorsAppointment createFromParcel(Parcel in) {
+            return new DoctorsAppointment(in);
+        }
+
+        @Override
+        public DoctorsAppointment[] newArray(int size) {
+            return new DoctorsAppointment[size];
+        }
+    };
     @DatabaseField
     private boolean isRoutineCheck;
     @DatabaseField
@@ -22,7 +33,7 @@ public class DoctorsAppointment extends BaseModel implements Parcelable{
     @DatabaseField
     private boolean isFlu;
 
-    public DoctorsAppointment(){
+    public DoctorsAppointment() {
     }
 
     public DoctorsAppointment(int id, boolean isRoutineCheck, boolean isExamination, boolean isForPrescription, boolean isEmergency, boolean isFlu) {
@@ -40,6 +51,25 @@ public class DoctorsAppointment extends BaseModel implements Parcelable{
         this.isForPrescription = isForPrescription;
         this.isEmergency = isEmergency;
         this.isFlu = isFlu;
+    }
+
+    private DoctorsAppointment(Parcel in) {
+        setId(in.readInt());
+        isRoutineCheck = in.readByte() != 0;
+        isExamination = in.readByte() != 0;
+        isForPrescription = in.readByte() != 0;
+        isEmergency = in.readByte() != 0;
+        isFlu = in.readByte() != 0;
+    }
+
+    public static DoctorsAppointment convert(JSONObject object) throws JSONException {
+        boolean isRoutineCheck = object.getBoolean("isRoutineCheck");
+        boolean isExamination = object.getBoolean("isExamination");
+        boolean isForPrescription = object.getBoolean("isForPrescription");
+        boolean isEmergency = object.getBoolean("isEmergency");
+        boolean isFlu = object.getBoolean("isFlu");
+
+        return new DoctorsAppointment(isRoutineCheck, isExamination, isForPrescription, isEmergency, isFlu);
     }
 
     public boolean isRoutineCheck() {
@@ -82,7 +112,7 @@ public class DoctorsAppointment extends BaseModel implements Parcelable{
         isFlu = flu;
     }
 
-    public boolean isDoctorsAppointment(){
+    public boolean isDoctorsAppointment() {
         return isRoutineCheck ||
                 isEmergency ||
                 isFlu ||
@@ -90,23 +120,14 @@ public class DoctorsAppointment extends BaseModel implements Parcelable{
                 isExamination;
     }
 
-    private DoctorsAppointment(Parcel in) {
-        setId(in.readInt());
-        isRoutineCheck = in.readByte() != 0;
-        isExamination = in.readByte() != 0;
-        isForPrescription = in.readByte() != 0;
-        isEmergency = in.readByte() != 0;
-        isFlu = in.readByte() != 0;
-    }
-
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(getId());
-        parcel.writeByte((byte) (isRoutineCheck ? 1: 0));
-        parcel.writeByte((byte) (isExamination ? 1: 0));
-        parcel.writeByte((byte) (isForPrescription ? 1: 0));
-        parcel.writeByte((byte) (isEmergency ? 1: 0));
-        parcel.writeByte((byte) (isFlu ? 1: 0));
+        parcel.writeByte((byte) (isRoutineCheck ? 1 : 0));
+        parcel.writeByte((byte) (isExamination ? 1 : 0));
+        parcel.writeByte((byte) (isForPrescription ? 1 : 0));
+        parcel.writeByte((byte) (isEmergency ? 1 : 0));
+        parcel.writeByte((byte) (isFlu ? 1 : 0));
     }
 
     public JSONObject convertToJson() throws JSONException {
@@ -120,28 +141,6 @@ public class DoctorsAppointment extends BaseModel implements Parcelable{
 
         return object;
     }
-
-    public static DoctorsAppointment convert(JSONObject object) throws JSONException {
-        boolean isRoutineCheck = object.getBoolean("isRoutineCheck");
-        boolean isExamination = object.getBoolean("isExamination");
-        boolean isForPrescription = object.getBoolean("isForPrescription");
-        boolean isEmergency = object.getBoolean("isEmergency");
-        boolean isFlu = object.getBoolean("isFlu");
-
-        return new DoctorsAppointment(isRoutineCheck, isExamination, isForPrescription, isEmergency, isFlu);
-    }
-
-    public static final Creator<DoctorsAppointment> CREATOR = new Creator<DoctorsAppointment>() {
-        @Override
-        public DoctorsAppointment createFromParcel(Parcel in) {
-            return new DoctorsAppointment(in);
-        }
-
-        @Override
-        public DoctorsAppointment[] newArray(int size) {
-            return new DoctorsAppointment[size];
-        }
-    };
 
     @Override
     public int describeContents() {

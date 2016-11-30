@@ -5,13 +5,20 @@ import android.databinding.Bindable;
 
 import cardio_app.statistics.analyse.StatisticCounter;
 
-import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.*;
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.ARRHYTHMIA;
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.BAD;
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.BAD_DIFF;
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.LITTLE_LOW_OR_HIGH;
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.NO_ARRHYTHMIA;
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.TOTAL;
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.UNKNOWN;
+import static cardio_app.statistics.analyse.StatisticCounter.TypeEnum.WELL;
 
 
 public class StatisticCounterViewModel extends BaseObservable {
     private StatisticCounter statisticCounter;
 
-    public StatisticCounterViewModel(){
+    public StatisticCounterViewModel() {
         this(new StatisticCounter());
     }
 

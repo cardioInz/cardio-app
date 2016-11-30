@@ -16,7 +16,7 @@ public class Defaults {
 
     private static final DataFilterModeEnum DEFAULT_DATA_FILTER = DataFilterModeEnum.NO_FILTER; // TODO should be last 3 months
 
-    public static DataFilter getDefaultDataFilter(){
+    public static DataFilter getDefaultDataFilter() {
         return new DataFilter(DEFAULT_DATA_FILTER);
     }
 

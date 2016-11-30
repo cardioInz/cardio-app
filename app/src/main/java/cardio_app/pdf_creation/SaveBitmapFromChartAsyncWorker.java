@@ -22,10 +22,27 @@ public class SaveBitmapFromChartAsyncWorker extends AsyncTask<Void, Void, Void> 
     private AppCompatActivity activity;
     private boolean isSucceed = false;
 
-    public SaveBitmapFromChartAsyncWorker(AppCompatActivity activity, BitmapFromChart bitmapFromChart, boolean moveToSaveImageActivity){
+    public SaveBitmapFromChartAsyncWorker(AppCompatActivity activity, BitmapFromChart bitmapFromChart, boolean moveToSaveImageActivity) {
         this.moveToSaveImageActivity = moveToSaveImageActivity;
         this.bitmapFromChart = bitmapFromChart;
         this.activity = activity;
+    }
+
+    private static boolean assignBitmapValueFromChartView(AppCompatActivity activity, BitmapFromChart bitmapFromChart) {
+        try {
+            final Bitmap[] bitmap = new Bitmap[1];
+            activity.runOnUiThread(() -> {
+                bitmap[0] = BitmapUtil.getBitmapFromChartView(bitmapFromChart.getChartView()); // TODO make it async "in future"
+                bitmapFromChart.setBitmap(bitmap[0]);
+            });
+
+
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, "BitmapFromChart: exception while trying to get bitmap from chartView", e);
+            bitmapFromChart.setBitmap(null);
+            return false;
+        }
     }
 
     @Override
@@ -38,8 +55,8 @@ public class SaveBitmapFromChartAsyncWorker extends AsyncTask<Void, Void, Void> 
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
 
-        if(isSucceed){
-            if (moveToSaveImageActivity){
+        if (isSucceed) {
+            if (moveToSaveImageActivity) {
                 Intent intent = new Intent(activity, ChartSaveActivity.class);
                 intent.putExtra("bitmapFromChart", bitmapFromChart);
                 activity.startActivity(intent);
@@ -53,26 +70,9 @@ public class SaveBitmapFromChartAsyncWorker extends AsyncTask<Void, Void, Void> 
 
     @Override
     protected Void doInBackground(Void... voids) {
-        if (isSucceed){
+        if (isSucceed) {
             isSucceed = BitmapUtil.saveBitmapToFile(bitmapFromChart);
         }
         return null;
-    }
-
-    private static boolean assignBitmapValueFromChartView(AppCompatActivity activity, BitmapFromChart bitmapFromChart){
-        try {
-            final Bitmap[] bitmap = new Bitmap[1];
-            activity.runOnUiThread(() -> {
-                bitmap[0] = BitmapUtil.getBitmapFromChartView(bitmapFromChart.getChartView()); // TODO make it async "in future"
-                bitmapFromChart.setBitmap(bitmap[0]);
-            });
-
-
-            return true;
-        } catch (Exception e){
-            Log.e(TAG, "BitmapFromChart: exception while trying to get bitmap from chartView", e);
-            bitmapFromChart.setBitmap(null);
-            return false;
-        }
     }
 }

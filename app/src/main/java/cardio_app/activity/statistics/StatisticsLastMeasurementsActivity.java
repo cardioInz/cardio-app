@@ -1,8 +1,8 @@
 package cardio_app.activity.statistics;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -17,7 +17,6 @@ import cardio_app.R;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
 import cardio_app.filtering.DataFilter;
-import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.statistics.Statistics;
 import cardio_app.statistics.analyse.StatisticLastMeasure;
 import cardio_app.statistics.analyse.StatisticLastMeasure.TypeEnum;
@@ -26,9 +25,9 @@ import cardio_app.util.Defaults;
 public class StatisticsLastMeasurementsActivity extends AppCompatActivity {
 
     private static final String TAG = StatisticsLastMeasurementsActivity.class.getName();
+    private final Statistics statistics = new Statistics(false, true);
     private DbHelper dbHelper;
     private DataFilter dataFilter = Defaults.getDefaultDataFilter();
-    private final Statistics statistics = new Statistics(false, true);
     private ListView listView;
 
     @Override

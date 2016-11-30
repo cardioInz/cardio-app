@@ -6,7 +6,7 @@
         android:id="@+id/menu_item_chart"
         android:icon="@drawable/ic_chart"
         android:title="@string/chart"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_item_filter_data"

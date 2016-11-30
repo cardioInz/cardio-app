@@ -33,6 +33,19 @@ public class SetAlarmService extends Service {
 
     private DbHelper dbHelper;
 
+    private static int convertToCalendarUnit(TimeUnit timeUnit) {
+        switch (timeUnit) {
+            case DAY:
+                return Calendar.DAY_OF_YEAR;
+            case WEEK:
+                return Calendar.WEEK_OF_YEAR;
+            case MONTH:
+                return Calendar.MONTH;
+            default:
+                return Calendar.DAY_OF_YEAR;
+        }
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Intent foregroundIntent = new Intent(this, MainActivity.class);
@@ -199,14 +212,5 @@ public class SetAlarmService extends Service {
         super.onDestroy();
 
         Log.wtf("WTF", "Why do you kill me?!");
-    }
-
-    private static int convertToCalendarUnit(TimeUnit timeUnit) {
-        switch (timeUnit) {
-            case DAY: return Calendar.DAY_OF_YEAR;
-            case WEEK: return Calendar.WEEK_OF_YEAR;
-            case MONTH: return Calendar.MONTH;
-            default: return Calendar.DAY_OF_YEAR;
-        }
     }
 }

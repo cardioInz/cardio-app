@@ -123,31 +123,38 @@ public enum HealthCondition {
         }
     }
 
+    public static Simplified mapToSimplifiedCondition(HealthCondition healthCondition) {
+        switch (healthCondition) {
+            case MIN_VAL:
+            case TOO_LOW:
+                return Simplified.BAD;
+            case NORMAL_LOW:
+                return Simplified.MIDDLE;
+            case EXCELLENT:
+            case NORMAL:
+                return Simplified.WELL;
+            case NORMAL_HIGH:
+                return Simplified.MIDDLE;
+            case HIGH:
+            case TOO_HIGH:
+            case MAX_VAL:
+                return Simplified.BAD;
+            case SPECIAL_VAL:
+            case UNKNOWN:
+                return Simplified.UNKNOWN;
+            case BAD_DIFF:
+                return Simplified.BAD_DIFF;
+            default:
+                return null;
+        }
+    }
+
     public int getValue() {
         return this.value;
     }
 
     public String getStrMapped() {
         return mapToStr(this);
-    }
-
-
-    public static Simplified mapToSimplifiedCondition(HealthCondition healthCondition) {
-        switch (healthCondition) {
-            case MIN_VAL:
-            case TOO_LOW: return Simplified.BAD;
-            case NORMAL_LOW: return Simplified.MIDDLE;
-            case EXCELLENT:
-            case NORMAL: return Simplified.WELL;
-            case NORMAL_HIGH: return Simplified.MIDDLE;
-            case HIGH:
-            case TOO_HIGH:
-            case MAX_VAL: return Simplified.BAD;
-            case SPECIAL_VAL:
-            case UNKNOWN: return Simplified.UNKNOWN;
-            case BAD_DIFF: return Simplified.BAD_DIFF;
-            default: return null;
-        }
     }
 
     // used to simplify HealthCondition

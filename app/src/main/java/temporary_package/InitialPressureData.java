@@ -15,50 +15,6 @@ public class InitialPressureData {
 
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat INIT_CONVERSION_DATETIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-    public static List<PressureData> makePressureDataList() {
-        List<PressureData> paramsList = new ArrayList<>();
-        int systole;
-        int diastole;
-        int pulse;
-        String date = null;
-        String time;
-        Date dateTime;
-        boolean arrhythmia;
-
-        for (String s : DATA_ARRAY) {
-            String[] params = s.split(",");
-            if (params.length != 4) {
-                continue;
-            }
-
-            try {
-                systole = Integer.parseInt(params[1]);
-                diastole = Integer.parseInt(params[2]);
-                arrhythmia = s.hashCode() % 11 == 0;
-
-                // data at this position is difference between systole and diastole
-                // we add this as pulse increased by 40, to be deterministic on every OnCreate action in dbhelper
-                pulse = Integer.parseInt(params[3]) + 40;
-
-                if (!params[0].isEmpty()) {
-                    date = params[0];
-                    time = "08:00";
-                } else {
-                    time = "19:00";
-                }
-
-                dateTime = INIT_CONVERSION_DATETIME_FORMATTER.parse(date + " " + time);
-                paramsList.add(new PressureData(systole, diastole, pulse, arrhythmia, dateTime));
-
-            } catch (Exception e) {
-                // silent exception :D
-            }
-        }
-
-        return paramsList;
-    }
-
     private static String[] DATA_ARRAY = (
             "2016-04-16,113,85,28\n" +
                     ",131,94,37\n" +
@@ -247,5 +203,48 @@ public class InitialPressureData {
                     ",117,78,39\n" +
                     "2016-07-26,122,82,40"
     ).split("\n");
+
+    public static List<PressureData> makePressureDataList() {
+        List<PressureData> paramsList = new ArrayList<>();
+        int systole;
+        int diastole;
+        int pulse;
+        String date = null;
+        String time;
+        Date dateTime;
+        boolean arrhythmia;
+
+        for (String s : DATA_ARRAY) {
+            String[] params = s.split(",");
+            if (params.length != 4) {
+                continue;
+            }
+
+            try {
+                systole = Integer.parseInt(params[1]);
+                diastole = Integer.parseInt(params[2]);
+                arrhythmia = s.hashCode() % 11 == 0;
+
+                // data at this position is difference between systole and diastole
+                // we add this as pulse increased by 40, to be deterministic on every OnCreate action in dbhelper
+                pulse = Integer.parseInt(params[3]) + 40;
+
+                if (!params[0].isEmpty()) {
+                    date = params[0];
+                    time = "08:00";
+                } else {
+                    time = "19:00";
+                }
+
+                dateTime = INIT_CONVERSION_DATETIME_FORMATTER.parse(date + " " + time);
+                paramsList.add(new PressureData(systole, diastole, pulse, arrhythmia, dateTime));
+
+            } catch (Exception e) {
+                // silent exception :D
+            }
+        }
+
+        return paramsList;
+    }
 
 }

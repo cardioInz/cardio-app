@@ -10,7 +10,7 @@ public class StatisticLastMeasure {
     private boolean isArrhythmiaImportant;
     private PressureData pressureData;
 
-    public StatisticLastMeasure(Boolean isArrhythmiaImportant){
+    public StatisticLastMeasure(Boolean isArrhythmiaImportant) {
         this("", isArrhythmiaImportant, null);
     }
 
@@ -55,7 +55,6 @@ public class StatisticLastMeasure {
     }
 
 
-
     public enum TypeEnum {
 
         // order matters (order of statistics in list of last measurements)
@@ -69,7 +68,7 @@ public class StatisticLastMeasure {
         LAST_ARRHYTHMIA;
 
         private static final HashMap<TypeEnum, Integer> measureTitlesMap =
-                new HashMap<TypeEnum, Integer>(){{
+                new HashMap<TypeEnum, Integer>() {{
                     put(LAST, R.string.statistics_last_measure);
                     put(LAST_BAD, R.string.statistics_last_bad_condition_measure);
                     put(LAST_MIDDLE, R.string.statistics_last__middle_condition_measure);
@@ -79,7 +78,7 @@ public class StatisticLastMeasure {
                     put(LAST_NO_ARRHYTHMIA, R.string.statistics_last_no_arrhythmia_measure);
                 }};
 
-        public Integer mapToTitleStringId(){
+        public Integer mapToTitleStringId() {
             return measureTitlesMap.get(this);
         }
     }

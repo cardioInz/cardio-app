@@ -1,12 +1,16 @@
 package cardio_app.viewmodel;
 
+import android.content.res.Resources;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import java.util.HashMap;
+
+import cardio_app.R;
 import cardio_app.db.model.UserProfile;
 import cardio_app.util.DateTimeUtil;
 
-public class ProfileViewModel  extends BaseObservable {
+public class ProfileViewModel extends BaseObservable {
     private static final String EMPTY_IN_PDF = "-";
     private UserProfile userProfile;
 
@@ -57,19 +61,35 @@ public class ProfileViewModel  extends BaseObservable {
     }
 
     @Bindable
-    public boolean isMale() {return false;}
+    public boolean isMale() {
+        return false;
+    }
 
-    public void setMale(boolean sex) {userProfile.setSex("M");}
+    public void setMale(boolean sex) {
+        userProfile.setSex("M");
+    }
 
     @Bindable
-    public boolean isFemale() { return true;}
+    public boolean isFemale() {
+        return true;
+    }
 
-    public void setFemale(boolean sex) { userProfile.setSex("F");}
+    public void setFemale(boolean sex) {
+        userProfile.setSex("F");
+    }
 
     @Bindable
-    public String getSex() {return userProfile.getSex();}
+    public String getSex() {
+        try {
+            return userProfile.getSex();
+        } catch (Exception e) {
+            return "-";
+        }
+    }
 
-    public void setSex(String sex) {userProfile.setSex(sex);}
+    public void setSex(String sex) {
+        userProfile.setSex(sex);
+    }
 
     @Bindable
     public String getWeight() {
@@ -117,7 +137,6 @@ public class ProfileViewModel  extends BaseObservable {
     }
 
 
-
     public String getDateOfBirthStr() {
         if (userProfile == null || userProfile.getDateOfBirth() == null)
             return EMPTY_IN_PDF;
@@ -135,7 +154,7 @@ public class ProfileViewModel  extends BaseObservable {
         }
     }
 
-    public String getGlucoseStr(){
+    public String getGlucoseStr() {
         try {
             int val = userProfile.getGlucose();
             if (val <= 0)
@@ -165,14 +184,18 @@ public class ProfileViewModel  extends BaseObservable {
                 return EMPTY_IN_PDF;
             return String.valueOf(val);
         } catch (Exception e) {
-            return "";
+            return EMPTY_IN_PDF;
         }
     }
 
     public String getSurnameStr() {
-        if (userProfile.getSurname() == null)
+        try {
+            if (userProfile.getSurname() == null)
+                return EMPTY_IN_PDF;
+            return getSurname();
+        } catch (Exception e) {
             return EMPTY_IN_PDF;
-        return getSurname();
+        }
     }
 
     public String getNameStr() {
@@ -180,9 +203,35 @@ public class ProfileViewModel  extends BaseObservable {
             if (userProfile.getName() == null)
                 return EMPTY_IN_PDF;
             return getName();
-        } catch (Exception e){
+        } catch (Exception e) {
             return EMPTY_IN_PDF;
         }
+    }
+
+    public String getSmokerNullable(String yes, String no) {
+        try {
+            boolean b = userProfile.isSmoker();
+            return b ? yes : no;
+        } catch (Exception e) {
+            return EMPTY_IN_PDF;
+        }
+    }
+
+    public HashMap<String, String> getHashMapFields(Resources resources) {
+        ProfileViewModel profileViewModel = this;
+        HashMap<String, String> hashMap = new HashMap<String, String>() {{
+            put(resources.getString(R.string.name), profileViewModel.getNameStr());
+            put(resources.getString(R.string.surname), profileViewModel.getSurnameStr());
+            put(resources.getString(R.string.date_of_birth), profileViewModel.getDateOfBirthStr());
+            put(resources.getString(R.string.sex), profileViewModel.getSex());
+            put(resources.getString(R.string.height).replace(":", " [cm]:"), profileViewModel.getHeightStr());
+            put(resources.getString(R.string.weight).replace(":", " [kg]:"), profileViewModel.getWeightStr());
+            put(resources.getString(R.string.smoker), profileViewModel.getSmokerNullable(resources.getString(R.string.yes), resources.getString(R.string.no)));
+            put(resources.getString(R.string.glucose).replace(":", " [mmol/l]:"), profileViewModel.getGlucoseStr());
+            put(resources.getString(R.string.cholesterol).replace(":", " [mmol/l]:"), profileViewModel.getCholesterolStr());
+        }};
+
+        return hashMap;
     }
 }
 

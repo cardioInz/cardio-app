@@ -1,7 +1,6 @@
 package cardio_app.util;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -25,7 +24,7 @@ public class PermissionUtil {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-    public static File writeFromContextFilesDirToExternal(Context context, String filenameWithExt){
+    public static File writeFromContextFilesDirToExternal(Context context, String filenameWithExt) {
         try {
             final String copyFromFilePath = context.getFilesDir() + File.separator + filenameWithExt;
 
@@ -55,11 +54,10 @@ public class PermissionUtil {
         }
     }
 
-    public static String getTmpDir(Context context){
+    public static String getTmpDir(Context context) {
         // TODO make sure that is correct dir for tmp files (shared between activities)
         return context.getFilesDir().getAbsolutePath();
     }
-
 
 
     public static boolean isStoragePermissionGranted(AppCompatActivity activity) {
@@ -75,11 +73,11 @@ public class PermissionUtil {
             }
 
             if (wantThisPermissionsList.isEmpty()) {
-                Log.v(TAG,"Permissions is granted");
+                Log.v(TAG, "Permissions is granted");
                 return true;
             }
 
-            Log.v(TAG,"Permissions is revoked");
+            Log.v(TAG, "Permissions is revoked");
             activity.runOnUiThread(() -> {
                 ActivityCompat.requestPermissions(
                         activity,
@@ -89,7 +87,7 @@ public class PermissionUtil {
             });
             return false;
         } else {
-            Log.v(TAG,"Permissions is granted");
+            Log.v(TAG, "Permissions is granted");
             return true;
         }
 

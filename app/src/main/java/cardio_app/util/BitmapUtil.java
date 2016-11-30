@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Image;
@@ -25,13 +24,24 @@ public class BitmapUtil {
 
     private static final String TAG = BitmapUtil.class.toString();
 
+    public static Bitmap generateBitmapFromView(View view, int width, int height) {
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        int heightSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
 
-    private static Bitmap getBitmapFromView(View view)
-    {
+        view.measure(widthSpec, heightSpec);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.draw(canvas);
+
+        return result;
+    }
+
+    private static Bitmap getBitmapFromView(View view) {
         int w = view.getWidth();
         int h = view.getHeight();
 
-        if (w <= 0 || h <= 0 )
+        if (w <= 0 || h <= 0)
             return null;
         int measuredW = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY);
         int measuredH = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
@@ -56,24 +66,23 @@ public class BitmapUtil {
     }
 
 
-
     public static Image convertBitmapToImage(Bitmap bitmap, EXT_IMG ext) throws IOException, BadElementException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(ext.getCompression(), 100 , baos);
+        bitmap.compress(ext.getCompression(), 100, baos);
         Image image = Image.getInstance(baos.toByteArray());
         image.setAlignment(Image.MIDDLE);
         return image;
     }
 
-    private static Bitmap loadBitmapFromFile(String path, String fileName, EXT_IMG ext){
+    private static Bitmap loadBitmapFromFile(String path, String fileName, EXT_IMG ext) {
         return loadBitmapFromFile(path + File.separator + fileName + ext.toString());
     }
 
-    private static Bitmap loadBitmapFromFile(String filePath){
+    private static Bitmap loadBitmapFromFile(String filePath) {
         return BitmapFactory.decodeFile(filePath);
     }
 
-    public static boolean loadBitmapFromFile(BitmapFromChart bitmapFromChart){
+    public static boolean loadBitmapFromFile(BitmapFromChart bitmapFromChart) {
         if (!bitmapFromChart.hasFilePathExt())
             return false;
         Bitmap bitmap = loadBitmapFromFile(bitmapFromChart.getFilePathWithExt());
@@ -81,7 +90,7 @@ public class BitmapUtil {
         return bitmap != null;
     }
 
-    private static boolean saveBitmapToFile(Bitmap bitmap, String filePath, EXT_IMG ext){
+    private static boolean saveBitmapToFile(Bitmap bitmap, String filePath, EXT_IMG ext) {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(filePath);
@@ -92,23 +101,23 @@ public class BitmapUtil {
             try {
                 if (fos != null)
                     fos.close();
-            } catch (Exception e){
+            } catch (Exception e) {
                 Log.e(TAG, "saveBitmapToFile: ", e);
             }
         }
 
         File file = new File(filePath);
         boolean result = file.exists();
-        if(result)
+        if (result)
             file.setReadable(true);
         return result;
     }
 
-    private static boolean saveBitmapToFile(Bitmap bitmap, String path, String fileName, EXT_IMG ext){
+    private static boolean saveBitmapToFile(Bitmap bitmap, String path, String fileName, EXT_IMG ext) {
         return saveBitmapToFile(bitmap, path + File.separator + fileName + ext.toString(), ext);
     }
 
-    public static boolean saveBitmapToFile(BitmapFromChart bfc){
+    public static boolean saveBitmapToFile(BitmapFromChart bfc) {
         if (!bfc.hasFilePathExt())
             return false;
         return saveBitmapToFile(bfc.getBitmap(), bfc.getFilePathWithExt(), bfc.getExt());
@@ -120,27 +129,21 @@ public class BitmapUtil {
         //JPEG,
         PNG;
 
-        private static final HashMap<EXT_IMG, String> mapStr = new HashMap<EXT_IMG, String>(){
+        private static final HashMap<EXT_IMG, String> mapStr = new HashMap<EXT_IMG, String>() {
             {
                 //put(JPEG, ".jpeg");
                 put(PNG, ".png");
             }
         };
 
-        private static final HashMap<EXT_IMG, Bitmap.CompressFormat> mapToCompression = new HashMap<EXT_IMG, Bitmap.CompressFormat>(){
+        private static final HashMap<EXT_IMG, Bitmap.CompressFormat> mapToCompression = new HashMap<EXT_IMG, Bitmap.CompressFormat>() {
             {
                 //put(JPEG, Bitmap.CompressFormat.JPEG);
                 put(PNG, Bitmap.CompressFormat.PNG);
             }
         };
 
-
-        @Override
-        public String toString(){
-            return mapStr.get(this);
-        }
-
-        public static EXT_IMG getExtFromStr(String str){
+        public static EXT_IMG getExtFromStr(String str) {
             if (!mapStr.containsValue(str))
                 return null;
             for (EXT_IMG key : mapStr.keySet()) {
@@ -150,7 +153,12 @@ public class BitmapUtil {
             return null;
         }
 
-        public Bitmap.CompressFormat getCompression(){
+        @Override
+        public String toString() {
+            return mapStr.get(this);
+        }
+
+        public Bitmap.CompressFormat getCompression() {
             return mapToCompression.get(this);
         }
     }

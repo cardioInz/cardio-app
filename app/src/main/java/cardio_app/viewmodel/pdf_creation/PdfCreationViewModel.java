@@ -16,7 +16,7 @@ public class PdfCreationViewModel extends BaseObservable {
         pdfDataModel.setSendEmailOpt(true); // by default "send email" radio button checked
     }
 
-    private static String getStrIfNotNull(String str){
+    private static String getStrIfNotNull(String str) {
         return str == null ? "" : str;
     }
 
@@ -74,7 +74,7 @@ public class PdfCreationViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getChartsListSize(){
+    public String getChartsListSize() {
         if (pdfDataModel == null)
             return String.valueOf(0);
         List<BitmapFromChart> list = pdfDataModel.getExtraBitmapFromChartList();
@@ -83,15 +83,15 @@ public class PdfCreationViewModel extends BaseObservable {
         return String.valueOf(list.size());
     }
 
-    public void setChartsListSize(String size){
+    public void setChartsListSize(String size) {
         // pass
     }
 
-    public void setExtraChartsList(List<BitmapFromChart> listImages){
-        pdfDataModel.setExtraBitmapFromChartList(listImages);
+    public List<BitmapFromChart> getExtraChartsList() {
+        return pdfDataModel.getExtraBitmapFromChartList();
     }
 
-    public List<BitmapFromChart> getExtraChartsList(){
-        return pdfDataModel.getExtraBitmapFromChartList();
+    public void setExtraChartsList(List<BitmapFromChart> listImages) {
+        pdfDataModel.setExtraBitmapFromChartList(listImages);
     }
 }

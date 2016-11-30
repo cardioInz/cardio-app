@@ -6,16 +6,25 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 @DatabaseTable
 public class Drug extends BaseModel implements Parcelable {
 
+    public static final Creator<Drug> CREATOR = new Creator<Drug>() {
+        @Override
+        public Drug createFromParcel(Parcel in) {
+            return new Drug(in);
+        }
+
+        @Override
+        public Drug[] newArray(int size) {
+            return new Drug[size];
+        }
+    };
     @DatabaseField
     private String name;
-
     @DatabaseField
     private String description;
 
@@ -33,17 +42,18 @@ public class Drug extends BaseModel implements Parcelable {
         description = in.readString();
     }
 
-    public static final Creator<Drug> CREATOR = new Creator<Drug>() {
-        @Override
-        public Drug createFromParcel(Parcel in) {
-            return new Drug(in);
-        }
+    public Drug(int id, String name, String description) {
+        super(id);
+        this.name = name;
+        this.description = description;
+    }
 
-        @Override
-        public Drug[] newArray(int size) {
-            return new Drug[size];
-        }
-    };
+    public static Drug convert(JSONObject object) throws JSONException {
+        String name = object.getString("name");
+        String description = object.getString("description");
+
+        return new Drug(name, description);
+    }
 
     public String getName() {
         return name;
@@ -61,12 +71,6 @@ public class Drug extends BaseModel implements Parcelable {
         this.description = description;
     }
 
-    public Drug(int id, String name, String description) {
-        super(id);
-        this.name = name;
-        this.description = description;
-    }
-
     public JSONObject convertToJson() throws JSONException {
         JSONObject object = new JSONObject();
 
@@ -74,13 +78,6 @@ public class Drug extends BaseModel implements Parcelable {
         object.put("description", getDescription());
 
         return object;
-    }
-
-    public static Drug convert(JSONObject object) throws JSONException {
-        String name = object.getString("name");
-        String description = object.getString("description");
-
-        return new Drug(name, description);
     }
 
     @Override

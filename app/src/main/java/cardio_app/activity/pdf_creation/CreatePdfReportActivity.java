@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,7 +27,6 @@ import cardio_app.activity.filter.FilterActivity;
 import cardio_app.databinding.ActivityCreatePdfReportBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.filtering.DataFilter;
-import cardio_app.filtering.DataFilterModeEnum;
 import cardio_app.pdf_creation.PdfCreatorAsyncWorker;
 import cardio_app.pdf_creation.param_models.PdfChosenParams;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
@@ -39,12 +38,11 @@ import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
 
 public class CreatePdfReportActivity extends AppCompatActivity {
     private static final String TAG = CreatePdfReportActivity.class.toString();
+    private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+    private final PdfCreationViewModel pdfCreationViewModel = new PdfCreationViewModel();
     private DbHelper dbHelper;
     private DataFilter dataFilter = Defaults.getDefaultDataFilter();
     private DataFilterForPdfCreationViewModel dataFilterForPdfCreationViewModel = new DataFilterForPdfCreationViewModel();
-    private final PdfCreationViewModel pdfCreationViewModel = new PdfCreationViewModel();
-
-    private static String DEFAULT_LOCATION_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
     private void correctVisibilities(boolean isSendOpt, boolean isSaveOpt) {
         int sendVisib = isSendOpt ? View.VISIBLE : View.GONE;
@@ -61,9 +59,9 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         sendTableLayout.setVisibility(sendVisib);
     }
 
-    public void changePdfCreation_SendeSaveOptMode(View view){
+    public void changePdfCreation_SendeSaveOptMode(View view) {
         int id = view.getId();
-        switch (id){
+        switch (id) {
             case R.id.radio_pdf_save_btn:
                 pdfCreationViewModel.setSaveOpt(true);
                 correctVisibilities(false, true);
@@ -108,7 +106,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         correctVisibilities(true, false);
     }
 
-    private void setGenericFileName(){
+    private void setGenericFileName() {
         pdfCreationViewModel.setFileName(FileWalkerUtil.getSomeUniquePdfName(
                 dataFilterForPdfCreationViewModel.getDateFromStr(),
                 dataFilterForPdfCreationViewModel.getDateToStr()
@@ -133,11 +131,11 @@ public class CreatePdfReportActivity extends AppCompatActivity {
         }
     }
 
-    public PdfRecordsContainer getPdfRecordContainer(){
+    public PdfRecordsContainer getPdfRecordContainer() {
         return new PdfRecordsContainer(getHelper(), dataFilter.getDateFrom(), dataFilter.getDateTo());
     }
 
-    public void savePdf(View view){
+    public void savePdf(View view) {
         if (PermissionUtil.isStoragePermissionGranted(this)) {
             if (view.getId() != R.id.savePdfBtn) {
                 return;
@@ -205,7 +203,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
 
 
     public void refreshContentView() {
-        boolean isSaveOpt = ((RadioButton)findViewById(R.id.radio_pdf_save_btn)).isChecked();
+        boolean isSaveOpt = ((RadioButton) findViewById(R.id.radio_pdf_save_btn)).isChecked();
         pdfCreationViewModel.setExtraChartsList(FileWalkerUtil.getBitmapFromChartList_fromSavedDir());
         findViewById(R.id.chosen_charts_cnt_text_view).invalidate();
         ActivityCreatePdfReportBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_pdf_report);

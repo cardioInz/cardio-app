@@ -2,12 +2,13 @@ package cardio_app.activity.statistics;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
 import cardio_app.R;
 import cardio_app.activity.filter.FilterActivity;
 import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
@@ -27,7 +28,7 @@ public class StatisticsActivity extends AppCompatActivity {
     public void moveToActivity(View view) {
         int id = view.getId();
 
-        switch (id){
+        switch (id) {
             case R.id.show_counter_stats_btn:
                 Intent intentC = new Intent(this, StatisticsCounterActivity.class);
                 intentC.putExtra("filterdata", dataFilter);
@@ -103,7 +104,6 @@ public class StatisticsActivity extends AppCompatActivity {
         intent.putExtra("filterdata", dataFilter);
         startActivityForResult(intent, 1);
     }
-
 
 
     @Override
