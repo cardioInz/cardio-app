@@ -66,7 +66,7 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void setMale(boolean sex) {
-        userProfile.setSex("M");
+        userProfile.setSex(UserProfile.SexType.MALE);
     }
 
     @Bindable
@@ -75,20 +75,20 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void setFemale(boolean sex) {
-        userProfile.setSex("F");
+        userProfile.setSex(UserProfile.SexType.FEMALE);
     }
 
     @Bindable
     public String getSex() {
         try {
-            return userProfile.getSex();
+            return userProfile.getSex().toString();
         } catch (Exception e) {
             return "-";
         }
     }
 
     public void setSex(String sex) {
-        userProfile.setSex(sex);
+        userProfile.setSex(UserProfile.SexType.mapFromString(sex));
     }
 
     @Bindable
@@ -217,21 +217,34 @@ public class ProfileViewModel extends BaseObservable {
         }
     }
 
+    public String getSexStr(String male, String female){
+        switch (userProfile.getSex()){
+            case MALE:
+                return male;
+            case FEMALE:
+                return female;
+            default:
+                return EMPTY_IN_PDF;
+        }
+    }
+
     public HashMap<String, String> getHashMapFields(Resources resources) {
         ProfileViewModel profileViewModel = this;
-        HashMap<String, String> hashMap = new HashMap<String, String>() {{
-            put(resources.getString(R.string.name), profileViewModel.getNameStr());
+        return new HashMap<String, String>() {{
+            put(resources.getString(R.string.first_name), profileViewModel.getNameStr());
             put(resources.getString(R.string.surname), profileViewModel.getSurnameStr());
             put(resources.getString(R.string.date_of_birth), profileViewModel.getDateOfBirthStr());
-            put(resources.getString(R.string.sex), profileViewModel.getSex());
+            put(resources.getString(R.string.sex), profileViewModel.getSexStr(
+                    resources.getString(R.string.male), resources.getString(R.string.female)
+            ));
             put(resources.getString(R.string.height).replace(":", " [cm]:"), profileViewModel.getHeightStr());
             put(resources.getString(R.string.weight).replace(":", " [kg]:"), profileViewModel.getWeightStr());
-            put(resources.getString(R.string.smoker), profileViewModel.getSmokerNullable(resources.getString(R.string.yes), resources.getString(R.string.no)));
+            put(resources.getString(R.string.smoker), profileViewModel.getSmokerNullable(
+                    resources.getString(R.string.yes), resources.getString(R.string.no)
+            ));
             put(resources.getString(R.string.glucose).replace(":", " [mmol/l]:"), profileViewModel.getGlucoseStr());
             put(resources.getString(R.string.cholesterol).replace(":", " [mmol/l]:"), profileViewModel.getCholesterolStr());
         }};
-
-        return hashMap;
     }
 }
 

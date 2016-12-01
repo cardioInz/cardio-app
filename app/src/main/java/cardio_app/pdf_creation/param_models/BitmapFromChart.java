@@ -135,7 +135,7 @@ public class BitmapFromChart extends BaseObservable implements Parcelable {
     }
 
 
-    String infoStrForLogger() {
+    public String infoStrForLogger() {
         return String.format("bitmap: %s, fileName: %s, path: %s",
                 bitmap == null ? "null" : "not null",
                 fileName != null ? fileName : "",

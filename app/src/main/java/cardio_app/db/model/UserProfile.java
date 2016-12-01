@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 
@@ -48,11 +49,47 @@ public class UserProfile extends BaseModel implements Parcelable {
     @DatabaseField
     private boolean isSmoker;
 
+    public enum SexType {
+        MALE,
+        FEMALE,
+        NOT_SET;
+
+        private static final HashMap<SexType, String> sexMap = new HashMap<SexType, String>(){{
+            put(MALE, "M");
+            put(FEMALE, "F");
+            put(NOT_SET, "-");
+        }};
+
+
+        public String getStr(){
+            if (sexMap.containsKey(this))
+                return sexMap.get(this);
+            else
+                return sexMap.get(NOT_SET);
+        }
+
+        public static String mapToString(SexType sexType){
+            if (sexType != null)
+                return sexType.toString();
+            return NOT_SET.toString();
+        }
+
+        public static SexType mapFromString(String value){
+            if (sexMap.values().contains(value)){
+                for (SexType key : sexMap.keySet()) {
+                    if (sexMap.get(key).equals(value))
+                        return key;
+                }
+            }
+            return NOT_SET;
+        }
+    }
+
     public UserProfile() {
         this.name = null;
         this.surname = null;
         this.dateOfBirth = new Date();
-        this.sex = "-";
+        this.sex = SexType.NOT_SET.getStr();
         this.weight = 0;
         this.height = 0;
         this.cholesterol = 0;
@@ -193,12 +230,16 @@ public class UserProfile extends BaseModel implements Parcelable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getSex() {
-        return sex;
+    public SexType getSex() {
+        try {
+            return SexType.mapFromString(sex);
+        } catch (Exception e){
+            return SexType.NOT_SET;
+        }
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setSex(SexType sexType) {
+        this.sex = SexType.mapToString(sexType);
     }
 
     public int getWeight() {

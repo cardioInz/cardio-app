@@ -191,6 +191,7 @@
     <string name="end_date">END DATE:</string>
     <string name="is_repeatable">IS REPEATABLE:</string>
     <string name="description_dialog">DESCRIPTION:</string>
+    <string name="results">Results</string>
 
 
 </resources>

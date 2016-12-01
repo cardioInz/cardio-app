@@ -21,12 +21,14 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import cardio_app.R;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.PressureData;
+import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
 import cardio_app.statistics.Statistics;
 import cardio_app.statistics.analyse.StatisticCounter;
@@ -39,16 +41,46 @@ import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
 import static cardio_app.util.DateTimeUtil.TIME_FORMATTER;
 
-public class CreatePdfUtil {
-    private static final String TAG = CreatePdfUtil.class.getName();
+public class PdfCreator {
+    private static final String TAG = PdfCreator.class.getName();
 
     private static Font fontChapter = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
     private static Font fontSubParagraph = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
     private static Font fontDates = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
-    private static PdfRecordsContainer recordsContainer;
-    private static Resources resources;
-    private static Integer chapterCnt = 0;
+    private Document document = null;
+    private PdfRecordsContainer recordsContainer;
+    private Resources resources;
+    private Integer chapterCnt;
+    private java.util.List<BitmapFromChart> extraChartBitmapList;
+    private boolean isMyProfileAttached = false;
+
+    public PdfCreator(PdfRecordsContainer recordsContainerParam, java.util.List<BitmapFromChart> extraChartBitmapList, Resources res){
+        this.resources = res;
+        this.recordsContainer = recordsContainerParam;
+        this.extraChartBitmapList = extraChartBitmapList;
+        this.chapterCnt = 0;
+        this.document = new Document();
+
+        whatsDocumentSize();
+    }
+
+    private void whatsDocumentSize(){
+        float width = document.getPageSize().getWidth();
+        float height = document.getPageSize().getHeight();
+        String sizeInfo = String.format("\t\tWidth: %s\n\t\tHeight: %s", String.valueOf(width), String.valueOf(height));
+        Log.i(TAG, "createAndSavePdf: \n" + sizeInfo);
+    }
+
+    private java.util.List<Image> initExtraCharts() {
+        cleanBitmapWithoutPaths(extraChartBitmapList);
+        for (BitmapFromChart fromChart : extraChartBitmapList) {
+            if (!BitmapUtil.loadBitmapFromFile(fromChart))
+                continue;
+            BitmapUtil.loadBitmapFromFile(fromChart);
+        }
+        return prepareImagesToPdf(extraChartBitmapList);
+    }
 
     private static void scaleImage(Image image, Document document) {
 
@@ -68,40 +100,24 @@ public class CreatePdfUtil {
         image.scaleAbsolute(w, h);
     }
 
-// TODO check that we are able to scale bitmap while saving (it could be faster then)
-//    public static Bitmap scaleBitmapToPdf(Bitmap bitmap){
-//        float w = bitmap.getWidth(); // pdf 595
-//        float h = bitmap.getHeight(); // pdf 842
-//        float scale = 595f / w;
-//        int newW = (int) (w * scale);
-//        int newH = (int) (h * scale);
-//        return Bitmap.createScaledBitmap(bitmap, newW, newH, false);
-//    }
 
-    public static void createAndSavePdf(String fileLocation, PdfRecordsContainer recordsContainerParam,
-                                        java.util.List<Image> imageList, Resources res) {
+    public void createAndSavePdf(String fileLocation) {
         try {
-            resources = res;
-            recordsContainer = recordsContainerParam;
-            chapterCnt = 0;
-
-            Document document = new Document();
+            assert resources != null;
+            assert recordsContainer != null;
             PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
             document.open();
             document.newPage();
-
-            float width = document.getPageSize().getWidth();
-            float height = document.getPageSize().getHeight();
-            String sizeInfo = String.format("\t\tWidth: %s\n\t\tHeight: %s", String.valueOf(width), String.valueOf(height));
-            Log.i(TAG, "createAndSavePdf: \n" + sizeInfo);
-
             addMetaData(document);
             addTitleAndDates(document);
+            addUserProfileInformation(document);
 
+            // TODO 
+            // split recordsContained into "smaller" instances by dates from-to (e.g. month by month)
+            // and pass to below method one by one as instance of PdfRecordsContainer producing chapters
+            addContent(document, recordsContainer);
 
-            addContent(document);
-            addExtraCharts(document, imageList);
-
+            addExtraCharts(document);
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,7 +128,7 @@ public class CreatePdfUtil {
         resources = null;
     }
 
-    private static void addMetaData(Document document) {
+    private void addMetaData(Document document) {
         final String APP_NAME = "Cardio-Inz";
 
         document.addTitle(getResourceString(R.string.pdf_report_generated_by) + " " + APP_NAME + " App");
@@ -122,7 +138,7 @@ public class CreatePdfUtil {
         document.addCreator(APP_NAME);
     }
 
-    private static void addTitleAndDates(Document document) throws DocumentException {
+    private void addTitleAndDates(Document document) throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
         preface.add(new Paragraph("Cardio-Inz Report", fontChapter));
@@ -153,6 +169,13 @@ public class CreatePdfUtil {
             dateToStr = DATE_FORMATTER.format(dateTo);
         }
 
+        try {
+            recordsContainer.setDateFrom(DATE_FORMATTER.parse(dateFromStr));
+            recordsContainer.setDateTo(DATE_FORMATTER.parse(dateToStr));
+        } catch (Exception e) {
+            Log.e(TAG, "addTitleAndDates: ", e);
+        }
+
         addEmptyLine(preface, 1);
         preface.add(new Paragraph(getResourceString(R.string.pdf_generation_interval_dates)
                 + " " + getResourceString(R.string.from_date) + " " + dateFromStr
@@ -162,13 +185,38 @@ public class CreatePdfUtil {
         document.add(preface);
     }
 
-    private static void addContent(Document document) throws DocumentException {
-        addUserProfileInformations(document);
-        addPressureData(document); // in future with charts
-        addStatistics(document);
+    private void addContent(Document document, PdfRecordsContainer recordsContainer) throws DocumentException {
+        recordsContainer.initRecordsByHelper();
+
+        String chapterTitle = getResourceString(R.string.results);
+
+        try {
+            chapterTitle = String.format("%s %s: %s, %s: %s",
+                    getResourceString(R.string.results),
+                    getResourceString(R.string.from_date), DateTimeUtil.DATE_FORMATTER.format(recordsContainer.getDateFrom()),
+                    getResourceString(R.string.to_date), DateTimeUtil.DATE_FORMATTER.format(recordsContainer.getDateTo())
+            );
+        } catch (Exception e) {
+            Log.e(TAG, "addContent: ", e);
+        }
+
+        Anchor anchor = new Anchor(chapterTitle, fontChapter);
+        anchor.setName(chapterTitle);
+        Chapter chapter = new Chapter(new Paragraph(anchor), ++chapterCnt);
+        chapter.setTriggerNewPage(isMyProfileAttached || chapterCnt != 1);
+        addEmptyLine(chapter, 2);
+
+        // TODO if "any given chart image generation" will work, push some continuous chart for this interval here
+        // TODO if it will work, create some subparagraph that will describe events on the chart
+
+        addPressureData(chapter, recordsContainer.getPressureDataList());
+        // addEvents(chapter, recordsContainer.getEventsDataList());
+        addStatistics(chapter, recordsContainer);
+        document.add(chapter);
     }
 
-    private static void addExtraCharts(Document document, java.util.List<Image> imageList) throws DocumentException {
+    private void addExtraCharts(Document document) throws DocumentException {
+        java.util.List<Image> extraChartImageList = initExtraCharts();
         String name = getResourceString(R.string.pdf_content_charts_chosen);
         Anchor anchor = new Anchor(name, fontChapter);
         anchor.setName(name);
@@ -177,10 +225,10 @@ public class CreatePdfUtil {
         catPart.setTriggerNewPage(false);
         addEmptyLine(catPart, 1);
 
-        for (Image image : imageList) {
+        for (Image image : extraChartImageList) {
             if (image != null) {
                 scaleImage(image, document); // scale to page width
-                scaleImage(image, 0.4f); // percent
+                scaleImage(image, 0.4f); // scale percent
                 catPart.add(image);
             } else
                 Log.e(TAG, "addChart: image = null");
@@ -189,7 +237,7 @@ public class CreatePdfUtil {
         document.add(catPart);
     }
 
-    private static void addUserProfileInformations(Document document) throws DocumentException {
+    private void addUserProfileInformation(Document document) throws DocumentException {
         String name = getResourceString(R.string.pdf_content_about_patient);
         Anchor anchor = new Anchor(name, fontChapter);
         anchor.setName(name);
@@ -217,38 +265,35 @@ public class CreatePdfUtil {
 
             addEmptyLine(catPart, 2);
             document.add(catPart);
+            isMyProfileAttached = true;
         } catch (Exception e) {
-            Log.e(TAG, "addUserProfileInformations: ", e);
+            Log.e(TAG, "addUserProfileInformation: ", e);
             chapterCnt--;
+            isMyProfileAttached = false;
         }
     }
 
-    private static void addPressureData(Document document) throws DocumentException {
+    private void addPressureData(Chapter chapter, java.util.List<PressureData> pressureDataList) throws DocumentException {
         String name = getResourceString(R.string.pdf_chapter_blood_pressure);
-        Anchor anchor = new Anchor(name, fontChapter);
-        anchor.setName(name);
+        Paragraph mainSubPara = new Paragraph(name, fontSubParagraph);
 
-        Chapter catPart = new Chapter(new Paragraph(anchor), ++chapterCnt);
+        Section catPart = chapter.addSection(mainSubPara);
         catPart.setTriggerNewPage(false);
         addEmptyLine(catPart, 1);
-        createTableOfPressure(catPart);
+        createTableOfPressure(catPart, pressureDataList);
 
         addEmptyLine(catPart, 2);
-        document.add(catPart);
     }
 
-    private static void addStatistics(Document document) throws DocumentException {
+    private void addStatistics(Chapter chapter, PdfRecordsContainer recordsContainer) throws DocumentException {
         String name = getResourceString(R.string.pdf_chapter_statistics);
-        Anchor anchor = new Anchor(name, fontChapter);
-        anchor.setName(name);
-
-        Chapter catPart = new Chapter(new Paragraph(anchor), ++chapterCnt);
-//        catPart.setTriggerNewPage(false);
+        Paragraph mainSubPara = new Paragraph(name, fontSubParagraph);
+        Section catPart = chapter.addSection(mainSubPara);
         addEmptyLine(catPart, 1);
 
         List listCnt = new List(false, false, 10);
         List listLast = new List(false, false, 10);
-        createListOfMeasurements(listCnt, listLast);
+        createListOfMeasurements(listCnt, listLast, recordsContainer);
 
 
         Paragraph subPara = new Paragraph(getResourceString(R.string.title_statistics_countered_measures), fontSubParagraph);
@@ -264,11 +309,9 @@ public class CreatePdfUtil {
         subCatPart.add(listLast);
 
         addEmptyLine(catPart, 2);
-        document.add(catPart);
     }
 
-
-    private static void createTableOfPressure(Section subCatPart) throws DocumentException {
+    private void createTableOfPressure(Section subCatPart, java.util.List<PressureData> pressureDataList) throws DocumentException {
         PdfPTable table = new PdfPTable(7);
 
         // t.setBorderColor(BaseColor.GRAY);
@@ -307,7 +350,7 @@ public class CreatePdfUtil {
         table.setHeaderRows(1);
 
         PressureDataViewModel pressureDataViewModel = new PressureDataViewModel();
-        for (PressureData pressureData : recordsContainer.getPressureDataList()) {
+        for (PressureData pressureData : pressureDataList) {
             pressureDataViewModel.setPressureData(pressureData);
 
             table.addCell(pressureDataViewModel.getSystoleStr());
@@ -326,7 +369,7 @@ public class CreatePdfUtil {
 
     }
 
-    private static void createListOfMeasurements(List listCnt, List listLast) {
+    private void createListOfMeasurements(List listCnt, List listLast, PdfRecordsContainer recordsContainer) {
         final boolean statCnt = listCnt != null;
         final boolean statLast = listLast != null;
         Statistics statistics = new Statistics(statCnt, statLast);
@@ -386,11 +429,42 @@ public class CreatePdfUtil {
         }
     }
 
-    private static DbHelper getHelper() {
+    private DbHelper getHelper() {
         return recordsContainer.getDbHelper();
     }
 
-    private static String getResourceString(int id) {
+    private String getResourceString(int id) {
         return resources.getString(id);
+    }
+
+    private static java.util.List<Image> prepareImagesToPdf(java.util.List<BitmapFromChart> list) {
+        java.util.List<Image> imageList = new ArrayList<>();
+        for (BitmapFromChart bitmapFromChart : list) {
+            try {
+                Image image = bitmapFromChart.getImage();
+                imageList.add(image);
+                bitmapFromChart.setBitmap(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "doInBackground: ", e);
+            }
+        }
+        return imageList;
+    }
+
+    private static void cleanBitmapWithoutPaths(java.util.List<BitmapFromChart> list) {
+        java.util.List<BitmapFromChart> newList = new ArrayList<>();
+
+        for (BitmapFromChart fromChart : list) {
+            if (fromChart.hasFilePathExt()) {
+                if (BitmapUtil.loadBitmapFromFile(fromChart))
+                    newList.add(fromChart);
+            } else {
+                Log.w(TAG, "makeBitmaps: values not completed\n" + fromChart.infoStrForLogger());
+            }
+        }
+
+        list.clear();
+        list.addAll(newList);
     }
 }

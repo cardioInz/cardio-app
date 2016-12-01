@@ -21,30 +21,12 @@ public class PdfRecordsContainer {
     private Date dateTo;
     private List<PressureData> pressureDataList;
     private List<Event> eventsDataList;
-    private List<BitmapFromChart> bitmapFromChartList = new ArrayList<>();
-    private List<BitmapFromChart> extraBitmapCharts = new ArrayList<>();
     private UserProfile userProfile = null;
 
     public PdfRecordsContainer(DbHelper dbHelper, Date dateFrom, Date dateTo) {
         this.dbHelper = dbHelper;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
-    }
-
-    private static void cleanBitmapWithoutPaths(List<BitmapFromChart> list) {
-        List<BitmapFromChart> newList = new ArrayList<>();
-
-        for (BitmapFromChart fromChart : list) {
-            if (fromChart.hasFilePathExt()) {
-                if (BitmapUtil.loadBitmapFromFile(fromChart))
-                    newList.add(fromChart);
-            } else {
-                Log.w(TAG, "makeBitmaps: values not completed\n" + fromChart.infoStrForLogger());
-            }
-        }
-
-        list.clear();
-        list.addAll(newList);
     }
 
     public Date getDateFrom() {
@@ -89,41 +71,15 @@ public class PdfRecordsContainer {
         return eventsDataList;
     }
 
-    public void addSimple_BitmapFromChart(BitmapFromChart bitmapFromChart) {
-        if (bitmapFromChart == null)
-            return;
-        bitmapFromChartList.add(bitmapFromChart);
-    }
-
-    public void addExtra_BitmpaFromChart(BitmapFromChart bitmapFromChart) {
-        if (bitmapFromChart == null)
-            return;
-        extraBitmapCharts.add(bitmapFromChart);
-    }
-
-    public List<BitmapFromChart> getSimple_bitmapFromChartList() {
-        return bitmapFromChartList;
-    }
-
-    public List<BitmapFromChart> getExtra_bitmapFromChartList() {
-        return extraBitmapCharts;
-    }
-
-    public void setExtra_bitmapFromChartList(List<BitmapFromChart> extraBitmapCharts) {
-        this.extraBitmapCharts.clear();
-        ;
-        this.extraBitmapCharts.addAll(extraBitmapCharts);
-    }
-
-    public void cleanExtraBitmapWithoutPaths() {
-        cleanBitmapWithoutPaths(extraBitmapCharts);
-    }
-
-    public void cleanSimpleBitmapWithoutPaths() {
-        cleanBitmapWithoutPaths(bitmapFromChartList);
-    }
-
     public UserProfile getUserProfile() {
         return userProfile;
+    }
+
+    public void setDateFrom(Date dateFrom){
+        this.dateFrom = dateFrom;
+    }
+
+    public void setDateTo(Date dateTo){
+        this.dateTo = dateTo;
     }
 }

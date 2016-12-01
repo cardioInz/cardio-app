@@ -20,7 +20,7 @@ import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.pdf_creation.param_models.PdfChosenParams;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
 import cardio_app.util.BitmapUtil;
-import cardio_app.util.CreatePdfUtil;
+import cardio_app.util.PdfCreator;
 import cardio_app.util.Defaults;
 import cardio_app.util.PermissionUtil;
 
@@ -30,9 +30,8 @@ import static android.content.ContentValues.TAG;
 public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
 
     private static final String EXT_PDF = ".pdf";
-    private static boolean ADD_EXTRA_CHARTS = true;
-    private static boolean ADD_SIMPLE_CHARTS = false; // TODO , false because simple is too difficult :(
     private PdfRecordsContainer pdfRecordsContainer;
+    private List<BitmapFromChart> extraChartList = new ArrayList<>();
     private AppCompatActivity contextActivity = null;
     private Boolean isSendEmailMode = null;
     private String emailAddr = null;
@@ -47,7 +46,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
         super();
         this.pdfRecordsContainer = pdfRecordsContainer;
 
-        this.pdfRecordsContainer.setExtra_bitmapFromChartList(pdfChosenParams.getExtraBitmapFromChartList());
+        extraChartList.addAll(pdfChosenParams.getExtraBitmapFromChartList());
         this.contextActivity = contextActivity;
         this.isSendEmailMode = isSendEmailMode;
 
@@ -64,20 +63,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
         file = new File(location, filename);
     }
 
-    private static List<Image> prepareImagesToPdf(List<BitmapFromChart> list) {
-        List<Image> imageList = new ArrayList<>();
-        for (BitmapFromChart bitmapFromChart : list) {
-            try {
-                Image image = bitmapFromChart.getImage();
-                imageList.add(image);
-                bitmapFromChart.setBitmap(null);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, "doInBackground: ", e);
-            }
-        }
-        return imageList;
-    }
+
 
     @Override
     protected void onPostExecute(Void result) {
@@ -107,48 +93,18 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         getProgressBar().setVisibility(View.VISIBLE);
-        pdfRecordsContainer.initRecordsByHelper();
-        initCharts();
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         if (verifyFileNameAndLocation()) {
-            List<Image> imageList = new ArrayList<>();
-
-            if (ADD_EXTRA_CHARTS) {
-                List<BitmapFromChart> extraCharts = pdfRecordsContainer.getExtra_bitmapFromChartList();
-                List<Image> extraImageList = prepareImagesToPdf(extraCharts);
-                imageList.addAll(extraImageList);
-            }
-
-            if (ADD_SIMPLE_CHARTS) {
-                List<BitmapFromChart> simpleCharts = pdfRecordsContainer.getSimple_bitmapFromChartList();
-                List<Image> simpleImageList = prepareImagesToPdf(simpleCharts); // should be empty now
-                imageList.addAll(simpleImageList);
-            }
-
-
             String absolutePathStr = file.getAbsolutePath();
-            CreatePdfUtil.createAndSavePdf(absolutePathStr, pdfRecordsContainer, imageList, contextActivity.getResources());
+            PdfCreator pdfCreator = new PdfCreator(pdfRecordsContainer, extraChartList, contextActivity.getResources());
+            pdfCreator.createAndSavePdf(absolutePathStr);
         }
         return null;
     }
 
-    private void initCharts() {
-        if (ADD_EXTRA_CHARTS) {
-            pdfRecordsContainer.cleanExtraBitmapWithoutPaths();
-            for (BitmapFromChart fromChart : pdfRecordsContainer.getExtra_bitmapFromChartList()) {
-                if (!BitmapUtil.loadBitmapFromFile(fromChart))
-                    continue;
-                BitmapUtil.loadBitmapFromFile(fromChart);
-            }
-        }
-
-        if (ADD_SIMPLE_CHARTS) {
-            // TODO generate charts with dates from-to
-        }
-    }
 
     private ProgressBar getProgressBar() {
         return (ProgressBar) contextActivity.findViewById(R.id.progressBar_create_pdf);
@@ -181,7 +137,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
 
     private void sendEmail() {
         if (!PermissionUtil.isStoragePermissionGranted(contextActivity)) {
-            Log.e(TAG, "sendEmail: does not have parmision -> return");
+            Log.e(TAG, "sendEmail: does not have permission -> return");
             return;
         }
 

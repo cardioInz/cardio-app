@@ -24,6 +24,16 @@ public class BitmapUtil {
 
     private static final String TAG = BitmapUtil.class.toString();
 
+// TODO check that we are able to scale bitmap while saving (it could be faster then)
+//    public static Bitmap scaleBitmapToPdf(Bitmap bitmap){
+//        float w = bitmap.getWidth(); // pdf 595
+//        float h = bitmap.getHeight(); // pdf 842    (and div by 7 maybe??)
+//        float scale = 595f / w;
+//        int newW = (int) (w * scale);
+//        int newH = (int) (h * scale);
+//        return Bitmap.createScaledBitmap(bitmap, newW, newH, false);
+//    }
+
     public static Bitmap generateBitmapFromView(View view, int width, int height) {
         Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
