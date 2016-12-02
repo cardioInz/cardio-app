@@ -1,9 +1,14 @@
 package cardio_app.activity.events;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -18,38 +23,51 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
+import cardio_app.service.SetAlarmService;
 
 public class EventActivity extends AppCompatActivity {
 
     private DbHelper dbHelper;
     private EventAdapter eventAdapter;
+    private Event selectedEvent = null;
+    private View selectedView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-
         ListView eventListView = (ListView) findViewById(R.id.event_list_view);
-
 
         eventListView.setOnItemLongClickListener(((adapterView, view, i, l) -> {
             Event event = (Event) adapterView.getItemAtPosition(i);
             Intent intent = new Intent(EventActivity.this, AddEventActivity.class);
             intent.putExtra("event", event);
-//            intent.putExtra("timeUnit", event.getTimeUnit());
             startActivity(intent);
             return true;
+
         }));
+
+        eventListView.setOnItemClickListener(((adapterView, view, i, l) -> {
+            selectedEvent = (Event) adapterView.getItemAtPosition(i);
+            if (selectedView != null) {
+                selectedView.setBackground(null);
+            }
+            selectedView = adapterView.getChildAt(i);
+            selectedView.setBackgroundResource(R.color.brightOnDarkBg);
+        }));
+
+
+
 
         assignDataToListView();
     }
 
 
+
     private void assignDataToListView() {
         List<Event> events = new ArrayList<>();
         try {
-//            Dao<Event, Integer> dao = getDbHelper().getDao(Event.class);
 
             for (Event event : getDbHelper().getAllOrderedEventData()) {
                 Dao<OtherSymptomsRecord, Integer> osrDao = getDbHelper().getDao(OtherSymptomsRecord.class);
@@ -84,6 +102,46 @@ public class EventActivity extends AppCompatActivity {
         if (dbHelper != null) {
             OpenHelperManager.releaseHelper();
             dbHelper = null;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.events_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_delete_event: {
+                onDeleteEvent();
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+
+    private void onDeleteEvent() {
+        try {
+            Dao<DoctorsAppointment, Integer> doctorsAppointmentDao =
+                    getDbHelper().getDao(DoctorsAppointment.class);
+            doctorsAppointmentDao.deleteById(selectedEvent.getDoctorsAppointment().getId());
+            Dao<OtherSymptomsRecord, Integer> otherSymptomsRecordDao =
+                    getDbHelper().getDao(OtherSymptomsRecord.class);
+            otherSymptomsRecordDao.deleteById(selectedEvent.getOtherSymptomsRecord().getId());
+            Dao<Event, Integer> eventsDao = getDbHelper().getDao(Event.class);
+            eventsDao.deleteById(selectedEvent.getId());
+            assignDataToListView();
+            Uri uri = new Uri.Builder().path(String.valueOf(selectedEvent.getId())).build();
+            Intent cancelAlarm = new Intent(this, SetAlarmService.class);
+            cancelAlarm.setAction(SetAlarmService.CANCEL);
+            cancelAlarm.putExtra(SetAlarmService.EVENT_ID, selectedEvent.getId());
+        } catch (SQLException e) {
+            Log.e("", "Can't perform delete action on Event record", e);
         }
     }
 
