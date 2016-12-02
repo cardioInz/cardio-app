@@ -43,6 +43,10 @@ public class ChartBuilder {
         return this;
     }
 
+    public ChartMode getMode() {
+        return chartMode;
+    }
+
     public ChartBuilder setMode(ChartMode chartMode) {
         this.chartMode = chartMode;
 
@@ -65,6 +69,10 @@ public class ChartBuilder {
         this.eventData = events;
 
         return this;
+    }
+
+    public boolean isHasLabels() {
+        return hasLabels;
     }
 
     public ChartBuilder setHasLabels(boolean hasLabels) {

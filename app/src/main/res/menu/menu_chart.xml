@@ -17,4 +17,8 @@
         android:id="@+id/chart_continuous"
         android:title="@string/chart_type_continuous" />
 
+    <item
+        android:id="@+id/has_labels"
+        android:title="@string/toggle_labels" />
+
 </menu>

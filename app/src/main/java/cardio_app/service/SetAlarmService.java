@@ -14,12 +14,8 @@ import com.j256.ormlite.dao.Dao;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
 
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import cardio_app.R;
 import cardio_app.activity.MainActivity;

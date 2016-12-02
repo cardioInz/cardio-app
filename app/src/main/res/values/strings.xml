@@ -192,6 +192,7 @@
     <string name="is_repeatable">IS REPEATABLE:</string>
     <string name="description_dialog">DESCRIPTION:</string>
     <string name="results">Results</string>
+    <string name="toggle_labels">Toggle labels</string>
 
 
 </resources>

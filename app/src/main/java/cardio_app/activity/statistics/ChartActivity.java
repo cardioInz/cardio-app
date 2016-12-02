@@ -109,7 +109,7 @@ public class ChartActivity extends AppCompatActivity {
 
             this.chartBuilder = new ChartBuilder(pressureList, getResources()).setEvents(eventList);
 
-            changeType(ChartBuilder.ChartMode.DISCRETE, false);
+            changeType(ChartBuilder.ChartMode.DISCRETE, false, false);
             lineChartView.setMaxZoom(chartBuilder.getDays() / minDaysOnScreen);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -145,11 +145,15 @@ public class ChartActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.chart_discrete: {
-                changeType(ChartBuilder.ChartMode.DISCRETE, true);
+                changeType(ChartBuilder.ChartMode.DISCRETE, true, false);
                 return true;
             }
             case R.id.chart_continuous: {
-                changeType(ChartBuilder.ChartMode.CONTINUOUS, true);
+                changeType(ChartBuilder.ChartMode.CONTINUOUS, true, false);
+                return true;
+            }
+            case R.id.has_labels: {
+                changeType(chartBuilder.getMode(), true, true);
                 return true;
             }
             case R.id.menu_chart_item_save_view: {
@@ -179,7 +183,7 @@ public class ChartActivity extends AppCompatActivity {
         }
     }
 
-    private void changeType(ChartBuilder.ChartMode chartMode, boolean computePosition) {
+    private void changeType(ChartBuilder.ChartMode chartMode, boolean computePosition, boolean toggleLabels) {
         float centerX = 0;
         float centerY = 0;
         float zoom = 0;
@@ -187,6 +191,9 @@ public class ChartActivity extends AppCompatActivity {
             centerX = lineChartView.getChartComputator().getVisibleViewport().centerX();
             centerY = lineChartView.getChartComputator().getVisibleViewport().centerY();
             zoom = lineChartView.getZoomLevel();
+        }
+        if (toggleLabels) {
+            chartBuilder.setHasLabels(!chartBuilder.isHasLabels());
         }
         LineChartData chartData = chartBuilder.setMode(chartMode).build();
         lineChartView.setLineChartData(chartData);
