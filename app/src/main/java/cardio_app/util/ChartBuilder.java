@@ -30,6 +30,7 @@ public class ChartBuilder {
     private long days;
     private long startTime;
     private long endTIme;
+    private boolean hasLabels;
 
     public ChartBuilder(List<PressureData> data, Resources resources) {
         this.data = data;
@@ -62,6 +63,12 @@ public class ChartBuilder {
 
     public ChartBuilder setEvents(List<Event> events) {
         this.eventData = events;
+
+        return this;
+    }
+
+    public ChartBuilder setHasLabels(boolean hasLabels) {
+        this.hasLabels = hasLabels;
 
         return this;
     }
@@ -103,7 +110,7 @@ public class ChartBuilder {
                     List<PointValue> once = new ArrayList<>();
                     once.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getSystole(), entity));
                     once.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getDiastole(), entity));
-                    systoleToDiastoleList.add(new Line(once).setColor(Color.RED));
+                    systoleToDiastoleList.add(new Line(once).setColor(Color.RED).setHasLabels(hasLabels));
 
                     diastoles.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getDiastole(), entity));
                     systoles.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getSystole(), entity));
@@ -124,8 +131,8 @@ public class ChartBuilder {
                     systoles.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getSystole(), entity));
                 }
 
-                lines.add(new Line(diastoles).setColor(Color.GREEN));
-                lines.add(new Line(systoles).setColor(Color.RED));
+                lines.add(new Line(diastoles).setColor(Color.GREEN).setHasLabels(hasLabels));
+                lines.add(new Line(systoles).setColor(Color.RED).setHasLabels(hasLabels));
 
                 break;
             }
@@ -133,23 +140,30 @@ public class ChartBuilder {
 
         if (eventData != null) {
             List<PointValue> pointEvent = new ArrayList<>();
-
+            int positionY = 10;
+            int offset = 0;
             for (Event event : eventData) {
                 if (event.getStartDate().equals(event.getEndDate())) {
-                    PointValue point = new ChartActivity.CustomPointValue(event.getStartDate().getTime(), 10, event);
+                    PointValue point = new ChartActivity.CustomPointValue(event.getStartDate().getTime(), positionY, event);
                     pointEvent.add(point);
                 } else {
                     if (event.isRepeatable()) {
                         for (long i = event.getStartDate().getTime(); i < event.getEndDate().getTime(); i = Event.appendTime(i, event)) {
-                            PointValue point = new ChartActivity.CustomPointValue(i, 10, event);
+                            PointValue point = new ChartActivity.CustomPointValue(i, positionY, event);
                             pointEvent.add(point);
                         }
                     } else {
                         List<PointValue> continous = new ArrayList<>();
-                        continous.add(new ChartActivity.CustomPointValue(event.getStartDate().getTime(), 20, event));
-                        continous.add(new ChartActivity.CustomPointValue(event.getEndDate().getTime(), 20, event));
+                        continous.add(new ChartActivity.CustomPointValue(event.getStartDate().getTime(), positionY, event));
+                        continous.add(new ChartActivity.CustomPointValue(event.getEndDate().getTime(), positionY, event));
                         lines.add(new Line(continous).setColor(Color.GRAY));
                     }
+                }
+                if (positionY >= 50) {
+                    offset++;
+                    positionY = 10 + (offset % 5);
+                } else {
+                    positionY += 5;
                 }
             }
 
