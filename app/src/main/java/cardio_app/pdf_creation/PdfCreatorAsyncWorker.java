@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.parser.Line;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import cardio_app.util.BitmapUtil;
 import cardio_app.util.PdfCreator;
 import cardio_app.util.Defaults;
 import cardio_app.util.PermissionUtil;
+import lecho.lib.hellocharts.view.LineChartView;
 
 import static android.content.ContentValues.TAG;
 
@@ -33,6 +35,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     private PdfRecordsContainer pdfRecordsContainer;
     private List<BitmapFromChart> extraChartList = new ArrayList<>();
     private AppCompatActivity contextActivity = null;
+    private LineChartView view;
     private Boolean isSendEmailMode = null;
     private String emailAddr = null;
     private String location = null;
@@ -42,10 +45,11 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     public PdfCreatorAsyncWorker(AppCompatActivity contextActivity,
                                  boolean isSendEmailMode,
                                  PdfChosenParams pdfChosenParams,
-                                 PdfRecordsContainer pdfRecordsContainer) {
+                                 PdfRecordsContainer pdfRecordsContainer,
+                                 LineChartView view) {
         super();
         this.pdfRecordsContainer = pdfRecordsContainer;
-
+        this.view = view;
         extraChartList.addAll(pdfChosenParams.getExtraBitmapFromChartList());
         this.contextActivity = contextActivity;
         this.isSendEmailMode = isSendEmailMode;
@@ -99,7 +103,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         if (verifyFileNameAndLocation()) {
             String absolutePathStr = file.getAbsolutePath();
-            PdfCreator pdfCreator = new PdfCreator(pdfRecordsContainer, extraChartList, contextActivity.getResources());
+            PdfCreator pdfCreator = new PdfCreator(pdfRecordsContainer, extraChartList, contextActivity.getResources(), view);
             pdfCreator.createAndSavePdf(absolutePathStr);
         }
         return null;

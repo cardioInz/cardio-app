@@ -1,8 +1,11 @@
 package cardio_app.util;
 
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.Chapter;
@@ -21,6 +24,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +40,10 @@ import cardio_app.statistics.analyse.StatisticLastMeasure;
 import cardio_app.viewmodel.PressureDataViewModel;
 import cardio_app.viewmodel.ProfileViewModel;
 import cardio_app.viewmodel.statistics.StatisticLastMeasureViewModel;
+import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.view.LineChartView;
 
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
@@ -54,13 +62,15 @@ public class PdfCreator {
     private Integer chapterCnt;
     private java.util.List<BitmapFromChart> extraChartBitmapList;
     private boolean isMyProfileAttached = false;
+    private LineChartView view;
 
-    public PdfCreator(PdfRecordsContainer recordsContainerParam, java.util.List<BitmapFromChart> extraChartBitmapList, Resources res){
+    public PdfCreator(PdfRecordsContainer recordsContainerParam, java.util.List<BitmapFromChart> extraChartBitmapList, Resources res, LineChartView view){
         this.resources = res;
         this.recordsContainer = recordsContainerParam;
         this.extraChartBitmapList = extraChartBitmapList;
         this.chapterCnt = 0;
         this.document = new Document();
+        this.view = view;
 
         whatsDocumentSize();
     }
@@ -232,6 +242,23 @@ public class PdfCreator {
                 catPart.add(image);
             } else
                 Log.e(TAG, "addChart: image = null");
+        }
+
+        java.util.List<PressureData> list = recordsContainer.getPressureDataList();
+
+        ChartBuilder chartBuilder = new ChartBuilder(list, resources);
+        ImageBuilder imageBuilder = new ImageBuilder(view)
+                .setData(chartBuilder)
+                .setDaysOnScreen(30)
+                .setWidth(1080)
+                .setHeight(1080);
+        try {
+            Image image = imageBuilder.build();
+            scaleImage(image, document); // scale to page width
+            scaleImage(image, 0.4f); // scale percent
+            catPart.add(image);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         document.add(catPart);

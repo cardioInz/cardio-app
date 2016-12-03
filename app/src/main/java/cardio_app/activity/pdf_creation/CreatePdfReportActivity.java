@@ -35,6 +35,7 @@ import cardio_app.util.FileWalkerUtil;
 import cardio_app.util.PermissionUtil;
 import cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel;
 import cardio_app.viewmodel.pdf_creation.PdfCreationViewModel;
+import lecho.lib.hellocharts.view.LineChartView;
 
 public class CreatePdfReportActivity extends AppCompatActivity {
     private static final String TAG = CreatePdfReportActivity.class.toString();
@@ -151,7 +152,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
             } else {
                 PdfChosenParams pdfDataModel = pdfCreationViewModel.getPdfDataModel();
                 PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
-                PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, false, pdfDataModel, pdfRecordsContainer);
+                PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, false, pdfDataModel, pdfRecordsContainer, new LineChartView(this));
                 pdfCreatorAsyncWorker.execute();
             }
         }
@@ -173,7 +174,7 @@ public class CreatePdfReportActivity extends AppCompatActivity {
             } else {
                 PdfChosenParams pdfDataModel = pdfCreationViewModel.getPdfDataModel();
                 PdfRecordsContainer pdfRecordsContainer = getPdfRecordContainer();
-                PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, true, pdfDataModel, pdfRecordsContainer);
+                PdfCreatorAsyncWorker pdfCreatorAsyncWorker = new PdfCreatorAsyncWorker(this, true, pdfDataModel, pdfRecordsContainer, new LineChartView(this));
                 pdfCreatorAsyncWorker.execute();
             }
         }
