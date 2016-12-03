@@ -1,11 +1,14 @@
 package cardio_app.activity.diary;
 
 import android.app.Activity;
+import android.databinding.BindingAdapter;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -33,9 +36,10 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
         TextView systoleTextView = (TextView) convertView.findViewById(R.id.pressuredata_systole);
         TextView diastoleTextView = (TextView) convertView.findViewById(R.id.pressuredata_diastole);
         TextView pulseTextView = (TextView) convertView.findViewById(R.id.pressuredata_pulse);
-        TextView arrhythmiaTextView = (TextView) convertView.findViewById(R.id.pressuredata_arrhythmia);
+        ImageView arrhythmiaImageView = (ImageView) convertView.findViewById(R.id.arrhythmia_image);
         TextView dateTextView = (TextView) convertView.findViewById(R.id.pressuredata_date);
         TextView timeTextView = (TextView) convertView.findViewById(R.id.pressuredata_time);
+        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.layout_pressure_list_item);
 
         PressureData pressureData = getItem(position);
 
@@ -44,10 +48,25 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
             systoleTextView.setText(viewModel.getSystoleStr());
             diastoleTextView.setText(viewModel.getDiastoleStr());
             pulseTextView.setText(viewModel.getPulseStr());
-            arrhythmiaTextView.setText(viewModel.getArrhythmiaStr());
+            arrhythmiaImageView.setVisibility(viewModel.getArrhythmia() ? View.VISIBLE : View.INVISIBLE);
             dateTextView.setText(viewModel.getDateStr());
             timeTextView.setText(viewModel.getTimeStr());
+            if (viewModel.getConditionStr().equals("1") ||
+                    viewModel.getConditionStr().equals("2") ||
+                    viewModel.getConditionStr().equals("3")) {
+                linearLayout.setBackgroundResource(R.drawable.low_pressure);
+            } else if (viewModel.getConditionStr().equals("4") ||
+                    viewModel.getConditionStr().equals("5") ||
+                    viewModel.getConditionStr().equals("6")) {
+                linearLayout.setBackgroundResource(R.drawable.normal_pressure);
+            } else if (viewModel.getConditionStr().equals("7") ||
+                    viewModel.getConditionStr().equals("8") ||
+                    viewModel.getConditionStr().equals("9")) {
+                linearLayout.setBackgroundResource(R.drawable.high_pressure);
+            }
+
         }
+
 
         return convertView;
     }
