@@ -31,6 +31,8 @@ public class ChartBuilder {
     private long startTime;
     private long endTIme;
     private boolean hasLabels;
+    private boolean pressureHasPoints = true;
+    private boolean eventsHasPoints = true;
 
     public ChartBuilder(List<PressureData> data, Resources resources) {
         this.data = data;
@@ -92,6 +94,18 @@ public class ChartBuilder {
         return days;
     }
 
+    public ChartBuilder setPressureHasPoints(boolean pressureHasPoints) {
+        this.pressureHasPoints = pressureHasPoints;
+
+        return this;
+    }
+
+    public ChartBuilder setEventsHasPoints(boolean eventsHasPoints) {
+        this.eventsHasPoints = eventsHasPoints;
+
+        return this;
+    }
+
     public LineChartData build() {
         List<Line> lines = new ArrayList<>();
         long min = 0, max = 0, diff = 0;
@@ -117,23 +131,15 @@ public class ChartBuilder {
         diff = max - min;
         switch (chartMode) {
             case DISCRETE: {
-                List<PointValue> diastoles = new ArrayList<>();
-                List<PointValue> systoles = new ArrayList<>();
-
                 List<Line> systoleToDiastoleList = new ArrayList<>();
                 for (PressureData entity : data) {
                     List<PointValue> once = new ArrayList<>();
                     once.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getSystole(), entity));
                     once.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getDiastole(), entity));
-                    systoleToDiastoleList.add(new Line(once).setColor(Color.RED).setHasLabels(hasLabels));
-
-                    diastoles.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getDiastole(), entity));
-                    systoles.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getSystole(), entity));
+                    systoleToDiastoleList.add(new Line(once).setColor(Color.RED).setHasLabels(hasLabels).setHasPoints(pressureHasPoints));
                 }
 
                 lines.addAll(systoleToDiastoleList);
-                lines.add(new Line(diastoles).setColor(Color.TRANSPARENT));
-                lines.add(new Line(systoles).setColor(Color.TRANSPARENT));
 
                 break;
             }
@@ -146,8 +152,8 @@ public class ChartBuilder {
                     systoles.add(new ChartActivity.CustomPointValue(entity.getDateTime().getTime(), entity.getSystole(), entity));
                 }
 
-                lines.add(new Line(diastoles).setColor(Color.GREEN).setHasLabels(hasLabels));
-                lines.add(new Line(systoles).setColor(Color.RED).setHasLabels(hasLabels));
+                lines.add(new Line(diastoles).setColor(Color.GREEN).setHasLabels(hasLabels).setHasPoints(pressureHasPoints));
+                lines.add(new Line(systoles).setColor(Color.RED).setHasLabels(hasLabels).setHasPoints(pressureHasPoints));
 
                 break;
             }
@@ -171,7 +177,7 @@ public class ChartBuilder {
                         List<PointValue> continous = new ArrayList<>();
                         continous.add(new ChartActivity.CustomPointValue(event.getStartDate().getTime(), positionY, event));
                         continous.add(new ChartActivity.CustomPointValue(event.getEndDate().getTime(), positionY, event));
-                        lines.add(new Line(continous).setColor(Color.GRAY));
+                        lines.add(new Line(continous).setColor(Color.GRAY).setHasPoints(eventsHasPoints));
                     }
                 }
                 if (positionY >= 50) {
@@ -182,7 +188,7 @@ public class ChartBuilder {
                 }
             }
 
-            lines.add(new Line(pointEvent).setColor(Color.GRAY).setHasLines(false));
+            lines.add(new Line(pointEvent).setColor(Color.GRAY).setHasLines(false).setHasPoints(eventsHasPoints));
         }
 
         days = diff / MILLIS_IN_DAY;

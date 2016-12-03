@@ -11,12 +11,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:contextActivity="cardio_app.activity.diary.DiaryActivity"
-    tools:showIn="@layout/activity_diary">
+    tools:showIn="@layout/activity_diary"
+    android:background="@color/colorPrimary">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/diary_list_view">
 
-    </ListView>
+        <ListView
+            android:id="@+id/diary_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp">
+
+        </ListView>
+
 </RelativeLayout>

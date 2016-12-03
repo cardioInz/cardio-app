@@ -11,4 +11,7 @@
     <color name="bcgd">#e6e6e6</color>
     <color name="white">#ffffff</color>
     <color name="submit">#28b97d</color>
+    <color name="lowPressure">#efdeb3</color>
+    <color name="normalPressure">#a7cebe</color>
+    <color name="highPressure">#d18c8d</color>
 </resources>

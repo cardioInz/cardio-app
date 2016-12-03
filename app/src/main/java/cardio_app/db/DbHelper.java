@@ -189,6 +189,17 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         return dao.queryBuilder().queryForFirst();
     }
 
+    public List<Event> getEventsBetween(Date dateFrom, Date dateTo) throws SQLException {
+        Dao<Event, Integer> dao = getDao(Event.class);
+        QueryBuilder<Event, Integer> builder = dao.queryBuilder();
+
+        Where<Event, Integer> where = builder.where();
+        where.or(where.and(where.le("startDate", dateFrom), where.ge("endDate", dateFrom)),
+                where.and(where.gt("startDate", dateFrom), where.le("startDate", dateTo)));
+
+        return where.query();
+    }
+
     public JSONObject exportToJson() throws SQLException, JSONException {
         JSONArray drugs = new JSONArray();
         List<Drug> drugList = getDao(Drug.class).queryForAll();
