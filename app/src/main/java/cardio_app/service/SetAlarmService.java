@@ -23,6 +23,7 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.TimeUnit;
 import cardio_app.receiver.AlarmNotification;
+import cardio_app.util.DateTimeUtil;
 
 import static cardio_app.util.IntentContentUtil.NOTIFICATION_ID;
 import static cardio_app.util.IntentContentUtil.NOTIFICATION_TEXT;
@@ -47,22 +48,6 @@ public class SetAlarmService extends Service {
     public static final String EVENT_ID = "event_id";
 
     private DbHelper dbHelper;
-
-    private static LocalDateTime increaseDate(LocalDateTime dateTime, TimeUnit timeUnit, int delta) {
-        if (delta <= 0) {
-            throw new RuntimeException("Delta cannot be negative!");
-        }
-        switch (timeUnit) {
-            case DAY:
-                return dateTime.plusDays(delta);
-            case WEEK:
-                return dateTime.plusWeeks(delta);
-            case MONTH:
-                return dateTime.plusMonths(delta);
-            default:
-                return dateTime.plusDays(delta);
-        }
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -130,7 +115,7 @@ public class SetAlarmService extends Service {
         if (!endDate.isBefore(actualDate.toLocalDate())) {
             if (event.isRepeatable()) {
                 while (startDate.isBefore(actualDate)) {
-                    startDate = increaseDate(startDate, event.getTimeUnit(), event.getTimeDelta());
+                    startDate = DateTimeUtil.increaseDate(startDate, event.getTimeUnit(), event.getTimeDelta());
                     if (startDate.toLocalDate().isAfter(endDate)) {
                         return;
                     }

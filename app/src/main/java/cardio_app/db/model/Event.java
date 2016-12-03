@@ -6,17 +6,26 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+
+import cardio_app.util.DateTimeUtil;
 
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 
 @DatabaseTable(tableName = "event")
 public class Event extends BaseModel implements Parcelable {
     private static final long DAY_MILLIS = 24 * 60 * 60 * 1000;
+
+    public static final Comparator<Event> compareStartDate = (e1, e2) -> e1.startDate.compareTo(e2.startDate);
     public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
         public Event createFromParcel(Parcel in) {
@@ -328,5 +337,38 @@ public class Event extends BaseModel implements Parcelable {
         interval *= event.getTimeDelta();
 
         return time + interval;
+    }
+
+    public static List<Event> multiplyRepeatableEvents(List<Event> initial) {
+        List<Event> results = new ArrayList<>();
+
+        for (Event event : initial) {
+            if (event.isRepeatable()) {
+                LocalDateTime startDate = LocalDateTime.fromDateFields(event.getStartDate());
+                LocalDate endDate = LocalDate.fromDateFields(event.getEndDate());
+
+                while (!startDate.toLocalDate().isAfter(endDate)) {
+                    results.add(new Event(
+                            startDate.toDate(),
+                            startDate.toLocalDate().toDate(),
+                            event.isRepeatable,
+                            event.timeUnit,
+                            event.timeDelta,
+                            event.description,
+                            event.otherSymptomsRecord,
+                            event.emotion,
+                            event.doctorsAppointment,
+                            event.dailyActivitiesRecord,
+                            event.isAlarmSet
+                    ));
+
+                    startDate = DateTimeUtil.increaseDate(startDate, event.timeUnit, event.timeDelta);
+                }
+            } else {
+                results.add(event);
+            }
+        }
+
+        return results;
     }
 }
