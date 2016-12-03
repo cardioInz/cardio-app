@@ -5,7 +5,8 @@
     <string name="measures_list">Measures\n List</string>
     <string name="add_event">Add\n an Event</string>
     <string name="events_list">Events\n List</string>
-    <string name="drugs">Drugs\n</string>
+    <string name="drugs">Drugs\n List</string>
+    <string name="add_drug">Add\n a drug</string>
     <string name="alerts">Alerts\n</string>
     <string name="stats">Statistics\n</string>
     <string name="reports">Reports\n</string>

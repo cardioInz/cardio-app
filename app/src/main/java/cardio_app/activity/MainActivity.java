@@ -12,6 +12,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import cardio_app.R;
 import cardio_app.activity.diary.AddDiaryActivity;
 import cardio_app.activity.diary.DiaryActivity;
+import cardio_app.activity.drug.AddDrugActivity;
 import cardio_app.activity.drug.DrugsActivity;
 import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
@@ -96,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void showProfile(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void addDrug(View view) {
+        Intent intent = new Intent(this, AddDrugActivity.class);
         startActivity(intent);
     }
 

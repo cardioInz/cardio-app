@@ -1,7 +1,7 @@
 package cardio_app.activity.drug;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -20,8 +19,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cardio_app.R;
+import cardio_app.databinding.DrugListItemBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Drug;
+import cardio_app.viewmodel.DrugViewModel;
 
 public class DrugsActivity extends AppCompatActivity {
     private static final String TAG = DrugsActivity.class.getName();
@@ -42,51 +43,6 @@ public class DrugsActivity extends AppCompatActivity {
         }));
 
         assignDataToListView();
-
-//        LineChartView view = new LineChartView(this);
-//        view.setZoomType(ZoomType.HORIZONTAL);
-//
-//        try {
-//            List<PressureData> pressureDataList = getHelper().getDao(PressureData.class).queryForAll();
-//            ChartBuilder builder = new ChartBuilder(pressureDataList, getResources());
-//            LineChartData data = builder.setMode(ChartBuilder.ChartMode.DISCRETE).build();
-//            view.setLineChartData(data);
-//            Viewport viewport = view.getCurrentViewport();
-//            view.setZoomLevel(viewport.centerX(), viewport.centerY(), builder.getDays() / 4);
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        int sizePixels = 1080;
-//        Bitmap result = Bitmap.createBitmap(sizePixels, sizePixels, Bitmap.Config.ARGB_8888);
-//        result.eraseColor(Color.WHITE);
-//        Canvas c = new Canvas(result);
-//        int sizeSpec = View.MeasureSpec.makeMeasureSpec(sizePixels, View.MeasureSpec.EXACTLY);
-//        view.measure(sizeSpec, sizeSpec);
-//        int width = view.getMeasuredWidth();
-//        int height = view.getMeasuredHeight();
-//        view.layout(0, 0, width, height);
-//        view.setBackgroundColor(Color.YELLOW);
-//
-//        view.draw(c);
-//
-//        FileOutputStream out = null;
-//        try {
-//            out = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/plik.png");
-//            result.compress(Bitmap.CompressFormat.PNG, 100, out);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (out != null) {
-//                try {
-//                    out.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
     }
 
     private void assignDataToListView() {
@@ -145,21 +101,17 @@ public class DrugsActivity extends AppCompatActivity {
         @NonNull
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            DrugListItemBinding binding;
             if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+                binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.drug_list_item, parent, false);
 
-                convertView = inflater.inflate(R.layout.drug_list_item, parent, false);
+                convertView = binding.getRoot();
+            } else {
+                binding = DataBindingUtil.findBinding(convertView);
             }
 
-            TextView nameText = (TextView) convertView.findViewById(R.id.drug_name);
-            TextView descriptionText = (TextView) convertView.findViewById(R.id.drug_description);
-            TextView timeText = (TextView) convertView.findViewById(R.id.drug_time);
-
             Drug drug = getItem(position);
-
-            nameText.setText(drug.getName());
-            descriptionText.setText(drug.getDescription());
-            timeText.setText("MORNING");
+            binding.setDrug(new DrugViewModel(drug));
 
             return convertView;
         }

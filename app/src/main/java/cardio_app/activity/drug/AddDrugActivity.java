@@ -10,8 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
@@ -21,18 +19,12 @@ import cardio_app.R;
 import cardio_app.databinding.ActivityAddDrugBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Drug;
-import cardio_app.service.SetAlarmService;
 import cardio_app.viewmodel.DrugViewModel;
 
 public class AddDrugActivity extends AppCompatActivity {
     private static final String TAG = AddDrugActivity.class.getName();
     private final DrugViewModel drugViewModel = new DrugViewModel();
     private DbHelper dbHelper;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
     private boolean isActivityOnExistingItem;
 
     @Override
@@ -48,10 +40,6 @@ public class AddDrugActivity extends AppCompatActivity {
         }
         ActivityAddDrugBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_drug);
         binding.setDrug(drugViewModel);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -116,10 +104,6 @@ public class AddDrugActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, "Drug deleted successfully", Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(this, SetAlarmService.class);
-        startService(intent);
-
         onBackPressed();
     }
 
@@ -140,10 +124,6 @@ public class AddDrugActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, "Drug saved successfully", Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(this, SetAlarmService.class);
-        startService(intent);
-
         onBackPressed();
     }
 }

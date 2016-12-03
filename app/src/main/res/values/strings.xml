@@ -17,8 +17,8 @@
 
     <string name="communicate">Communicate</string>
     <string name="new_pressure_added_msg">New measurement has been added successfully to you BP Diary</string>
-    <string name="name">Name</string>
-    <string name="description">Description</string>
+    <string name="name">NAME:</string>
+    <string name="description">DESCRIPTION:</string>
     <string name="active_alarms">Active Alarms</string>
     <string name="save">SAVE</string>
 

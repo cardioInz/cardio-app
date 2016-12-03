@@ -157,9 +157,10 @@
 
         <Button
             style="@style/MenuButton"
-            android:text="@string/alerts"
-            android:id="@+id/button_alerts"
-            android:drawableTop="@drawable/alerts"
+            android:text="@string/add_drug"
+            android:id="@+id/button_add_drug"
+            android:drawableTop="@drawable/add_drug"
+            android:onClick="addDrug"
             android:textSize="@dimen/_10sdp"
             android:width="@dimen/_70sdp"
             android:height="@dimen/_70sdp"
