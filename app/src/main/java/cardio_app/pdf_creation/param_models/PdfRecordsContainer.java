@@ -3,7 +3,6 @@ package cardio_app.pdf_creation.param_models;
 import android.util.Log;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;
 import cardio_app.db.model.UserProfile;
-import cardio_app.util.BitmapUtil;
 
 
 public class PdfRecordsContainer {
@@ -41,24 +39,29 @@ public class PdfRecordsContainer {
         return dbHelper;
     }
 
-    public void initRecordsByHelper() {
-        try {
-            pressureDataList = dbHelper.getFilteredAndOrderedByDatePressureData(dateFrom, dateTo);
-        } catch (SQLException e) {
-            Log.e(TAG, "initRecordsByHelper: can't get pressureData", e);
-            e.printStackTrace();
-        }
-        try {
-            eventsDataList = dbHelper.getFilteredAndOrderedByDateEvents(dateFrom, dateTo);
-        } catch (SQLException e) {
-            Log.e(TAG, "initRecordsByHelper: can't get eventsData", e);
-            e.printStackTrace();
-        }
-
+    public void initUserProfileByHelper() {
         try {
             userProfile = dbHelper.getUserProfile();
         } catch (SQLException e) {
-            Log.e(TAG, "initRecordsByHelper: can't get userProfile", e);
+            Log.e(TAG, "initUserProfileByHelper: can't get userProfile", e);
+            e.printStackTrace();
+        }
+    }
+
+    public void initPressureDataByHelper() {
+        try {
+            pressureDataList = dbHelper.getFilteredAndOrderedByDatePressureData(dateFrom, dateTo);
+        } catch (SQLException e) {
+            Log.e(TAG, "initPressureDataByHelper: can't get pressureData", e);
+            e.printStackTrace();
+        }
+    }
+
+    public void initEventDataByHelper() {
+        try {
+            eventsDataList = dbHelper.getFilteredAndOrderedByDateEvents(dateFrom, dateTo);
+        } catch (SQLException e) {
+            Log.e(TAG, "initEventDataByHelper: can't get eventsData", e);
             e.printStackTrace();
         }
     }

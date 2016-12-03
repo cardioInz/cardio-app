@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
+import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
 
 @DatabaseTable(tableName = "event")
 public class Event extends BaseModel implements Parcelable {
@@ -240,6 +241,14 @@ public class Event extends BaseModel implements Parcelable {
 
     public boolean isRepeatable() {
         return isRepeatable;
+    }
+
+    public boolean isDiscrete(){
+        try {
+            return DATE_FORMATTER.format(startDate).equals(DATE_FORMATTER.format(endDate));
+        } catch (Exception e){
+            return true;
+        }
     }
 
     public void setRepeatable(boolean repeatable) {

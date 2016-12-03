@@ -218,13 +218,17 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public String getSexStr(String male, String female){
-        switch (userProfile.getSex()){
-            case MALE:
-                return male;
-            case FEMALE:
-                return female;
-            default:
-                return EMPTY_IN_PDF;
+        try {
+            switch (userProfile.getSex()) {
+                case MALE:
+                    return male;
+                case FEMALE:
+                    return female;
+                default:
+                    return EMPTY_IN_PDF;
+            }
+        } catch (Exception e){
+            return EMPTY_IN_PDF;
         }
     }
 

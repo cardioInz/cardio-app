@@ -1,11 +1,8 @@
 package cardio_app.util;
 
 
-import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.util.Log;
-import android.view.View;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.Chapter;
@@ -24,14 +21,16 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 import cardio_app.R;
 import cardio_app.db.DbHelper;
+import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;
+import cardio_app.db.model.UserProfile;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
 import cardio_app.statistics.Statistics;
@@ -40,9 +39,6 @@ import cardio_app.statistics.analyse.StatisticLastMeasure;
 import cardio_app.viewmodel.PressureDataViewModel;
 import cardio_app.viewmodel.ProfileViewModel;
 import cardio_app.viewmodel.statistics.StatisticLastMeasureViewModel;
-import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
@@ -56,6 +52,9 @@ public class PdfCreator {
     private static Font fontSubParagraph = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
     private static Font fontDates = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
+    private final float PDF_WIDTH;
+    private static final int DAYS_IN_CHAPTER = 14;
+
     private Document document = null;
     private PdfRecordsContainer recordsContainer;
     private Resources resources;
@@ -64,7 +63,7 @@ public class PdfCreator {
     private boolean isMyProfileAttached = false;
     private LineChartView view;
 
-    public PdfCreator(PdfRecordsContainer recordsContainerParam, java.util.List<BitmapFromChart> extraChartBitmapList, Resources res, LineChartView view){
+    public PdfCreator(PdfRecordsContainer recordsContainerParam, java.util.List<BitmapFromChart> extraChartBitmapList, Resources res, LineChartView view) {
         this.resources = res;
         this.recordsContainer = recordsContainerParam;
         this.extraChartBitmapList = extraChartBitmapList;
@@ -72,13 +71,9 @@ public class PdfCreator {
         this.document = new Document();
         this.view = view;
 
-        whatsDocumentSize();
-    }
-
-    private void whatsDocumentSize(){
-        float width = document.getPageSize().getWidth();
-        float height = document.getPageSize().getHeight();
-        String sizeInfo = String.format("\t\tWidth: %s\n\t\tHeight: %s", String.valueOf(width), String.valueOf(height));
+        PDF_WIDTH = document.getPageSize().getWidth();
+        final float height = document.getPageSize().getHeight();
+        String sizeInfo = String.format("\t\tWidth: %s\n\t\tHeight: %s", String.valueOf(PDF_WIDTH), String.valueOf(height));
         Log.i(TAG, "createAndSavePdf: \n" + sizeInfo);
     }
 
@@ -110,6 +105,47 @@ public class PdfCreator {
         image.scaleAbsolute(w, h);
     }
 
+    private Image prepareChartImage(java.util.List<PressureData> pressureDataList, java.util.List<Event> eventList){
+        ChartBuilder chartBuilder = new ChartBuilder(pressureDataList, eventList, ChartBuilder.ChartMode.CONTINUOUS, resources);
+
+        ImageBuilder imageBuilder = new ImageBuilder(view)
+                .setData(chartBuilder)
+                .setDaysOnScreen(DAYS_IN_CHAPTER)
+                .setWidth((int) PDF_WIDTH)
+                .setHeight((int)(PDF_WIDTH/ 2));
+
+        try {
+            Image image = imageBuilder.build();
+            scaleImage(image, document); // scale to page width
+            scaleImage(image, 0.8f);
+            return image;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private java.util.List<PdfRecordsContainer> splitContainerForChapters(){
+        java.util.List<PdfRecordsContainer> list = new ArrayList<>();
+        final DbHelper dbHelper = recordsContainer.getDbHelper();
+
+        Date dateFrom = recordsContainer.getDateFrom();
+        Date dateTo = recordsContainer.getDateFrom();
+        final Date lastDate = recordsContainer.getDateTo();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateFrom);
+        while (calendar.before(lastDate)) {
+            dateFrom = dateTo;
+            dateTo = calendar.getTime();
+            list.add(new PdfRecordsContainer(dbHelper, dateFrom, dateTo));
+            calendar.add(Calendar.DAY_OF_YEAR, DAYS_IN_CHAPTER);
+        }
+
+        list.add(new PdfRecordsContainer(dbHelper, dateFrom, lastDate));
+
+        return list;
+    }
 
     public void createAndSavePdf(String fileLocation) {
         try {
@@ -120,22 +156,51 @@ public class PdfCreator {
             document.newPage();
             addMetaData(document);
             addTitleAndDates(document);
-            addUserProfileInformation(document);
 
-            // TODO 
-            // split recordsContained into "smaller" instances by dates from-to (e.g. month by month)
-            // and pass to below method one by one as instance of PdfRecordsContainer producing chapters
-            addContent(document, recordsContainer);
+            recordsContainer.initUserProfileByHelper();
+            addUserProfileInformation(document, recordsContainer.getUserProfile());
 
-            addExtraCharts(document);
+            addChapters();
+
+            if (!extraChartBitmapList.isEmpty())
+                addExtraCharts(document);
+            else
+                Log.i(TAG, "createAndSavePdf: extra chart list is empty!");
+
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "makePdfFile: error while trying to create/save pdf report", e);
+            Log.e(TAG, "createAndSavePdf: error while trying to create/save pdf report", e);
+        } finally {
+            try {
+                document.close();
+            } catch (Exception e){
+                Log.e(TAG, "createAndSavePdf: ", e);
+            }
         }
 
         recordsContainer = null;
         resources = null;
+    }
+
+    private void addChapters() throws DocumentException {
+        for (PdfRecordsContainer pdfRecordsContainer : splitContainerForChapters()) {
+            recordsContainer.initPressureDataByHelper();
+            java.util.List<PressureData> pressureDataList = recordsContainer.getPressureDataList();
+            if (pressureDataList == null || pressureDataList.size() == 0){
+                return;
+            }
+
+            String chapterTitle = prepareChapterTitle(recordsContainer);
+            Anchor anchor = new Anchor(chapterTitle, fontChapter);
+            anchor.setName(chapterTitle);
+            Chapter chapter = new Chapter(new Paragraph(anchor), ++chapterCnt);
+            chapter.setTriggerNewPage(isMyProfileAttached || chapterCnt != 1);
+            addEmptyLine(chapter, 2);
+
+            addChapterContent(chapter, pdfRecordsContainer);
+            document.add(chapter);
+        }
     }
 
     private void addMetaData(Document document) {
@@ -195,34 +260,31 @@ public class PdfCreator {
         document.add(preface);
     }
 
-    private void addContent(Document document, PdfRecordsContainer recordsContainer) throws DocumentException {
-        recordsContainer.initRecordsByHelper();
-
-        String chapterTitle = getResourceString(R.string.results);
-
+    private String prepareChapterTitle(PdfRecordsContainer recordsContainer){
         try {
-            chapterTitle = String.format("%s %s: %s, %s: %s",
+            return String.format("%s %s: %s, %s: %s",
                     getResourceString(R.string.results),
                     getResourceString(R.string.from_date), DateTimeUtil.DATE_FORMATTER.format(recordsContainer.getDateFrom()),
                     getResourceString(R.string.to_date), DateTimeUtil.DATE_FORMATTER.format(recordsContainer.getDateTo())
             );
         } catch (Exception e) {
-            Log.e(TAG, "addContent: ", e);
+            Log.e(TAG, "addChapterContent: ", e);
+            return getResourceString(R.string.results);
         }
+    }
 
-        Anchor anchor = new Anchor(chapterTitle, fontChapter);
-        anchor.setName(chapterTitle);
-        Chapter chapter = new Chapter(new Paragraph(anchor), ++chapterCnt);
-        chapter.setTriggerNewPage(isMyProfileAttached || chapterCnt != 1);
-        addEmptyLine(chapter, 2);
+    private void addChapterContent(Chapter chapter, PdfRecordsContainer recordsContainer) throws DocumentException {
 
-        // TODO if "any given chart image generation" will work, push some continuous chart for this interval here
-        // TODO if it will work, create some subparagraph that will describe events on the chart
+
+        Image image = prepareChartImage(recordsContainer.getPressureDataList(), recordsContainer.getEventsDataList());
+        if (image != null)
+            chapter.add(image);
+
+        recordsContainer.initEventDataByHelper();
+        addEventData(chapter, recordsContainer.getEventsDataList());
 
         addPressureData(chapter, recordsContainer.getPressureDataList());
-        // addEvents(chapter, recordsContainer.getEventsDataList());
         addStatistics(chapter, recordsContainer);
-        document.add(chapter);
     }
 
     private void addExtraCharts(Document document) throws DocumentException {
@@ -241,30 +303,13 @@ public class PdfCreator {
                 scaleImage(image, 0.4f); // scale percent
                 catPart.add(image);
             } else
-                Log.e(TAG, "addChart: image = null");
-        }
-
-        java.util.List<PressureData> list = recordsContainer.getPressureDataList();
-
-        ChartBuilder chartBuilder = new ChartBuilder(list, resources);
-        ImageBuilder imageBuilder = new ImageBuilder(view)
-                .setData(chartBuilder)
-                .setDaysOnScreen(30)
-                .setWidth(1080)
-                .setHeight(1080);
-        try {
-            Image image = imageBuilder.build();
-            scaleImage(image, document); // scale to page width
-            scaleImage(image, 0.4f); // scale percent
-            catPart.add(image);
-        } catch (IOException e) {
-            e.printStackTrace();
+                Log.e(TAG, "addExtraCharts: image = null");
         }
 
         document.add(catPart);
     }
 
-    private void addUserProfileInformation(Document document) throws DocumentException {
+    private void addUserProfileInformation(Document document, UserProfile userProfile) throws DocumentException {
         String name = getResourceString(R.string.pdf_content_about_patient);
         Anchor anchor = new Anchor(name, fontChapter);
         anchor.setName(name);
@@ -272,12 +317,10 @@ public class PdfCreator {
         // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), ++chapterCnt);
         catPart.setTriggerNewPage(false);
-        addEmptyLine(catPart, 1);
-
-        addEmptyLine(catPart, 1);
+        addEmptyLine(catPart, 2);
 
         try {
-            ProfileViewModel profileViewModel = new ProfileViewModel(recordsContainer.getUserProfile());
+            ProfileViewModel profileViewModel = new ProfileViewModel(userProfile);
             HashMap<String, String> map = profileViewModel.getHashMapFields(resources);
             boolean throwSomeEx = true;
             for (String key : map.keySet()) {
@@ -298,6 +341,32 @@ public class PdfCreator {
             chapterCnt--;
             isMyProfileAttached = false;
         }
+    }
+
+    private void addEventData(Chapter chapter, java.util.List<Event> eventList) throws DocumentException {
+        String name = getResourceString(R.string.events_pdf_chapter);
+        Paragraph mainSubPara = new Paragraph(name, fontSubParagraph);
+
+        Section catPart = chapter.addSection(mainSubPara);
+        catPart.setTriggerNewPage(false);
+        addEmptyLine(catPart, 1);
+
+        for (Event event : eventList) {
+            try {
+                String dateStr = DATE_FORMATTER.format(event.getStartDate());
+                if (event.isDiscrete()) {
+                    dateStr += " - " + DATE_FORMATTER.format(event.getEndDate());
+                }
+
+                String desc = event.getDescription();
+
+                new Paragraph(String.format("%s: %s", dateStr, desc));
+            } catch (Exception e) {
+                Log.e(TAG, "addEventData: ", e);
+            }
+        }
+
+        addEmptyLine(catPart, 2);
     }
 
     private void addPressureData(Chapter chapter, java.util.List<PressureData> pressureDataList) throws DocumentException {

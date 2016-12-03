@@ -37,6 +37,13 @@ public class ChartBuilder {
         this.resources = resources;
     }
 
+    public ChartBuilder(List<PressureData> pressureDataList, List<Event> eventList, ChartMode chartMode, Resources resources) {
+        this.data = pressureDataList;
+        this.eventData = eventList;
+        this.chartMode = chartMode;
+        this.resources = resources;
+    }
+
     public ChartBuilder setData(List<PressureData> data) {
         this.data = data;
 
