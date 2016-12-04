@@ -53,7 +53,7 @@ public class PdfCreator {
     private static Font fontDates = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
     private final float PDF_WIDTH;
-    private static final int DAYS_IN_CHAPTER = 14;
+    private static final int DAYS_IN_CHAPTER = 30;
 
     private Document document = null;
     private PdfRecordsContainer recordsContainer;
@@ -107,6 +107,7 @@ public class PdfCreator {
 
     private Image prepareChartImage(java.util.List<PressureData> pressureDataList, java.util.List<Event> eventList){
         ChartBuilder chartBuilder = new ChartBuilder(pressureDataList, eventList, ChartBuilder.ChartMode.CONTINUOUS, resources);
+        chartBuilder.setPressureHasPoints(false);
 
         ImageBuilder imageBuilder = new ImageBuilder(view)
                 .setData(chartBuilder)
@@ -129,20 +130,30 @@ public class PdfCreator {
         java.util.List<PdfRecordsContainer> list = new ArrayList<>();
         final DbHelper dbHelper = recordsContainer.getDbHelper();
 
+        Date dateTo;
         Date dateFrom = recordsContainer.getDateFrom();
-        Date dateTo = recordsContainer.getDateFrom();
         final Date lastDate = recordsContainer.getDateTo();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateFrom);
-        while (calendar.before(lastDate)) {
-            dateFrom = dateTo;
+        calendar.add(Calendar.DAY_OF_MONTH, DAYS_IN_CHAPTER);
+
+        while (calendar.getTime().compareTo(lastDate) < 0) {
             dateTo = calendar.getTime();
-            list.add(new PdfRecordsContainer(dbHelper, dateFrom, dateTo));
-            calendar.add(Calendar.DAY_OF_YEAR, DAYS_IN_CHAPTER);
+            PdfRecordsContainer pdfRecordsContainer = new PdfRecordsContainer(dbHelper, dateFrom, dateTo);
+            list.add(pdfRecordsContainer);
+            Log.i(TAG, "splitContainerForChapters: pdf records container created with: " +
+                    pdfRecordsContainer.getInfoForLogger());
+            calendar.add(Calendar.DAY_OF_MONTH, DAYS_IN_CHAPTER);
+            dateFrom = dateTo;
         }
 
-        list.add(new PdfRecordsContainer(dbHelper, dateFrom, lastDate));
+        PdfRecordsContainer lastRecordContainer = new PdfRecordsContainer(dbHelper, dateFrom, lastDate);
+        list.add(lastRecordContainer);
+        Log.i(TAG, "splitContainerForChapters: pdf records container created with: " +
+                lastRecordContainer.getInfoForLogger());
+
+        Log.i(TAG, "splitContainerForChapters: size of pdf containers list: " + list.size());
 
         return list;
     }
@@ -184,14 +195,16 @@ public class PdfCreator {
     }
 
     private void addChapters() throws DocumentException {
-        for (PdfRecordsContainer pdfRecordsContainer : splitContainerForChapters()) {
-            recordsContainer.initPressureDataByHelper();
-            java.util.List<PressureData> pressureDataList = recordsContainer.getPressureDataList();
+        java.util.List<PdfRecordsContainer> splitRecordsContainers = splitContainerForChapters();
+        for (PdfRecordsContainer pdfRecordsContainer : splitRecordsContainers) {
+            Log.i(TAG, "addChapters: " + pdfRecordsContainer.getInfoForLogger());
+            pdfRecordsContainer.initPressureDataByHelper();
+            java.util.List<PressureData> pressureDataList = pdfRecordsContainer.getPressureDataList();
             if (pressureDataList == null || pressureDataList.size() == 0){
                 return;
             }
 
-            String chapterTitle = prepareChapterTitle(recordsContainer);
+            String chapterTitle = prepareChapterTitle(pdfRecordsContainer);
             Anchor anchor = new Anchor(chapterTitle, fontChapter);
             anchor.setName(chapterTitle);
             Chapter chapter = new Chapter(new Paragraph(anchor), ++chapterCnt);
@@ -274,8 +287,6 @@ public class PdfCreator {
     }
 
     private void addChapterContent(Chapter chapter, PdfRecordsContainer recordsContainer) throws DocumentException {
-
-
         Image image = prepareChartImage(recordsContainer.getPressureDataList(), recordsContainer.getEventsDataList());
         if (image != null)
             chapter.add(image);
@@ -321,16 +332,22 @@ public class PdfCreator {
 
         try {
             ProfileViewModel profileViewModel = new ProfileViewModel(userProfile);
-            HashMap<String, String> map = profileViewModel.getHashMapFields(resources);
-            boolean throwSomeEx = true;
-            for (String key : map.keySet()) {
+            HashMap<ProfileViewModel.MyProfileFieldTypeEnum, String> map = profileViewModel.getHashMapValues(resources);
+            int throwSomeEx = 0;
+            for (ProfileViewModel.MyProfileFieldTypeEnum key : ProfileViewModel.MyProfileFieldTypeEnum.questionaireKeysInOrder()) {
+                if (!map.containsKey(key))
+                    continue;
                 if (!map.get(key).equals("-")) {
-                    throwSomeEx = false;
-                    catPart.add(new Paragraph(key + "  " + map.get(key)));
+                    if (!key.equals(ProfileViewModel.MyProfileFieldTypeEnum.SMOKER)) {
+                        // TODO MyProfile should be able to have "unset"/null values main problem is DateOfBirth and Smoker
+                        throwSomeEx++;
+                    }
+                    String keyTitle = ProfileViewModel.MyProfileFieldTypeEnum.getFieldTitle(key, resources);
+                    catPart.add(new Paragraph(keyTitle + "  " + map.get(key)));
                 }
             }
 
-            if (throwSomeEx)
+            if (throwSomeEx <= 0)
                 throw new Exception("UserProfile is empty, so I don't attach it to the pdf report");
 
             addEmptyLine(catPart, 2);
@@ -344,6 +361,11 @@ public class PdfCreator {
     }
 
     private void addEventData(Chapter chapter, java.util.List<Event> eventList) throws DocumentException {
+        if (eventList == null || eventList.isEmpty()) {
+            Log.i(TAG, "addEventData: no events to add do pdf");
+            return;
+        }
+
         String name = getResourceString(R.string.events_pdf_chapter);
         Paragraph mainSubPara = new Paragraph(name, fontSubParagraph);
 
@@ -356,6 +378,8 @@ public class PdfCreator {
                 String dateStr = DATE_FORMATTER.format(event.getStartDate());
                 if (event.isDiscrete()) {
                     dateStr += " - " + DATE_FORMATTER.format(event.getEndDate());
+                } else {
+                    dateStr += "  " + TIME_FORMATTER.format(event.getStartDate());
                 }
 
                 String desc = event.getDescription();
@@ -485,14 +509,19 @@ public class PdfCreator {
 
         if (statLast) {
             final HashMap<StatisticLastMeasure.TypeEnum, StatisticLastMeasure> mapLastMeasures = statistics.getStatisticMeasuresMap();
-            final StatisticLastMeasureViewModel measureViewModel = new StatisticLastMeasureViewModel();
             for (StatisticLastMeasure.TypeEnum key : StatisticLastMeasure.TypeEnum.values()) {
                 if (!mapLastMeasures.keySet().contains(key))
                     continue;
 
                 final String title = getResourceString(key.mapToTitleStringId());
                 final StatisticLastMeasure statisticLastMeasure = mapLastMeasures.get(key);
-                measureViewModel.setStatisticLastMeasure(statisticLastMeasure);
+
+                if (statisticLastMeasure == null){
+                    listLast.add(new ListItem(title + "-\n\n"));
+                    continue;
+                }
+
+                final StatisticLastMeasureViewModel measureViewModel = new StatisticLastMeasureViewModel(statisticLastMeasure);
 
                 final String listItemStr = String.format("%s\n\t%s    %s\n\t%s  %s\n\t%s  %s%s\n\n",
                         title,
@@ -507,6 +536,11 @@ public class PdfCreator {
                                         )
                         )
                 );
+
+                if (listItemStr.contains("- / - / -")){
+                    listLast.add(new ListItem(title + "-\n\n"));
+                    continue;
+                }
 
                 listLast.add(new ListItem(listItemStr));
             }

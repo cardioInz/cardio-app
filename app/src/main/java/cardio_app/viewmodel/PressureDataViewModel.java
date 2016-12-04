@@ -58,7 +58,11 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
 
     @Bindable
     public String getSystoleStr() {
-        return String.valueOf(pressureData.getSystole());
+        try {
+            return String.valueOf(pressureData.getSystole());
+        } catch (Exception e) {
+            return "-";
+        }
     }
 
     public void setSystoleStr(String systoleStr) {
@@ -67,17 +71,24 @@ public class PressureDataViewModel extends BaseObservable implements Comparable<
 
     @Bindable
     public String getDiastoleStr() {
-        return String.valueOf(pressureData.getDiastole());
+        try {
+            return String.valueOf(pressureData.getDiastole());
+        } catch (Exception e) {
+            return "-";
+        }
     }
 
     public void setDiastoleStr(String diastoleStr) {
-
         pressureData.setDiastole(tryToInt(diastoleStr));
     }
 
     @Bindable
     public String getPulseStr() {
-        return String.valueOf(pressureData.getPulse());
+        try {
+            return String.valueOf(pressureData.getPulse());
+        } catch (Exception e) {
+            return "-";
+        }
     }
 
     public void setPulseStr(String pulseStr) {

@@ -31,13 +31,13 @@ public class UserProfile extends BaseModel implements Parcelable {
         }
     };
     @DatabaseField
-    private String name;
+    private String name = null;
     @DatabaseField
-    private String surname;
+    private String surname = null;
     @DatabaseField
-    private Date dateOfBirth;
+    private Date dateOfBirth = null;
     @DatabaseField
-    private String sex;
+    private String sex = null;
     @DatabaseField
     private int weight;
     @DatabaseField
@@ -47,7 +47,7 @@ public class UserProfile extends BaseModel implements Parcelable {
     @DatabaseField
     private int glucose;
     @DatabaseField
-    private boolean isSmoker;
+    private Boolean isSmoker = null;
 
     public enum SexType {
         MALE,
@@ -274,11 +274,11 @@ public class UserProfile extends BaseModel implements Parcelable {
         this.glucose = glucose;
     }
 
-    public boolean isSmoker() {
+    public Boolean isSmoker() {
         return isSmoker;
     }
 
-    public void setSmoker(boolean smoker) {
+    public void setSmoker(Boolean smoker) {
         isSmoker = smoker;
     }
 

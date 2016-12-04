@@ -12,89 +12,74 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/input_activities_background">
+        android:background="@drawable/input_activities_background"
+        android:paddingLeft="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_systole"
             android:text="@{pressuredata.systoleStr}"
-            android:textSize="20sp"
-            android:minWidth="35sp"
-            android:gravity="end"/>
+            android:textSize="@dimen/_17sdp"
+            android:gravity="center_vertical|end"
+            android:layout_weight="0.2"
+            />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_diastole"
             android:text="@{pressuredata.diastoleStr}"
-            android:textSize="20sp"
-            android:minWidth="35sp"
-            android:gravity="end"/>
+            android:textSize="@dimen/_17sdp"
+            android:gravity="center_vertical|end"
+            android:layout_weight="0.2"
+            />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_pulse"
             android:text="@{pressuredata.pulseStr}"
-            android:textSize="20sp"
-            android:minWidth="35sp"
-            android:gravity="end"/>
+            android:textSize="@dimen/_17sdp"
+            android:gravity="center_vertical|end"
+            android:layout_weight="0.2"
+            />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/arrhythmia_image"
-            android:background="@drawable/arrhythmia"
-            android:gravity="fill"/>
+        <LinearLayout
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/arrhythmia_image"
+                android:background="@drawable/arrhythmia"
+                android:gravity="fill"
+                android:contentDescription="Arrhythmia occurred."
+                />
+        </LinearLayout>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pressuredata_date"
-            android:layout_gravity="fill"
-            android:text="@{pressuredata.dateStr}"
-            android:textSize="20sp"
-            android:gravity="end"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pressuredata_time"
             android:layout_gravity="fill"
-            android:text="@{pressuredata.timeStr}"
-            android:textSize="20sp"
-            android:gravity="end"/>
+            android:id="@+id/pressuredata_datetime"
+            android:text="@{pressuredata.dateTimeInTwoLinesStr}"
+            android:textSize="@dimen/_12sdp"
+            android:gravity="center_vertical|end"
+            android:layout_weight="0.1"
+            />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
     </LinearLayout>
 
 </layout>

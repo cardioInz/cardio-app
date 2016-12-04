@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 import cardio_app.R;
@@ -137,8 +138,13 @@ public class ProfileViewModel extends BaseObservable {
     }
 
 
-    public String getDateOfBirthStr() {
+    public String getDateOfBirthStrForPdf() {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, -2);
+
         if (userProfile == null || userProfile.getDateOfBirth() == null)
+            return EMPTY_IN_PDF;
+        else if (c.getTime().compareTo(userProfile.getDateOfBirth()) < 0)
             return EMPTY_IN_PDF;
         return DateTimeUtil.DATE_FORMATTER.format(userProfile.getDateOfBirth());
     }
@@ -210,8 +216,10 @@ public class ProfileViewModel extends BaseObservable {
 
     public String getSmokerNullable(String yes, String no) {
         try {
-            boolean b = userProfile.isSmoker();
-            return b ? yes : no;
+            Boolean b = userProfile.isSmoker();
+            if (b == null)
+                return EMPTY_IN_PDF;
+            return b.booleanValue() ? yes : no;
         } catch (Exception e) {
             return EMPTY_IN_PDF;
         }
@@ -232,22 +240,82 @@ public class ProfileViewModel extends BaseObservable {
         }
     }
 
-    public HashMap<String, String> getHashMapFields(Resources resources) {
+    public enum MyProfileFieldTypeEnum {
+        FIRST_NAME,
+        SURNAME,
+        DATE_OF_BIRTH,
+        SEX,
+        HEIGHT,
+        WEIGHT,
+        SMOKER,
+        GLUCOSE,
+        CHOLESTEROL;
+
+        public static MyProfileFieldTypeEnum[] questionaireKeysInOrder() {
+            return new MyProfileFieldTypeEnum[]{
+                    FIRST_NAME,
+                    SURNAME,
+                    DATE_OF_BIRTH,
+                    SEX,
+                    HEIGHT,
+                    WEIGHT,
+                    SMOKER,
+                    GLUCOSE,
+                    CHOLESTEROL
+            };
+        }
+
+        private final static HashMap<MyProfileFieldTypeEnum, Integer> mapToStrId = new HashMap<MyProfileFieldTypeEnum, Integer>(){{
+            put(FIRST_NAME, R.string.first_name);
+            put(SURNAME,R.string.surname);
+            put(DATE_OF_BIRTH, R.string.date_of_birth);
+            put(SEX, R.string.sex);
+            put(HEIGHT, R.string.height);
+            put(WEIGHT, R.string.weight);
+            put(SMOKER, R.string.smoker);
+            put(GLUCOSE, R.string.glucose);
+            put(CHOLESTEROL, R.string.cholesterol);
+        }};
+
+        public static String getFieldTitle(MyProfileFieldTypeEnum fieldTypeEnum, Resources resources) {
+            if (!mapToStrId.containsKey(fieldTypeEnum))
+                return null;
+
+            int strId = mapToStrId.get(fieldTypeEnum);
+            String title = resources.getString(strId);
+
+            switch (fieldTypeEnum){
+                case HEIGHT:
+                    return title.replace(":", " [cm]:");
+                case WEIGHT:
+                    return title.replace(":", " [kg]:");
+                case GLUCOSE:
+                case CHOLESTEROL:
+                    return title.replace(":", " [mmol/l]:");
+                default:
+                    return title;
+            }
+        }
+    }
+
+
+
+    public HashMap<MyProfileFieldTypeEnum, String> getHashMapValues(Resources resources) {
         ProfileViewModel profileViewModel = this;
-        return new HashMap<String, String>() {{
-            put(resources.getString(R.string.first_name), profileViewModel.getNameStr());
-            put(resources.getString(R.string.surname), profileViewModel.getSurnameStr());
-            put(resources.getString(R.string.date_of_birth), profileViewModel.getDateOfBirthStr());
-            put(resources.getString(R.string.sex), profileViewModel.getSexStr(
+        return new HashMap<MyProfileFieldTypeEnum, String>() {{
+            put(MyProfileFieldTypeEnum.FIRST_NAME, profileViewModel.getNameStr());
+            put(MyProfileFieldTypeEnum.SURNAME, profileViewModel.getSurnameStr());
+            put(MyProfileFieldTypeEnum.DATE_OF_BIRTH, profileViewModel.getDateOfBirthStrForPdf());
+            put(MyProfileFieldTypeEnum.SEX, profileViewModel.getSexStr(
                     resources.getString(R.string.male), resources.getString(R.string.female)
             ));
-            put(resources.getString(R.string.height).replace(":", " [cm]:"), profileViewModel.getHeightStr());
-            put(resources.getString(R.string.weight).replace(":", " [kg]:"), profileViewModel.getWeightStr());
-            put(resources.getString(R.string.smoker), profileViewModel.getSmokerNullable(
+            put(MyProfileFieldTypeEnum.HEIGHT, profileViewModel.getHeightStr());
+            put(MyProfileFieldTypeEnum.WEIGHT, profileViewModel.getWeightStr());
+            put(MyProfileFieldTypeEnum.SMOKER, profileViewModel.getSmokerNullable(
                     resources.getString(R.string.yes), resources.getString(R.string.no)
             ));
-            put(resources.getString(R.string.glucose).replace(":", " [mmol/l]:"), profileViewModel.getGlucoseStr());
-            put(resources.getString(R.string.cholesterol).replace(":", " [mmol/l]:"), profileViewModel.getCholesterolStr());
+            put(MyProfileFieldTypeEnum.GLUCOSE, profileViewModel.getGlucoseStr());
+            put(MyProfileFieldTypeEnum.CHOLESTEROL, profileViewModel.getCholesterolStr());
         }};
     }
 }

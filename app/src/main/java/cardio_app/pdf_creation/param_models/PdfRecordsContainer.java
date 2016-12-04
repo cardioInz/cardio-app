@@ -3,6 +3,8 @@ package cardio_app.pdf_creation.param_models;
 import android.util.Log;
 
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;
 import cardio_app.db.model.UserProfile;
+import cardio_app.util.DateTimeUtil;
 
 
 public class PdfRecordsContainer {
@@ -23,8 +26,8 @@ public class PdfRecordsContainer {
 
     public PdfRecordsContainer(DbHelper dbHelper, Date dateFrom, Date dateTo) {
         this.dbHelper = dbHelper;
-        this.dateFrom = dateFrom;
-        this.dateTo = dateTo;
+        setDateFrom(dateFrom);
+        setDateTo(dateTo);
     }
 
     public Date getDateFrom() {
@@ -59,7 +62,9 @@ public class PdfRecordsContainer {
 
     public void initEventDataByHelper() {
         try {
-            eventsDataList = dbHelper.getFilteredAndOrderedByDateEvents(dateFrom, dateTo);
+            List<Event> list = dbHelper.getEventsBetween(dateFrom, dateTo);
+            eventsDataList = Event.multiplyRepeatableEvents(list);
+            Collections.sort(eventsDataList, Event.compareStartDate);
         } catch (SQLException e) {
             Log.e(TAG, "initEventDataByHelper: can't get eventsData", e);
             e.printStackTrace();
@@ -79,10 +84,32 @@ public class PdfRecordsContainer {
     }
 
     public void setDateFrom(Date dateFrom){
-        this.dateFrom = dateFrom;
+        try {
+            Calendar c = Calendar.getInstance();
+            c.setTime(dateFrom);
+            if (this.dateFrom == null)
+                this.dateFrom = c.getTime();
+            else
+                this.dateFrom.setTime(c.getTimeInMillis());
+        } catch (Exception e) {
+            this.dateFrom = null;
+        }
     }
 
-    public void setDateTo(Date dateTo){
-        this.dateTo = dateTo;
+    public void setDateTo(Date dateTo) {
+        try {
+            Calendar c = Calendar.getInstance();
+            c.setTime(dateTo);
+            if (this.dateTo == null)
+                this.dateTo = c.getTime();
+            else
+                this.dateTo.setTime(c.getTimeInMillis());
+        } catch (Exception e) {
+            this.dateTo = null;
+        }
+    }
+
+    public String getInfoForLogger() {
+        return DateTimeUtil.DATE_FORMATTER.format(dateFrom) + " - " + DateTimeUtil.DATE_FORMATTER.format(dateTo);
     }
 }

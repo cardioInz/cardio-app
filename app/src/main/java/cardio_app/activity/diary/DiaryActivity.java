@@ -78,12 +78,11 @@ public class DiaryActivity extends AppCompatActivity {
         // list view - for record list
         ListView listView = (ListView) findViewById(R.id.diary_list_view);
 
-        listView.setOnItemLongClickListener(((adapterView, view, i, l) -> {
+        listView.setOnItemClickListener(((adapterView, view, i, l) -> {
             PressureData pressureData = (PressureData) adapterView.getItemAtPosition(i);
             Intent intent = new Intent(DiaryActivity.this, AddDiaryActivity.class);
             intent.putExtra("pressuredata", pressureData);
             startActivity(intent);
-            return true;
         }));
 
         assignDataToListView();

@@ -37,8 +37,9 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
         TextView diastoleTextView = (TextView) convertView.findViewById(R.id.pressuredata_diastole);
         TextView pulseTextView = (TextView) convertView.findViewById(R.id.pressuredata_pulse);
         ImageView arrhythmiaImageView = (ImageView) convertView.findViewById(R.id.arrhythmia_image);
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.pressuredata_date);
-        TextView timeTextView = (TextView) convertView.findViewById(R.id.pressuredata_time);
+        TextView dateTimeTextView = (TextView) convertView.findViewById(R.id.pressuredata_datetime);
+//        TextView dateTiTextView = (TextView) convertView.findViewById(R.id.pressuredata_date);
+//        TextView timeTextView = (TextView) convertView.findViewById(R.id.pressuredata_time);
         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.layout_pressure_list_item);
 
         PressureData pressureData = getItem(position);
@@ -49,8 +50,9 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
             diastoleTextView.setText(viewModel.getDiastoleStr());
             pulseTextView.setText(viewModel.getPulseStr());
             arrhythmiaImageView.setVisibility(viewModel.getArrhythmia() ? View.VISIBLE : View.INVISIBLE);
-            dateTextView.setText(viewModel.getDateStr());
-            timeTextView.setText(viewModel.getTimeStr());
+            dateTimeTextView.setText(viewModel.getDateTimeInTwoLinesStr());
+//            dateTextView.setText(viewModel.getDateStr());
+//            timeTextView.setText(viewModel.getTimeStr());
             if (viewModel.getConditionStr().equals("1") ||
                     viewModel.getConditionStr().equals("2") ||
                     viewModel.getConditionStr().equals("3")) {
