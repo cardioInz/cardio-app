@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -379,5 +380,16 @@ public class Event extends BaseModel implements Parcelable {
         }
 
         return results;
+    }
+
+    private Calendar getCalendar(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        return cal;
+    }
+
+    public boolean isStartDateEqualEndDate() {
+        return getCalendar(startDate).equals(getCalendar(endDate));
     }
 }

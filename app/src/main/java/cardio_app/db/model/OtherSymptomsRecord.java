@@ -145,5 +145,21 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
         isToothache = toothache;
     }
 
+    public boolean isOtherSymptom() {
+        return this.isCough() || this.isHeadache || this.isHighTemperature ||
+                this.isStomachAche() || this.isToothache();
+    }
 
+    public String getOtherSymptomsDescription() {
+        String description = "";
+        description += this.isHeadache() ? "headache, " : "";
+        description += this.isHighTemperature() ? "high temperature, " : "";
+        description += this.isCough() ? "cough, " : "";
+        description += this.isToothache() ? "toothache, " : "";
+        description += this.isStomachAche() ? "stomachache, " : "";
+        if (description != "") {
+            return description.substring(0, description.length()-2);
+        }
+        return description;
+    }
 }

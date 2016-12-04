@@ -3,7 +3,9 @@ package cardio_app.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.repacked.kotlin.jvm.Strictfp;
 
+import cardio_app.db.model.Emotion;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.TimeUnit;
 import cardio_app.util.DateTimeUtil;
@@ -113,22 +115,33 @@ public class EventDataViewModel extends BaseObservable {
         this.event = event;
     }
 
-    //TODO: better
-    @Bindable
     public String getStartDate() {
         return DateTimeUtil.DATE_FORMATTER.format(event.getStartDate());
     }
 
     @Bindable
+    public String getStartTime() {
+        return DateTimeUtil.TIME_FORMATTER.format(event.getStartDate());
+    }
+
     public String getEndDate() {
-        return DateTimeUtil.DATE_FORMATTER.format(event.getEndDate());
+        if (!event.isStartDateEqualEndDate()) {
+            return " - " + DateTimeUtil.DATE_FORMATTER.format(event.getEndDate());
+        } else
+            return "";
+    }
+
+    @Bindable
+    public String getDate() {
+        return getStartDate() + getEndDate();
     }
 
     @Bindable
     public String getRepeatInfo() {
-        if (event.isRepeatable()) {
-            return "Repeats every " + this.getTimeDelta() + " " + event.getTimeUnit().name().toLowerCase() + "s";
-        } else
-            return "";
+        return "Every " + this.getTimeDelta() + " " + event.getTimeUnit().name().toLowerCase() + "s";
+    }
+
+    public Emotion getEmotion() {
+        return event.getEmotion();
     }
 }

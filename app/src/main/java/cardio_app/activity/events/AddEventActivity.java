@@ -22,6 +22,7 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.DailyActivitiesRecord;
 import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Emotion;
+import cardio_app.db.model.EmotionHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
 import cardio_app.service.SetAlarmService;
@@ -37,9 +38,7 @@ public class AddEventActivity extends AppCompatActivity {
     PickedDateViewModel startDateModel, endDateModel;
     PickedTimeViewModel startTimeModel;
     private DbHelper dbHelper;
-    private Map<Integer, Emotion> buttonToEmotionMap;
     private Map<Integer, DailyActivitiesRecord> buttonToOtherEventMap;
-    private Map<Emotion, Integer> emotionToButtonMap;
     private Map<DailyActivitiesRecord, Integer> otherEventToButtonMap;
 
     @Override
@@ -55,7 +54,6 @@ public class AddEventActivity extends AppCompatActivity {
         ActivityAddEventBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_event);
         if (isEditExistingItem) {
             currentEvent = event;
-            createEmotionToButtonMap();
             initializeEmotionButton();
             createOtherEventToButtonMap();
             initializeOtherEventButton();
@@ -71,7 +69,6 @@ public class AddEventActivity extends AppCompatActivity {
         binding.setStartDate(startDateModel);
         binding.setEndDate(endDateModel);
         binding.setStartTime(startTimeModel);
-        createButtonToEmotionMap();
         createButtonToOtherEventMap();
     }
 
@@ -83,8 +80,8 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     private void initializeEmotionButton() {
-        if(emotionToButtonMap.containsKey(currentEvent.getEmotion())) {
-            Integer id = emotionToButtonMap.get(currentEvent.getEmotion());
+        if(!currentEvent.getEmotion().equals(Emotion.NONE)) {
+            Integer id = EmotionHelper.getButtonId(currentEvent.getEmotion());
             Button button = (Button) findViewById(id);
             button.setBackgroundResource(R.drawable.event_chosen_option);
         }
@@ -161,8 +158,8 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public void changeEmotion(View v) {
-        currentEvent.setEmotion(buttonToEmotionMap.get(v.getId()));
-        for (Integer id : buttonToEmotionMap.keySet()) {
+        currentEvent.setEmotion(EmotionHelper.getEmotion(v.getId()));
+        for (Integer id : EmotionHelper.getButtonIdsKeys()) {
             Button b = (Button) findViewById(id);
             b.setBackground(null);
         }
@@ -225,24 +222,6 @@ public class AddEventActivity extends AppCompatActivity {
         } else {
             buttonClicked.setBackground(null);
         }
-    }
-
-    public void createButtonToEmotionMap() {
-        buttonToEmotionMap = new HashMap<Integer, Emotion>();
-        buttonToEmotionMap.put(R.id.button_happy, Emotion.HAPPY);
-        buttonToEmotionMap.put(R.id.button_sad, Emotion.SAD);
-        buttonToEmotionMap.put(R.id.button_angry, Emotion.ANGRY);
-        buttonToEmotionMap.put(R.id.button_crying, Emotion.CRYING);
-        buttonToEmotionMap.put(R.id.button_stressed, Emotion.STRESSED);
-    }
-
-    public void createEmotionToButtonMap() {
-        emotionToButtonMap = new HashMap<Emotion, Integer>();
-        emotionToButtonMap.put(Emotion.HAPPY, R.id.button_happy);
-        emotionToButtonMap.put(Emotion.SAD, R.id.button_sad);
-        emotionToButtonMap.put(Emotion.ANGRY, R.id.button_angry);
-        emotionToButtonMap.put(Emotion.CRYING, R.id.button_crying);
-        emotionToButtonMap.put(Emotion.STRESSED, R.id.button_stressed);
     }
 
 

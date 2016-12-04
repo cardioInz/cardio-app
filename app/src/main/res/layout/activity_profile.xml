@@ -15,12 +15,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@color/colorPrimary"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,10 +35,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
-                    android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/EditTextArea"
@@ -58,10 +60,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
-                    android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/EditTextArea"
@@ -85,10 +85,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
                     android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/EditTextArea"
@@ -96,8 +95,8 @@
 
                     <DatePicker
                         android:id="@+id/datePicker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignTop="@+id/textView5"
@@ -106,7 +105,8 @@
                         android:day="@={birthday.day}"
                         android:month="@={birthday.month}"
                         android:spinnersShown="true"
-                        android:year="@={birthday.year}" />
+                        android:year="@={birthday.year}"
+                        android:gravity="center_horizontal"/>
 
 
                 </LinearLayout>
@@ -115,10 +115,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
-                    android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -154,11 +152,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight="0.06"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
-                    android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/EditTextArea"
@@ -187,11 +182,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight="0.06"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
-                    android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/EditTextArea"
@@ -220,11 +212,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight="0.06"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
-                    android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/EditTextArea"
@@ -253,11 +242,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight="0.06"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
-                    android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/EditTextArea"
@@ -286,10 +272,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:addStatesFromChildren="true"
                     android:background="@drawable/input_activities_background"
-                    android:gravity="center_vertical"
-                    android:paddingRight="0dip">
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/EditTextArea"

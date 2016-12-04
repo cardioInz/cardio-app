@@ -152,4 +152,18 @@ public class DoctorsAppointment extends BaseModel implements Parcelable {
         return 0;
     }
 
+
+    public String getDoctorsAppointmentDescription() {
+        String description = "";
+        description += this.isEmergency() ? "emergency, " : "";
+        description += this.isExamination() ? "examination, " : "";
+        description += this.isForPrescription() ? "prescription, " : "";
+        description += this.isFlu() ? "flu, " : "";
+        description += this.isRoutineCheck() ? "routine visit, " : "";
+        if (description != "") {
+            return description.substring(0, description.length()-2);
+        }
+        return description;
+    }
+
 }
