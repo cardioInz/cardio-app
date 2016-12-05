@@ -82,8 +82,6 @@ public class EventDataViewModel extends BaseObservable {
         return event.getDescription();
     }
 
-    ;
-
     public void setDescription(String description) {
         event.setDescription(description);
     }

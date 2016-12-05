@@ -14,4 +14,5 @@
     <color name="lowPressure">#efdeb3</color>
     <color name="normalPressure">#a7cebe</color>
     <color name="highPressure">#d18c8d</color>
+    <color name="red">#e64748</color>
 </resources>
