@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -43,6 +45,7 @@ public class AddEventActivity extends AppCompatActivity {
     boolean isEditExistingItem;
     PickedDateViewModel startDateModel, endDateModel;
     PickedTimeViewModel startTimeModel;
+    EventDataViewModel currentEventViewModel;
     private DbHelper dbHelper;
     private Map<Integer, DailyActivitiesRecord> buttonToOtherEventMap;
     private Map<DailyActivitiesRecord, Integer> otherEventToButtonMap;
@@ -71,7 +74,8 @@ public class AddEventActivity extends AppCompatActivity {
         startDateModel = new PickedDateViewModel(currentEvent.getStartDate());
         endDateModel = new PickedDateViewModel(currentEvent.getEndDate());
         startTimeModel = new PickedTimeViewModel(currentEvent.getStartDate());
-        binding.setEvent(new EventDataViewModel(currentEvent));
+        currentEventViewModel = new EventDataViewModel(currentEvent);
+        binding.setEvent(currentEventViewModel);
         binding.setStartDate(startDateModel);
         binding.setEndDate(endDateModel);
         binding.setStartTime(startTimeModel);
@@ -86,7 +90,7 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     private void initializeEmotionButton() {
-        if(!currentEvent.getEmotion().equals(Emotion.NONE)) {
+        if (!currentEvent.getEmotion().equals(Emotion.NONE)) {
             Integer id = EmotionHelper.getButtonId(currentEvent.getEmotion());
             Button button = (Button) findViewById(id);
             button.setBackgroundResource(R.drawable.event_chosen_option);
@@ -132,7 +136,7 @@ public class AddEventActivity extends AppCompatActivity {
         try {
             for (Integer buttonId : buttonToSymptomFunction.keySet()) {
                 boolean isChecked = buttonToSymptomFunction.get(buttonId).call();
-                if(isChecked) {
+                if (isChecked) {
                     Button button = (Button) findViewById(buttonId);
                     button.setBackgroundResource(R.drawable.event_chosen_option);
                 }
@@ -152,7 +156,7 @@ public class AddEventActivity extends AppCompatActivity {
         try {
             for (Integer buttonId : buttonToVisitTypeFunction.keySet()) {
                 boolean isChecked = buttonToVisitTypeFunction.get(buttonId).call();
-                if(isChecked) {
+                if (isChecked) {
                     Button button = (Button) findViewById(buttonId);
                     button.setBackgroundResource(R.drawable.event_chosen_option);
                 }
@@ -163,7 +167,7 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     private void initializeOtherEventButton() {
-        if(otherEventToButtonMap.containsKey(currentEvent.getDailyActivitiesRecord())) {
+        if (otherEventToButtonMap.containsKey(currentEvent.getDailyActivitiesRecord())) {
             Integer id = otherEventToButtonMap.get(currentEvent.getDailyActivitiesRecord());
             Button button = (Button) findViewById(id);
             button.setBackgroundResource(R.drawable.event_chosen_option);
@@ -222,33 +226,67 @@ public class AddEventActivity extends AppCompatActivity {
         changeBackgroundForButton((Button) findViewById(v.getId()));
     }
 
-    public void onSaveClick() {
-        updateStartDate();
-        updateEndDate();
-        try {
-            Dao<DoctorsAppointment, Integer> daoDoctorsAppointment = getDbHelper().getDao(DoctorsAppointment.class);
-            Dao<OtherSymptomsRecord, Integer> daoSymptomsRecord = getDbHelper().getDao(OtherSymptomsRecord.class);
-            Dao<Event, Integer> dao = getDbHelper().getDao(Event.class);
-            if (!isEditExistingItem) {
-                daoDoctorsAppointment.create(currentEvent.getDoctorsAppointment());
-                daoSymptomsRecord.create(currentEvent.getOtherSymptomsRecord());
-                dao.create(currentEvent);
-            } else {
-                daoDoctorsAppointment.update(currentEvent.getDoctorsAppointment());
-                daoSymptomsRecord.update(currentEvent.getOtherSymptomsRecord());
-                dao.update(currentEvent);
-            }
-
-            Intent updateAlarm = new Intent(this, SetAlarmService.class);
-            updateAlarm.setAction(SetAlarmService.UPDATE);
-            updateAlarm.putExtra(SetAlarmService.EVENT_ID, currentEvent.getId());
-            startService(updateAlarm);
-        } catch (Exception e) {
-
+    public boolean isEditEventFormValid() {
+        boolean isValid = true;
+        LinearLayout descriptionLinearLayout = (LinearLayout) findViewById(R.id.event_description_ll);
+        LinearLayout timeDeltaLinearLayout = (LinearLayout) findViewById(R.id.event_time_delta_ll);
+        LinearLayout timeUnitLinearLayout = (LinearLayout) findViewById(R.id.event_time_unit_ll);
+        if (currentEventViewModel.getDescription() == "") {
+            descriptionLinearLayout.setBackgroundResource(R.drawable.input_activities_background_error);
+            isValid = false;
+        } else {
+            descriptionLinearLayout.setBackgroundResource(R.drawable.input_activities_background);
         }
 
-        Intent intent = new Intent(this, EventActivity.class);
-        startActivity(intent);
+        if (currentEventViewModel.getRepeatable()) {
+            if (currentEventViewModel.getTimeDelta().equals("0") || currentEventViewModel.getTimeDelta().equals("")) {
+                timeDeltaLinearLayout.setBackgroundResource(R.drawable.input_activities_background_error);
+                isValid = false;
+            } else {
+                timeDeltaLinearLayout.setBackgroundResource(R.drawable.input_activities_background);
+            }
+
+            if (!currentEventViewModel.isDay() && !currentEventViewModel.isMonth() && !currentEventViewModel.isWeek()) {
+                timeUnitLinearLayout.setBackgroundResource(R.drawable.input_activities_background_error);
+                isValid = false;
+            } else {
+                timeDeltaLinearLayout.setBackgroundResource(R.drawable.input_activities_background);
+            }
+        }
+        return isValid;
+    }
+
+    public void onSaveClick() {
+        if (isEditEventFormValid()) {
+            updateStartDate();
+            updateEndDate();
+            try {
+                Dao<DoctorsAppointment, Integer> daoDoctorsAppointment = getDbHelper().getDao(DoctorsAppointment.class);
+                Dao<OtherSymptomsRecord, Integer> daoSymptomsRecord = getDbHelper().getDao(OtherSymptomsRecord.class);
+                Dao<Event, Integer> dao = getDbHelper().getDao(Event.class);
+                if (!isEditExistingItem) {
+                    daoDoctorsAppointment.create(currentEvent.getDoctorsAppointment());
+                    daoSymptomsRecord.create(currentEvent.getOtherSymptomsRecord());
+                    dao.create(currentEvent);
+                } else {
+                    daoDoctorsAppointment.update(currentEvent.getDoctorsAppointment());
+                    daoSymptomsRecord.update(currentEvent.getOtherSymptomsRecord());
+                    dao.update(currentEvent);
+                }
+
+                Intent updateAlarm = new Intent(this, SetAlarmService.class);
+                updateAlarm.setAction(SetAlarmService.UPDATE);
+                updateAlarm.putExtra(SetAlarmService.EVENT_ID, currentEvent.getId());
+                startService(updateAlarm);
+            } catch (Exception e) {
+
+            }
+
+            Intent intent = new Intent(this, EventActivity.class);
+            startActivity(intent);
+        } else {
+
+        }
     }
 
     public void onDeleteClick() {

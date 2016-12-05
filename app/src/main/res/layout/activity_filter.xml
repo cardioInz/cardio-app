@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/activity_filter"
-    tools:contextActivity="cardio_app.activity.filter.FilterActivity">
+    tools:contextActivity="cardio_app.activity.filter.FilterActivity"
+    android:background="@color/colorPrimary"
+    android:padding="16dp">
 
     <ScrollView
         android:layout_width="match_parent"
