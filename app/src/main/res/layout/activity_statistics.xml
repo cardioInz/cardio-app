@@ -4,45 +4,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:contextActivity="cardio_app.activity.statistics.StatisticsActivity">
+    tools:contextActivity="cardio_app.activity.statistics.StatisticsActivity"
+    android:background="@color/colorPrimary">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <Space android:minHeight="5sp" android:layout_height="wrap_content" android:layout_width="wrap_content" />
-
-            <Button android:text="@string/show_counter_statistics"
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/show_counter_stats_btn"
-                android:onClick="moveToActivity"/>
+                android:onClick="moveToActivity"
+                android:text="@string/show_counter_statistics"
+                style="@style/BtnGreen"/>
 
-            <Space android:minHeight="10sp" android:layout_height="wrap_content" android:layout_width="wrap_content" />
-
-            <Button android:text="@string/show_last_measurements_statistics"
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/show_last_measurements_stats_btn"
-                android:onClick="moveToActivity"/>
+                android:onClick="moveToActivity"
+                android:text="@string/show_last_measurements_statistics"
+                style="@style/BtnGreen"/>
 
-            <Space android:minHeight="10sp" android:layout_height="wrap_content" android:layout_width="wrap_content" />
-
-            <Button android:text="@string/show_charts_btn_name"
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/show_charts_btn"
-                android:onClick="moveToActivity"/>
+                android:onClick="moveToActivity"
+                android:text="@string/show_charts_btn_name"
+                style="@style/BtnGreen"/>
 
-            <Space android:minHeight="10sp" android:layout_height="wrap_content" android:layout_width="wrap_content" />
-
-            <Button android:text="@string/title_activity_create_pdf"
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/create_pdf_btn"
-                android:onClick="moveToActivity"/>
+                android:onClick="moveToActivity"
+                android:text="@string/title_activity_create_pdf"
+                style="@style/BtnGreen"/>
 
-        </TableLayout>
+        </LinearLayout>
     </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

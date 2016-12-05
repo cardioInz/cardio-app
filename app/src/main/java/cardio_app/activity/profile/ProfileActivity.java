@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -76,9 +77,9 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 dao.update(currentUser);
             }
-
+            Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-
+            Toast.makeText(this, "Errors occurred while saving profile ", Toast.LENGTH_SHORT).show();
         }
     }
 }

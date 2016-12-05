@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/menu_chart_item_save_view"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@drawable/save"
         android:title="@string/save"
         app:showAsAction="always" />
 
