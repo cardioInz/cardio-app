@@ -18,7 +18,7 @@
         >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_systole"
             android:text="@{pressuredata.systoleStr}"
@@ -29,7 +29,7 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_diastole"
             android:text="@{pressuredata.diastoleStr}"
@@ -40,7 +40,7 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/pressuredata_pulse"
             android:text="@{pressuredata.pulseStr}"
@@ -51,10 +51,10 @@
 
 
         <LinearLayout
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:paddingRight="@dimen/_5sdp"
-            android:paddingLeft="@dimen/_5sdp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/_2sdp"
+            android:paddingLeft="@dimen/_2sdp"
             android:layout_weight="0.25"
             android:gravity="center"
             >
@@ -70,14 +70,14 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="fill"
             android:id="@+id/pressuredata_datetime"
             android:text="@{pressuredata.dateTimeInTwoLinesStr}"
             android:textSize="@dimen/_12sdp"
             android:gravity="center_vertical|end"
-            android:layout_weight="0.1"
+            android:layout_weight="0.3"
             />
 
     </LinearLayout>

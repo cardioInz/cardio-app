@@ -26,9 +26,9 @@
     <string name="title_activity_filter">Filtering</string>
     <string name="title_activity_alerts">Alerts</string>
     <string name="title_activity_statistics">Statistics</string>
-    <string name="title_activity_add_alarm">Add Alarm</string>
+    <string name="title_activity_add_alarm">Alarm</string>
     <string name="title_activity_drugs">Drugs</string>
-    <string name="title_activity_add_drug">Add Drug</string>
+    <string name="title_activity_add_drug">Drug</string>
     <string name="title_statistics_countered_measures">Countered measurements</string>
     <string name="title_statistics_last_measures">Last measurements</string>
 

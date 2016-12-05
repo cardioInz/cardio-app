@@ -27,51 +27,51 @@
                     android:layout_marginBottom="@dimen/_5sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="DIA"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:gravity="center_vertical|end"
                             android:layout_weight="0.2"
-                            />
+                            android:textStyle="bold"/>
 
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="SYS"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:gravity="center_vertical|end"
                             android:layout_weight="0.2"
-                            />
+                            android:textStyle="bold"/>
 
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="PULSE"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:gravity="center_vertical|end"
                             android:layout_weight="0.2"
-                            />
+                            android:textStyle="bold"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="ARR"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:gravity="center"
                             android:layout_weight="0.25"
-                            />
+                            android:textStyle="bold"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="DATE"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:gravity="center_vertical|end"
-                            android:layout_weight="0.1"
-                            />
+                            android:layout_weight="0.3"
+                            android:textStyle="bold"/>
 
                 </LinearLayout>
                 <ListView

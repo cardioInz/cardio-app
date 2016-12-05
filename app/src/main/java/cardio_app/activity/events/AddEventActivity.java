@@ -11,8 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -278,14 +278,16 @@ public class AddEventActivity extends AppCompatActivity {
                 updateAlarm.setAction(SetAlarmService.UPDATE);
                 updateAlarm.putExtra(SetAlarmService.EVENT_ID, currentEvent.getId());
                 startService(updateAlarm);
-            } catch (Exception e) {
 
+                Toast.makeText(this, "Event saved successfully", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Error occurred while saving event", Toast.LENGTH_SHORT).show();
             }
 
             Intent intent = new Intent(this, EventActivity.class);
             startActivity(intent);
         } else {
-
+            Toast.makeText(this, "Form invalid. Fill in marked fields!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -308,7 +310,9 @@ public class AddEventActivity extends AppCompatActivity {
             cancelAlarm.setAction(SetAlarmService.CANCEL);
             cancelAlarm.putExtra(SetAlarmService.EVENT_ID, currentEvent.getId());
             onBackPressed();
+            Toast.makeText(this, "Event deleted successfully", Toast.LENGTH_SHORT).show();
         } catch (SQLException e) {
+            Toast.makeText(this, "Error occurred while deleting event", Toast.LENGTH_SHORT).show();
             Log.e("", "Can't perform delete action on Event record", e);
         }
     }
