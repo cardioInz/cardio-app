@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:contextActivity="cardio_app.activity.statistics.StatisticsLastMeasurementsActivity">
+    tools:contextActivity="cardio_app.activity.statistics.StatisticsLastMeasurementsActivity"
+    android:background="@color/colorPrimary"
+    android:padding="16dp">
 
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/statistics_measures_list_view">
+        android:id="@+id/statistics_measures_list_view"
+        android:dividerHeight="5dp">
 
     </ListView>
 

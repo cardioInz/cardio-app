@@ -14,13 +14,75 @@
     tools:showIn="@layout/activity_diary"
     android:background="@color/colorPrimary">
 
-
-        <ListView
-            android:id="@+id/diary_list_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="5dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_activities_background"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp">
 
-        </ListView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DIA"
+                            android:textSize="@dimen/_13sdp"
+                            android:gravity="center_vertical|end"
+                            android:layout_weight="0.2"
+                            />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SYS"
+                            android:textSize="@dimen/_13sdp"
+                            android:gravity="center_vertical|end"
+                            android:layout_weight="0.2"
+                            />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PULSE"
+                            android:textSize="@dimen/_13sdp"
+                            android:gravity="center_vertical|end"
+                            android:layout_weight="0.2"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ARR"
+                            android:textSize="@dimen/_13sdp"
+                            android:gravity="center"
+                            android:layout_weight="0.25"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DATE"
+                            android:textSize="@dimen/_13sdp"
+                            android:gravity="center_vertical|end"
+                            android:layout_weight="0.1"
+                            />
+
+                </LinearLayout>
+                <ListView
+                    android:id="@+id/diary_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dividerHeight="5dp">
+
+                </ListView>
+        </LinearLayout>
+
+
 
 </RelativeLayout>

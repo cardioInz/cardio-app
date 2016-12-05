@@ -1,95 +1,113 @@
 <layout>
+
     <data>
+
         <variable
             name="bitmapFromChart"
             type="cardio_app.pdf_creation.param_models.BitmapFromChart" />
     </data>
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_save_create"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"
         tools:contextActivity="cardio_app.activity.statistics.ChartSaveActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-        </android.support.design.widget.AppBarLayout>
+            android:theme="@style/AppTheme.AppBarOverlay"></android.support.design.widget.AppBarLayout>
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:scrollbars="none"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:scrollbars="none">
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/save_chart_view_as_image"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/statistic_header_size"/>
-
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
+                android:paddingTop="@dimen/activity_vertical_margin">
 
 
-                <TableLayout
+                <LinearLayout
                     android:id="@+id/create_pdf_save_mode_table_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" >
-                    <TextView android:text="@string/file_location"
-                        android:layout_gravity="fill"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size"/>
-                    <TextView android:text="@={bitmapFromChart.path}"
-                        android:layout_gravity="fill"/>
-                    <Button android:text="@string/choose_location"
-                        android:onClick="onChangeLocationClick_InSaveChartActivity"/>
-                    <Space android:layout_width="@dimen/statistic_min_space_width"
-                        android:layout_height="@dimen/statistic_min_space_height"/>
-                    <TextView android:text="@string/img_file_name"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size"/>
-                    <EditText android:text="@={bitmapFromChart.fileName}"
-                        android:inputType="text"
-                        android:layout_gravity="fill"/>
-                </TableLayout>
+                    android:orientation="vertical">
 
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/input_activities_background">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/file_location"
+                            android:textSize="@dimen/statistic_header_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@={bitmapFromChart.path}" />
+                    </LinearLayout>
+
+
+                    <Button
+                        style="@style/BtnGreen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="onChangeLocationClick_InSaveChartActivity"
+                        android:text="@string/choose_location" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/input_activities_background">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/img_file_name"
+                            android:textSize="@dimen/statistic_header_size"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:text="@={bitmapFromChart.fileName}" />
+                    </LinearLayout>
+                </LinearLayout>
+
 
                 <ProgressBar
                     android:id="@+id/progressBar_save_chart_img"
                     style="@style/Widget.AppCompat.ProgressBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
-                </ProgressBar>
-
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
+                    android:visibility="gone"></ProgressBar>
 
                 <Button
-                    android:text="@string/save_img_btn"
                     android:id="@+id/saveImgBtn"
-                    android:onClick="saveImg"
+                    style="@style/BtnGreen"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:onClick="saveImg"
+                    android:text="@string/save_img_btn" />
             </LinearLayout>
         </ScrollView>
 

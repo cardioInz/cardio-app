@@ -2,14 +2,20 @@ package cardio_app.activity.events;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -84,6 +90,35 @@ public class AddEventActivity extends AppCompatActivity {
             Integer id = EmotionHelper.getButtonId(currentEvent.getEmotion());
             Button button = (Button) findViewById(id);
             button.setBackgroundResource(R.drawable.event_chosen_option);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_item, menu);
+        if (!isEditExistingItem) {
+            MenuItem menuItem = menu.findItem(R.id.delete_item);
+            menuItem.setEnabled(false);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save_item: {
+                onSaveClick();
+                return true;
+            }
+            case R.id.delete_item: {
+                onDeleteClick();
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
         }
     }
 
@@ -187,7 +222,7 @@ public class AddEventActivity extends AppCompatActivity {
         changeBackgroundForButton((Button) findViewById(v.getId()));
     }
 
-    public void saveEvent(View v) {
+    public void onSaveClick() {
         updateStartDate();
         updateEndDate();
         try {
@@ -214,6 +249,34 @@ public class AddEventActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, EventActivity.class);
         startActivity(intent);
+    }
+
+    public void onDeleteClick() {
+        if (currentEvent.getId() <= 0) {
+            return;
+        }
+
+        try {
+            Dao<DoctorsAppointment, Integer> doctorsAppointmentDao =
+                    getDbHelper().getDao(DoctorsAppointment.class);
+            doctorsAppointmentDao.deleteById(currentEvent.getDoctorsAppointment().getId());
+            Dao<OtherSymptomsRecord, Integer> otherSymptomsRecordDao =
+                    getDbHelper().getDao(OtherSymptomsRecord.class);
+            otherSymptomsRecordDao.deleteById(currentEvent.getOtherSymptomsRecord().getId());
+            Dao<Event, Integer> eventsDao = getDbHelper().getDao(Event.class);
+            eventsDao.deleteById(currentEvent.getId());
+            Uri uri = new Uri.Builder().path(String.valueOf(currentEvent.getId())).build();
+            Intent cancelAlarm = new Intent(this, SetAlarmService.class);
+            cancelAlarm.setAction(SetAlarmService.CANCEL);
+            cancelAlarm.putExtra(SetAlarmService.EVENT_ID, currentEvent.getId());
+            onBackPressed();
+        } catch (SQLException e) {
+            Log.e("", "Can't perform delete action on Event record", e);
+        }
+    }
+
+    public void saveEvent(View v) {
+        onSaveClick();
     }
 
     public void changeBackgroundForButton(Button buttonClicked) {
