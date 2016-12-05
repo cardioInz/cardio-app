@@ -12,13 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="blocksDescendants"
-        >
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="8sp"/>
-
+        android:background="@drawable/input_activities_background"
+        android:layout_marginBottom="5dp"
+        android:padding="5dp">
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
