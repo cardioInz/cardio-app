@@ -3,7 +3,6 @@ package cardio_app.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.repacked.kotlin.jvm.Strictfp;
 
 import cardio_app.db.model.Emotion;
 import cardio_app.db.model.Event;

@@ -14,6 +14,7 @@ import cardio_app.activity.filter.FilterActivity;
 import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.filtering.DataFilter;
 import cardio_app.util.Defaults;
+import cardio_app.util.PermissionUtil;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -43,9 +44,11 @@ public class StatisticsActivity extends AppCompatActivity {
                 onChartClick();
                 break;
             case R.id.create_pdf_btn:
-                Intent intentP = new Intent(this, CreatePdfReportActivity.class);
-                intentP.putExtra("filterdata", dataFilter);
-                startActivityForResult(intentP, 1);
+                if (PermissionUtil.isStoragePermissionGranted(this)) {
+                    Intent intentP = new Intent(this, CreatePdfReportActivity.class);
+                    intentP.putExtra("filterdata", dataFilter);
+                    startActivityForResult(intentP, 1);
+                }
                 break;
             default:
                 break;

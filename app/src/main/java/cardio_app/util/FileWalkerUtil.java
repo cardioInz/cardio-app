@@ -22,6 +22,10 @@ public class FileWalkerUtil {
     public static List<BitmapFromChart> getBitmapFromChartList_fromSavedDir() {
         List<BitmapFromChart> list = new ArrayList<>();
         File dir = new File(DIRECTORY_TO_COLLECT_CHARTS);
+
+        if (!dir.exists())
+            return list;
+
         if (dir.isDirectory()) {
             for (File file : dir.listFiles()) {
                 if (file.isFile()) {

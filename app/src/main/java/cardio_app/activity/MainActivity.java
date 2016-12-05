@@ -24,6 +24,7 @@ import cardio_app.activity.synchro.ImportActivity;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.UserProfile;
 import cardio_app.statistics.Statistics;
+import cardio_app.util.PermissionUtil;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.toString();
@@ -64,8 +65,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showCreatePdfReport(View view) {
-        Intent intent = new Intent(this, CreatePdfReportActivity.class);
-        startActivity(intent);
+        if (PermissionUtil.isStoragePermissionGranted(this)) {
+            Intent intent = new Intent(this, CreatePdfReportActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void addEvent(View view) {
