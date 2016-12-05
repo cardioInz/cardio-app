@@ -151,9 +151,6 @@ public class FileWalkerUtil {
 
     private static boolean createDirIfNoExists(File file) {
         try {
-            if (file == null)
-                return false;
-
             if (file.isDirectory()) {
                 return file.exists() || file.mkdirs();
             } else {
