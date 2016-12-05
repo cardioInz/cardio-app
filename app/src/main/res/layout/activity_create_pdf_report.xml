@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:contextActivity="cardio_app.activity.pdf_creation.CreatePdfReportActivity">
+        tools:contextActivity="cardio_app.activity.pdf_creation.CreatePdfReportActivity"
+        android:background="@color/colorPrimary">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -36,150 +37,224 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TableLayout android:layout_height="wrap_content" android:layout_width="match_parent">
-                    <TableRow>
-                        <TextView android:text="@string/filter_date_from"
-                            android:layout_gravity="start"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/statistic_header_size"/>
-                        <Space android:layout_width="@dimen/statistic_min_space_width"
-                            android:layout_gravity="fill"/>
-                        <TextView android:text="@{datesFromFilter.dateFromStr}"
-                            android:layout_gravity="end"
-                            android:textSize="@dimen/statistic_header_size"/>
-                    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_activities_background"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp">
 
-                    <TableRow>
-                        <TextView android:text="@string/filter_date_to"
-                            android:layout_gravity="start"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/statistic_header_size"/>
-                        <Space android:layout_width="@dimen/statistic_min_space_width"
-                            android:layout_gravity="fill"/>
-                        <TextView android:text="@{datesFromFilter.dateToStr}"
-                            android:layout_gravity="end"
-                            android:textSize="@dimen/statistic_header_size"/>
-                    </TableRow>
-                </TableLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text= "@string/filter_date_from"
+                        android:textSize="@dimen/statistic_header_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@{datesFromFilter.dateFromStr}"
+                        android:textSize="@dimen/statistic_header_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_activities_background"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="@string/filter_date_to"
+                        android:textSize="@dimen/statistic_header_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@{datesFromFilter.dateToStr}"
+                        android:textSize="@dimen/statistic_header_size" />
+
+                </LinearLayout>
 
 
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/input_activities_background"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
 
+                    <TextView
 
-                <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView android:text="@string/choose_charts_to_attach_to_pdf"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size"/>
-                    <TableRow>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_charts_to_attach_to_pdf"
+                        android:textSize="@dimen/statistic_header_size"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
                         <TextView
-                            android:textSize="@dimen/statistic_header_size"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/nr_of_chosen_charts"
-                            android:textStyle="bold"
-                            />
-                        <Space
-                            android:layout_width="@dimen/statistic_min_space_width"
-                            android:layout_height="@dimen/statistic_min_space_height"/>
-                        <TextView
                             android:textSize="@dimen/statistic_header_size"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+
                             android:id="@+id/chosen_charts_cnt_text_view"
-                            android:text="@={pdfCreationVM.chartsListSize}"/>
-                    </TableRow>
-
-                </TableLayout>
-
-                <Space
-                    android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
-                <Button
-                    android:text="@string/get_charts"
-                    android:id="@+id/get_chart_btn"
-                    android:onClick="getChartsOnClick"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
-
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@={pdfCreationVM.chartsListSize}"
+                            android:textSize="@dimen/statistic_header_size" />
+                    </LinearLayout>
 
 
-                <TextView android:text="@string/choose_mode_for_pdf_creation"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/statistic_header_size"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
-                <RadioGroup
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent" >
-                    <RadioButton
-                        android:id="@+id/radio_pdf_send_btn"
+
+                    <Button
+                        android:id="@+id/get_chart_btn"
+                        style="@style/BtnGreen"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/send_an_email"
-                        android:checked="@={pdfCreationVM.sendEmailOpt}"
-                        android:onClick="changePdfCreation_SendeSaveOptMode"/>
-                    <RadioButton
-                        android:id="@+id/radio_pdf_save_btn"
+                        android:layout_height="wrap_content"
+                        android:onClick="getChartsOnClick"
+                        android:text="@string/get_charts" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_activities_background"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/save_it_locally"
-                        android:checked="@={pdfCreationVM.saveOpt}"
-                        android:onClick="changePdfCreation_SendeSaveOptMode"/>
-                </RadioGroup>
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_mode_for_pdf_creation"
+                        android:textSize="@dimen/statistic_header_size"
+                        android:textStyle="bold" />
 
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
+                        <RadioButton
+                            android:id="@+id/radio_pdf_send_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:checked="@={pdfCreationVM.sendEmailOpt}"
+                            android:onClick="changePdfCreation_SendeSaveOptMode"
+                            android:text="@string/send_an_email" />
 
-                <TableLayout
+                        <RadioButton
+                            android:id="@+id/radio_pdf_save_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:checked="@={pdfCreationVM.saveOpt}"
+                            android:onClick="changePdfCreation_SendeSaveOptMode"
+                            android:text="@string/save_it_locally" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/create_pdf_save_mode_table_layout"
                     android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" >
-                    <TextView android:text="@string/file_location"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/input_activities_background">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/file_location"
                         android:layout_gravity="fill"
                         android:textStyle="bold"
                         android:textSize="@dimen/statistic_header_size"/>
-                    <TextView android:text="@={pdfCreationVM.locationSave}"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={pdfCreationVM.locationSave}"
                         android:layout_gravity="fill"/>
-                    <Button android:text="@string/choose_location"
-                        android:onClick="onChangeLocationClick_InCreatePdfReportActivity"/>
-                    <Space android:layout_width="@dimen/statistic_min_space_width"
-                        android:layout_height="@dimen/statistic_min_space_height"/>
-                    <TextView android:text="@string/pdf_file_name"
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_location"
+                        android:onClick="onChangeLocationClick_InCreatePdfReportActivity"
+                        style="@style/BtnGreen"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pdf_file_name"
                         android:textStyle="bold"
                         android:textSize="@dimen/statistic_header_size"/>
-                    <EditText android:text="@={pdfCreationVM.fileName}"
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={pdfCreationVM.fileName}"
                         android:inputType="text"
                         android:layout_gravity="fill"/>
-                </TableLayout>
+                </LinearLayout>
 
 
-                <TableLayout
+                <LinearLayout
                     android:id="@+id/create_pdf_send_mode_table_layout"
-                    android:visibility="gone"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" >
-                    <TextView android:text="@string/email_of_receiver"
-                        android:layout_gravity="fill"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size"/>
-                    <EditText android:text="@={pdfCreationVM.emailAddr}"
-                        android:layout_gravity="fill"
-                        android:inputType="text" />
-                    <Space android:layout_width="@dimen/statistic_min_space_width"
-                        android:layout_height="@dimen/statistic_min_space_height"/>
-                    <TextView android:text="@string/attachment_name"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size"/>
-                    <EditText android:text="@={pdfCreationVM.fileName}"
-                        android:inputType="text"
-                        android:layout_gravity="fill"/>
-                </TableLayout>
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/input_activities_background">
 
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
+                        android:text="@string/email_of_receiver"
+                        android:textSize="@dimen/statistic_header_size"
+                        android:textStyle="bold" />
+
+                    <EditText
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
+                        android:inputType="text"
+                        android:text="@={pdfCreationVM.emailAddr}" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attachment_name"
+                        android:textSize="@dimen/statistic_header_size"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
+                        android:inputType="text"
+                        android:text="@={pdfCreationVM.fileName}" />
+                </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/progressBar_create_pdf"
@@ -189,23 +264,22 @@
                     android:visibility="gone">
                 </ProgressBar>
 
-                <Space android:layout_width="@dimen/statistic_min_space_width"
-                    android:layout_height="@dimen/statistic_min_space_height"/>
-
                 <Button
                     android:text="@string/save_pdf_btn"
                     android:id="@+id/savePdfBtn"
                     android:onClick="savePdf"
                     android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    style="@style/BtnGreen"/>
                 <Button
                     android:text="@string/send_pdf_btn"
                     android:id="@+id/sendPdfBtn"
                     android:onClick="sendPdf"
                     android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    style="@style/BtnGreen"/>
             </LinearLayout>
         </ScrollView>
 

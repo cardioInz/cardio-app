@@ -98,8 +98,8 @@
     <string name="show_charts_btn_name">Show Charts</string>
     <string name="save_pdf_btn">Save PDF</string>
     <string name="location_of_file_must_be_specified">Location of file must be specified before creation.</string>
-    <string name="filter_date_from">Date from:</string>
-    <string name="filter_date_to">Date to:</string>
+    <string name="filter_date_from">Date from: </string>
+    <string name="filter_date_to">Date to: </string>
     <string name="pdf_file_name">PDF File name:</string>
     <string name="img_file_name">Image name:</string>
     <string name="file_location">File location:</string>

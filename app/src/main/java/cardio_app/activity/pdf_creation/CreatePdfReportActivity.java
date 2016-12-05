@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.Toast;
@@ -51,8 +52,8 @@ public class CreatePdfReportActivity extends AppCompatActivity {
 
         Button saveBtn = (Button) findViewById(R.id.savePdfBtn);
         Button sendBtn = (Button) findViewById(R.id.sendPdfBtn);
-        TableLayout saveTableLayout = (TableLayout) findViewById(R.id.create_pdf_save_mode_table_layout);
-        TableLayout sendTableLayout = (TableLayout) findViewById(R.id.create_pdf_send_mode_table_layout);
+        LinearLayout saveTableLayout = (LinearLayout) findViewById(R.id.create_pdf_save_mode_table_layout);
+        LinearLayout sendTableLayout = (LinearLayout) findViewById(R.id.create_pdf_send_mode_table_layout);
 
         saveBtn.setVisibility(saveVisib);
         sendBtn.setVisibility(sendVisib);

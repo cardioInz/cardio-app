@@ -3,6 +3,7 @@ package cardio_app.activity.events;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -30,7 +31,6 @@ public class EventActivity extends AppCompatActivity {
     private DbHelper dbHelper;
     private EventAdapter eventAdapter;
     private Event selectedEvent = null;
-    private View selectedView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,31 +39,24 @@ public class EventActivity extends AppCompatActivity {
 
         ListView eventListView = (ListView) findViewById(R.id.event_list_view);
 
-        eventListView.setOnItemLongClickListener(((adapterView, view, i, l) -> {
+        FloatingActionButton addBtn = (FloatingActionButton) findViewById(R.id.add_button);
+        addBtn.setOnClickListener(this::addEventData);
+
+        eventListView.setOnItemClickListener(((adapterView, view, i, l) -> {
             Event event = (Event) adapterView.getItemAtPosition(i);
             Intent intent = new Intent(EventActivity.this, AddEventActivity.class);
             intent.putExtra("event", event);
             startActivity(intent);
-            return true;
 
         }));
-
-        eventListView.setOnItemClickListener(((adapterView, view, i, l) -> {
-            selectedEvent = (Event) adapterView.getItemAtPosition(i);
-            if (selectedView != null) {
-                selectedView.setBackground(null);
-            }
-            selectedView = adapterView.getChildAt(i);
-            selectedView.setBackgroundResource(R.color.brightOnDarkBg);
-        }));
-
-
-
 
         assignDataToListView();
     }
 
-
+    private void addEventData(View view) {
+        Intent intent = new Intent(this, AddEventActivity.class);
+        startActivity(intent);
+    }
 
     private void assignDataToListView() {
         List<Event> events = new ArrayList<>();
@@ -102,26 +95,6 @@ public class EventActivity extends AppCompatActivity {
         if (dbHelper != null) {
             OpenHelperManager.releaseHelper();
             dbHelper = null;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.events_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_delete_event: {
-                onDeleteEvent();
-                return true;
-            }
-            default: {
-                return super.onOptionsItemSelected(item);
-            }
         }
     }
 
