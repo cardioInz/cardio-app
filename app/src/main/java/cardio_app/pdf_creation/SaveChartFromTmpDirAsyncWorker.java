@@ -14,6 +14,7 @@ import java.io.File;
 import cardio_app.R;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.BitmapUtil;
+import cardio_app.util.FileWalkerUtil;
 import cardio_app.util.PermissionUtil;
 
 import static android.content.ContentValues.TAG;
@@ -31,6 +32,8 @@ public class SaveChartFromTmpDirAsyncWorker extends AsyncTask<Void, Void, Void> 
         this.contextActivity = activity;
         this.source = source;
         this.dest = dest;
+
+        FileWalkerUtil.createDirIfNoExists(dest.getFilePathWithExt());
     }
 
     @Override

@@ -6,11 +6,11 @@
         android:id="@+id/save_item"
         android:icon="@drawable/save"
         android:title="@string/save"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/delete_item"
         android:icon="@drawable/trash"
         android:title="@string/delete"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

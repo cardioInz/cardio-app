@@ -232,11 +232,14 @@ public class CreatePdfReportActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_filter_data, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.menu_item_chart);
         menuItem.setEnabled(false);
         menuItem.setVisible(false);
-
         return true;
     }
 

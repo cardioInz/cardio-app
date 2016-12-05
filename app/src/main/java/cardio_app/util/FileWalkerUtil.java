@@ -141,4 +141,27 @@ public class FileWalkerUtil {
         return "report";
     }
 
+    public static boolean createDirIfNoExists(String path) {
+        File file = new File(path);
+        boolean result = createDirIfNoExists(file);
+        if (result)
+            Log.i(TAG, "createDirIfNoExists: " + path + " exists or just created");
+        return result;
+    }
+
+    private static boolean createDirIfNoExists(File file) {
+        try {
+            if (file == null)
+                return false;
+
+            if (file.isDirectory()) {
+                return file.exists() || file.mkdirs();
+            } else {
+                return createDirIfNoExists(file.getParentFile());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "createDirIfNoExists: ", e);
+            return false;
+        }
+    }
 }

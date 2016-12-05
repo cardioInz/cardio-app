@@ -11,6 +11,7 @@ import cardio_app.R;
 import cardio_app.activity.statistics.ChartSaveActivity;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.util.BitmapUtil;
+import cardio_app.util.FileWalkerUtil;
 
 import static android.content.ContentValues.TAG;
 
@@ -26,6 +27,8 @@ public class SaveBitmapFromChartAsyncWorker extends AsyncTask<Void, Void, Void> 
         this.moveToSaveImageActivity = moveToSaveImageActivity;
         this.bitmapFromChart = bitmapFromChart;
         this.activity = activity;
+
+        FileWalkerUtil.createDirIfNoExists(bitmapFromChart.getFilePathWithExt());
     }
 
     private static boolean assignBitmapValueFromChartView(AppCompatActivity activity, BitmapFromChart bitmapFromChart) {

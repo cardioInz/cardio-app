@@ -6,7 +6,7 @@
         android:id="@+id/menu_delete_event"
         android:icon="@drawable/trash"
         android:title="@string/chart"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 
 </menu>
