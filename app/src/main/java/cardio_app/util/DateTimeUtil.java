@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import org.joda.time.LocalDateTime;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import cardio_app.db.model.TimeUnit;
 
@@ -32,5 +34,11 @@ public class DateTimeUtil {
             default:
                 return dateTime.plusDays(delta);
         }
+    }
+
+    public static Date getDate(int day, int month, int year) {
+        Calendar myCalendar = Calendar.getInstance();
+        myCalendar.set(year, month, day);
+        return myCalendar.getTime();
     }
 }
