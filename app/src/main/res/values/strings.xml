@@ -194,6 +194,8 @@
     <string name="results">Results</string>
     <string name="toggle_labels">Toggle labels</string>
     <string name="events_pdf_chapter">Events</string>
+    <string name="submit">SUBMIT</string>
+    <string name="start_time">START TIME:</string>
 
 
 </resources>
