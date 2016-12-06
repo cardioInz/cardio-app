@@ -211,6 +211,7 @@ public class PdfCreator {
             chapter.setTriggerNewPage(isMyProfileAttached || chapterCnt != 1);
             addEmptyLine(chapter, 2);
 
+            // chapter content
             addChapterContent(chapter, pdfRecordsContainer);
             document.add(chapter);
         }
@@ -287,14 +288,19 @@ public class PdfCreator {
     }
 
     private void addChapterContent(Chapter chapter, PdfRecordsContainer recordsContainer) throws DocumentException {
+        // chart in every chapter
         Image image = prepareChartImage(recordsContainer.getPressureDataList(), recordsContainer.getEventsDataList());
         if (image != null)
             chapter.add(image);
 
+        // events
         recordsContainer.initEventDataByHelper();
         addEventData(chapter, recordsContainer.getEventsDataList());
 
+        // pressure data
         addPressureData(chapter, recordsContainer.getPressureDataList());
+
+        //statistics
         addStatistics(chapter, recordsContainer);
     }
 

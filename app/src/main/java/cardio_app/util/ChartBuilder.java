@@ -176,7 +176,11 @@ public class ChartBuilder {
                     } else {
                         List<PointValue> continous = new ArrayList<>();
                         continous.add(new ChartActivity.CustomPointValue(event.getStartDate().getTime(), positionY, event));
-                        continous.add(new ChartActivity.CustomPointValue(event.getEndDate().getTime(), positionY, event));
+                        if (event.getEndDate().getTime() <= max) {
+                            continous.add(new ChartActivity.CustomPointValue(event.getEndDate().getTime(), positionY, event));
+                        } else {
+                            continous.add(new ChartActivity.CustomPointValue(max, positionY, event));
+                        }
                         lines.add(new Line(continous).setColor(Color.GRAY).setHasPoints(eventsHasPoints));
                     }
                 }
