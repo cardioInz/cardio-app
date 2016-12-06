@@ -40,6 +40,16 @@ public class EmotionHelper {
         emotionToImageMap.put(Emotion.STRESSED, R.drawable.stressed_small);
     }
 
+    private static final Map<Emotion, Integer> emotionToDescriptionMap;
+    static {
+        emotionToDescriptionMap = new HashMap<Emotion, Integer>();
+        emotionToDescriptionMap.put(Emotion.HAPPY, R.string.happy);
+        emotionToDescriptionMap.put(Emotion.SAD, R.string.sad);
+        emotionToDescriptionMap.put(Emotion.ANGRY, R.string.angry);
+        emotionToDescriptionMap.put(Emotion.CRYING, R.string.crying);
+        emotionToDescriptionMap.put(Emotion.STRESSED, R.string.stressed);
+    }
+
 
     public static Emotion getEmotion(Integer buttonId) {
         return buttonToEmotionMap.get(buttonId);
@@ -51,6 +61,10 @@ public class EmotionHelper {
 
     public static Integer getImageId(Emotion emotion) {
         return emotionToImageMap.get(emotion);
+    }
+
+    public static Integer getDescription(Emotion emotion) {
+        return emotionToDescriptionMap.get(emotion);
     }
 
     public static Set<Integer> getButtonIdsKeys() {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import cardio_app.R;
 import cardio_app.service.SetAlarmService;
 
 public class SystemStartup extends BroadcastReceiver {
@@ -18,6 +19,6 @@ public class SystemStartup extends BroadcastReceiver {
 
         context.startService(service);
 
-        Toast.makeText(context, "Enable service", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.enable_service, Toast.LENGTH_SHORT).show();
     }
 }

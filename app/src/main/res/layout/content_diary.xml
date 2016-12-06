@@ -29,7 +29,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="DIA"
+                            android:text="@string/shortcut_systole"
                             android:textSize="@dimen/_12sdp"
                             android:gravity="center_vertical|end"
                             android:layout_weight="0.2"
@@ -39,7 +39,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="SYS"
+                            android:text="@string/shortcut_diastole"
                             android:textSize="@dimen/_12sdp"
                             android:gravity="center_vertical|end"
                             android:layout_weight="0.2"
@@ -49,7 +49,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="PULSE"
+                            android:text="@string/shortcut_pulse"
                             android:textSize="@dimen/_12sdp"
                             android:gravity="center_vertical|end"
                             android:layout_weight="0.2"
@@ -58,7 +58,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="ARR"
+                            android:text="@string/shortcut_arrhythmia"
                             android:textSize="@dimen/_12sdp"
                             android:gravity="center"
                             android:layout_weight="0.25"
@@ -67,7 +67,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="DATE"
+                            android:text="@string/shortcut_date"
                             android:textSize="@dimen/_12sdp"
                             android:gravity="center_vertical|end"
                             android:layout_weight="0.3"

@@ -9,6 +9,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cardio_app.R;
+
 @DatabaseTable
 public class DoctorsAppointment extends BaseModel implements Parcelable {
     public static final Creator<DoctorsAppointment> CREATOR = new Creator<DoctorsAppointment>() {
@@ -155,11 +157,11 @@ public class DoctorsAppointment extends BaseModel implements Parcelable {
 
     public String getDoctorsAppointmentDescription() {
         String description = "";
-        description += this.isEmergency() ? "emergency, " : "";
-        description += this.isExamination() ? "examination, " : "";
-        description += this.isForPrescription() ? "prescription, " : "";
-        description += this.isFlu() ? "flu, " : "";
-        description += this.isRoutineCheck() ? "routine visit, " : "";
+        description += this.isEmergency() ? R.string.emergency + ", " : "";
+        description += this.isExamination() ? R.string.examination + ", " : "";
+        description += this.isForPrescription() ? R.string.prescription + ", " : "";
+        description += this.isFlu() ? R.string.flu + ", " : "";
+        description += this.isRoutineCheck() ? R.string.routine_visit + ", " : "";
         if (description != "") {
             return description.substring(0, description.length()-2);
         }

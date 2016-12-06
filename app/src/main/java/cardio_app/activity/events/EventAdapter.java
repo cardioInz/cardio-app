@@ -71,7 +71,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             if(!viewModel.getEmotion().equals(Emotion.NONE)) {
                 Integer emotionImageId = EmotionHelper.getImageId(viewModel.getEmotion());
                 emotionImageView.setImageResource(emotionImageId);
-                emotionTextView.setText(viewModel.getEmotion().name().toLowerCase());
+                emotionTextView.setText(EmotionHelper.getDescription(viewModel.getEmotion()));
             } else {
                 emotionImageView.setVisibility(View.INVISIBLE);
                 emotionTextView.setVisibility(View.INVISIBLE);

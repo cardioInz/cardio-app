@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Cardio-Inz</string>
     <string name="app_email">cardio.inzynierka@gmail.com</string>
 
@@ -195,5 +197,80 @@
     <string name="toggle_labels">Toggle labels</string>
     <string name="events_pdf_chapter">Events</string>
 
+    <string name="my_profile">My\n Profile</string>
+    <string name="add_measure">Add\n a Measure</string>
+    <string name="measures_list">Measures\n List</string>
+    <string name="add_event">Add\n an Event</string>
+    <string name="events_list">Events\n List</string>
+    <string name="drugs">Drugs\n List</string>
+    <string name="add_drug">Add\n a drug</string>
+    <string name="alerts">Alerts\n</string>
+    <string name="stats">Statistics\n</string>
+    <string name="reports">Reports\n</string>
+    <string name="settings">Settings\n</string>
+    <string name="import_data">Import\n Data</string>
+    <string name="export_data">Export\nData</string>
+    <string name="info">Info</string>
 
+    <string name="drug_deleted_successfully">Drug deleted successfully</string>
+    <string name="drug_saved_successfully">Drug saved successfully</string>
+    <string name="event_saved_successfully">Event saved successfully</string>
+    <string name="error_while_saving_event">Error occurred while saving event</string>
+    <string name="form_invalid">Form invalid. Fill in marked fields!</string>
+    <string name="event_deleted_successfully">Event deleted successfully!</string>
+    <string name="error_while_deleting_event">Error occurred while deleting event</string>
+    <string name="profile_saved_successfully">Profile saved successfully</string>
+    <string name="error_while_saving_profile">Error occurred while saving profile</string>
+    <string name="enable_service">Enable service</string>
+
+    <string name="argue">argue</string>
+    <string name="driving_a_car">driving a car</string>
+    <string name="exam">exam</string>
+    <string name="house_duties">house duties</string>
+    <string name="party">party</string>
+    <string name="relax">relax</string>
+    <string name="shopping">shopping</string>
+    <string name="sport">sport</string>
+    <string name="travel">travel</string>
+    <string name="walk">walk</string>
+    <string name="work">work</string>
+
+    <string name="emergency">emergency</string>
+    <string name="examination">examination</string>
+    <string name="prescription">prescription</string>
+    <string name="flu">flu</string>
+    <string name="routine_visit">routine visit</string>
+
+    <string name="headache">headache</string>
+    <string name="high_temperature">high temperature</string>
+    <string name="cough">cough</string>
+    <string name="stomachache">stomachache</string>
+    <string name="toothache">toothache</string>
+
+    <string name="happy">happy</string>
+    <string name="sad">sad</string>
+    <string name="angry">angry</string>
+    <string name="crying">crying</string>
+    <string name="stressed">stressed</string>
+
+    <string name="every">Every</string>
+
+    <string name="day">day</string>
+    <string name="week">week</string>
+    <string name="month">month</string>
+
+    <string name="event_description">DESCRIPTION:</string>
+    <string name="event_start_date">START DATE:</string>
+    <string name="event_start_time">START TIME:</string>
+    <string name="event_end_date">END DATE:</string>
+    <string name="event_repeat">REPEAT:</string>
+    <string name="event_time_delta">REPEAT EVERY:</string>
+    <string name="event_time_unit">TIME UNIT:</string>
+    <string name="event_emotion">EMOTIONS:</string>
+    <string name="event_symptoms">SYMPTOMS:</string>
+    <string name="event_visit">MEDICAL APPOINTMENT:</string>
+    <string name="event_other">OTHER TYPES:</string>
+    <string name="event_set_alarm">SET ALARM FOR EVENT:</string>
+
+    <string name="change_location">Change location</string>
 </resources>
