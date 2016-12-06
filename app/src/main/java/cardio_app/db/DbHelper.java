@@ -34,6 +34,8 @@ import cardio_app.db.model.OtherSymptomsRecord;
 import cardio_app.db.model.PressureData;
 import cardio_app.db.model.TimeUnit;
 import cardio_app.db.model.UserProfile;
+import cardio_app.util.DateTimeUtil;
+import temporary_package.InitialEvent;
 import temporary_package.InitialPressureData;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
@@ -69,15 +71,22 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private Date getDate(int day, int month, int year) {
-        Calendar myCalendar = Calendar.getInstance();
-        myCalendar.set(Calendar.YEAR, year);
-        myCalendar.set(Calendar.MONTH, month);
-        myCalendar.set(Calendar.DAY_OF_MONTH, day);
-        return myCalendar.getTime();
+
+    private void initRandomEvents() throws SQLException {
+        Dao<OtherSymptomsRecord, Integer> daoOtherS = getDao(OtherSymptomsRecord.class);
+        Dao<DoctorsAppointment, Integer> daoAppointment = getDao(DoctorsAppointment.class);
+        Dao<Event, Integer> daoHp = getDao(Event.class);
+
+        for (Event event : InitialEvent.makeEventList()) {
+            daoOtherS.create(event.getOtherSymptomsRecord());
+            daoAppointment.create(event.getDoctorsAppointment());
+            daoHp.create(event);
+        }
     }
 
+
     private void initEventData() throws SQLException {
+        // TODO remove before release
         Dao<OtherSymptomsRecord, Integer> daoOtherS = getDao(OtherSymptomsRecord.class);
         OtherSymptomsRecord osr = new OtherSymptomsRecord(true, true, true, false, false);
         daoOtherS.create(osr);
@@ -85,10 +94,24 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         DoctorsAppointment da = new DoctorsAppointment(true, true, true, false, false);
         daoAppointment.create(da);
         Dao<Event, Integer> daoHp = getDao(Event.class);
-        Event e1 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), false, TimeUnit.NONE, 0, "description1", osr, Emotion.HAPPY, da, DailyActivitiesRecord.DRIVING_CAR, false);
-        Event e2 = new Event(getDate(19, 10, 2016), getDate(20, 11, 2016), false, TimeUnit.NONE, 0, "description2", osr, Emotion.SAD, da, DailyActivitiesRecord.ARGUE, false);
-        Event e3 = new Event(getDate(19, 10, 2016), getDate(19, 11, 2016), true, TimeUnit.WEEK, 2, "description3", osr, Emotion.ANGRY, da, DailyActivitiesRecord.HOUSE_DUTIES, false);
-        Event e4 = new Event(getDate(23, 10, 2016), getDate(29, 11, 2016), true, TimeUnit.DAY, 1, "description4", osr, Emotion.CRYING, da, DailyActivitiesRecord.PARTY, false);
+
+        Event e1 = new Event(
+                DateTimeUtil.getDate(19, 10, 2016), DateTimeUtil.getDate(19, 11, 2016),
+                false, TimeUnit.NONE, 0, "descriptionX", osr, Emotion.HAPPY, da,
+                DailyActivitiesRecord.DRIVING_CAR, false);
+        Event e2 = new Event(
+                DateTimeUtil.getDate(19, 10, 2016), DateTimeUtil.getDate(20, 11, 2016),
+                false, TimeUnit.NONE, 0, "descriptionY", osr, Emotion.SAD, da,
+                DailyActivitiesRecord.ARGUE, false);
+        Event e3 = new Event(
+                DateTimeUtil.getDate(19, 10, 2016), DateTimeUtil.getDate(19, 11, 2016),
+                true, TimeUnit.WEEK, 2, "descriptionZ", osr, Emotion.ANGRY, da,
+                DailyActivitiesRecord.HOUSE_DUTIES, false);
+        Event e4 = new Event(
+                DateTimeUtil.getDate(23, 10, 2016), DateTimeUtil.getDate(29, 11, 2016),
+                true, TimeUnit.DAY, 1, "descriptionQ", osr, Emotion.CRYING, da,
+                DailyActivitiesRecord.PARTY, false);
+
         daoHp.create(e1);
         daoHp.create(e2);
         daoHp.create(e3);
@@ -139,6 +162,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         // TODO remove init before release if should not be hardcoded
         try {
             initPressureDataTable();
+            initRandomEvents();
             initEventData();
         } catch (SQLException e) {
             Log.e(TAG, "Can't insert initial data", e);
