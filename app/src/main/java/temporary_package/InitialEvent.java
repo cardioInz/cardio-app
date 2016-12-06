@@ -49,7 +49,7 @@ public class InitialEvent {
             doctorsAppointment = getRandomDoctorsAppointment();
             otherSymptomsRecord = getRandomOtherSymptoms();
 
-            if (isRepeatable = r.nextBoolean()){ // non repeatable = discrete
+            if (isRepeatable = r.nextBoolean()){ // repeatable = discrete
                 endDate = startDate;
                 description += "_r";
                 dailyActivitiesRecord = DailyActivitiesRecord.NONE;
