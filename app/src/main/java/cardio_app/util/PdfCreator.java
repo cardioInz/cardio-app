@@ -384,9 +384,9 @@ public class PdfCreator {
             try {
                 String dateStr = DATE_FORMATTER.format(event.getStartDate());
                 if (event.isDiscrete()) {
-                    dateStr += " - " + DATE_FORMATTER.format(event.getEndDate());
-                } else {
                     dateStr += " " + TIME_FORMATTER.format(event.getStartDate());
+                } else {
+                    dateStr += " - " + DATE_FORMATTER.format(event.getEndDate());
                 }
 
                 String desc = event.getDescription();
