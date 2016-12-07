@@ -13,7 +13,7 @@
     <string name="menu_title_genre_report">Generuj raport</string>
     <string name="menu_title_advices">Porady</string>
     <string name="menu_title_reminders">Przypomnienia</string>
-    <string name="menu_title_questionnaire">Kwestionariusz użytkownika</string>
+    <string name="menu_title_questionnaire">Kwestionariusz uzytkownika</string>
     <string name="menu_title_manage">Ustawienia</string>
 
     <string name="communicate">Communicate</string>
@@ -30,11 +30,11 @@
     <string name="title_activity_add_alarm">Powiadomienie</string>
     <string name="title_activity_drugs">Leki</string>
     <string name="title_activity_add_drug">Lek</string>
-    <string name="title_statistics_countered_measures">Statystyki ilościowe</string>
-    <string name="title_statistics_last_measures">Statystyki ostatnich pomiarów</string>
+    <string name="title_statistics_countered_measures">Statystyki ilosciowe</string>
+    <string name="title_statistics_last_measures">Statystyki ostatnich pomiarow</string>
 
-    <string name="systole">CIŚNIENIE\nSKURCZOWE:</string>
-    <string name="diastole">CIŚNIENIE\nROZKURCZOWE:</string>
+    <string name="systole">CISNIENIE\nSKURCZOWE:</string>
+    <string name="diastole">CISNIENIE\nROZKURCZOWE:</string>
     <string name="pulse">PULS:</string>
     <string name="arrhythmia">ARYTMIA:</string>
     <string name="date">DATA:</string>
@@ -43,8 +43,8 @@
     <string name="after_pressure_save">Pomiar zapisany z powodzeniem</string>
     <string name="delete">USUŃ</string>
     <string name="after_pressure_delete">Pomiar usunięty z powodzeniem</string>
-    <string name="are_you_sure_to_save_changes">Czy jesteś pewny, że chcesz zapisać zmiany?</string>
-    <string name="are_you_sure_to_delete_item">Czy jesteś pewny, że chcesz usunąć pomiar?</string>
+    <string name="are_you_sure_to_save_changes">Czy jestes pewny, ze chcesz zapisać zmiany?</string>
+    <string name="are_you_sure_to_delete_item">Czy jestes pewny, ze chcesz usunąć pomiar?</string>
     <string name="filter">Filtr</string>
     <string name="filter_no_filter">Brak filtra (wszystko)</string>
     <string name="filter_custom">Niestandardowy</string>
@@ -55,15 +55,15 @@
     <string name="x_days_equals">x = ?</string>
     <string name="date_from">POCZĄTEK:</string>
     <string name="date_to">KONIEC:</string>
-    <string name="non_negative_number_value_is_required">W tym polu wymagana jest dodatnia wartość</string>
-    <string name="date_to_could_not_be_before_date_from">\"KONIEC\" nie może być wcześniej niż \"POCZĄTEK\"</string>
+    <string name="non_negative_number_value_is_required">W tym polu wymagana jest dodatnia wartosć</string>
+    <string name="date_to_could_not_be_before_date_from">\"KONIEC\" nie moze być wczesniej niz \"POCZĄTEK\"</string>
     <string name="emptyMinus">-</string>
 
     <string name="statistics_last_measure">Ostatni pomiar:</string>
     <string name="statistics_last_bad_condition_measure">Ostatni w zly stanie:</string>
     <string name="statistics_last_well_condition_measure">Ostatni w dobrym stanie:</string>
     <string name="statistics_last__middle_condition_measure">Ostatni o niewielkim odchyleniu:</string>
-    <string name="statistics_bad_difference_condition_measure">Ostatnia zla róznica:</string>
+    <string name="statistics_bad_difference_condition_measure">Ostatnia zla roznica:</string>
     <string name="statistics_last_arrhythmia_measure">Ostatnia arytmia:</string>
     <string name="statistics_last_no_arrhythmia_measure">Ostatni bez arytmii:</string>
     <string name="statistics_title_values">Skurcz./Rozkurcz./Puls:</string>
@@ -75,54 +75,54 @@
     <string name="statistics_counter_well">Dobry stan:</string>
     <string name="statistics_counter_middle">Niewielkie odchylenie:</string>
     <string name="statistics_counter_bad">Zly stan:</string>
-    <string name="statistics_counter_bad_diff">Zla róznica:</string>
+    <string name="statistics_counter_bad_diff">Zla roznica:</string>
     <string name="statistics_counter_arrhythmia">Arytmia:</string>
     <string name="statistics_counter_no_arrhythmia">Brak arytmii:</string>
     <string name="statistics_counter_errors">Niemozliwy do skalsyfikowania:</string>
-    <string name="show_counter_statistics">Statystyki zliczonych pomiarów</string>
-    <string name="show_last_measurements_statistics">Statystyki ostatnich pomiarów</string>
-    <string name="statistics_no_matching_measurements">Brak pasujących pomiarów</string>
-    <string name="title_activity_create_pdf">Stwórz raport PDF</string>
+    <string name="show_counter_statistics">Statystyki zliczonych pomiarow</string>
+    <string name="show_last_measurements_statistics">Statystyki ostatnich pomiarow</string>
+    <string name="statistics_no_matching_measurements">Brak pasujących pomiarow</string>
+    <string name="title_activity_create_pdf">Stworz raport PDF</string>
     <string name="statistics_title_time">Czas:</string>
     <string name="chart">Wykres</string>
     <string name="title_activity_chart">Wykresy</string>
     <string name="title_statistics_charts">Wykres</string>
 
-    <string name="label_axis_y">Ciśnienie</string>
+    <string name="label_axis_y">Cisnienie</string>
     <string name="label_axis_x">Data</string>
     <string name="chart_type_discrete">Dyskretny</string>
-    <string name="chart_type_continuous">Ciągły</string>
+    <string name="chart_type_continuous">Ciągly</string>
 
     <string name="dialog_ok">OK</string>
     <string name="dialog_title">Pomiar</string>
 
-    <string name="show_charts_btn_name">Pokaż wykresy</string>
+    <string name="show_charts_btn_name">Pokaz wykresy</string>
     <string name="save_pdf_btn">Zapisz PDF</string>
-    <string name="location_of_file_must_be_specified">Lokalizacja pliku musi być określona przed jego stworzeniem.</string>
+    <string name="location_of_file_must_be_specified">Lokalizacja pliku musi być okreslona przed jego stworzeniem.</string>
     <string name="filter_date_from">Początek: </string>
     <string name="filter_date_to">Koniec: </string>
     <string name="pdf_file_name">Nazwa pliku PDF:</string>
     <string name="img_file_name">Nazwa obrazu:</string>
     <string name="file_location">Lokalizacja pliku:</string>
-    <string name="name_of_file_must_be_specified">Nazwa pliku musi być określona przed jego stworzeniem.</string>
+    <string name="name_of_file_must_be_specified">Nazwa pliku musi być okreslona przed jego stworzeniem.</string>
     <string name="choose_location">Wybierz lokalizację</string>
-    <string name="file_location_is_probably_not_set">Ścieżka do pliku nie została określona.</string>
+    <string name="file_location_is_probably_not_set">Sciezka do pliku nie zostala okreslona.</string>
     <string name="pdf_report_successfuly_created">Raport PDF utworzony z powodzeniem.</string>
     <string name="filter_from_begin">OD POCZĄTKU</string>
     <string name="filter_to_the_end">DO KOŃCA</string>
-    <string name="attachment_name">Nazwa załączonego pliku PDF:</string>
+    <string name="attachment_name">Nazwa zalączonego pliku PDF:</string>
     <string name="email_of_receiver">Email odbiorcy:</string>
-    <string name="send_pdf_btn">Wyślij raport PDF</string>
+    <string name="send_pdf_btn">Wyslij raport PDF</string>
     <string name="email_addr_must_be_specified">Adres email musi być wpisany</string>
-    <string name="pdf_report_successfuly_saved">Raport PDF został zapisany z powodzeniem</string>
-    <string name="pdf_report_successfuly_sent">Raport PDF został wysłany z powodzeniem</string>
-    <string name="file_name_is_probably_not_set">Nazwa pliku nie została ustawiona</string>
-    <string name="app_could_not_use_cache_storage_give_permission_pls">Aplikacja nie będzie działać poprawnie bez pozwolenia na dostęp do pamięci…</string>
-    <string name="pdf_report_has_not_been_created">Raport PDF nie mógł zostać utworzony</string>
+    <string name="pdf_report_successfuly_saved">Raport PDF zostal zapisany z powodzeniem</string>
+    <string name="pdf_report_successfuly_sent">Raport PDF zostal wyslany z powodzeniem</string>
+    <string name="file_name_is_probably_not_set">Nazwa pliku nie zostala ustawiona</string>
+    <string name="app_could_not_use_cache_storage_give_permission_pls">Aplikacja nie będzie dzialać poprawnie bez pozwolenia na dostęp do pamięci…</string>
+    <string name="pdf_report_has_not_been_created">Raport PDF nie mogl zostać utworzony</string>
     <string name="pdf_created">Data stworzenia raportu PDF:</string>
-    <string name="sending_email">Wysyłanie emaila…</string>
+    <string name="sending_email">Wysylanie emaila…</string>
     <string name="pdf_report">Raport PDF</string>
-    <string name="send_an_email">Wyślij email</string>
+    <string name="send_an_email">Wyslij email</string>
     <string name="choose_mode_for_pdf_creation">Wybierz tryb tworzenie PDF</string>
     <string name="save_it_locally">Zapisz na urządzeniu</string>
     <string name="title_events_activity">Zdarzenia</string>
@@ -134,35 +134,35 @@
     <string name="save_chart_view_as_image">Zapisz widok wykresu jako obraz</string>
     <string name="title_activity_save_chart">Zapisz wykres</string>
     <string name="chart_save_successfully">Wykres zapisany z powodzeniem</string>
-    <string name="chart_has_not_been_saved">Wykres nie został zapisany</string>
+    <string name="chart_has_not_been_saved">Wykres nie zostal zapisany</string>
 
     <string name="toast_export">Dane wyeksportowane</string>
-    <string name="export_error">Nie można zapisać pliku</string>
+    <string name="export_error">Nie mozna zapisać pliku</string>
 
     <string name="import_choose_file">Wybierz plik</string>
     <string name="import_success">Dane zapisane</string>
-    <string name="import_error">Nie można zapisać danych z tego pliku</string>
+    <string name="import_error">Nie mozna zapisać danych z tego pliku</string>
     <string name="label_export_data">Eksportuj Dane</string>
     <string name="label_import_data">Importuj Dane</string>
     <string name="choose_charts_to_attach_to_pdf">Wybierz wykresy do umieszczenia w PDF</string>
-    <string name="nr_of_chosen_charts">Liczba wybranych wykresów:</string>
+    <string name="nr_of_chosen_charts">Liczba wybranych wykresow:</string>
     <string name="get_charts">Dodaj wykresy</string>
     <string name="title_activity_collected_charts">Zebrane wykresy</string>
     <string name="collected_charts_add_new_chart">Dodaj nowy wykres</string>
     <string name="collected_charts_deselect_all">Odznacz wszystkie</string>
     <string name="collected_charts_select_all">Zaznacz wszystkie</string>
     <string name="collected_charts_remove_all">Usuń wszystkie</string>
-    <string name="chart_could_not_be_saved">Błąd! Wykres nie został zapisany…</string>
+    <string name="chart_could_not_be_saved">Bląd! Wykres nie zostal zapisany…</string>
     <string name="title_activity_get_chart_to_pdf">Wybierz wykres do raportu PDF</string>
-    <string name="after_chart_delete">Wykres został usunięty z powodzeniem.</string>
+    <string name="after_chart_delete">Wykres zostal usunięty z powodzeniem.</string>
     <string name="chart_is_being_saved">Wykres jest zapisywany…</string>
-    <string name="are_you_sure_to_delete_all_items">Czy jesteś pewny, ze chcesz usunąć wszystkie elementy?</string>
+    <string name="are_you_sure_to_delete_all_items">Czy jestes pewny, ze chcesz usunąć wszystkie elementy?</string>
 
     <string name="pdf_chapter_statistics">Statystyki</string>
-    <string name="pdf_chapter_blood_pressure">Pomiary ciśnienia</string>
-    <string name="pdf_systole">Ciśnienie skurczowe</string>
-    <string name="pdf_diastole">Ciśnienie rozkurczowe</string>
-    <string name="pdf_difference">Róznica</string>
+    <string name="pdf_chapter_blood_pressure">Pomiary cisnienia</string>
+    <string name="pdf_systole">Cisnienie skurczowe</string>
+    <string name="pdf_diastole">Cisnienie rozkurczowe</string>
+    <string name="pdf_difference">Roznica</string>
     <string name="pdf_pulse">Puls</string>
     <string name="pdf_arrhythmia">Arytmia</string>
     <string name="pdf_date">Data</string>
@@ -181,11 +181,11 @@
     <string name="glucose">GLUKOZA:</string>
     <string name="pdf_report_generated_by">Raport PDF wygenerowany przez</string>
     <string name="report">Raport</string>
-    <string name="pdf_generation_interval_dates">Przedział czasowy dla raportu:</string>
+    <string name="pdf_generation_interval_dates">Przedzial czasowy dla raportu:</string>
     <string name="from_date">od</string>
     <string name="to_date">do</string>
     <string name="pdf_content_charts_chosen">Wykresy wybrane przez pacjenta</string>
-    <string name="pdf_content_about_patient">O pacjencie - \"Mój profil\"</string>
+    <string name="pdf_content_about_patient">O pacjencie - \"Moj profil\"</string>
     <string name="yes">TAK</string>
     <string name="no">NIE</string>
     <string name="start_date">POCZĄTEK:</string>
@@ -193,15 +193,15 @@
     <string name="is_repeatable">CZY POWTARZALNE:</string>
     <string name="description_dialog">OPIS:</string>
     <string name="results">Wyniki</string>
-    <string name="toggle_labels">Zmień widoczność etykiet</string>
+    <string name="toggle_labels">Zmień widocznosć etykiet</string>
     <string name="events_pdf_chapter">Zdarzenia</string>
 
-    <string name="my_profile">Mój\nprofil</string>
+    <string name="my_profile">Moj\nprofil</string>
     <string name="add_measure">Dodaj\npomiar</string>
-    <string name="measures_list">Lista\npomiarów</string>
+    <string name="measures_list">Lista\npomiarow</string>
     <string name="add_event">Dodaj\nzdarzenie</string>
     <string name="events_list">Lista\nzdarzeń</string>
-    <string name="drugs">Lista\nleków</string>
+    <string name="drugs">Lista\nlekow</string>
     <string name="add_drug">Dodaj\nlek</string>
     <string name="alerts">Przypomnienia</string>
     <string name="stats">Statystyki</string>
@@ -220,15 +220,15 @@
     <string name="drug_deleted_successfully">Lek usunięto z powodzeniem</string>
     <string name="drug_saved_successfully">Lek zapisano z powodzeniem</string>
     <string name="event_saved_successfully">Zdarzenie zapisano z powodzeniem</string>
-    <string name="error_while_saving_event">Nastąpił błąd podczas zapisywania zdarzenia</string>
-    <string name="form_invalid">Formularz wypełniony nieprawidłowo. Proszę wypełnić zaznaczone pola!</string>
-    <string name="event_deleted_successfully">Zdarzenie usunięto pomyślnie!</string>
-    <string name="error_while_deleting_event">Nastąpił błąd podczas usuwania zdarzenia</string>
-    <string name="profile_saved_successfully">Profil zapisano pomyślnie</string>
-    <string name="error_while_saving_profile">Nastąpił błąd podczas zapisywania profilu</string>
-    <string name="enable_service">Włącz usługę</string>
+    <string name="error_while_saving_event">Nastąpil bląd podczas zapisywania zdarzenia</string>
+    <string name="form_invalid">Formularz wypelniony nieprawidlowo. Proszę wypelnić zaznaczone pola!</string>
+    <string name="event_deleted_successfully">Zdarzenie usunięto pomyslnie!</string>
+    <string name="error_while_deleting_event">Nastąpil bląd podczas usuwania zdarzenia</string>
+    <string name="profile_saved_successfully">Profil zapisano pomyslnie</string>
+    <string name="error_while_saving_profile">Nastąpil bląd podczas zapisywania profilu</string>
+    <string name="enable_service">Wlącz uslugę</string>
 
-    <string name="argue">kłótnia</string>
+    <string name="argue">klotnia</string>
     <string name="driving_a_car">prowadzenie samochodu</string>
     <string name="exam">egzamin</string>
     <string name="house_duties">obowiązki domowe</string>
@@ -236,29 +236,29 @@
     <string name="relax">relaks</string>
     <string name="shopping">zakupy</string>
     <string name="sport">sport</string>
-    <string name="travel">podróżowanie</string>
+    <string name="travel">podrozowanie</string>
     <string name="walk">spacer</string>
     <string name="work">praca</string>
 
-    <string name="emergency">nagły wypadek</string>
+    <string name="emergency">nagly wypadek</string>
     <string name="examination">badanie</string>
     <string name="prescription">recepta</string>
     <string name="flu">grypa</string>
     <string name="routine_visit">rutynowa wizyta</string>
 
-    <string name="headache">ból głowy</string>
+    <string name="headache">bol glowy</string>
     <string name="high_temperature">gorączka</string>
     <string name="cough">kaszel</string>
-    <string name="stomachache">ból brzucha</string>
-    <string name="toothache">ból zębów</string>
+    <string name="stomachache">bol brzucha</string>
+    <string name="toothache">bol zębow</string>
 
-    <string name="happy">szczęśliwy</string>
+    <string name="happy">szczęsliwy</string>
     <string name="sad">smutny</string>
-    <string name="angry">zły</string>
-    <string name="crying">płaczący</string>
+    <string name="angry">zly</string>
+    <string name="crying">placzący</string>
     <string name="stressed">zestresowany</string>
 
-    <string name="every">Każdy</string>
+    <string name="every">Kazdy</string>
 
     <string name="day">dzień</string>
     <string name="week">tydzień</string>
