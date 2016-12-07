@@ -178,6 +178,7 @@
             android:layout_height="@dimen/_95sdp"
             android:layout_gravity="center"
             android:gravity="center"
+            android:onClick="showSettings"
             />
 
         <Button
