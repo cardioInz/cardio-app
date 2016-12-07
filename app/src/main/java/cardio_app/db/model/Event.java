@@ -254,6 +254,8 @@ public class Event extends BaseModel implements Parcelable {
     }
 
     public boolean isDiscrete(){
+        if (isRepeatable)
+            return true;
         try {
             return DATE_FORMATTER.format(startDate).equals(DATE_FORMATTER.format(endDate));
         } catch (Exception e){

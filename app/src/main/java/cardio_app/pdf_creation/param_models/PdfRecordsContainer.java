@@ -63,8 +63,14 @@ public class PdfRecordsContainer {
     public void initEventDataByHelper() {
         try {
             List<Event> list = dbHelper.getEventsBetween(dateFrom, dateTo);
-            eventsDataList = Event.multiplyRepeatableEvents(list);
-            Collections.sort(eventsDataList, Event.compareStartDate);
+            if (list.size() != 0) {
+                eventsDataList = Event.multiplyRepeatableEvents(list);
+                Collections.sort(eventsDataList, Event.compareStartDate);
+            } else {
+                eventsDataList = list;
+                Log.i(TAG, "initEventDataByHelper: no events has been found between: " +
+                DateTimeUtil.DATE_FORMATTER.format(dateFrom) + " - " + DateTimeUtil.DATE_FORMATTER.format(dateTo));
+            }
         } catch (SQLException e) {
             Log.e(TAG, "initEventDataByHelper: can't get eventsData", e);
             e.printStackTrace();

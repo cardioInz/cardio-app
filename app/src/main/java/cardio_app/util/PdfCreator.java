@@ -54,6 +54,7 @@ public class PdfCreator {
 
     private final float PDF_WIDTH;
     private static final int DAYS_IN_CHAPTER = 30;
+    private final float SCALE_CHART = 0.7f;
 
     private Document document = null;
     private PdfRecordsContainer recordsContainer;
@@ -118,7 +119,7 @@ public class PdfCreator {
         try {
             Image image = imageBuilder.build();
             scaleImage(image, document); // scale to page width
-            scaleImage(image, 0.8f);
+            scaleImage(image, SCALE_CHART);
             return image;
         } catch (Exception e) {
             e.printStackTrace();
@@ -317,7 +318,7 @@ public class PdfCreator {
         for (Image image : extraChartImageList) {
             if (image != null) {
                 scaleImage(image, document); // scale to page width
-                scaleImage(image, 0.4f); // scale percent
+                scaleImage(image, 0.4f); // scale percent // TODO make sure it works correctly
                 catPart.add(image);
             } else
                 Log.e(TAG, "addExtraCharts: image = null");
@@ -385,12 +386,12 @@ public class PdfCreator {
                 if (event.isDiscrete()) {
                     dateStr += " - " + DATE_FORMATTER.format(event.getEndDate());
                 } else {
-                    dateStr += "  " + TIME_FORMATTER.format(event.getStartDate());
+                    dateStr += " " + TIME_FORMATTER.format(event.getStartDate());
                 }
 
                 String desc = event.getDescription();
 
-                new Paragraph(String.format("%s: %s", dateStr, desc));
+                catPart.add(new Paragraph(String.format("%s:     %s", dateStr, desc)));
             } catch (Exception e) {
                 Log.e(TAG, "addEventData: ", e);
             }
