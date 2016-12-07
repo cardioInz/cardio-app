@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cardio_app.R;
+import cardio_app.activity.SettingsActivity;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.pdf_creation.param_models.PdfChosenParams;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
@@ -103,7 +104,7 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         if (verifyFileNameAndLocation()) {
             String absolutePathStr = file.getAbsolutePath();
-            PdfCreator pdfCreator = new PdfCreator(pdfRecordsContainer, extraChartList, contextActivity.getResources(), view);
+            PdfCreator pdfCreator = new PdfCreator(pdfRecordsContainer, extraChartList, contextActivity.getResources(), view, SettingsActivity.isPolishLanguage(contextActivity));
             pdfCreator.createAndSavePdf(absolutePathStr);
         }
         return null;

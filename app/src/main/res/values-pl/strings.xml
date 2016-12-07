@@ -196,19 +196,19 @@
     <string name="toggle_labels">Zmień widoczność etykiet</string>
     <string name="events_pdf_chapter">Zdarzenia</string>
 
-    <string name="my_profile">Mój profil</string>
-    <string name="add_measure">Dodaj pomiar</string>
-    <string name="measures_list">Lista pomiarów</string>
-    <string name="add_event">Dodaj zdarzenie</string>
-    <string name="events_list">Lista zdarzeń</string>
-    <string name="drugs">Lista leków</string>
-    <string name="add_drug">Dodaj lek</string>
+    <string name="my_profile">Mój\nprofil</string>
+    <string name="add_measure">Dodaj\npomiar</string>
+    <string name="measures_list">Lista\npomiarów</string>
+    <string name="add_event">Dodaj\nzdarzenie</string>
+    <string name="events_list">Lista\nzdarzeń</string>
+    <string name="drugs">Lista\nleków</string>
+    <string name="add_drug">Dodaj\nlek</string>
     <string name="alerts">Przypomnienia</string>
     <string name="stats">Statystyki</string>
     <string name="reports">Raporty</string>
     <string name="settings">Ustawienia</string>
-    <string name="import_data">Importuj Dane</string>
-    <string name="export_data">Eksportuj Dane</string>
+    <string name="import_data">Importuj\nDane</string>
+    <string name="export_data">Eksportuj\nDane</string>
     <string name="info">Informacje</string>
 
     <string name="shortcut_diastole">ROZ</string>
@@ -280,4 +280,5 @@
     <string name="change_location">Zmień lokację</string>
     <string name="date_of_report_generation">Data wygenerowania raportu:</string>
     <string name="cardio_inz_report">Cardio-Inz, Raport</string>
+    <string name="add_chart">Dodaj wykres</string>
 </resources>

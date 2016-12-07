@@ -120,6 +120,7 @@ public class CollectedChartsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.collected_charts_add_new_btn: // same as below
             case R.id.collected_charts_add_new: {
                 Intent intent = new Intent(this, ChartActivity.class);
                 intent.putExtra("collectedChartsInvoked", true);

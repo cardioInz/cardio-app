@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import cardio_app.R;
+import cardio_app.activity.SettingsActivity;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;
@@ -56,6 +57,8 @@ public class PdfCreator {
         setUpFonts();
     }
 
+    private boolean isPolLang;
+
     private static void setUpFonts() {
         try {
             BaseFont courier = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, BaseFont.EMBEDDED);
@@ -82,13 +85,15 @@ public class PdfCreator {
     private boolean isMyProfileAttached = false;
     private LineChartView view;
 
-    public PdfCreator(PdfRecordsContainer recordsContainerParam, java.util.List<BitmapFromChart> extraChartBitmapList, Resources res, LineChartView view) {
+    public PdfCreator(PdfRecordsContainer recordsContainerParam, java.util.List<BitmapFromChart> extraChartBitmapList,
+                      Resources res, LineChartView view, boolean isPolLang) {
         this.resources = res;
         this.recordsContainer = recordsContainerParam;
         this.extraChartBitmapList = extraChartBitmapList;
         this.chapterCnt = 0;
         this.document = new Document();
         this.view = view;
+        this.isPolLang = isPolLang;
 
         PDF_WIDTH = document.getPageSize().getWidth();
         final float height = document.getPageSize().getHeight();
@@ -513,8 +518,9 @@ public class PdfCreator {
             table.addCell(TIME_FORMATTER.format(pressureData.getDateTime()));
         }
 
-//        float[] columnWidths = new float[]{15f, 15f, 17f, 10f, 16f, 17f, 10f}; // ENG lang
-        float[] columnWidths = new float[]{15f, 15f, 12f, 10f, 10f, 15f, 10f}; // POL lang
+
+        float[] columnWidths = isPolLang ? new float[]{15f, 15f, 12f, 10f, 10f, 15f, 10f} // POL lang
+                : new float[]{15f, 15f, 17f, 10f, 16f, 17f, 10f};  // ENG lang
         table.setWidths(columnWidths);
 
         subCatPart.add(table);

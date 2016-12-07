@@ -282,4 +282,5 @@
 
     <string name="date_of_report_generation">Date of report generation:</string>
     <string name="cardio_inz_report">Cardio-Inz Report</string>
+    <string name="add_chart">Add chart</string>
 </resources>

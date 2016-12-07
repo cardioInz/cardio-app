@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/collected_charts_add_new_btn"
+        android:icon="@drawable/add"
+        android:title="@string/add_chart"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/collected_charts_add_new"
