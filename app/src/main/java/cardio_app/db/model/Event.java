@@ -2,6 +2,7 @@ package cardio_app.db.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import cardio_app.util.DateTimeUtil;
 
+import static android.content.ContentValues.TAG;
 import static cardio_app.util.DateTimeUtil.DATETIME_FORMATTER;
 import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
 
@@ -133,7 +135,7 @@ public class Event extends BaseModel implements Parcelable {
             startDate = DATETIME_FORMATTER.parse(in.readString());
             endDate = DATETIME_FORMATTER.parse(in.readString());
         } catch (Exception e) {
-
+            Log.e(TAG, "Event: ", e);
         }
         isRepeatable = in.readByte() != 0;
         try {
@@ -190,7 +192,7 @@ public class Event extends BaseModel implements Parcelable {
                 otherSymptomsRecord, emotion, doctorsAppointment, dailyActivitiesRecord, isAlarmSet);
     }
 
-    public Date getCurrentDate() {
+    private Date getCurrentDate() {
         return new Date(System.currentTimeMillis());
     }
 
@@ -254,9 +256,12 @@ public class Event extends BaseModel implements Parcelable {
     }
 
     public boolean isDiscrete(){
+        if (isRepeatable)
+            return true;
         try {
             return DATE_FORMATTER.format(startDate).equals(DATE_FORMATTER.format(endDate));
         } catch (Exception e){
+            Log.e(TAG, "isDiscrete: ", e);
             return true;
         }
     }

@@ -1,6 +1,7 @@
 package cardio_app.util;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import org.joda.time.LocalDateTime;
 
@@ -9,6 +10,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import cardio_app.db.model.TimeUnit;
+
+import static android.content.ContentValues.TAG;
 
 
 public class DateTimeUtil {
@@ -22,6 +25,7 @@ public class DateTimeUtil {
 
     public static LocalDateTime increaseDate(LocalDateTime dateTime, TimeUnit timeUnit, int delta) {
         if (delta <= 0) {
+            Log.e(TAG, "increaseDate: delta = " + delta);
             throw new RuntimeException("Delta cannot be negative!");
         }
         switch (timeUnit) {
