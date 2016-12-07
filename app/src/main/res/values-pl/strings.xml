@@ -78,7 +78,7 @@
     <string name="statistics_counter_bad_diff">Zla roznica:</string>
     <string name="statistics_counter_arrhythmia">Arytmia:</string>
     <string name="statistics_counter_no_arrhythmia">Brak arytmii:</string>
-    <string name="statistics_counter_errors">Niemozliwy do skalsyfikowania:</string>
+    <string name="statistics_counter_errors">Niemozliwy do sklasyfikowania:</string>
     <string name="show_counter_statistics">Statystyki zliczonych pomiarow</string>
     <string name="show_last_measurements_statistics">Statystyki ostatnich pomiarow</string>
     <string name="statistics_no_matching_measurements">Brak pasujących pomiarow</string>
