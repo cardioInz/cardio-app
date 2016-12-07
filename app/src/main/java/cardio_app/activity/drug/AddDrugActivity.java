@@ -111,7 +111,7 @@ public class AddDrugActivity extends AppCompatActivity {
             }
         }
 
-        Toast.makeText(this, "Drug deleted successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.drug_deleted_successfully, Toast.LENGTH_SHORT).show();
         onBackPressed();
     }
 
@@ -144,7 +144,7 @@ public class AddDrugActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        Toast.makeText(this, "Drug saved successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.drug_saved_successfully, Toast.LENGTH_SHORT).show();
         onBackPressed();
     }
 }

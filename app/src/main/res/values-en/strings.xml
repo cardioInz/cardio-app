@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <string name="app_name">Cardio-Inz</string>
+        <string name="app_email">cardio.inzynierka@gmail.com</string>
+
+        <string name="navigation_drawer_open">Open navigation drawer</string>
+        <string name="navigation_drawer_close">Close navigation drawer</string>
+
+        <string name="action_settings">Settings</string>
+
+        <string name="menu_title_diary">BP Diary</string>
+        <string name="menu_title_import_export">Import/Export</string>
+        <string name="menu_title_genre_report">Genre Report</string>
+        <string name="menu_title_advices">Advices</string>
+        <string name="menu_title_reminders">Reminders</string>
+        <string name="menu_title_questionnaire">Patient questionnaire</string>
+        <string name="menu_title_manage">Settings</string>
+
+        <string name="communicate">Communicate</string>
+        <string name="new_pressure_added_msg">New measurement has been added successfully to you BP Diary</string>
+        <string name="name">NAME:</string>
+        <string name="description">DESCRIPTION:</string>
+        <string name="active_alarms">Active Alarms</string>
+        <string name="save">SAVE</string>
+
+        <string name="title_activity_add_diary">Measurement</string>
+        <string name="title_activity_filter">Filtering</string>
+        <string name="title_activity_alerts">Alerts</string>
+        <string name="title_activity_statistics">Statistics</string>
+        <string name="title_activity_add_alarm">Alarm</string>
+        <string name="title_activity_drugs">Drugs</string>
+        <string name="title_activity_add_drug">Drug</string>
+        <string name="title_statistics_countered_measures">Countered measurements</string>
+        <string name="title_statistics_last_measures">Last measurements</string>
+
+        <string name="systole">SYSTOLE:</string>
+        <string name="diastole">DIASTOLE:</string>
+        <string name="pulse">PULSE:</string>
+        <string name="arrhythmia">ARRHYTHMIA:</string>
+        <string name="date">DATE:</string>
+        <string name="time">TIME:</string>
+
+        <string name="after_pressure_save">Measurement parameters saved successfully</string>
+        <string name="delete">DELETE</string>
+        <string name="after_pressure_delete">Measurement deleted successfully</string>
+        <string name="are_you_sure_to_save_changes">Are you sure that you want to save changes?</string>
+        <string name="are_you_sure_to_delete_item">Are you sure that you want to delete this item?</string>
+        <string name="filter">Filter</string>
+        <string name="filter_no_filter">No filter (all)</string>
+        <string name="filter_custom">Custom</string>
+        <string name="filter_this_year">This year</string>
+        <string name="filter_this_month">This month</string>
+        <string name="filter_last_x_days">Last x days</string>
+        <string name="choose_filter">Choose filter</string>
+        <string name="x_days_equals">x = ?</string>
+        <string name="date_from">Date from</string>
+        <string name="date_to">Date to</string>
+        <string name="non_negative_number_value_is_required">Non negative number value is required in text field</string>
+        <string name="date_to_could_not_be_before_date_from">\"Date to\" could not be before the \"Date from\"</string>
+        <string name="emptyMinus">-</string>
+
+        <string name="statistics_last_measure">Last measurement:</string>
+        <string name="statistics_last_bad_condition_measure">Last bad condition:</string>
+        <string name="statistics_last_well_condition_measure">Last well condition:</string>
+        <string name="statistics_last__middle_condition_measure">Last little low/high:</string>
+        <string name="statistics_bad_difference_condition_measure">Last bad difference:</string>
+        <string name="statistics_last_arrhythmia_measure">Last arrhythmia:</string>
+        <string name="statistics_last_no_arrhythmia_measure">Last no arrhythmia:</string>
+        <string name="statistics_title_values">Systole/Diastole/Pulse:</string>
+        <string name="statistics_title_date">Date:</string>
+        <string name="statistics_title_arrhythmia">Arrhythmia</string>
+        <string name="statistics_title_no_arrhythmia">No Arrhythmia</string>
+        <string name="statistics_measure_counter">Countered measurements:</string>
+        <string name="statistics_counter_total">TOTAL COUNTER:</string>
+        <string name="statistics_counter_well">Well condition:</string>
+        <string name="statistics_counter_middle">Little low/high:</string>
+        <string name="statistics_counter_bad">Bad condition:</string>
+        <string name="statistics_counter_bad_diff">Bad difference:</string>
+        <string name="statistics_counter_arrhythmia">Arrhythmia:</string>
+        <string name="statistics_counter_no_arrhythmia">No arrhythmia:</string>
+        <string name="statistics_counter_errors">Invalid to classify:</string>
+        <string name="show_counter_statistics">Statistics of countered measurements</string>
+        <string name="show_last_measurements_statistics">Statistics of last measurements</string>
+        <string name="statistics_no_matching_measurements">No matching measurements</string>
+        <string name="title_activity_create_pdf">Create PDF Report</string>
+        <string name="statistics_title_time">Time:</string>
+        <string name="chart">Chart</string>
+        <string name="title_activity_chart">ChartActivity</string>
+        <string name="title_statistics_charts">Chart</string>
+
+        <string name="label_axis_y">Pressure</string>
+        <string name="label_axis_x">Date</string>
+        <string name="chart_type_discrete">Discrete</string>
+        <string name="chart_type_continuous">Continuous</string>
+
+        <string name="dialog_ok">OK</string>
+        <string name="dialog_title">Measurement</string>
+
+        <string name="show_charts_btn_name">Show Charts</string>
+        <string name="save_pdf_btn">Save PDF</string>
+        <string name="location_of_file_must_be_specified">Location of file must be specified before creation.</string>
+        <string name="filter_date_from">Date from: </string>
+        <string name="filter_date_to">Date to: </string>
+        <string name="pdf_file_name">PDF File name:</string>
+        <string name="img_file_name">Image name:</string>
+        <string name="file_location">File location:</string>
+        <string name="name_of_file_must_be_specified">Name of file must be specified before creation</string>
+        <string name="choose_location">Choose location</string>
+        <string name="file_location_is_probably_not_set">File location value is probably not set</string>
+        <string name="pdf_report_successfuly_created">PDF Report has been successfully created.</string>
+        <string name="filter_from_begin">FROM BEGIN</string>
+        <string name="filter_to_the_end">TO THE END</string>
+        <string name="attachment_name">Attached PDF file name:</string>
+        <string name="email_of_receiver">Receivers email:</string>
+        <string name="send_pdf_btn">Send PDF Report</string>
+        <string name="email_addr_must_be_specified">Email address must be specified</string>
+        <string name="pdf_report_successfuly_saved">PDF Report have been successfully saved</string>
+        <string name="pdf_report_successfuly_sent">PDF Report has been sent successfully</string>
+        <string name="file_name_is_probably_not_set">File name is probably not set</string>
+        <string name="app_could_not_use_cache_storage_give_permission_pls">Application could not work correctly without permission to use storage…</string>
+        <string name="pdf_report_has_not_been_created">PDF Report could not be created…</string>
+        <string name="pdf_created">PDF Report creation date:</string>
+        <string name="sending_email">Sending email…</string>
+        <string name="pdf_report">PDF Report</string>
+        <string name="send_an_email">Send an email</string>
+        <string name="choose_mode_for_pdf_creation">Choose mode for pdf creation</string>
+        <string name="save_it_locally">Save it locally</string>
+        <string name="title_events_activity">Events</string>
+        <string name="title_add_event">Add Event</string>
+
+        <string name="event_alert_title">Event</string>
+
+        <string name="save_img_btn">SAVE AS IMAGE</string>
+        <string name="save_chart_view_as_image">Save your chart view as image</string>
+        <string name="title_activity_save_chart">Save chart</string>
+        <string name="chart_save_successfully">Chart saved successfully</string>
+        <string name="chart_has_not_been_saved">Chart has not been saved</string>
+
+        <string name="toast_export">data exported</string>
+        <string name="export_error">cannot save file</string>
+
+        <string name="import_choose_file">choose file</string>
+        <string name="import_success">data saved</string>
+        <string name="import_error">cannot save data from this file</string>
+        <string name="label_export_data">Export Data</string>
+        <string name="label_import_data">Import Data</string>
+        <string name="choose_charts_to_attach_to_pdf">Choose charts to attach to PDF</string>
+        <string name="nr_of_chosen_charts">Number of chosen charts:</string>
+        <string name="get_charts">Add Charts</string>
+        <string name="title_activity_collected_charts">Collected Charts</string>
+        <string name="collected_charts_add_new_chart">Add new chart</string>
+        <string name="collected_charts_deselect_all">Deselect all</string>
+        <string name="collected_charts_select_all">Select all</string>
+        <string name="collected_charts_remove_all">Remove all</string>
+        <string name="chart_could_not_be_saved">Error! Chart could not be saved…</string>
+        <string name="title_activity_get_chart_to_pdf">Get chart to PDF</string>
+        <string name="after_chart_delete">Chart has been successfully deleted.</string>
+        <string name="chart_is_being_saved">Chart is being saved…</string>
+        <string name="are_you_sure_to_delete_all_items">Are you sure that you want to delete all items?</string>
+
+        <string name="pdf_chapter_statistics">Statistics</string>
+        <string name="pdf_chapter_blood_pressure">Blood pressure records</string>
+        <string name="pdf_systole">Systole</string>
+        <string name="pdf_diastole">Diastole</string>
+        <string name="pdf_difference">Difference</string>
+        <string name="pdf_pulse">Pulse</string>
+        <string name="pdf_arrhythmia">Arrhythmia</string>
+        <string name="pdf_date">Date</string>
+        <string name="pdf_time">Time</string>
+
+        <string name="first_name">NAME:</string>
+        <string name="surname">SURNAME:</string>
+        <string name="date_of_birth">DATE OF BIRTH:</string>
+        <string name="sex">SEX:</string>
+        <string name="female">Female</string>
+        <string name="male">Male</string>
+        <string name="weight">WEIGHT:</string>
+        <string name="height">HEIGHT:</string>
+        <string name="smoker">I AM SMOKING</string>
+        <string name="cholesterol">CHOLESTEROL:</string>
+        <string name="glucose">GLUCOSE:</string>
+        <string name="pdf_report_generated_by">PDF Report generated by</string>
+        <string name="report">Report</string>
+        <string name="pdf_generation_interval_dates">Interval date for which the report was generated:</string>
+        <string name="from_date">from</string>
+        <string name="to_date">to</string>
+        <string name="pdf_content_charts_chosen">Charts chosen by patient</string>
+        <string name="pdf_content_about_patient">About patient - \"My Profile\"</string>
+        <string name="yes">YES</string>
+        <string name="no">NO</string>
+        <string name="start_date">START DATE:</string>
+        <string name="end_date">END DATE:</string>
+        <string name="is_repeatable">IS REPEATABLE:</string>
+        <string name="description_dialog">DESCRIPTION:</string>
+        <string name="results">Results</string>
+        <string name="toggle_labels">Toggle labels</string>
+        <string name="events_pdf_chapter">Events</string>
+
+        <string name="my_profile">My\n Profile</string>
+        <string name="add_measure">Add\n a Measure</string>
+        <string name="measures_list">Measures\n List</string>
+        <string name="add_event">Add\n an Event</string>
+        <string name="events_list">Events\n List</string>
+        <string name="drugs">Drugs\n List</string>
+        <string name="add_drug">Add\n a drug</string>
+        <string name="alerts">Alerts\n</string>
+        <string name="stats">Statistics\n</string>
+        <string name="reports">Reports\n</string>
+        <string name="settings">Settings\n</string>
+        <string name="import_data">Import\n Data</string>
+        <string name="export_data">Export\nData</string>
+        <string name="info">Info</string>
+
+        <string name="drug_deleted_successfully">Drug deleted successfully</string>
+        <string name="drug_saved_successfully">Drug saved successfully</string>
+        <string name="event_saved_successfully">Event saved successfully</string>
+        <string name="error_while_saving_event">Error occurred while saving event</string>
+        <string name="form_invalid">Form invalid. Fill in marked fields!</string>
+        <string name="event_deleted_successfully">Event deleted successfully!</string>
+        <string name="error_while_deleting_event">Error occurred while deleting event</string>
+        <string name="profile_saved_successfully">Profile saved successfully</string>
+        <string name="error_while_saving_profile">Error occurred while saving profile</string>
+        <string name="enable_service">Enable service</string>
+
+        <string name="argue">argue</string>
+        <string name="driving_a_car">driving a car</string>
+        <string name="exam">exam</string>
+        <string name="house_duties">house duties</string>
+        <string name="party">party</string>
+        <string name="relax">relax</string>
+        <string name="shopping">shopping</string>
+        <string name="sport">sport</string>
+        <string name="travel">travel</string>
+        <string name="walk">walk</string>
+        <string name="work">work</string>
+
+        <string name="emergency">emergency</string>
+        <string name="examination">examination</string>
+        <string name="prescription">prescription</string>
+        <string name="flu">flu</string>
+        <string name="routine_visit">routine visit</string>
+
+        <string name="headache">headache</string>
+        <string name="high_temperature">high temperature</string>
+        <string name="cough">cough</string>
+        <string name="stomachache">stomachache</string>
+        <string name="toothache">toothache</string>
+
+        <string name="happy">happy</string>
+        <string name="sad">sad</string>
+        <string name="angry">angry</string>
+        <string name="crying">crying</string>
+        <string name="stressed">stressed</string>
+
+        <string name="every">Every</string>
+
+        <string name="day">day</string>
+        <string name="week">week</string>
+        <string name="month">month</string>
+
+        <string name="event_description">DESCRIPTION:</string>
+        <string name="event_start_date">START DATE:</string>
+        <string name="event_start_time">START TIME:</string>
+        <string name="event_end_date">END DATE:</string>
+        <string name="event_repeat">REPEAT:</string>
+        <string name="event_time_delta">REPEAT EVERY:</string>
+        <string name="event_time_unit">TIME UNIT:</string>
+        <string name="event_emotion">EMOTIONS:</string>
+        <string name="event_symptoms">SYMPTOMS:</string>
+        <string name="event_visit">MEDICAL APPOINTMENT:</string>
+        <string name="event_other">OTHER TYPES:</string>
+        <string name="event_set_alarm">SET ALARM FOR EVENT:</string>
+
+        <string name="change_location">Change location</string>
+</resources>

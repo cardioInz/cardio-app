@@ -9,6 +9,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cardio_app.R;
+
 @DatabaseTable
 public class OtherSymptomsRecord extends BaseModel implements Parcelable {
     public static final Creator<OtherSymptomsRecord> CREATOR = new Creator<OtherSymptomsRecord>() {
@@ -152,11 +154,11 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
 
     public String getOtherSymptomsDescription() {
         String description = "";
-        description += this.isHeadache() ? "headache, " : "";
-        description += this.isHighTemperature() ? "high temperature, " : "";
-        description += this.isCough() ? "cough, " : "";
-        description += this.isToothache() ? "toothache, " : "";
-        description += this.isStomachAche() ? "stomachache, " : "";
+        description += this.isHeadache() ? R.string.headache + ", " : "";
+        description += this.isHighTemperature() ? R.string.high_temperature + ", " : "";
+        description += this.isCough() ? R.string.cough + ", " : "";
+        description += this.isToothache() ? R.string.toothache + ", " : "";
+        description += this.isStomachAche() ? R.string.stomachache + ", " : "";
         if (description != "") {
             return description.substring(0, description.length()-2);
         }

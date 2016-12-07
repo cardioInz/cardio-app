@@ -77,9 +77,9 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 dao.update(currentUser);
             }
-            Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.profile_saved_successfully, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(this, "Errors occurred while saving profile ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_while_saving_profile, Toast.LENGTH_SHORT).show();
         }
     }
 }

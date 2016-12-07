@@ -4,9 +4,11 @@ package cardio_app.viewmodel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import cardio_app.R;
 import cardio_app.db.model.Emotion;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.TimeUnit;
+import cardio_app.db.model.TimeUnitHelper;
 import cardio_app.util.DateTimeUtil;
 
 public class EventDataViewModel extends BaseObservable {
@@ -135,7 +137,7 @@ public class EventDataViewModel extends BaseObservable {
 
     @Bindable
     public String getRepeatInfo() {
-        return "Every " + this.getTimeDelta() + " " + event.getTimeUnit().name().toLowerCase() + "s";
+        return R.string.every + " " + this.getTimeDelta() + " " + TimeUnitHelper.getDescription(event.getTimeUnit());
     }
 
     public Emotion getEmotion() {

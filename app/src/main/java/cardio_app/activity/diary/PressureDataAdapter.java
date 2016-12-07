@@ -53,17 +53,17 @@ public class PressureDataAdapter extends ArrayAdapter<PressureData> {
             dateTimeTextView.setText(viewModel.getDateTimeInTwoLinesStr());
 //            dateTextView.setText(viewModel.getDateStr());
 //            timeTextView.setText(viewModel.getTimeStr());
-            if (viewModel.getConditionStr().equals("1") ||
-                    viewModel.getConditionStr().equals("2") ||
-                    viewModel.getConditionStr().equals("3")) {
+            if (viewModel.getConditionStr().equals("0") ||
+                    viewModel.getConditionStr().equals("1") ||
+                    viewModel.getConditionStr().equals("2")) {
                 linearLayout.setBackgroundResource(R.drawable.low_pressure);
-            } else if (viewModel.getConditionStr().equals("4") ||
-                    viewModel.getConditionStr().equals("5") ||
-                    viewModel.getConditionStr().equals("6")) {
+            } else if (viewModel.getConditionStr().equals("3") ||
+                    viewModel.getConditionStr().equals("4") ||
+                    viewModel.getConditionStr().equals("5")) {
                 linearLayout.setBackgroundResource(R.drawable.normal_pressure);
-            } else if (viewModel.getConditionStr().equals("7") ||
-                    viewModel.getConditionStr().equals("8") ||
-                    viewModel.getConditionStr().equals("9")) {
+            } else if (viewModel.getConditionStr().equals("6") ||
+                    viewModel.getConditionStr().equals("7") ||
+                    viewModel.getConditionStr().equals("8")) {
                 linearLayout.setBackgroundResource(R.drawable.high_pressure);
             }
 

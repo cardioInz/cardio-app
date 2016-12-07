@@ -279,15 +279,15 @@ public class AddEventActivity extends AppCompatActivity {
                 updateAlarm.putExtra(SetAlarmService.EVENT_ID, currentEvent.getId());
                 startService(updateAlarm);
 
-                Toast.makeText(this, "Event saved successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.event_saved_successfully, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(this, "Error occurred while saving event", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.error_while_saving_event, Toast.LENGTH_SHORT).show();
             }
 
             Intent intent = new Intent(this, EventActivity.class);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "Form invalid. Fill in marked fields!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.form_invalid, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -310,9 +310,9 @@ public class AddEventActivity extends AppCompatActivity {
             cancelAlarm.setAction(SetAlarmService.CANCEL);
             cancelAlarm.putExtra(SetAlarmService.EVENT_ID, currentEvent.getId());
             onBackPressed();
-            Toast.makeText(this, "Event deleted successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.event_deleted_successfully, Toast.LENGTH_SHORT).show();
         } catch (SQLException e) {
-            Toast.makeText(this, "Error occurred while deleting event", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_while_deleting_event, Toast.LENGTH_SHORT).show();
             Log.e("", "Can't perform delete action on Event record", e);
         }
     }

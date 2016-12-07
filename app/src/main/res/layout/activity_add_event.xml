@@ -47,7 +47,7 @@
                     style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Description" />
+                    android:text="@string/event_description" />
 
                 <EditText
                     android:id="@+id/editText"
@@ -71,7 +71,7 @@
                     style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Start date:" />
+                    android:text="@string/event_start_date" />
 
                 <DatePicker
                     android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                     style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Start time:" />
+                    android:text="@string/event_start_time" />
 
                 <TimePicker
                     android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                     style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="End Date:" />
+                    android:text="@string/event_end_date" />
 
                 <DatePicker
                     android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
                     style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Do you want to repeat?" />
+                    android:text="@string/event_repeat" />
 
                 <CheckBox
                     android:layout_width="match_parent"
@@ -165,7 +165,7 @@
                     style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Powtarzaj co" />
+                    android:text="@string/event_time_delta" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                     style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Time unit:" />
+                    android:text="@string/event_time_unit" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
@@ -198,14 +198,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="@={event.day}"
-                        android:text="day" />
+                        android:text="@string/day" />
 
                     <RadioButton
                         android:id="@+id/radio_repeat_weekly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="@={event.week}"
-                        android:text="week" />
+                        android:text="@string/week" />
 
                     <RadioButton
                         android:id="@+id/radio_repeat_monthly"
@@ -213,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="@={event.month}"
-                        android:text="month" />
+                        android:text="@string/month" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -235,7 +235,7 @@
                         style="@style/EditTextArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="EMOTIONS:" />
+                        android:text="@string/event_emotion" />
 
                 </LinearLayout>
 
@@ -263,7 +263,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/happy"
                                 android:onClick="changeEmotion"
-                                android:text="Happy" />
+                                android:text="@string/happy" />
 
                             <Button
                                 android:id="@+id/button_sad"
@@ -274,7 +274,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/sad"
                                 android:onClick="changeEmotion"
-                                android:text="Sad" />
+                                android:text="@string/sad" />
 
                             <Button
                                 android:id="@+id/button_angry"
@@ -285,7 +285,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/angry"
                                 android:onClick="changeEmotion"
-                                android:text="Angry" />
+                                android:text="@string/angry" />
 
                             <Button
                                 android:id="@+id/button_crying"
@@ -296,7 +296,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/crying"
                                 android:onClick="changeEmotion"
-                                android:text="Crying" />
+                                android:text="@string/crying" />
 
                             <Button
                                 android:id="@+id/button_stressed"
@@ -307,7 +307,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/stressed"
                                 android:onClick="changeEmotion"
-                                android:text="Stressed" />
+                                android:text="@string/stressed" />
                         </LinearLayout>
                     </HorizontalScrollView>
                 </LinearLayout>
@@ -329,7 +329,7 @@
                         style="@style/EditTextArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SYMPTOMS:" />
+                        android:text="@string/event_symptoms" />
 
                 </LinearLayout>
 
@@ -359,7 +359,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/cough"
                                 android:onClick="changeSymptomps"
-                                android:text="Cough" />
+                                android:text="@string/cough" />
 
                             <Button
                                 android:id="@+id/button_headache"
@@ -370,7 +370,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/headache"
                                 android:onClick="changeSymptomps"
-                                android:text="Headache" />
+                                android:text="@string/headache" />
 
                             <Button
                                 android:id="@+id/button_fever"
@@ -381,7 +381,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/high_temperature"
                                 android:onClick="changeSymptomps"
-                                android:text="High temperature" />
+                                android:text="@string/high_temperature" />
 
                             <Button
                                 android:id="@+id/button_stomachache"
@@ -392,7 +392,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/stomachache"
                                 android:onClick="changeSymptomps"
-                                android:text="Stomachache" />
+                                android:text="@string/stomachache" />
 
                             <Button
                                 android:id="@+id/button_toothache"
@@ -403,7 +403,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/toothache"
                                 android:onClick="changeSymptomps"
-                                android:text="Toothache" />
+                                android:text="@string/toothache" />
                         </LinearLayout>
                     </HorizontalScrollView>
                 </LinearLayout>
@@ -425,7 +425,7 @@
                         style="@style/EditTextArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MEDICAL APPOINTMENT:" />
+                        android:text="@string/event_visit" />
 
                 </LinearLayout>
 
@@ -455,7 +455,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/medical_checkout"
                                 android:onClick="changeVisitType"
-                                android:text="Medical checkout" />
+                                android:text="@string/routine_visit" />
 
                             <Button
                                 android:id="@+id/button_examination"
@@ -466,7 +466,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/examination"
                                 android:onClick="changeVisitType"
-                                android:text="Examination" />
+                                android:text="@string/examination" />
 
                             <Button
                                 android:id="@+id/button_prescription"
@@ -477,7 +477,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/prescription"
                                 android:onClick="changeVisitType"
-                                android:text="Prescription" />
+                                android:text="@string/prescription" />
 
                             <Button
                                 android:id="@+id/button_emergency"
@@ -488,7 +488,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/emergency"
                                 android:onClick="changeVisitType"
-                                android:text="Emergency" />
+                                android:text="@string/emergency" />
 
                             <Button
                                 android:id="@+id/button_flu"
@@ -499,7 +499,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/infection"
                                 android:onClick="changeVisitType"
-                                android:text="Flu" />
+                                android:text="@string/flu" />
                         </LinearLayout>
                     </HorizontalScrollView>
                 </LinearLayout>
@@ -521,7 +521,7 @@
                         style="@style/EditTextArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="OTHER EVENTS:" />
+                        android:text="@string/event_other" />
 
                 </LinearLayout>
 
@@ -551,7 +551,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_fight"
                                 android:onClick="changeEventType"
-                                android:text="Argue" />
+                                android:text="@string/argue" />
 
                             <Button
                                 android:id="@+id/button_other_work"
@@ -562,7 +562,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_work"
                                 android:onClick="changeEventType"
-                                android:text="Work" />
+                                android:text="@string/work" />
 
                             <Button
                                 android:id="@+id/button_other_relax"
@@ -573,7 +573,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_relax"
                                 android:onClick="changeEventType"
-                                android:text="Relax" />
+                                android:text="@string/relax" />
 
                             <Button
                                 android:id="@+id/button_other_exam"
@@ -584,7 +584,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_exam"
                                 android:onClick="changeEventType"
-                                android:text="Exam" />
+                                android:text="@string/exam" />
 
                             <Button
                                 android:id="@+id/button_other_walk"
@@ -595,7 +595,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_walk"
                                 android:onClick="changeEventType"
-                                android:text="Walk" />
+                                android:text="@string/walk" />
 
                             <Button
                                 android:id="@+id/button_other_sport"
@@ -606,7 +606,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_sport"
                                 android:onClick="changeEventType"
-                                android:text="Sport" />
+                                android:text="@string/sport" />
 
                             <Button
                                 android:id="@+id/button_other_party"
@@ -617,7 +617,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_party"
                                 android:onClick="changeEventType"
-                                android:text="Party" />
+                                android:text="@string/party" />
 
                             <Button
                                 android:id="@+id/button_other_travel"
@@ -628,7 +628,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_travel"
                                 android:onClick="changeEventType"
-                                android:text="Travel" />
+                                android:text="@string/travel" />
 
                             <Button
                                 android:id="@+id/button_other_house_duties"
@@ -639,7 +639,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_house_duties"
                                 android:onClick="changeEventType"
-                                android:text="House duties" />
+                                android:text="@string/house_duties" />
 
                             <Button
                                 android:id="@+id/button_other_car_driving"
@@ -650,7 +650,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_car_driving"
                                 android:onClick="changeEventType"
-                                android:text="Car driving" />
+                                android:text="@string/driving_a_car" />
 
                             <Button
                                 android:id="@+id/button_other_shopping"
@@ -661,7 +661,7 @@
                                 android:background="@null"
                                 android:drawableTop="@drawable/event_other_shopping"
                                 android:onClick="changeEventType"
-                                android:text="Shopping" />
+                                android:text="@string/shopping" />
 
                         </LinearLayout>
                     </HorizontalScrollView>
@@ -679,7 +679,7 @@
                     style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Set an alert for this event" />
+                    android:text="@string/event_set_alarm" />
 
                 <CheckBox
                     android:layout_width="match_parent"
@@ -698,7 +698,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/submit"
                     android:onClick="saveEvent"
-                    android:text="SUBMIT"
+                    android:text="@string/save"
                     android:textColor="#ffffff"
                     android:textStyle="bold" />
 

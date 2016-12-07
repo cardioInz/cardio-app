@@ -24,20 +24,20 @@ public class DailyActivitiesRecordHelper {
         otherEventToImageMap.put(DailyActivitiesRecord.WORK, R.drawable.event_other_work);
     }
 
-    private static final Map<DailyActivitiesRecord, String> otherEventToDescriptionMap;
+    private static final Map<DailyActivitiesRecord, Integer> otherEventToDescriptionMap;
     static {
         otherEventToDescriptionMap = new HashMap<>();
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.ARGUE, "argue");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.DRIVING_CAR, "driving a car");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.EXAM, "exam");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.HOUSE_DUTIES, "house duties");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.PARTY, "party");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.RELAX, "relax");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.SHOPPING, "shopping");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.SPORT, "sport");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.TRAVEL, "travel");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.WALK, "walk");
-        otherEventToDescriptionMap.put(DailyActivitiesRecord.WORK, "work");
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.ARGUE, R.string.argue);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.DRIVING_CAR, R.string.driving_a_car);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.EXAM, R.string.exam);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.HOUSE_DUTIES, R.string.house_duties);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.PARTY, R.string.party);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.RELAX, R.string.relax);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.SHOPPING, R.string.shopping);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.SPORT, R.string.sport);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.TRAVEL, R.string.travel);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.WALK, R.string.walk);
+        otherEventToDescriptionMap.put(DailyActivitiesRecord.WORK, R.string.work);
     }
 
 
@@ -45,7 +45,7 @@ public class DailyActivitiesRecordHelper {
         return otherEventToImageMap.get(record);
     }
 
-    public static String getDescription(DailyActivitiesRecord record) {
+    public static Integer getDescription(DailyActivitiesRecord record) {
         return otherEventToDescriptionMap.get(record);
     }
 
