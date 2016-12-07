@@ -60,10 +60,10 @@
     <string name="emptyMinus">-</string>
 
     <string name="statistics_last_measure">Ostatni pomiar:</string>
-    <string name="statistics_last_bad_condition_measure">Ostatni w zły stanie:</string>
+    <string name="statistics_last_bad_condition_measure">Ostatni w zly stanie:</string>
     <string name="statistics_last_well_condition_measure">Ostatni w dobrym stanie:</string>
     <string name="statistics_last__middle_condition_measure">Ostatni o niewielkim odchyleniu:</string>
-    <string name="statistics_bad_difference_condition_measure">Ostatnia zła różnica:</string>
+    <string name="statistics_bad_difference_condition_measure">Ostatnia zla róznica:</string>
     <string name="statistics_last_arrhythmia_measure">Ostatnia arytmia:</string>
     <string name="statistics_last_no_arrhythmia_measure">Ostatni bez arytmii:</string>
     <string name="statistics_title_values">Skurcz./Rozkurcz./Puls:</string>
@@ -74,11 +74,11 @@
     <string name="statistics_counter_total">SUMA POMIARÓW:</string>
     <string name="statistics_counter_well">Dobry stan:</string>
     <string name="statistics_counter_middle">Niewielkie odchylenie:</string>
-    <string name="statistics_counter_bad">Zły stan:</string>
-    <string name="statistics_counter_bad_diff">Zła różnica:</string>
+    <string name="statistics_counter_bad">Zly stan:</string>
+    <string name="statistics_counter_bad_diff">Zla róznica:</string>
     <string name="statistics_counter_arrhythmia">Arytmia:</string>
     <string name="statistics_counter_no_arrhythmia">Brak arytmii:</string>
-    <string name="statistics_counter_errors">Niemożliwy do skalsyfikowania:</string>
+    <string name="statistics_counter_errors">Niemozliwy do skalsyfikowania:</string>
     <string name="show_counter_statistics">Statystyki zliczonych pomiarów</string>
     <string name="show_last_measurements_statistics">Statystyki ostatnich pomiarów</string>
     <string name="statistics_no_matching_measurements">Brak pasujących pomiarów</string>
@@ -162,7 +162,7 @@
     <string name="pdf_chapter_blood_pressure">Pomiary ciśnienia</string>
     <string name="pdf_systole">Ciśnienie skurczowe</string>
     <string name="pdf_diastole">Ciśnienie rozkurczowe</string>
-    <string name="pdf_difference">Różnica</string>
+    <string name="pdf_difference">Róznica</string>
     <string name="pdf_pulse">Puls</string>
     <string name="pdf_arrhythmia">Arytmia</string>
     <string name="pdf_date">Data</string>
