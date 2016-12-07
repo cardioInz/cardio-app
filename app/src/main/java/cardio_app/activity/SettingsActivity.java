@@ -13,6 +13,13 @@ import cardio_app.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    public static boolean isPolishLanguage(AppCompatActivity activity) {
+        Configuration cfg = activity.getBaseContext().getResources().getConfiguration();
+        Locale locale = new Locale("pl");
+        // TODO locale cfg.locale is deprecated
+        return locale.getLanguage().equals(cfg.locale.getLanguage());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,10 +28,8 @@ public class SettingsActivity extends AppCompatActivity {
         RadioButton polishRadioButton = (RadioButton)findViewById(R.id.radio_polish);
         RadioButton englishRadioButton = (RadioButton)findViewById(R.id.radio_english);
 
-        Configuration cfg = getBaseContext().getResources().getConfiguration();
-        Resources resources = getBaseContext().getResources();
-        Locale locale = new Locale("pl");
-        boolean isPolishSet = locale.getLanguage().toString().equals(cfg.locale.getLanguage().toString());
+        boolean isPolishSet = isPolishLanguage(this);
+
         if(isPolishSet) {
             englishRadioButton.setChecked(true);
         } else {
