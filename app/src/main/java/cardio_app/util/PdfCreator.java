@@ -16,6 +16,7 @@ import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -47,10 +48,27 @@ import static cardio_app.util.DateTimeUtil.TIME_FORMATTER;
 
 public class PdfCreator {
     private static final String TAG = PdfCreator.class.getName();
+    private static Font fontChapter;
+    private static Font fontSubParagraph;
+    private static Font fontDates;
 
-    private static Font fontChapter = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-    private static Font fontSubParagraph = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
-    private static Font fontDates = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+    static {
+        setUpFonts();
+    }
+
+    private static void setUpFonts() {
+        try {
+            BaseFont courier = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, BaseFont.EMBEDDED);
+            fontChapter = new Font(courier, 18, Font.BOLD);
+            fontSubParagraph = new Font(courier, 16, Font.BOLD);
+            fontDates = new Font(courier, 12, Font.BOLD);
+        } catch (Exception e) {
+            Log.e(TAG, "static initializer: ", e);
+            fontChapter = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+            fontSubParagraph = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+            fontDates = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+        }
+    }
 
     private final float PDF_WIDTH;
     private static final int DAYS_IN_CHAPTER = 30;
@@ -76,6 +94,7 @@ public class PdfCreator {
         final float height = document.getPageSize().getHeight();
         String sizeInfo = String.format("\t\tWidth: %s\n\t\tHeight: %s", String.valueOf(PDF_WIDTH), String.valueOf(height));
         Log.i(TAG, "createAndSavePdf: \n" + sizeInfo);
+        setUpFonts();
     }
 
     private java.util.List<Image> initExtraCharts() {
@@ -231,13 +250,17 @@ public class PdfCreator {
     private void addTitleAndDates(Document document) throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph("Cardio-Inz Report", fontChapter));
+        preface.add(new Paragraph(getResourceString(R.string.cardio_inz_report), fontChapter));
 
         addEmptyLine(preface, 1);
 
         preface.add(new Paragraph(
-                "Date of report generation: " + DATETIME_FORMATTER.format(new Date()),
-                fontDates));
+                String.format("%s %s",
+                        getResourceString(R.string.date_of_report_generation),
+                        DATETIME_FORMATTER.format(new Date())
+                ),
+                fontDates
+        ));
 
         Date dateFrom = recordsContainer.getDateFrom();
         Date dateTo = recordsContainer.getDateTo();
@@ -312,7 +335,6 @@ public class PdfCreator {
         anchor.setName(name);
 
         Chapter catPart = new Chapter(new Paragraph(anchor), ++chapterCnt);
-        catPart.setTriggerNewPage(false);
         addEmptyLine(catPart, 1);
 
         for (Image image : extraChartImageList) {
@@ -440,6 +462,8 @@ public class PdfCreator {
 
     private void createTableOfPressure(Section subCatPart, java.util.List<PressureData> pressureDataList) throws DocumentException {
         PdfPTable table = new PdfPTable(7);
+        table.setHeaderRows(1);
+        table.setHorizontalAlignment(Element.ALIGN_CENTER);
 
         // t.setBorderColor(BaseColor.GRAY);
         // t.setPadding(4);
@@ -474,7 +498,7 @@ public class PdfCreator {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        table.setHeaderRows(1);
+
 
         PressureDataViewModel pressureDataViewModel = new PressureDataViewModel();
         for (PressureData pressureData : pressureDataList) {
@@ -489,7 +513,8 @@ public class PdfCreator {
             table.addCell(TIME_FORMATTER.format(pressureData.getDateTime()));
         }
 
-        float[] columnWidths = new float[]{15f, 15f, 17f, 10f, 16f, 17f, 10f};
+//        float[] columnWidths = new float[]{15f, 15f, 17f, 10f, 16f, 17f, 10f}; // ENG lang
+        float[] columnWidths = new float[]{15f, 15f, 12f, 10f, 10f, 15f, 10f}; // POL lang
         table.setWidths(columnWidths);
 
         subCatPart.add(table);

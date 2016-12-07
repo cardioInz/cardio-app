@@ -17,9 +17,10 @@ import cardio_app.util.DateTimeUtil;
 
 public class InitialEvent {
 
-    private static final Date MIN_DATE = DateTimeUtil.getDate(16, 4, 2016);
+//    private static final Date MIN_DATE = DateTimeUtil.getDate(16, 4, 2016);
+    private static final Date MIN_DATE = DateTimeUtil.getDate(1, 6, 2016);
     private static final Date MAX_DATE = DateTimeUtil.getDate(27, 7, 2016);
-    private static final int CNT = 70;
+    private static final int CNT = 30;
     private static final Random r = new Random();
 
     public static List<Event> makeEventList() {
@@ -44,7 +45,7 @@ public class InitialEvent {
 
         for (int i=1; i <= CNT; i++){
             startDate = getRandomDate();
-            description = "description" + i;
+            description = "opis_zdarzenia_nr_" + i;
             emotion = getRandomEmotion();
             doctorsAppointment = getRandomDoctorsAppointment();
             otherSymptomsRecord = getRandomOtherSymptoms();
@@ -52,7 +53,7 @@ public class InitialEvent {
 
             if (isRepeatable){ // repeatable = discrete
                 endDate = startDate;
-                description += "_r";
+//                description += "_r";
                 dailyActivitiesRecord = DailyActivitiesRecord.NONE;
                 timeUnit = getRandomTimeUnit();
                 timeDelta = r.nextInt(10) + 1;
@@ -60,11 +61,11 @@ public class InitialEvent {
                 if (r.nextBoolean()) { // continuous
                     endDate = getRandomDateAfter(startDate);
                     dailyActivitiesRecord = DailyActivitiesRecord.NONE;
-                    description += "_c";
+//                    description += "_c";
                 } else { // discrete
                     endDate = startDate;
                     dailyActivitiesRecord = getRandomDailyActivity();
-                    description += "_d";
+//                    description += "_d";
                 }
                 timeUnit = TimeUnit.NONE;
                 timeDelta = 0;

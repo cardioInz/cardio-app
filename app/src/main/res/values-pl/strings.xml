@@ -30,11 +30,11 @@
     <string name="title_activity_add_alarm">Powiadomienie</string>
     <string name="title_activity_drugs">Leki</string>
     <string name="title_activity_add_drug">Lek</string>
-    <string name="title_statistics_countered_measures">Zliczone pomiary</string>
-    <string name="title_statistics_last_measures">Ostatnie pomiary</string>
+    <string name="title_statistics_countered_measures">Statystyki ilościowe</string>
+    <string name="title_statistics_last_measures">Statystyki ostatnich pomiarów</string>
 
-    <string name="systole">SKURCZOWE:</string>
-    <string name="diastole">ROZKURCZOWE:</string>
+    <string name="systole">CIŚNIENIE\nSKURCZOWE:</string>
+    <string name="diastole">CIŚNIENIE\nROZKURCZOWE:</string>
     <string name="pulse">PULS:</string>
     <string name="arrhythmia">ARYTMIA:</string>
     <string name="date">DATA:</string>
@@ -61,12 +61,12 @@
 
     <string name="statistics_last_measure">Ostatni pomiar:</string>
     <string name="statistics_last_bad_condition_measure">Ostatni w zły stanie:</string>
-    <string name="statistics_last_well_condition_measure">Ostatn w dobrym staniei:</string>
-    <string name="statistics_last__middle_condition_measure">Ostatni niewielkie odchylenie:</string>
+    <string name="statistics_last_well_condition_measure">Ostatni w dobrym stanie:</string>
+    <string name="statistics_last__middle_condition_measure">Ostatni o niewielkim odchyleniu:</string>
     <string name="statistics_bad_difference_condition_measure">Ostatnia zła różnica:</string>
     <string name="statistics_last_arrhythmia_measure">Ostatnia arytmia:</string>
     <string name="statistics_last_no_arrhythmia_measure">Ostatni bez arytmii:</string>
-    <string name="statistics_title_values">Skurczowe/Rozkurczowe/Puls:</string>
+    <string name="statistics_title_values">Skurcz./Rozkurcz./Puls:</string>
     <string name="statistics_title_date">Data:</string>
     <string name="statistics_title_arrhythmia">Arytmia</string>
     <string name="statistics_title_no_arrhythmia">Brak arytmii</string>
@@ -117,7 +117,7 @@
     <string name="pdf_report_successfuly_saved">Raport PDF został zapisany z powodzeniem</string>
     <string name="pdf_report_successfuly_sent">Raport PDF został wysłany z powodzeniem</string>
     <string name="file_name_is_probably_not_set">Nazwa pliku nie została ustawiona</string>
-    <string name="app_could_not_use_cache_storage_give_permission_pls">Aplikacja nie będzie działać poprawnie bez pozwolenia na dostęp do pamięci...</string>
+    <string name="app_could_not_use_cache_storage_give_permission_pls">Aplikacja nie będzie działać poprawnie bez pozwolenia na dostęp do pamięci…</string>
     <string name="pdf_report_has_not_been_created">Raport PDF nie mógł zostać utworzony</string>
     <string name="pdf_created">Data stworzenia raportu PDF:</string>
     <string name="sending_email">Wysyłanie emaila…</string>
@@ -160,8 +160,8 @@
 
     <string name="pdf_chapter_statistics">Statystyki</string>
     <string name="pdf_chapter_blood_pressure">Pomiary ciśnienia</string>
-    <string name="pdf_systole">Skurczowe</string>
-    <string name="pdf_diastole">Rozkurczowe</string>
+    <string name="pdf_systole">Ciśnienie skurczowe</string>
+    <string name="pdf_diastole">Ciśnienie rozkurczowe</string>
     <string name="pdf_difference">Różnica</string>
     <string name="pdf_pulse">Puls</string>
     <string name="pdf_arrhythmia">Arytmia</string>
@@ -174,9 +174,9 @@
     <string name="sex">PŁEĆ:</string>
     <string name="female">KOBIETA</string>
     <string name="male">MĘŻCZYZNA</string>
-    <string name="weight">MASA CIAŁA:</string>
+    <string name="weight">WAGA:</string>
     <string name="height">WZROST:</string>
-    <string name="smoker">JESTEM PALACZEM</string>
+    <string name="smoker">OSOBA PALĄCA</string>
     <string name="cholesterol">CHOLESTEROL:</string>
     <string name="glucose">GLUKOZA:</string>
     <string name="pdf_report_generated_by">Raport PDF wygenerowany przez</string>
@@ -192,7 +192,7 @@
     <string name="end_date">KONIEC:</string>
     <string name="is_repeatable">CZY POWTARZALNE:</string>
     <string name="description_dialog">OPIS:</string>
-    <string name="results">Resultaty</string>
+    <string name="results">Wyniki</string>
     <string name="toggle_labels">Zmień widoczność etykiet</string>
     <string name="events_pdf_chapter">Zdarzenia</string>
 
@@ -278,4 +278,6 @@
     <string name="event_set_alarm">USTAW ALARM DLA ZDARZENIA:</string>
 
     <string name="change_location">Zmień lokację</string>
+    <string name="date_of_report_generation">Data wygenerowania raportu:</string>
+    <string name="cardio_inz_report">Cardio-Inz, Raport</string>
 </resources>
