@@ -278,4 +278,9 @@
     <string name="event_set_alarm">USTAW ALARM DLA ZDARZENIA:</string>
 
     <string name="change_location">Zmień lokację</string>
+
+    <string name="polish_lang_radio">POLSKI</string>
+    <string name="english_lang_radio">ANGIELSKI</string>
+    <string name="choose_language">WYBIERZ JĘZYK:</string>
+
 </resources>

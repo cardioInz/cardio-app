@@ -275,4 +275,9 @@
     <string name="event_set_alarm">SET ALARM FOR EVENT:</string>
 
     <string name="change_location">Change location</string>
+
+    <string name="polish_lang_radio">POLISH</string>
+    <string name="english_lang_radio">ENGLISH</string>
+    <string name="choose_language">CHOOSE LANGUAGE:</string>
+
 </resources>

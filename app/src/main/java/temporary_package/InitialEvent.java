@@ -48,13 +48,14 @@ public class InitialEvent {
             emotion = getRandomEmotion();
             doctorsAppointment = getRandomDoctorsAppointment();
             otherSymptomsRecord = getRandomOtherSymptoms();
+            isRepeatable = r.nextBoolean();
 
-            if (isRepeatable = r.nextBoolean()){ // repeatable = discrete
+            if (isRepeatable){ // repeatable = discrete
                 endDate = startDate;
                 description += "_r";
                 dailyActivitiesRecord = DailyActivitiesRecord.NONE;
                 timeUnit = getRandomTimeUnit();
-                timeDelta = r.nextInt(10);
+                timeDelta = r.nextInt(10) + 1;
             } else { // non repeatable
                 if (r.nextBoolean()) { // continuous
                     endDate = getRandomDateAfter(startDate);

@@ -8,6 +8,44 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="cardio_app.activity.SettingsActivity">
+    tools:context="cardio_app.activity.SettingsActivity"
+    android:background="@color/colorPrimary">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/choose_language_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/input_activities_background"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/EditTextArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_language" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radio_english"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/polish_lang_radio" />
+
+            <RadioButton
+                android:id="@+id/radio_polish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/english_lang_radio" />
+        </RadioGroup>
+    </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
