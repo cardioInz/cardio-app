@@ -34,8 +34,34 @@ public class PdfRecordsContainer {
         return dateFrom;
     }
 
+    public void setDateFrom(Date dateFrom) {
+        try {
+            Calendar c = Calendar.getInstance();
+            c.setTime(dateFrom);
+            if (this.dateFrom == null)
+                this.dateFrom = c.getTime();
+            else
+                this.dateFrom.setTime(c.getTimeInMillis());
+        } catch (Exception e) {
+            this.dateFrom = null;
+        }
+    }
+
     public Date getDateTo() {
         return dateTo;
+    }
+
+    public void setDateTo(Date dateTo) {
+        try {
+            Calendar c = Calendar.getInstance();
+            c.setTime(dateTo);
+            if (this.dateTo == null)
+                this.dateTo = c.getTime();
+            else
+                this.dateTo.setTime(c.getTimeInMillis());
+        } catch (Exception e) {
+            this.dateTo = null;
+        }
     }
 
     public DbHelper getDbHelper() {
@@ -87,32 +113,6 @@ public class PdfRecordsContainer {
 
     public UserProfile getUserProfile() {
         return userProfile;
-    }
-
-    public void setDateFrom(Date dateFrom) {
-        try {
-            Calendar c = Calendar.getInstance();
-            c.setTime(dateFrom);
-            if (this.dateFrom == null)
-                this.dateFrom = c.getTime();
-            else
-                this.dateFrom.setTime(c.getTimeInMillis());
-        } catch (Exception e) {
-            this.dateFrom = null;
-        }
-    }
-
-    public void setDateTo(Date dateTo) {
-        try {
-            Calendar c = Calendar.getInstance();
-            c.setTime(dateTo);
-            if (this.dateTo == null)
-                this.dateTo = c.getTime();
-            else
-                this.dateTo.setTime(c.getTimeInMillis());
-        } catch (Exception e) {
-            this.dateTo = null;
-        }
     }
 
     public String getInfoForLogger() {

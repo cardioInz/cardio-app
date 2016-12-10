@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_filter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/activity_filter"
-    tools:contextActivity="cardio_app.activity.filter.FilterActivity"
     android:background="@color/colorPrimary"
-    android:padding="16dp">
+    android:fitsSystemWindows="true"
+    android:padding="16dp"
+    tools:contextActivity="cardio_app.activity.filter.FilterActivity">
 
     <ScrollView
         android:layout_width="match_parent"

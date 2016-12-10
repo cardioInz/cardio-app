@@ -39,13 +39,11 @@ import static cardio_app.util.IntentContentUtil.NOTIFICATION_TITLE;
  * For modes with single event, intent should have an extra with event id.
  */
 public class SetAlarmService extends Service {
-    private static final String TAG = SetAlarmService.class.getName();
-    private static final int SERVICE_NOTIFICATION_ID = 101;
-
     public static final String CANCEL = "cancel";
     public static final String UPDATE = "update";
     public static final String EVENT_ID = "event_id";
-
+    private static final String TAG = SetAlarmService.class.getName();
+    private static final int SERVICE_NOTIFICATION_ID = 101;
     private DbHelper dbHelper;
 
     @Override
@@ -53,10 +51,9 @@ public class SetAlarmService extends Service {
         Intent foregroundIntent = new Intent(this, MainActivity.class);
         PendingIntent pForegroundIntent = PendingIntent.getActivity(this, 0, foregroundIntent, 0);
 
-        //TODO: add this text to resources
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setContentTitle("Cardio App")
-                .setContentText("ustawiono alarmy")
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.alarms_have_been_set_successfully))
                 .setSmallIcon(android.R.drawable.btn_plus)
                 .setOngoing(true)
                 .setContentIntent(pForegroundIntent);

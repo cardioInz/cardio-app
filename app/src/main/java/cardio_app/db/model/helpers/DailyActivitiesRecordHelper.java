@@ -10,6 +10,9 @@ import cardio_app.db.model.DailyActivitiesRecord;
 public class DailyActivitiesRecordHelper {
 
     private static final Map<Integer, DailyActivitiesRecord> buttonToOtherEventMap;
+    private static final Map<DailyActivitiesRecord, Integer> otherEventToButtonMap;
+    private static final Map<DailyActivitiesRecord, Integer> otherEventToImageMap;
+    private static final Map<DailyActivitiesRecord, Integer> otherEventToDescriptionMap;
 
     static {
         buttonToOtherEventMap = new HashMap<>();
@@ -26,9 +29,6 @@ public class DailyActivitiesRecordHelper {
         buttonToOtherEventMap.put(R.id.button_other_party, DailyActivitiesRecord.PARTY);
     }
 
-
-    private static final Map<DailyActivitiesRecord, Integer> otherEventToButtonMap;
-
     static {
         otherEventToButtonMap = new HashMap<>();
         otherEventToButtonMap.put(DailyActivitiesRecord.ARGUE, R.id.button_other_fight);
@@ -44,8 +44,6 @@ public class DailyActivitiesRecordHelper {
         otherEventToButtonMap.put(DailyActivitiesRecord.PARTY, R.id.button_other_party);
     }
 
-    private static final Map<DailyActivitiesRecord, Integer> otherEventToImageMap;
-
     static {
         otherEventToImageMap = new HashMap<>();
         otherEventToImageMap.put(DailyActivitiesRecord.ARGUE, R.drawable.event_other_fight);
@@ -60,8 +58,6 @@ public class DailyActivitiesRecordHelper {
         otherEventToImageMap.put(DailyActivitiesRecord.WALK, R.drawable.event_other_walk);
         otherEventToImageMap.put(DailyActivitiesRecord.WORK, R.drawable.event_other_work);
     }
-
-    private static final Map<DailyActivitiesRecord, Integer> otherEventToDescriptionMap;
 
     static {
         otherEventToDescriptionMap = new HashMap<>();

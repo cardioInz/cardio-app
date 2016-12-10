@@ -294,4 +294,6 @@
     <string name="shortcut_pulse">PULSE</string>
     <string name="shortcut_arrhythmia">ARR</string>
     <string name="shortcut_date">DATE</string>
+
+    <string name="alarms_have_been_set_successfully">Alarm have been set successfully</string>
 </resources>

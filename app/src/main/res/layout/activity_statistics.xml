@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
-    tools:contextActivity="cardio_app.activity.statistics.StatisticsActivity"
-    android:background="@color/colorPrimary">
+    tools:contextActivity="cardio_app.activity.statistics.StatisticsActivity">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -21,36 +21,36 @@
             android:paddingTop="@dimen/activity_vertical_margin">
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/show_counter_stats_btn"
-                android:onClick="moveToActivity"
-                android:text="@string/show_counter_statistics"
-                style="@style/BtnGreen" />
-
-            <Button
+                style="@style/BtnGreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="moveToActivity"
+                android:text="@string/show_counter_statistics" />
+
+            <Button
                 android:id="@+id/show_last_measurements_stats_btn"
-                android:onClick="moveToActivity"
-                android:text="@string/show_last_measurements_statistics"
-                style="@style/BtnGreen" />
-
-            <Button
+                style="@style/BtnGreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="moveToActivity"
+                android:text="@string/show_last_measurements_statistics" />
+
+            <Button
                 android:id="@+id/show_charts_btn"
-                android:onClick="moveToActivity"
-                android:text="@string/show_charts_btn_name"
-                style="@style/BtnGreen" />
-
-            <Button
+                style="@style/BtnGreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/create_pdf_btn"
                 android:onClick="moveToActivity"
-                android:text="@string/title_activity_create_pdf"
-                style="@style/BtnGreen" />
+                android:text="@string/show_charts_btn_name" />
+
+            <Button
+                android:id="@+id/create_pdf_btn"
+                style="@style/BtnGreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="moveToActivity"
+                android:text="@string/title_activity_create_pdf" />
 
         </LinearLayout>
     </ScrollView>

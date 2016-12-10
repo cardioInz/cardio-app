@@ -77,12 +77,12 @@
                 <DatePicker
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:calendarViewShown="false"
                     android:datePickerMode="spinner"
                     android:day="@={startDate.day}"
                     android:month="@={startDate.month}"
-                    android:year="@={startDate.year}"
-                    android:layout_gravity="center">
+                    android:year="@={startDate.year}">
 
                 </DatePicker>
             </LinearLayout>
@@ -106,11 +106,11 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
+                    android:layout_gravity="center"
                     android:hour="@{startTime.hourOfDay}"
                     android:minute="@{startTime.minute}"
                     android:onTimeChanged="@{startTime::timeChanged}"
-                    android:timePickerMode="spinner"
-                    android:layout_gravity="center"></TimePicker>
+                    android:timePickerMode="spinner"></TimePicker>
             </LinearLayout>
 
             <LinearLayout
@@ -129,12 +129,12 @@
                 <DatePicker
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:calendarViewShown="false"
                     android:datePickerMode="spinner"
                     android:day="@={endDate.day}"
                     android:month="@={endDate.month}"
-                    android:year="@={endDate.year}"
-                    android:layout_gravity="center"></DatePicker>
+                    android:year="@={endDate.year}"></DatePicker>
             </LinearLayout>
 
 

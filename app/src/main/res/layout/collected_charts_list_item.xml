@@ -9,21 +9,21 @@
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
-        android:background="@drawable/input_activities_background"
         android:layout_marginBottom="5dp"
+        android:background="@drawable/input_activities_background"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="horizontal"
         android:padding="5dp">
 
         <TextView
+            android:id="@+id/image_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/image_name_text_view"
+            android:layout_gravity="center_vertical"
             android:text="@{bitmapFromChart.fileName}"
-            android:textSize="15sp"
-            android:layout_gravity="center_vertical" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 

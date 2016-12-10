@@ -9,56 +9,56 @@
     </data>
 
     <GridLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:foregroundGravity="center"
         android:columnCount="2"
-        android:rowCount="5"
+        android:foregroundGravity="center"
+        android:orientation="horizontal"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:rowCount="5">
 
         <TextView
             android:text="@string/systole"
             android:textStyle="bold" />
 
         <TextView
-            android:text="@{data.systoleStr}"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:text="@{data.systoleStr}" />
 
         <TextView
             android:text="@string/diastole"
             android:textStyle="bold" />
 
         <TextView
-            android:text="@{data.diastoleStr}"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:text="@{data.diastoleStr}" />
 
         <TextView
             android:text="@string/pulse"
             android:textStyle="bold" />
 
         <TextView
-            android:text="@{data.pulseStr}"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:text="@{data.pulseStr}" />
 
         <TextView
             android:text="@string/arrhythmia"
             android:textStyle="bold" />
 
         <TextView
-            android:text="@{data.arrhythmiaStr}"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:text="@{data.arrhythmiaStr}" />
 
         <TextView
             android:text="@string/date"
             android:textStyle="bold" />
 
         <TextView
-            android:text="@{data.dateTimeStr}"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:text="@{data.dateTimeStr}" />
 
     </GridLayout>
 </layout>

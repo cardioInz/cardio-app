@@ -18,23 +18,6 @@ public class OtherSymptomsRecordHelper {
         createButtonToSymptomFunctionMap();
     }
 
-    private void createButtonToSymptomFunctionMap() {
-        buttonToSymptomFunction = new HashMap<>();
-        buttonToSymptomFunction.put(R.id.button_cough, otherSymptomsRecord::isCough);
-        buttonToSymptomFunction.put(R.id.button_fever, otherSymptomsRecord::isHighTemperature);
-        buttonToSymptomFunction.put(R.id.button_toothache, otherSymptomsRecord::isToothache);
-        buttonToSymptomFunction.put(R.id.button_headache, otherSymptomsRecord::isHeadache);
-        buttonToSymptomFunction.put(R.id.button_stomachache, otherSymptomsRecord::isStomachAche);
-    }
-
-    public Callable<Boolean> getSymptomFunction(Integer buttonId) {
-        return buttonToSymptomFunction.get(buttonId);
-    }
-
-    public Set<Integer> getSymptomButtons() {
-        return buttonToSymptomFunction.keySet();
-    }
-
     public static void setSymptomProperty(int id, OtherSymptomsRecord record) {
         switch (id) {
             case R.id.button_headache:
@@ -58,5 +41,22 @@ public class OtherSymptomsRecordHelper {
                 record.setToothache(!isToothache);
                 break;
         }
+    }
+
+    private void createButtonToSymptomFunctionMap() {
+        buttonToSymptomFunction = new HashMap<>();
+        buttonToSymptomFunction.put(R.id.button_cough, otherSymptomsRecord::isCough);
+        buttonToSymptomFunction.put(R.id.button_fever, otherSymptomsRecord::isHighTemperature);
+        buttonToSymptomFunction.put(R.id.button_toothache, otherSymptomsRecord::isToothache);
+        buttonToSymptomFunction.put(R.id.button_headache, otherSymptomsRecord::isHeadache);
+        buttonToSymptomFunction.put(R.id.button_stomachache, otherSymptomsRecord::isStomachAche);
+    }
+
+    public Callable<Boolean> getSymptomFunction(Integer buttonId) {
+        return buttonToSymptomFunction.get(buttonId);
+    }
+
+    public Set<Integer> getSymptomButtons() {
+        return buttonToSymptomFunction.keySet();
     }
 }

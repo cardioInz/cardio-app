@@ -240,6 +240,26 @@ public class ProfileViewModel extends BaseObservable {
         }
     }
 
+    public HashMap<MyProfileFieldTypeEnum, String> getHashMapValues(Resources resources) {
+        ProfileViewModel profileViewModel = this;
+        return new HashMap<MyProfileFieldTypeEnum, String>() {{
+            put(MyProfileFieldTypeEnum.FIRST_NAME, profileViewModel.getNameStr());
+            put(MyProfileFieldTypeEnum.SURNAME, profileViewModel.getSurnameStr());
+            put(MyProfileFieldTypeEnum.DATE_OF_BIRTH, profileViewModel.getDateOfBirthStrForPdf());
+            put(MyProfileFieldTypeEnum.SEX, profileViewModel.getSexStr(
+                    resources.getString(R.string.male), resources.getString(R.string.female)
+            ));
+            put(MyProfileFieldTypeEnum.HEIGHT, profileViewModel.getHeightStr());
+            put(MyProfileFieldTypeEnum.WEIGHT, profileViewModel.getWeightStr());
+            put(MyProfileFieldTypeEnum.SMOKER, profileViewModel.getSmokerNullable(
+                    resources.getString(R.string.yes), resources.getString(R.string.no)
+            ));
+            put(MyProfileFieldTypeEnum.GLUCOSE, profileViewModel.getGlucoseStr());
+            put(MyProfileFieldTypeEnum.CHOLESTEROL, profileViewModel.getCholesterolStr());
+        }};
+    }
+
+
     public enum MyProfileFieldTypeEnum {
         FIRST_NAME,
         SURNAME,
@@ -250,6 +270,18 @@ public class ProfileViewModel extends BaseObservable {
         SMOKER,
         GLUCOSE,
         CHOLESTEROL;
+
+        private final static HashMap<MyProfileFieldTypeEnum, Integer> mapToStrId = new HashMap<MyProfileFieldTypeEnum, Integer>() {{
+            put(FIRST_NAME, R.string.first_name);
+            put(SURNAME, R.string.surname);
+            put(DATE_OF_BIRTH, R.string.date_of_birth);
+            put(SEX, R.string.sex);
+            put(HEIGHT, R.string.height);
+            put(WEIGHT, R.string.weight);
+            put(SMOKER, R.string.smoker);
+            put(GLUCOSE, R.string.glucose);
+            put(CHOLESTEROL, R.string.cholesterol);
+        }};
 
         public static MyProfileFieldTypeEnum[] questionaireKeysInOrder() {
             return new MyProfileFieldTypeEnum[]{
@@ -264,18 +296,6 @@ public class ProfileViewModel extends BaseObservable {
                     CHOLESTEROL
             };
         }
-
-        private final static HashMap<MyProfileFieldTypeEnum, Integer> mapToStrId = new HashMap<MyProfileFieldTypeEnum, Integer>() {{
-            put(FIRST_NAME, R.string.first_name);
-            put(SURNAME, R.string.surname);
-            put(DATE_OF_BIRTH, R.string.date_of_birth);
-            put(SEX, R.string.sex);
-            put(HEIGHT, R.string.height);
-            put(WEIGHT, R.string.weight);
-            put(SMOKER, R.string.smoker);
-            put(GLUCOSE, R.string.glucose);
-            put(CHOLESTEROL, R.string.cholesterol);
-        }};
 
         public static String getFieldTitle(MyProfileFieldTypeEnum fieldTypeEnum, Resources resources) {
             if (!mapToStrId.containsKey(fieldTypeEnum))
@@ -296,26 +316,6 @@ public class ProfileViewModel extends BaseObservable {
                     return title;
             }
         }
-    }
-
-
-    public HashMap<MyProfileFieldTypeEnum, String> getHashMapValues(Resources resources) {
-        ProfileViewModel profileViewModel = this;
-        return new HashMap<MyProfileFieldTypeEnum, String>() {{
-            put(MyProfileFieldTypeEnum.FIRST_NAME, profileViewModel.getNameStr());
-            put(MyProfileFieldTypeEnum.SURNAME, profileViewModel.getSurnameStr());
-            put(MyProfileFieldTypeEnum.DATE_OF_BIRTH, profileViewModel.getDateOfBirthStrForPdf());
-            put(MyProfileFieldTypeEnum.SEX, profileViewModel.getSexStr(
-                    resources.getString(R.string.male), resources.getString(R.string.female)
-            ));
-            put(MyProfileFieldTypeEnum.HEIGHT, profileViewModel.getHeightStr());
-            put(MyProfileFieldTypeEnum.WEIGHT, profileViewModel.getWeightStr());
-            put(MyProfileFieldTypeEnum.SMOKER, profileViewModel.getSmokerNullable(
-                    resources.getString(R.string.yes), resources.getString(R.string.no)
-            ));
-            put(MyProfileFieldTypeEnum.GLUCOSE, profileViewModel.getGlucoseStr());
-            put(MyProfileFieldTypeEnum.CHOLESTEROL, profileViewModel.getCholesterolStr());
-        }};
     }
 }
 

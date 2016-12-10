@@ -6,218 +6,182 @@
         android:id="@+id/menu_grid_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/colorPrimary"
-        tools:contextActivity="cardio_app.activity.MainActivity"
-        tools:showIn="@layout/activity_main"
         android:layout_gravity="center"
-        android:numColumns="auto_fit"
+        android:background="@color/colorPrimary"
         android:columnCount="3"
-        android:stretchMode="columnWidth">
-
-        <!--TODO not so pretty example how to scale it with vector graphics-->
-        <!--<LinearLayout-->
-        <!--android:id="@+id/button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@android:drawable/btn_default"-->
-        <!--android:clickable="true"-->
-        <!--android:orientation="vertical"-->
-        <!--style="@style/MenuButton"-->
-        <!--android:minWidth="@dimen/_110sdp"-->
-        <!--android:minHeight="@dimen/_110sdp"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:gravity="center">-->
-
-        <!--<ImageView-->
-        <!--android:id="@+id/img"-->
-        <!--android:layout_width="@dimen/_55sdp"-->
-        <!--android:layout_height="@dimen/_55sdp"-->
-        <!--android:layout_gravity="top|center_horizontal"-->
-        <!--android:src="@drawable/my_profile"-->
-        <!--android:contentDescription="@string/my_profile"-->
-        <!--android:width="@dimen/_80sdp"-->
-        <!--android:height="@dimen/_80sdp" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/textView2"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|center_horizontal"-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:textAlignment="center"-->
-        <!--android:text="@string/my_profile"-->
-        <!--android:textSize="@dimen/_10sdp"-->
-        <!--android:textStyle="bold"/>-->
-        <!--</LinearLayout>-->
+        android:numColumns="auto_fit"
+        android:orientation="horizontal"
+        android:stretchMode="columnWidth"
+        tools:contextActivity="cardio_app.activity.MainActivity"
+        tools:showIn="@layout/activity_main">
 
         <Button
-            style="@style/MenuButton"
-            android:text="@string/my_profile"
             android:id="@+id/button_my_profile"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
             android:drawableTop="@drawable/my_profile"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:onClick="showProfile" />
+            android:onClick="showProfile"
+            android:text="@string/my_profile"
+            android:textSize="@dimen/_10sdp" />
 
         <Button
-            style="@style/MenuButton"
-            android:text="@string/reports"
             android:id="@+id/button_reports"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
             android:drawableTop="@drawable/reports"
-            android:onClick="showCreatePdfReport"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/add_measure"
-            android:id="@+id/button_add_measure"
-            android:drawableTop="@drawable/add_m"
-            android:onClick="addMeasure"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/events_list"
-            android:id="@+id/button_events_list"
-            android:drawableTop="@drawable/list_e"
-            android:onClick="showEventsList"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/add_event"
-            android:id="@+id/button_add_event"
-            android:drawableTop="@drawable/add_e"
-            android:onClick="addEvent"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/stats"
-            android:id="@+id/button_stats"
-            android:drawableTop="@drawable/stats"
-            android:onClick="showStatistics"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/drugs"
-            android:id="@+id/button_drugs"
-            android:drawableTop="@drawable/drugs"
-            android:onClick="showDrugsList"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/add_drug"
-            android:id="@+id/button_add_drug"
-            android:drawableTop="@drawable/add_drug"
-            android:onClick="addDrug"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/measures_list"
-            android:id="@+id/button_list_measures"
-            android:drawableTop="@drawable/list_m"
-            android:onClick="showMeasuresList"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/import_data"
-            android:id="@+id/button_import"
-            android:drawableTop="@drawable/import_ic"
-            android:onClick="showImportData"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <Button
-            style="@style/MenuButton"
-            android:text="@string/settings"
-            android:id="@+id/button_settings"
-            android:drawableTop="@drawable/settings"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:onClick="showSettings" />
+            android:onClick="showCreatePdfReport"
+            android:text="@string/reports"
+            android:textSize="@dimen/_10sdp" />
 
         <Button
+            android:id="@+id/button_add_measure"
             style="@style/MenuButton"
-            android:text="@string/export_data"
-            android:id="@+id/button_export"
-            android:drawableTop="@drawable/export"
-            android:onClick="showExportData"
-            android:textSize="@dimen/_10sdp"
-            android:width="@dimen/_70sdp"
-            android:height="@dimen/_70sdp"
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center" />
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/add_m"
+            android:gravity="center"
+            android:onClick="addMeasure"
+            android:text="@string/add_measure"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_events_list"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/list_e"
+            android:gravity="center"
+            android:onClick="showEventsList"
+            android:text="@string/events_list"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_add_event"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/add_e"
+            android:gravity="center"
+            android:onClick="addEvent"
+            android:text="@string/add_event"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_stats"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/stats"
+            android:gravity="center"
+            android:onClick="showStatistics"
+            android:text="@string/stats"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_drugs"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/drugs"
+            android:gravity="center"
+            android:onClick="showDrugsList"
+            android:text="@string/drugs"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_add_drug"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/add_drug"
+            android:gravity="center"
+            android:onClick="addDrug"
+            android:text="@string/add_drug"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_list_measures"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/list_m"
+            android:gravity="center"
+            android:onClick="showMeasuresList"
+            android:text="@string/measures_list"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_import"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/import_ic"
+            android:gravity="center"
+            android:onClick="showImportData"
+            android:text="@string/import_data"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_settings"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/settings"
+            android:gravity="center"
+            android:onClick="showSettings"
+            android:text="@string/settings"
+            android:textSize="@dimen/_10sdp" />
+
+        <Button
+            android:id="@+id/button_export"
+            style="@style/MenuButton"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_gravity="center"
+            android:width="@dimen/_70sdp"
+            android:height="@dimen/_70sdp"
+            android:drawableTop="@drawable/export"
+            android:gravity="center"
+            android:onClick="showExportData"
+            android:text="@string/export_data"
+            android:textSize="@dimen/_10sdp" />
     </GridLayout>
 
 </layout>

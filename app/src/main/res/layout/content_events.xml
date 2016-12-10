@@ -5,19 +5,19 @@
     android:id="@+id/content_diary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:contextActivity="cardio_app.activity.event.EventActivity"
-    tools:showIn="@layout/activity_event"
-    android:background="@color/colorPrimary">
+    tools:showIn="@layout/activity_event">
 
     <ListView
+        android:id="@+id/event_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/event_list_view"
         android:dividerHeight="5dp">
 
     </ListView>

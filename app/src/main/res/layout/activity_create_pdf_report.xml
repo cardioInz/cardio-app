@@ -16,9 +16,9 @@
         android:id="@+id/activity_create_pdf_report"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"
-        tools:contextActivity="cardio_app.activity.pdf_creation.CreatePdfReportActivity"
-        android:background="@color/colorPrimary">
+        tools:contextActivity="cardio_app.activity.pdf_creation.CreatePdfReportActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -28,24 +28,24 @@
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:scrollbars="none"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:scrollbars="none">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:paddingTop="@dimen/activity_vertical_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:background="@drawable/input_activities_background"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -66,8 +66,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/input_activities_background"
-                    android:layout_marginBottom="5dp">
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/input_activities_background">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -91,8 +91,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/input_activities_background"
                     android:layout_marginBottom="5dp"
+                    android:background="@drawable/input_activities_background"
                     android:orientation="vertical">
 
                     <TextView
@@ -142,9 +142,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:background="@drawable/input_activities_background"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="5dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -178,47 +178,47 @@
 
                 <LinearLayout
                     android:id="@+id/create_pdf_save_mode_table_layout"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:background="@drawable/input_activities_background">
+                    android:background="@drawable/input_activities_background"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/file_location"
                         android:layout_gravity="fill"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size" />
+                        android:text="@string/file_location"
+                        android:textSize="@dimen/statistic_header_size"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={pdfCreationVM.locationSave}"
-                        android:layout_gravity="fill" />
+                        android:layout_gravity="fill"
+                        android:text="@={pdfCreationVM.locationSave}" />
 
                     <Button
+                        style="@style/BtnGreen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/choose_location"
                         android:onClick="onChangeLocationClick_InCreatePdfReportActivity"
-                        style="@style/BtnGreen" />
+                        android:text="@string/choose_location" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/pdf_file_name"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size" />
+                        android:textSize="@dimen/statistic_header_size"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={pdfCreationVM.fileName}"
+                        android:layout_gravity="fill"
                         android:inputType="text"
-                        android:layout_gravity="fill" />
+                        android:text="@={pdfCreationVM.fileName}" />
                 </LinearLayout>
 
 
@@ -226,10 +226,10 @@
                     android:id="@+id/create_pdf_send_mode_table_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical"
                     android:layout_marginBottom="5dp"
-                    android:background="@drawable/input_activities_background">
+                    android:background="@drawable/input_activities_background"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
 
@@ -271,22 +271,22 @@
                     android:visibility="gone"></ProgressBar>
 
                 <Button
-                    android:text="@string/save_pdf_btn"
                     android:id="@+id/savePdfBtn"
-                    android:onClick="savePdf"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
+                    style="@style/BtnGreen"
                     android:layout_width="match_parent"
-                    style="@style/BtnGreen" />
+                    android:layout_height="wrap_content"
+                    android:onClick="savePdf"
+                    android:text="@string/save_pdf_btn"
+                    android:visibility="gone" />
 
                 <Button
-                    android:text="@string/send_pdf_btn"
                     android:id="@+id/sendPdfBtn"
-                    android:onClick="sendPdf"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
+                    style="@style/BtnGreen"
                     android:layout_width="match_parent"
-                    style="@style/BtnGreen" />
+                    android:layout_height="wrap_content"
+                    android:onClick="sendPdf"
+                    android:text="@string/send_pdf_btn"
+                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
 

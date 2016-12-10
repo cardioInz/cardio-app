@@ -27,8 +27,6 @@ import static cardio_app.util.DateTimeUtil.DATE_FORMATTER;
 
 @DatabaseTable(tableName = "event")
 public class Event extends BaseModel implements Parcelable {
-    private static final long DAY_MILLIS = 24 * 60 * 60 * 1000;
-
     public static final Comparator<Event> compareStartDate = (e1, e2) -> e1.startDate.compareTo(e2.startDate);
     public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
@@ -41,6 +39,7 @@ public class Event extends BaseModel implements Parcelable {
             return new Event[size];
         }
     };
+    private static final long DAY_MILLIS = 24 * 60 * 60 * 1000;
     @DatabaseField
     private Date startDate;
     @DatabaseField
@@ -192,6 +191,59 @@ public class Event extends BaseModel implements Parcelable {
                 otherSymptomsRecord, emotion, doctorsAppointment, dailyActivitiesRecord, isAlarmSet);
     }
 
+    public static long appendTime(long time, Event event) {
+        long interval = DAY_MILLIS;
+
+        switch (event.getTimeUnit()) {
+            case DAY: {
+                break;
+            }
+            case WEEK: {
+                interval *= 7;
+                break;
+            }
+            case MONTH: {
+                interval *= 30;
+            }
+        }
+        interval *= event.getTimeDelta();
+
+        return time + interval;
+    }
+
+    public static List<Event> multiplyRepeatableEvents(List<Event> initial) {
+        List<Event> results = new ArrayList<>();
+
+        for (Event event : initial) {
+            if (event.isRepeatable()) {
+                LocalDateTime startDate = LocalDateTime.fromDateFields(event.getStartDate());
+                LocalDate endDate = LocalDate.fromDateFields(event.getEndDate());
+
+                while (!startDate.toLocalDate().isAfter(endDate)) {
+                    results.add(new Event(
+                            startDate.toDate(),
+                            startDate.toLocalDate().toDate(),
+                            event.isRepeatable,
+                            event.timeUnit,
+                            event.timeDelta,
+                            event.description,
+                            event.otherSymptomsRecord,
+                            event.emotion,
+                            event.doctorsAppointment,
+                            event.dailyActivitiesRecord,
+                            event.isAlarmSet
+                    ));
+
+                    startDate = DateTimeUtil.increaseDate(startDate, event.timeUnit, event.timeDelta);
+                }
+            } else {
+                results.add(event);
+            }
+        }
+
+        return results;
+    }
+
     private Date getCurrentDate() {
         return new Date(System.currentTimeMillis());
     }
@@ -255,6 +307,10 @@ public class Event extends BaseModel implements Parcelable {
         return isRepeatable;
     }
 
+    public void setRepeatable(boolean repeatable) {
+        isRepeatable = repeatable;
+    }
+
     public boolean isDiscrete() {
         if (isRepeatable)
             return true;
@@ -264,10 +320,6 @@ public class Event extends BaseModel implements Parcelable {
             Log.e(TAG, "isDiscrete: ", e);
             return true;
         }
-    }
-
-    public void setRepeatable(boolean repeatable) {
-        isRepeatable = repeatable;
     }
 
     public TimeUnit getTimeUnit() {
@@ -334,26 +386,6 @@ public class Event extends BaseModel implements Parcelable {
         isAlarmSet = alarmSet;
     }
 
-    public static long appendTime(long time, Event event) {
-        long interval = DAY_MILLIS;
-
-        switch (event.getTimeUnit()) {
-            case DAY: {
-                break;
-            }
-            case WEEK: {
-                interval *= 7;
-                break;
-            }
-            case MONTH: {
-                interval *= 30;
-            }
-        }
-        interval *= event.getTimeDelta();
-
-        return time + interval;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -393,39 +425,6 @@ public class Event extends BaseModel implements Parcelable {
         result = 31 * result + (dailyActivitiesRecord != null ? dailyActivitiesRecord.hashCode() : 0);
         result = 31 * result + (isAlarmSet ? 1 : 0);
         return result;
-    }
-
-    public static List<Event> multiplyRepeatableEvents(List<Event> initial) {
-        List<Event> results = new ArrayList<>();
-
-        for (Event event : initial) {
-            if (event.isRepeatable()) {
-                LocalDateTime startDate = LocalDateTime.fromDateFields(event.getStartDate());
-                LocalDate endDate = LocalDate.fromDateFields(event.getEndDate());
-
-                while (!startDate.toLocalDate().isAfter(endDate)) {
-                    results.add(new Event(
-                            startDate.toDate(),
-                            startDate.toLocalDate().toDate(),
-                            event.isRepeatable,
-                            event.timeUnit,
-                            event.timeDelta,
-                            event.description,
-                            event.otherSymptomsRecord,
-                            event.emotion,
-                            event.doctorsAppointment,
-                            event.dailyActivitiesRecord,
-                            event.isAlarmSet
-                    ));
-
-                    startDate = DateTimeUtil.increaseDate(startDate, event.timeUnit, event.timeDelta);
-                }
-            } else {
-                results.add(event);
-            }
-        }
-
-        return results;
     }
 
     private Calendar getCalendar(Date date) {

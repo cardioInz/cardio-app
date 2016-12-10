@@ -12,14 +12,14 @@
             type="cardio_app.viewmodel.date_time.PickedDateViewModel" />
     </data>
 
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:background="@color/colorPrimary"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:paddingTop="16dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -102,10 +102,10 @@
                         android:calendarViewShown="false"
                         android:datePickerMode="spinner"
                         android:day="@={birthday.day}"
+                        android:gravity="center_horizontal"
                         android:month="@={birthday.month}"
                         android:spinnersShown="true"
-                        android:year="@={birthday.year}"
-                        android:gravity="center_horizontal" />
+                        android:year="@={birthday.year}" />
 
 
                 </LinearLayout>
@@ -118,9 +118,9 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        style="@style/EditTextArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/EditTextArea"
                         android:text="SEX:" />
 
                     <RadioGroup

@@ -48,15 +48,13 @@ import static cardio_app.util.DateTimeUtil.TIME_FORMATTER;
 
 public class PdfCreator {
     private static final String TAG = PdfCreator.class.getName();
+    private static final int DAYS_IN_CHAPTER = 30;
+    private final static float SCALE_CHART = 0.7f;
+    private final float PDF_WIDTH;
     private Font fontChapter;
     private Font fontSubParagraph;
     private Font fontDates;
     private boolean isPolLang;
-
-    private final float PDF_WIDTH;
-    private static final int DAYS_IN_CHAPTER = 30;
-    private final static float SCALE_CHART = 0.7f;
-
     private Document document = null;
     private PdfRecordsContainer recordsContainer;
     private Resources resources;
@@ -83,6 +81,150 @@ public class PdfCreator {
         String sizeInfo = String.format("\t\tWidth: %s\n\t\tHeight: %s", String.valueOf(PDF_WIDTH), String.valueOf(height));
         Log.i(TAG, "createAndSavePdf: \n" + sizeInfo);
         setUpFonts();
+    }
+
+    private static void scaleImage(Image image, Document document) {
+        float w = image.getWidth(); // pdf 595
+        float h = image.getHeight(); // pdf 842
+        float docW = document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin();
+        float scale = docW / w;
+        int newW = (int) (w * scale);
+        int newH = (int) (h * scale);
+        image.scaleAbsolute(newW, newH);
+    }
+
+    private static void scaleImage(Image image, float scale) {
+        int w = (int) (image.getWidth() * scale);
+        int h = (int) (image.getHeight() * scale);
+        image.scaleAbsolute(w, h);
+    }
+
+    private static void addEmptyLine(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
+        }
+    }
+
+    private static void addEmptyLine(Section section, int number) {
+        for (int i = 0; i < number; i++) {
+            section.add(new Paragraph(" "));
+        }
+    }
+
+    private static java.util.List<Image> prepareImagesToPdf(java.util.List<BitmapFromChart> list) {
+        java.util.List<Image> imageList = new ArrayList<>();
+        for (BitmapFromChart bitmapFromChart : list) {
+            try {
+                Image image = bitmapFromChart.getImage();
+                imageList.add(image);
+                bitmapFromChart.setBitmap(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "doInBackground: ", e);
+            }
+        }
+        return imageList;
+    }
+
+    private static void cleanBitmapWithoutPaths(java.util.List<BitmapFromChart> list) {
+        java.util.List<BitmapFromChart> newList = new ArrayList<>();
+
+        for (BitmapFromChart fromChart : list) {
+            if (fromChart.hasFilePathExt()) {
+                if (BitmapUtil.loadBitmapFromFile(fromChart))
+                    newList.add(fromChart);
+            } else {
+                Log.w(TAG, "makeBitmaps: values not completed\n" + fromChart.infoStrForLogger());
+            }
+        }
+
+        list.clear();
+        list.addAll(newList);
+    }
+
+    private static String replacePolishChars(String str) {
+        final String regex = ".*[ęóąśłżźćńĘÓĄŚŁŻŹĆŃ„”].*";
+        if (!str.matches(regex))
+            return str;
+
+        char[] array = str.toCharArray();
+        for (int i = 0; i < array.length; i++) {
+            array[i] = mapPolToWin1250(array[i]);
+        }
+        return String.valueOf(array);
+    }
+
+    private static char mapPolToWin1250(char c) {
+
+// TODO add some font that allows windows1250 Polish characters
+//        switch (c){
+//            case 'ę': return 0xEA;
+//            case 'ó': return 0xF3;
+//            case 'ą': return 0xB9;
+//            case 'ś': return 0x9C;
+//            case 'ł': return 0xB3;
+//            case 'ż': return 0xBF;
+//            case 'ź': return 0x9F;
+//            case 'ć': return 0xE6;
+//            case 'ń': return 0xF1;
+//            case 'Ę': return 0xCA;
+//            case 'Ó': return 0xD3;
+//            case 'Ą': return 0xA5;
+//            case 'Ś': return 0x8C;
+//            case 'Ł': return 0xA3;
+//            case 'Ż': return 0xAF;
+//            case 'Ź': return 0x8F;
+//            case 'Ć': return 0xC6;
+//            case 'Ń': return 0xD1;
+//            case '„': return 0x84;
+//            case '”': return 0x94;
+//            default: return c;
+//        }
+
+        switch (c) {
+            case 'ę':
+                return 'e';
+            case 'ó':
+                return 'o';
+            case 'ą':
+                return 'a';
+            case 'ś':
+                return 's';
+            case 'ł':
+                return 'l';
+            case 'ż':
+                return 'z';
+            case 'ź':
+                return 'z';
+            case 'ć':
+                return 'c';
+            case 'ń':
+                return 'n';
+            case 'Ę':
+                return 'E';
+            case 'Ó':
+                return 'O';
+            case 'Ą':
+                return 'A';
+            case 'Ś':
+                return 'S';
+            case 'Ł':
+                return 'L';
+            case 'Ż':
+                return 'Z';
+            case 'Ź':
+                return 'Z';
+            case 'Ć':
+                return 'C';
+            case 'Ń':
+                return 'N';
+            case '„':
+                return '"';
+            case '”':
+                return '"';
+            default:
+                return c;
+        }
     }
 
     private void setUpFonts() {
@@ -113,22 +255,6 @@ public class PdfCreator {
             BitmapUtil.loadBitmapFromFile(fromChart);
         }
         return prepareImagesToPdf(extraChartBitmapList);
-    }
-
-    private static void scaleImage(Image image, Document document) {
-        float w = image.getWidth(); // pdf 595
-        float h = image.getHeight(); // pdf 842
-        float docW = document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin();
-        float scale = docW / w;
-        int newW = (int) (w * scale);
-        int newH = (int) (h * scale);
-        image.scaleAbsolute(newW, newH);
-    }
-
-    private static void scaleImage(Image image, float scale) {
-        int w = (int) (image.getWidth() * scale);
-        int h = (int) (image.getHeight() * scale);
-        image.scaleAbsolute(w, h);
     }
 
     private Image prepareChartImage(java.util.List<PressureData> pressureDataList, java.util.List<Event> eventList) {
@@ -581,18 +707,6 @@ public class PdfCreator {
         }
     }
 
-    private static void addEmptyLine(Paragraph paragraph, int number) {
-        for (int i = 0; i < number; i++) {
-            paragraph.add(new Paragraph(" "));
-        }
-    }
-
-    private static void addEmptyLine(Section section, int number) {
-        for (int i = 0; i < number; i++) {
-            section.add(new Paragraph(" "));
-        }
-    }
-
     private DbHelper getHelper() {
         return recordsContainer.getDbHelper();
     }
@@ -601,124 +715,8 @@ public class PdfCreator {
         return resources.getString(id);
     }
 
-    private static java.util.List<Image> prepareImagesToPdf(java.util.List<BitmapFromChart> list) {
-        java.util.List<Image> imageList = new ArrayList<>();
-        for (BitmapFromChart bitmapFromChart : list) {
-            try {
-                Image image = bitmapFromChart.getImage();
-                imageList.add(image);
-                bitmapFromChart.setBitmap(null);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, "doInBackground: ", e);
-            }
-        }
-        return imageList;
-    }
-
-    private static void cleanBitmapWithoutPaths(java.util.List<BitmapFromChart> list) {
-        java.util.List<BitmapFromChart> newList = new ArrayList<>();
-
-        for (BitmapFromChart fromChart : list) {
-            if (fromChart.hasFilePathExt()) {
-                if (BitmapUtil.loadBitmapFromFile(fromChart))
-                    newList.add(fromChart);
-            } else {
-                Log.w(TAG, "makeBitmaps: values not completed\n" + fromChart.infoStrForLogger());
-            }
-        }
-
-        list.clear();
-        list.addAll(newList);
-    }
-
     private String takeCareAboutLang(String str) {
         return isPolLang ? replacePolishChars(str) : str;
-    }
-
-    private static String replacePolishChars(String str) {
-        final String regex = ".*[ęóąśłżźćńĘÓĄŚŁŻŹĆŃ„”].*";
-        if (!str.matches(regex))
-            return str;
-
-        char[] array = str.toCharArray();
-        for (int i = 0; i < array.length; i++) {
-            array[i] = mapPolToWin1250(array[i]);
-        }
-        return String.valueOf(array);
-    }
-
-    private static char mapPolToWin1250(char c) {
-
-// TODO add some font that allows windows1250 Polish characters
-//        switch (c){
-//            case 'ę': return 0xEA;
-//            case 'ó': return 0xF3;
-//            case 'ą': return 0xB9;
-//            case 'ś': return 0x9C;
-//            case 'ł': return 0xB3;
-//            case 'ż': return 0xBF;
-//            case 'ź': return 0x9F;
-//            case 'ć': return 0xE6;
-//            case 'ń': return 0xF1;
-//            case 'Ę': return 0xCA;
-//            case 'Ó': return 0xD3;
-//            case 'Ą': return 0xA5;
-//            case 'Ś': return 0x8C;
-//            case 'Ł': return 0xA3;
-//            case 'Ż': return 0xAF;
-//            case 'Ź': return 0x8F;
-//            case 'Ć': return 0xC6;
-//            case 'Ń': return 0xD1;
-//            case '„': return 0x84;
-//            case '”': return 0x94;
-//            default: return c;
-//        }
-
-        switch (c) {
-            case 'ę':
-                return 'e';
-            case 'ó':
-                return 'o';
-            case 'ą':
-                return 'a';
-            case 'ś':
-                return 's';
-            case 'ł':
-                return 'l';
-            case 'ż':
-                return 'z';
-            case 'ź':
-                return 'z';
-            case 'ć':
-                return 'c';
-            case 'ń':
-                return 'n';
-            case 'Ę':
-                return 'E';
-            case 'Ó':
-                return 'O';
-            case 'Ą':
-                return 'A';
-            case 'Ś':
-                return 'S';
-            case 'Ł':
-                return 'L';
-            case 'Ż':
-                return 'Z';
-            case 'Ź':
-                return 'Z';
-            case 'Ć':
-                return 'C';
-            case 'Ń':
-                return 'N';
-            case '„':
-                return '"';
-            case '”':
-                return '"';
-            default:
-                return c;
-        }
     }
 
 }

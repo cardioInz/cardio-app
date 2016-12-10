@@ -22,64 +22,64 @@
             android:id="@+id/activity_add_drug"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:contextActivity="cardio_app.activity.drug.AddDrugActivity"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:contextActivity="cardio_app.activity.drug.AddDrugActivity">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/input_activities_background"
-                android:layout_marginBottom="@dimen/_10sdp">
+                android:orientation="vertical">
 
                 <TextView
+                    style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="@string/name"
-                    style="@style/EditTextArea" />
+                    android:text="@string/name" />
 
                 <EditText
+                    android:id="@+id/name_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name_value"
-                    android:text="@={drug.name}"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="@={drug.name}" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/input_activities_background"
-                android:layout_marginBottom="@dimen/_10sdp">
+                android:orientation="vertical">
 
                 <TextView
+                    style="@style/EditTextArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="@string/description"
-                    style="@style/EditTextArea" />
+                    android:text="@string/description" />
 
                 <EditText
+                    android:id="@+id/description_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:text="@={drug.description}"
-                    android:id="@+id/description_value" />
+                    android:text="@={drug.description}" />
 
             </LinearLayout>
 
             <Button
-                android:text="@string/save"
+                android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/button"
                 android:background="@color/submit"
+                android:onClick="onSaveClick"
+                android:text="@string/save"
                 android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:onClick="onSaveClick" />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

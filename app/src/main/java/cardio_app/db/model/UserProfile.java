@@ -49,42 +49,6 @@ public class UserProfile extends BaseModel implements Parcelable {
     @DatabaseField
     private Boolean isSmoker = null;
 
-    public enum SexType {
-        MALE,
-        FEMALE,
-        NOT_SET;
-
-        private static final HashMap<SexType, String> sexMap = new HashMap<SexType, String>() {{
-            put(MALE, "M");
-            put(FEMALE, "F");
-            put(NOT_SET, "-");
-        }};
-
-
-        public String getStr() {
-            if (sexMap.containsKey(this))
-                return sexMap.get(this);
-            else
-                return sexMap.get(NOT_SET);
-        }
-
-        public static String mapToString(SexType sexType) {
-            if (sexType != null)
-                return sexType.toString();
-            return NOT_SET.toString();
-        }
-
-        public static SexType mapFromString(String value) {
-            if (sexMap.values().contains(value)) {
-                for (SexType key : sexMap.keySet()) {
-                    if (sexMap.get(key).equals(value))
-                        return key;
-                }
-            }
-            return NOT_SET;
-        }
-    }
-
     public UserProfile() {
         this.name = null;
         this.surname = null;
@@ -280,6 +244,41 @@ public class UserProfile extends BaseModel implements Parcelable {
 
     public void setSmoker(Boolean smoker) {
         isSmoker = smoker;
+    }
+
+    public enum SexType {
+        MALE,
+        FEMALE,
+        NOT_SET;
+
+        private static final HashMap<SexType, String> sexMap = new HashMap<SexType, String>() {{
+            put(MALE, "M");
+            put(FEMALE, "F");
+            put(NOT_SET, "-");
+        }};
+
+        public static String mapToString(SexType sexType) {
+            if (sexType != null)
+                return sexType.toString();
+            return NOT_SET.toString();
+        }
+
+        public static SexType mapFromString(String value) {
+            if (sexMap.values().contains(value)) {
+                for (SexType key : sexMap.keySet()) {
+                    if (sexMap.get(key).equals(value))
+                        return key;
+                }
+            }
+            return NOT_SET;
+        }
+
+        public String getStr() {
+            if (sexMap.containsKey(this))
+                return sexMap.get(this);
+            else
+                return sexMap.get(NOT_SET);
+        }
     }
 
 }

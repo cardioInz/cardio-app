@@ -18,23 +18,6 @@ public class DoctorsAppointmentHelper {
         createButtonToVisitTypeFunctionMap();
     }
 
-    private void createButtonToVisitTypeFunctionMap() {
-        buttonToVisitTypeFunction = new HashMap<>();
-        buttonToVisitTypeFunction.put(R.id.button_medical_checkout, doctorsAppointment::isRoutineCheck);
-        buttonToVisitTypeFunction.put(R.id.button_flu, doctorsAppointment::isFlu);
-        buttonToVisitTypeFunction.put(R.id.button_examination, doctorsAppointment::isExamination);
-        buttonToVisitTypeFunction.put(R.id.button_prescription, doctorsAppointment::isForPrescription);
-        buttonToVisitTypeFunction.put(R.id.button_emergency, doctorsAppointment::isEmergency);
-    }
-
-    public Callable<Boolean> getVisitTypeFunction(Integer buttonId) {
-        return buttonToVisitTypeFunction.get(buttonId);
-    }
-
-    public Set<Integer> getVisitTypeButtons() {
-        return buttonToVisitTypeFunction.keySet();
-    }
-
     public static void setVisitProperty(int id, DoctorsAppointment doctorsAppointment) {
         switch (id) {
             case R.id.button_medical_checkout:
@@ -58,5 +41,22 @@ public class DoctorsAppointmentHelper {
                 doctorsAppointment.setEmergency(!isEmergency);
                 break;
         }
+    }
+
+    private void createButtonToVisitTypeFunctionMap() {
+        buttonToVisitTypeFunction = new HashMap<>();
+        buttonToVisitTypeFunction.put(R.id.button_medical_checkout, doctorsAppointment::isRoutineCheck);
+        buttonToVisitTypeFunction.put(R.id.button_flu, doctorsAppointment::isFlu);
+        buttonToVisitTypeFunction.put(R.id.button_examination, doctorsAppointment::isExamination);
+        buttonToVisitTypeFunction.put(R.id.button_prescription, doctorsAppointment::isForPrescription);
+        buttonToVisitTypeFunction.put(R.id.button_emergency, doctorsAppointment::isEmergency);
+    }
+
+    public Callable<Boolean> getVisitTypeFunction(Integer buttonId) {
+        return buttonToVisitTypeFunction.get(buttonId);
+    }
+
+    public Set<Integer> getVisitTypeButtons() {
+        return buttonToVisitTypeFunction.keySet();
     }
 }

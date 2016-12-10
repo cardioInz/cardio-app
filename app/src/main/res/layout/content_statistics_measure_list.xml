@@ -14,7 +14,7 @@
     tools:showIn="@layout/activity_statistics">
 
     <ListView
+        android:id="@+id/statistics_measures_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/statistics_measures_list_view"></ListView>
+        android:layout_height="wrap_content"></ListView>
 </RelativeLayout>

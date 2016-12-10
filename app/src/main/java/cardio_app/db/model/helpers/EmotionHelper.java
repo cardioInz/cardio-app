@@ -11,6 +11,9 @@ import cardio_app.db.model.Emotion;
 public class EmotionHelper {
 
     private static final Map<Emotion, Integer> emotionToButtonMap;
+    private static final Map<Integer, Emotion> buttonToEmotionMap;
+    private static final Map<Emotion, Integer> emotionToImageMap;
+    private static final Map<Emotion, Integer> emotionToDescriptionMap;
 
     static {
         emotionToButtonMap = new HashMap<Emotion, Integer>();
@@ -21,9 +24,6 @@ public class EmotionHelper {
         emotionToButtonMap.put(Emotion.STRESSED, R.id.button_stressed);
     }
 
-
-    private static final Map<Integer, Emotion> buttonToEmotionMap;
-
     static {
         buttonToEmotionMap = new HashMap<Integer, Emotion>();
         buttonToEmotionMap.put(R.id.button_happy, Emotion.HAPPY);
@@ -33,8 +33,6 @@ public class EmotionHelper {
         buttonToEmotionMap.put(R.id.button_stressed, Emotion.STRESSED);
     }
 
-    private static final Map<Emotion, Integer> emotionToImageMap;
-
     static {
         emotionToImageMap = new HashMap<Emotion, Integer>();
         emotionToImageMap.put(Emotion.HAPPY, R.drawable.happy_small);
@@ -43,8 +41,6 @@ public class EmotionHelper {
         emotionToImageMap.put(Emotion.CRYING, R.drawable.crying_small);
         emotionToImageMap.put(Emotion.STRESSED, R.drawable.stressed_small);
     }
-
-    private static final Map<Emotion, Integer> emotionToDescriptionMap;
 
     static {
         emotionToDescriptionMap = new HashMap<Emotion, Integer>();

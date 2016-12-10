@@ -62,8 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                android:gravity="center_vertical|left"
-                android:descendantFocusability="blocksDescendants">
+                android:descendantFocusability="blocksDescendants"
+                android:gravity="center_vertical|left">
 
                 <ImageButton
                     android:id="@+id/event_show_more"
