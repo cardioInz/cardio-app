@@ -35,8 +35,6 @@ import cardio_app.db.model.PressureData;
 import cardio_app.db.model.TimeUnit;
 import cardio_app.db.model.UserProfile;
 import cardio_app.util.DateTimeUtil;
-import temporary_package.InitialEvent;
-import temporary_package.InitialPressureData;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DbHelper.class.getName();
@@ -60,62 +58,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         } else {
             return qb.where().isNotNull(columnName);
         }
-    }
-
-    private void initPressureDataTable() throws SQLException {
-        // TODO -> to remove, it's just to fill layout with records
-        Dao<PressureData, Integer> daoHp = getDao(PressureData.class);
-        List<PressureData> hpdatList = InitialPressureData.makePressureDataList();
-        for (PressureData hpdat : hpdatList) {
-            daoHp.create(hpdat);
-        }
-    }
-
-
-    private void initRandomEvents() throws SQLException {
-        Dao<OtherSymptomsRecord, Integer> daoOtherS = getDao(OtherSymptomsRecord.class);
-        Dao<DoctorsAppointment, Integer> daoAppointment = getDao(DoctorsAppointment.class);
-        Dao<Event, Integer> daoHp = getDao(Event.class);
-
-        for (Event event : InitialEvent.makeEventList()) {
-            daoOtherS.create(event.getOtherSymptomsRecord());
-            daoAppointment.create(event.getDoctorsAppointment());
-            daoHp.create(event);
-        }
-    }
-
-
-    private void initEventData() throws SQLException {
-        // TODO remove before release
-        Dao<OtherSymptomsRecord, Integer> daoOtherS = getDao(OtherSymptomsRecord.class);
-        OtherSymptomsRecord osr = new OtherSymptomsRecord(true, true, true, false, false);
-        daoOtherS.create(osr);
-        Dao<DoctorsAppointment, Integer> daoAppointment = getDao(DoctorsAppointment.class);
-        DoctorsAppointment da = new DoctorsAppointment(true, true, true, false, false);
-        daoAppointment.create(da);
-        Dao<Event, Integer> daoHp = getDao(Event.class);
-
-        Event e1 = new Event(
-                DateTimeUtil.getDate(19, 10, 2016), DateTimeUtil.getDate(19, 11, 2016),
-                false, TimeUnit.NONE, 0, "descriptionX", osr, Emotion.HAPPY, da,
-                DailyActivitiesRecord.DRIVING_CAR, false);
-        Event e2 = new Event(
-                DateTimeUtil.getDate(19, 10, 2016), DateTimeUtil.getDate(20, 11, 2016),
-                false, TimeUnit.NONE, 0, "descriptionY", osr, Emotion.SAD, da,
-                DailyActivitiesRecord.ARGUE, false);
-        Event e3 = new Event(
-                DateTimeUtil.getDate(19, 10, 2016), DateTimeUtil.getDate(19, 11, 2016),
-                true, TimeUnit.WEEK, 2, "descriptionZ", osr, Emotion.ANGRY, da,
-                DailyActivitiesRecord.HOUSE_DUTIES, false);
-        Event e4 = new Event(
-                DateTimeUtil.getDate(23, 10, 2016), DateTimeUtil.getDate(29, 11, 2016),
-                true, TimeUnit.DAY, 1, "descriptionQ", osr, Emotion.CRYING, da,
-                DailyActivitiesRecord.PARTY, false);
-
-        daoHp.create(e1);
-        daoHp.create(e2);
-        daoHp.create(e3);
-        daoHp.create(e4);
     }
 
     private String getStringFromClassArray(ArrayList<Class> array) {
@@ -158,16 +100,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         createTables();
-
-        // TODO remove init before release if should not be hardcoded
-        try {
-            initPressureDataTable();
-            initRandomEvents();
-            initEventData();
-        } catch (SQLException e) {
-            Log.e(TAG, "Can't insert initial data", e);
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
