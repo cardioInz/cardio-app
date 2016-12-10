@@ -28,7 +28,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import cardio_app.R;
-import cardio_app.activity.SettingsActivity;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;
@@ -49,33 +48,14 @@ import static cardio_app.util.DateTimeUtil.TIME_FORMATTER;
 
 public class PdfCreator {
     private static final String TAG = PdfCreator.class.getName();
-    private static Font fontChapter;
-    private static Font fontSubParagraph;
-    private static Font fontDates;
-
-    static {
-        setUpFonts();
-    }
-
+    private Font fontChapter;
+    private Font fontSubParagraph;
+    private Font fontDates;
     private boolean isPolLang;
-
-    private static void setUpFonts() {
-        try {
-            BaseFont courier = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, BaseFont.EMBEDDED);
-            fontChapter = new Font(courier, 18, Font.BOLD);
-            fontSubParagraph = new Font(courier, 16, Font.BOLD);
-            fontDates = new Font(courier, 12, Font.BOLD);
-        } catch (Exception e) {
-            Log.e(TAG, "static initializer: ", e);
-            fontChapter = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-            fontSubParagraph = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
-            fontDates = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-        }
-    }
 
     private final float PDF_WIDTH;
     private static final int DAYS_IN_CHAPTER = 30;
-    private final float SCALE_CHART = 0.7f;
+    private final static float SCALE_CHART = 0.7f;
 
     private Document document = null;
     private PdfRecordsContainer recordsContainer;
@@ -85,8 +65,11 @@ public class PdfCreator {
     private boolean isMyProfileAttached = false;
     private LineChartView view;
 
-    public PdfCreator(PdfRecordsContainer recordsContainerParam, java.util.List<BitmapFromChart> extraChartBitmapList,
-                      Resources res, LineChartView view, boolean isPolLang) {
+    public PdfCreator(PdfRecordsContainer recordsContainerParam,
+                      java.util.List<BitmapFromChart> extraChartBitmapList,
+                      Resources res,
+                      LineChartView view,
+                      boolean isPolLang) {
         this.resources = res;
         this.recordsContainer = recordsContainerParam;
         this.extraChartBitmapList = extraChartBitmapList;
@@ -102,6 +85,26 @@ public class PdfCreator {
         setUpFonts();
     }
 
+    private void setUpFonts() {
+        try {
+            if (isPolLang) {
+                BaseFont baseFont = BaseFont.createFont(BaseFont.COURIER, BaseFont.CP1250, BaseFont.EMBEDDED);
+                fontChapter = new Font(baseFont, 18, Font.BOLD);
+                fontSubParagraph = new Font(baseFont, 16, Font.BOLD);
+                fontDates = new Font(baseFont, 12, Font.BOLD);
+            } else {
+                fontChapter = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+                fontSubParagraph = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+                fontDates = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "static initializer: ", e);
+            fontChapter = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+            fontSubParagraph = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+            fontDates = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+        }
+    }
+
     private java.util.List<Image> initExtraCharts() {
         cleanBitmapWithoutPaths(extraChartBitmapList);
         for (BitmapFromChart fromChart : extraChartBitmapList) {
@@ -113,14 +116,12 @@ public class PdfCreator {
     }
 
     private static void scaleImage(Image image, Document document) {
-
         float w = image.getWidth(); // pdf 595
         float h = image.getHeight(); // pdf 842
         float docW = document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin();
         float scale = docW / w;
         int newW = (int) (w * scale);
         int newH = (int) (h * scale);
-
         image.scaleAbsolute(newW, newH);
     }
 
@@ -245,11 +246,11 @@ public class PdfCreator {
     private void addMetaData(Document document) {
         final String APP_NAME = "Cardio-Inz";
 
-        document.addTitle(getResourceString(R.string.pdf_report_generated_by) + " " + APP_NAME + " App");
-        document.addSubject(APP_NAME + " " + getResourceString(R.string.report));
-        document.addKeywords(APP_NAME + " " + getResourceString(R.string.report));
-        document.addAuthor(APP_NAME);
-        document.addCreator(APP_NAME);
+        document.addTitle(takeCareAboutLang(getResourceString(R.string.pdf_report_generated_by) + " " + APP_NAME + " App"));
+        document.addSubject(takeCareAboutLang(APP_NAME + " " + getResourceString(R.string.report)));
+        document.addKeywords(takeCareAboutLang(APP_NAME + " " + getResourceString(R.string.report)));
+        document.addAuthor(takeCareAboutLang(APP_NAME));
+        document.addCreator(takeCareAboutLang(APP_NAME));
     }
 
     private void addTitleAndDates(Document document) throws DocumentException {
@@ -261,7 +262,7 @@ public class PdfCreator {
 
         preface.add(new Paragraph(
                 String.format("%s %s",
-                        getResourceString(R.string.date_of_report_generation),
+                        takeCareAboutLang(getResourceString(R.string.date_of_report_generation)),
                         DATETIME_FORMATTER.format(new Date())
                 ),
                 fontDates
@@ -295,24 +296,26 @@ public class PdfCreator {
         }
 
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph(getResourceString(R.string.pdf_generation_interval_dates)
+        preface.add(new Paragraph(
+                takeCareAboutLang(getResourceString(R.string.pdf_generation_interval_dates)
                 + " " + getResourceString(R.string.from_date) + " " + dateFromStr
-                + " " + getResourceString(R.string.to_date) + " " + dateToStr,
-                fontDates));
+                + " " + getResourceString(R.string.to_date) + " " + dateToStr),
+                fontDates)
+        );
         addEmptyLine(preface, 2);
         document.add(preface);
     }
 
     private String prepareChapterTitle(PdfRecordsContainer recordsContainer){
         try {
-            return String.format("%s %s: %s, %s: %s",
+            return takeCareAboutLang(String.format("%s %s: %s, %s: %s",
                     getResourceString(R.string.results),
                     getResourceString(R.string.from_date), DateTimeUtil.DATE_FORMATTER.format(recordsContainer.getDateFrom()),
                     getResourceString(R.string.to_date), DateTimeUtil.DATE_FORMATTER.format(recordsContainer.getDateTo())
-            );
+            ));
         } catch (Exception e) {
             Log.e(TAG, "addChapterContent: ", e);
-            return getResourceString(R.string.results);
+            return takeCareAboutLang(getResourceString(R.string.results));
         }
     }
 
@@ -335,7 +338,7 @@ public class PdfCreator {
 
     private void addExtraCharts(Document document) throws DocumentException {
         java.util.List<Image> extraChartImageList = initExtraCharts();
-        String name = getResourceString(R.string.pdf_content_charts_chosen);
+        String name = takeCareAboutLang(getResourceString(R.string.pdf_content_charts_chosen));
         Anchor anchor = new Anchor(name, fontChapter);
         anchor.setName(name);
 
@@ -377,7 +380,9 @@ public class PdfCreator {
                         throwSomeEx++;
                     }
                     String keyTitle = ProfileViewModel.MyProfileFieldTypeEnum.getFieldTitle(key, resources);
-                    catPart.add(new Paragraph(keyTitle + "  " + map.get(key)));
+
+                    String paraValue = takeCareAboutLang(keyTitle + "  " + map.get(key));
+                    catPart.add(new Paragraph(paraValue));
                 }
             }
 
@@ -400,7 +405,7 @@ public class PdfCreator {
             return;
         }
 
-        String name = getResourceString(R.string.events_pdf_chapter);
+        String name = takeCareAboutLang(getResourceString(R.string.events_pdf_chapter));
         Paragraph mainSubPara = new Paragraph(name, fontSubParagraph);
 
         Section catPart = chapter.addSection(mainSubPara);
@@ -416,7 +421,7 @@ public class PdfCreator {
                     dateStr += " - " + DATE_FORMATTER.format(event.getEndDate());
                 }
 
-                String desc = event.getDescription();
+                String desc = takeCareAboutLang(event.getDescription());
 
                 catPart.add(new Paragraph(String.format("%s:     %s", dateStr, desc)));
             } catch (Exception e) {
@@ -428,7 +433,7 @@ public class PdfCreator {
     }
 
     private void addPressureData(Chapter chapter, java.util.List<PressureData> pressureDataList) throws DocumentException {
-        String name = getResourceString(R.string.pdf_chapter_blood_pressure);
+        String name = takeCareAboutLang(getResourceString(R.string.pdf_chapter_blood_pressure));
         Paragraph mainSubPara = new Paragraph(name, fontSubParagraph);
 
         Section catPart = chapter.addSection(mainSubPara);
@@ -440,7 +445,7 @@ public class PdfCreator {
     }
 
     private void addStatistics(Chapter chapter, PdfRecordsContainer recordsContainer) throws DocumentException {
-        String name = getResourceString(R.string.pdf_chapter_statistics);
+        String name = takeCareAboutLang(getResourceString(R.string.pdf_chapter_statistics));
         Paragraph mainSubPara = new Paragraph(name, fontSubParagraph);
         Section catPart = chapter.addSection(mainSubPara);
         addEmptyLine(catPart, 1);
@@ -450,14 +455,18 @@ public class PdfCreator {
         createListOfMeasurements(listCnt, listLast, recordsContainer);
 
 
-        Paragraph subPara = new Paragraph(getResourceString(R.string.title_statistics_countered_measures), fontSubParagraph);
+        Paragraph subPara = new Paragraph(
+                takeCareAboutLang(getResourceString(R.string.title_statistics_countered_measures)),
+                fontSubParagraph);
         Section subCatPart = catPart.addSection(subPara);
         addEmptyLine(subCatPart, 1);
         subCatPart.add(listCnt);
 
         addEmptyLine(catPart, 2);
 
-        subPara = new Paragraph(getResourceString(R.string.title_statistics_last_measures), fontSubParagraph);
+        subPara = new Paragraph(
+                takeCareAboutLang(getResourceString(R.string.title_statistics_last_measures)),
+                fontSubParagraph);
         subCatPart = catPart.addSection(subPara);
         addEmptyLine(subCatPart, 1);
         subCatPart.add(listLast);
@@ -475,35 +484,22 @@ public class PdfCreator {
         // t.setSpacing(4);
         // t.setBorderWidth(1);
 
-        PdfPCell c1 = new PdfPCell(new Phrase(getResourceString(R.string.pdf_systole)));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
+        final int [] columnStrId = {
+                R.string.pdf_systole,
+                R.string.pdf_diastole,
+                R.string.pdf_difference,
+                R.string.pdf_pulse,
+                R.string.pdf_arrhythmia,
+                R.string.pdf_date,
+                R.string.pdf_time
+        };
 
-        c1 = new PdfPCell(new Phrase(getResourceString(R.string.pdf_diastole)));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase(getResourceString(R.string.pdf_difference)));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase(getResourceString(R.string.pdf_pulse)));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase(getResourceString(R.string.pdf_arrhythmia)));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase(getResourceString(R.string.pdf_date)));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase(getResourceString(R.string.pdf_time)));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-
+        for (int id : columnStrId) {
+            String title = takeCareAboutLang(getResourceString(id));
+            PdfPCell cell = new PdfPCell(new Phrase(title));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(cell);
+        }
 
         PressureDataViewModel pressureDataViewModel = new PressureDataViewModel();
         for (PressureData pressureData : pressureDataList) {
@@ -540,7 +536,7 @@ public class PdfCreator {
                     continue;
 
                 final int cnt = mapCounter.get(key);
-                final String title = getResourceString(key.toTitleId());
+                final String title = takeCareAboutLang(getResourceString(key.toTitleId()));
                 listCnt.add(new ListItem(title + " " + cnt));
             }
         }
@@ -555,7 +551,7 @@ public class PdfCreator {
                 final StatisticLastMeasure statisticLastMeasure = mapLastMeasures.get(key);
 
                 if (statisticLastMeasure == null){
-                    listLast.add(new ListItem(title + "-\n\n"));
+                    listLast.add(new ListItem(takeCareAboutLang(title) + "-\n\n"));
                     continue;
                 }
 
@@ -580,7 +576,7 @@ public class PdfCreator {
                     continue;
                 }
 
-                listLast.add(new ListItem(listItemStr));
+                listLast.add(new ListItem(takeCareAboutLang(listItemStr)));
             }
         }
     }
@@ -635,4 +631,73 @@ public class PdfCreator {
         list.clear();
         list.addAll(newList);
     }
+
+    private String takeCareAboutLang(String str){
+        return isPolLang ? replacePolishChars(str) : str;
+    }
+
+    private static String replacePolishChars(String str) {
+        final String regex = ".*[ęóąśłżźćńĘÓĄŚŁŻŹĆŃ„”].*";
+        if (!str.matches(regex))
+            return str;
+
+        char [] array = str.toCharArray();
+        for (int i=0; i<array.length; i++){
+            array[i] = mapPolToWin1250(array[i]);
+        }
+        return String.valueOf(array);
+    }
+
+    private static char mapPolToWin1250(char c){
+
+// TODO add some font that allows windows1250 Polish characters
+//        switch (c){
+//            case 'ę': return 0xEA;
+//            case 'ó': return 0xF3;
+//            case 'ą': return 0xB9;
+//            case 'ś': return 0x9C;
+//            case 'ł': return 0xB3;
+//            case 'ż': return 0xBF;
+//            case 'ź': return 0x9F;
+//            case 'ć': return 0xE6;
+//            case 'ń': return 0xF1;
+//            case 'Ę': return 0xCA;
+//            case 'Ó': return 0xD3;
+//            case 'Ą': return 0xA5;
+//            case 'Ś': return 0x8C;
+//            case 'Ł': return 0xA3;
+//            case 'Ż': return 0xAF;
+//            case 'Ź': return 0x8F;
+//            case 'Ć': return 0xC6;
+//            case 'Ń': return 0xD1;
+//            case '„': return 0x84;
+//            case '”': return 0x94;
+//            default: return c;
+//        }
+
+        switch (c){
+            case 'ę': return 'e';
+            case 'ó': return 'o';
+            case 'ą': return 'a';
+            case 'ś': return 's';
+            case 'ł': return 'l';
+            case 'ż': return 'z';
+            case 'ź': return 'z';
+            case 'ć': return 'c';
+            case 'ń': return 'n';
+            case 'Ę': return 'E';
+            case 'Ó': return 'O';
+            case 'Ą': return 'A';
+            case 'Ś': return 'S';
+            case 'Ł': return 'L';
+            case 'Ż': return 'Z';
+            case 'Ź': return 'Z';
+            case 'Ć': return 'C';
+            case 'Ń': return 'N';
+            case '„': return '"';
+            case '”': return '"';
+            default: return c;
+        }
+    }
+
 }
