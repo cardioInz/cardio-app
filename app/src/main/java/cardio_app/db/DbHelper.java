@@ -140,7 +140,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public UserProfile getUserProfile() throws SQLException {
-        // TODO does not work -> no user profile
         Dao<UserProfile, Integer> dao = getDao(UserProfile.class);
         return dao.queryBuilder().queryForFirst();
     }

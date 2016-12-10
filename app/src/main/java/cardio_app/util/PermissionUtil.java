@@ -55,7 +55,6 @@ public class PermissionUtil {
     }
 
     public static String getTmpDir(Context context) {
-        // TODO make sure that is correct dir for tmp files (shared between activities)
         return context.getFilesDir().getAbsolutePath();
     }
 

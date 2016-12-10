@@ -61,7 +61,6 @@ public class CollectedChartsActivity extends AppCompatActivity {
     }
 
     public void refreshListView() {
-        // TODO maybe we could do the same simpler
         assignDataToListView();
     }
 
