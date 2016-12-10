@@ -54,6 +54,7 @@ public class SetAlarmService extends Service {
         Intent foregroundIntent = new Intent(this, MainActivity.class);
         PendingIntent pForegroundIntent = PendingIntent.getActivity(this, 0, foregroundIntent, 0);
 
+        //TODO: add this text to resources
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setContentTitle("Cardio App")
                 .setContentText("ustawiono alarmy")

@@ -161,7 +161,32 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
         if (this.isHighTemperature()) symptoms.add(R.string.high_temperature);
         if (this.isCough()) symptoms.add(R.string.cough);
         if (this.isToothache()) symptoms.add(R.string.toothache);
-        if (this.isStomachAche()) symptoms.add( R.string.stomachache);
+        if (this.isStomachAche()) symptoms.add(R.string.stomachache);
         return symptoms;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OtherSymptomsRecord that = (OtherSymptomsRecord) o;
+
+        if (isCough != that.isCough) return false;
+        if (isHeadache != that.isHeadache) return false;
+        if (isHighTemperature != that.isHighTemperature) return false;
+        if (isStomachAche != that.isStomachAche) return false;
+        return isToothache == that.isToothache;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (isCough ? 1 : 0);
+        result = 31 * result + (isHeadache ? 1 : 0);
+        result = 31 * result + (isHighTemperature ? 1 : 0);
+        result = 31 * result + (isStomachAche ? 1 : 0);
+        result = 31 * result + (isToothache ? 1 : 0);
+        return result;
     }
 }

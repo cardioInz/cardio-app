@@ -166,4 +166,28 @@ public class DoctorsAppointment extends BaseModel implements Parcelable {
         return visitElements;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DoctorsAppointment that = (DoctorsAppointment) o;
+
+        if (isRoutineCheck != that.isRoutineCheck) return false;
+        if (isExamination != that.isExamination) return false;
+        if (isForPrescription != that.isForPrescription) return false;
+        if (isEmergency != that.isEmergency) return false;
+        return isFlu == that.isFlu;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (isRoutineCheck ? 1 : 0);
+        result = 31 * result + (isExamination ? 1 : 0);
+        result = 31 * result + (isForPrescription ? 1 : 0);
+        result = 31 * result + (isEmergency ? 1 : 0);
+        result = 31 * result + (isFlu ? 1 : 0);
+        return result;
+    }
 }

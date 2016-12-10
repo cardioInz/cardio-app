@@ -354,6 +354,47 @@ public class Event extends BaseModel implements Parcelable {
         return time + interval;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Event event = (Event) o;
+
+        if (isRepeatable != event.isRepeatable) return false;
+        if (timeDelta != event.timeDelta) return false;
+        if (isAlarmSet != event.isAlarmSet) return false;
+        if (startDate != null ? !startDate.equals(event.startDate) : event.startDate != null)
+            return false;
+        if (endDate != null ? !endDate.equals(event.endDate) : event.endDate != null) return false;
+        if (timeUnit != event.timeUnit) return false;
+        if (description != null ? !description.equals(event.description) : event.description != null)
+            return false;
+        if (otherSymptomsRecord != null ? !otherSymptomsRecord.equals(event.otherSymptomsRecord) : event.otherSymptomsRecord != null)
+            return false;
+        if (emotion != event.emotion) return false;
+        if (doctorsAppointment != null ? !doctorsAppointment.equals(event.doctorsAppointment) : event.doctorsAppointment != null)
+            return false;
+        return dailyActivitiesRecord == event.dailyActivitiesRecord;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = startDate != null ? startDate.hashCode() : 0;
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (isRepeatable ? 1 : 0);
+        result = 31 * result + (timeUnit != null ? timeUnit.hashCode() : 0);
+        result = 31 * result + timeDelta;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (otherSymptomsRecord != null ? otherSymptomsRecord.hashCode() : 0);
+        result = 31 * result + (emotion != null ? emotion.hashCode() : 0);
+        result = 31 * result + (doctorsAppointment != null ? doctorsAppointment.hashCode() : 0);
+        result = 31 * result + (dailyActivitiesRecord != null ? dailyActivitiesRecord.hashCode() : 0);
+        result = 31 * result + (isAlarmSet ? 1 : 0);
+        return result;
+    }
+
     public static List<Event> multiplyRepeatableEvents(List<Event> initial) {
         List<Event> results = new ArrayList<>();
 
