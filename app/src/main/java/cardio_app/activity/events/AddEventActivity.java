@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -40,7 +42,7 @@ import cardio_app.viewmodel.date_time.PickedTimeViewModel;
 
 
 public class AddEventActivity extends AppCompatActivity {
-
+    private static final String TAG = AddEventActivity.class.getName();
     Event currentEvent;
     boolean isEditExistingItem;
     PickedDateViewModel startDateModel, endDateModel;
@@ -142,7 +144,8 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             }
         } catch (Exception e) {
-
+            Log.e(TAG, "Cannot initialize symptom buttons", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -162,7 +165,8 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             }
         } catch (Exception e) {
-
+            Log.e(TAG, "Cannot initialize medical appointment buttons", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -256,7 +260,7 @@ public class AddEventActivity extends AppCompatActivity {
         return isValid;
     }
 
-    public void onSaveClick() {
+    public void saveEvent() {
         if (isEditEventFormValid()) {
             updateStartDate();
             updateEndDate();
@@ -280,8 +284,10 @@ public class AddEventActivity extends AppCompatActivity {
                 startService(updateAlarm);
 
                 Toast.makeText(this, R.string.event_saved_successfully, Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 Toast.makeText(this, R.string.error_while_saving_event, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Cannot save event", e);
+                throw new RuntimeException(e);
             }
 
             Intent intent = new Intent(this, EventActivity.class);
@@ -291,7 +297,7 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
-    public void onDeleteClick() {
+    public void deleteEvent() {
         if (currentEvent.getId() <= 0) {
             return;
         }
@@ -299,12 +305,12 @@ public class AddEventActivity extends AppCompatActivity {
         try {
             Dao<DoctorsAppointment, Integer> doctorsAppointmentDao =
                     getDbHelper().getDao(DoctorsAppointment.class);
-            doctorsAppointmentDao.deleteById(currentEvent.getDoctorsAppointment().getId());
+            doctorsAppointmentDao.deleteById(currentEventViewModel.getEvent().getDoctorsAppointment().getId());
             Dao<OtherSymptomsRecord, Integer> otherSymptomsRecordDao =
                     getDbHelper().getDao(OtherSymptomsRecord.class);
-            otherSymptomsRecordDao.deleteById(currentEvent.getOtherSymptomsRecord().getId());
+            otherSymptomsRecordDao.deleteById(currentEventViewModel.getEvent().getOtherSymptomsRecord().getId());
             Dao<Event, Integer> eventsDao = getDbHelper().getDao(Event.class);
-            eventsDao.deleteById(currentEvent.getId());
+            eventsDao.deleteById(currentEventViewModel.getEvent().getId());
             Uri uri = new Uri.Builder().path(String.valueOf(currentEvent.getId())).build();
             Intent cancelAlarm = new Intent(this, SetAlarmService.class);
             cancelAlarm.setAction(SetAlarmService.CANCEL);
@@ -313,7 +319,43 @@ public class AddEventActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.event_deleted_successfully, Toast.LENGTH_SHORT).show();
         } catch (SQLException e) {
             Toast.makeText(this, R.string.error_while_deleting_event, Toast.LENGTH_SHORT).show();
-            Log.e("", "Can't perform delete action on Event record", e);
+            Log.e(TAG, "Cannot perform Delete action on event", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void onSaveClick() {
+        if (isEditExistingItem) {
+            View contextView = findViewById(R.id.activity_add_event);
+            Snackbar
+                    .make(contextView, R.string.are_you_sure_to_save_changes, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.save, view -> {
+                        saveEvent();
+                        onBackPressed();
+                    })
+                    .setActionTextColor(ContextCompat.getColor(this, R.color.brightOnDarkBg))
+                    .show();
+        } else {
+            saveEvent();
+            onBackPressed();
+        }
+    }
+
+
+    private void onDeleteClick() {
+        if (isEditExistingItem) {
+            View contextView = findViewById(R.id.activity_add_event);
+            Snackbar
+                    .make(contextView, R.string.are_you_sure_delete_event, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.delete, view -> {
+                        deleteEvent();
+                        onBackPressed();
+                    })
+                    .setActionTextColor(ContextCompat.getColor(this, R.color.brightOnDarkBg))
+                    .show();
+        } else {
+            deleteEvent();
+            onBackPressed();
         }
     }
 
@@ -327,6 +369,12 @@ public class AddEventActivity extends AppCompatActivity {
         } else {
             buttonClicked.setBackground(null);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, EventActivity.class);
+        startActivity(intent);
     }
 
 

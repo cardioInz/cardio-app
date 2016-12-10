@@ -27,7 +27,7 @@ import cardio_app.db.model.OtherSymptomsRecord;
 import cardio_app.service.SetAlarmService;
 
 public class EventActivity extends AppCompatActivity {
-
+    private static final String TAG = EventActivity.class.getName();
     private DbHelper dbHelper;
     private EventAdapter eventAdapter;
     private Event selectedEvent = null;
@@ -61,8 +61,8 @@ public class EventActivity extends AppCompatActivity {
     private void assignDataToListView() {
         List<Event> events = new ArrayList<>();
         try {
-
-            for (Event event : getDbHelper().getAllOrderedEventData()) {
+            List<Event> eventsFromDb = getDbHelper().getAllOrderedEventData();
+            for (Event event : eventsFromDb) {
                 Dao<OtherSymptomsRecord, Integer> osrDao = getDbHelper().getDao(OtherSymptomsRecord.class);
                 event.setOtherSymptomsRecord(osrDao.queryForId(event.getOtherSymptomsRecord().getId()));
                 Dao<DoctorsAppointment, Integer> daDao = getDbHelper().getDao(DoctorsAppointment.class);
@@ -71,12 +71,13 @@ public class EventActivity extends AppCompatActivity {
             }
 
             ListView eventListView = (ListView) findViewById(R.id.event_list_view);
-            eventAdapter = new EventAdapter(EventActivity.this, events);
+            eventAdapter = new EventAdapter(EventActivity.this, eventsFromDb);
             eventListView.setAdapter(eventAdapter);
             eventListView.invalidateViews();
 
         } catch (SQLException e) {
-            Log.e("", "Cannot get events");
+            Log.e(TAG, "Cannot get events", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -95,26 +96,6 @@ public class EventActivity extends AppCompatActivity {
         if (dbHelper != null) {
             OpenHelperManager.releaseHelper();
             dbHelper = null;
-        }
-    }
-
-    private void onDeleteEvent() {
-        try {
-            Dao<DoctorsAppointment, Integer> doctorsAppointmentDao =
-                    getDbHelper().getDao(DoctorsAppointment.class);
-            doctorsAppointmentDao.deleteById(selectedEvent.getDoctorsAppointment().getId());
-            Dao<OtherSymptomsRecord, Integer> otherSymptomsRecordDao =
-                    getDbHelper().getDao(OtherSymptomsRecord.class);
-            otherSymptomsRecordDao.deleteById(selectedEvent.getOtherSymptomsRecord().getId());
-            Dao<Event, Integer> eventsDao = getDbHelper().getDao(Event.class);
-            eventsDao.deleteById(selectedEvent.getId());
-            assignDataToListView();
-            Uri uri = new Uri.Builder().path(String.valueOf(selectedEvent.getId())).build();
-            Intent cancelAlarm = new Intent(this, SetAlarmService.class);
-            cancelAlarm.setAction(SetAlarmService.CANCEL);
-            cancelAlarm.putExtra(SetAlarmService.EVENT_ID, selectedEvent.getId());
-        } catch (SQLException e) {
-            Log.e("", "Can't perform delete action on Event record", e);
         }
     }
 

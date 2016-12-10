@@ -163,7 +163,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         try {
             initPressureDataTable();
             initRandomEvents();
-            initEventData();
+//            initEventData();
         } catch (SQLException e) {
             Log.e(TAG, "Can't insert initial data", e);
             throw new RuntimeException(e);

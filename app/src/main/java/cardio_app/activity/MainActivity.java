@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -18,6 +17,7 @@ import cardio_app.activity.events.AddEventActivity;
 import cardio_app.activity.events.EventActivity;
 import cardio_app.activity.pdf_creation.CreatePdfReportActivity;
 import cardio_app.activity.profile.ProfileActivity;
+import cardio_app.activity.settings.SettingsActivity;
 import cardio_app.activity.statistics.StatisticsActivity;
 import cardio_app.activity.synchro.ExportActivity;
 import cardio_app.activity.synchro.ImportActivity;

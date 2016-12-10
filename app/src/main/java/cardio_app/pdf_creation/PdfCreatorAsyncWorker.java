@@ -9,19 +9,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.parser.Line;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.activity.SettingsActivity;
+import cardio_app.activity.settings.SettingsActivity;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.pdf_creation.param_models.PdfChosenParams;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
-import cardio_app.util.BitmapUtil;
 import cardio_app.util.PdfCreator;
 import cardio_app.util.Defaults;
 import cardio_app.util.PermissionUtil;

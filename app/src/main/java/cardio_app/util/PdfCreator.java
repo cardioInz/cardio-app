@@ -28,7 +28,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import cardio_app.R;
-import cardio_app.activity.SettingsActivity;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.PressureData;

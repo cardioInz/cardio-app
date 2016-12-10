@@ -3,11 +3,14 @@ package cardio_app.db.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.itextpdf.text.List;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import cardio_app.R;
 
@@ -152,16 +155,13 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
                 this.isStomachAche() || this.isToothache();
     }
 
-    public String getOtherSymptomsDescription() {
-        String description = "";
-        description += this.isHeadache() ? R.string.headache + ", " : "";
-        description += this.isHighTemperature() ? R.string.high_temperature + ", " : "";
-        description += this.isCough() ? R.string.cough + ", " : "";
-        description += this.isToothache() ? R.string.toothache + ", " : "";
-        description += this.isStomachAche() ? R.string.stomachache + ", " : "";
-        if (description != "") {
-            return description.substring(0, description.length()-2);
-        }
-        return description;
+    public ArrayList<Integer> getOtherSymptoms() {
+        ArrayList<Integer> symptoms = new ArrayList<>();
+        if (this.isHeadache()) symptoms.add(R.string.headache);
+        if (this.isHighTemperature()) symptoms.add(R.string.high_temperature);
+        if (this.isCough()) symptoms.add(R.string.cough);
+        if (this.isToothache()) symptoms.add(R.string.toothache);
+        if (this.isStomachAche()) symptoms.add( R.string.stomachache);
+        return symptoms;
     }
 }

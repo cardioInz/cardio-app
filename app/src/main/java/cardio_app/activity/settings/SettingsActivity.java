@@ -1,4 +1,4 @@
-package cardio_app.activity;
+package cardio_app.activity.settings;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import java.util.Locale;
 
 import cardio_app.R;
+import cardio_app.activity.MainActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -36,13 +37,9 @@ public class SettingsActivity extends AppCompatActivity {
             polishRadioButton.setChecked(true);
         }
 
-        polishRadioButton.setOnClickListener(view -> {
-            changeLanguage("en");
-        });
+        polishRadioButton.setOnClickListener(view -> changeLanguage("en"));
 
-        englishRadioButton.setOnClickListener(view -> {
-            changeLanguage("pl");
-        });
+        englishRadioButton.setOnClickListener(view -> changeLanguage("pl"));
     }
 
     private void changeLanguage(String qualifier) {

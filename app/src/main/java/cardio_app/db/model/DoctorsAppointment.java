@@ -9,6 +9,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import cardio_app.R;
 
 @DatabaseTable
@@ -154,18 +156,14 @@ public class DoctorsAppointment extends BaseModel implements Parcelable {
         return 0;
     }
 
-
-    public String getDoctorsAppointmentDescription() {
-        String description = "";
-        description += this.isEmergency() ? R.string.emergency + ", " : "";
-        description += this.isExamination() ? R.string.examination + ", " : "";
-        description += this.isForPrescription() ? R.string.prescription + ", " : "";
-        description += this.isFlu() ? R.string.flu + ", " : "";
-        description += this.isRoutineCheck() ? R.string.routine_visit + ", " : "";
-        if (description != "") {
-            return description.substring(0, description.length()-2);
-        }
-        return description;
+    public ArrayList<Integer> getDoctorsAppointmentElements() {
+        ArrayList<Integer> visitElements = new ArrayList<>();
+        if (this.isEmergency()) visitElements.add(R.string.emergency);
+        if (this.isExamination()) visitElements.add( R.string.examination);
+        if (this.isForPrescription()) visitElements.add(R.string.prescription);
+        if (this.isFlu()) visitElements.add(R.string.flu);
+        if (this.isRoutineCheck()) visitElements.add(R.string.routine_visit);
+        return visitElements;
     }
 
 }

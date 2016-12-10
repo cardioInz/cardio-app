@@ -2,6 +2,7 @@ package cardio_app.activity.events;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.itextpdf.text.pdf.parser.Line;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import cardio_app.R;
@@ -68,36 +72,12 @@ public class EventAdapter extends ArrayAdapter<Event> {
             detailsLinearLayout.setVisibility(View.GONE);
             showLessImageView.setVisibility(View.GONE);
 
-            if(!viewModel.getEmotion().equals(Emotion.NONE)) {
-                Integer emotionImageId = EmotionHelper.getImageId(viewModel.getEmotion());
-                emotionImageView.setImageResource(emotionImageId);
-                emotionTextView.setText(EmotionHelper.getDescription(viewModel.getEmotion()));
-            } else {
-                emotionImageView.setVisibility(View.INVISIBLE);
-                emotionTextView.setVisibility(View.INVISIBLE);
-            }
 
-            if(!viewModel.getEvent().getDailyActivitiesRecord().equals(DailyActivitiesRecord.NONE)){
-                Integer otherTypeImageId = DailyActivitiesRecordHelper.getImageId(viewModel.getEvent().getDailyActivitiesRecord());
-                otherTypeImageView.setImageResource(otherTypeImageId);
-                otherTypeTextView.setText(DailyActivitiesRecordHelper.getDescription(viewModel.getEvent().getDailyActivitiesRecord()));
-            } else {
-               otherTypeLinearLayout.setVisibility(View.GONE);
-            }
+          initializeEmotionSection(emotionImageView, emotionTextView, viewModel);
+          initializeOtherSymptomsSection(symptomsImageView, symptomsTypeTextView, symptomsLinearLayout, viewModel, getContext());
+          initializeDoctorsAppointmentSection(medImageView, medTypeTextView, medLinearLayout, viewModel, getContext());
+          initializeDailyActivitiesRecordSection(otherTypeImageView, otherTypeTextView, otherTypeLinearLayout, viewModel);
 
-            if(viewModel.getEvent().getDoctorsAppointment().isDoctorsAppointment()){
-                medImageView.setImageResource(R.drawable.medical_checkout);
-                medTypeTextView.setText(viewModel.getEvent().getDoctorsAppointment().getDoctorsAppointmentDescription());
-            } else {
-                medLinearLayout.setVisibility(View.GONE);
-            }
-
-            if(viewModel.getEvent().getOtherSymptomsRecord().isOtherSymptom()){
-                symptomsImageView.setImageResource(R.drawable.cough);
-                symptomsTypeTextView.setText(viewModel.getEvent().getOtherSymptomsRecord().getOtherSymptomsDescription());
-            } else {
-                symptomsLinearLayout.setVisibility(View.GONE);
-            }
 
             eventAlarmImageView.setVisibility(viewModel.getAlarmSet() ? View.VISIBLE : View.INVISIBLE);
 
@@ -115,5 +95,62 @@ public class EventAdapter extends ArrayAdapter<Event> {
         }
 
         return convertView;
+    }
+
+    private void initializeEmotionSection(ImageView emotionImageView, TextView emotionTextView, EventDataViewModel vm){
+        if(vm.getEvent().getEmotion() != null &&
+                !vm.getEmotion().equals(Emotion.NONE)) {
+            Integer emotionImageId = EmotionHelper.getImageId(vm.getEmotion());
+            emotionImageView.setImageResource(emotionImageId);
+            emotionTextView.setText(EmotionHelper.getDescription(vm.getEmotion()));
+        } else {
+            emotionImageView.setVisibility(View.INVISIBLE);
+            emotionTextView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void initializeDailyActivitiesRecordSection(ImageView otherTypeImageView, TextView otherTypeTextView, LinearLayout otherTypeLinearLayout,
+                                                        EventDataViewModel vm){
+        if(vm.getEvent().getDailyActivitiesRecord() != null &&
+                !vm.getEvent().getDailyActivitiesRecord().equals(DailyActivitiesRecord.NONE)){
+            Integer otherTypeImageId = DailyActivitiesRecordHelper.getImageId(vm.getEvent().getDailyActivitiesRecord());
+            otherTypeImageView.setImageResource(otherTypeImageId);
+            otherTypeTextView.setText(DailyActivitiesRecordHelper.getDescription(vm.getEvent().getDailyActivitiesRecord()));
+        } else {
+            otherTypeLinearLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void initializeDoctorsAppointmentSection(ImageView medImageView, TextView medTypeTextView, LinearLayout medLinearLayout,
+                                                     EventDataViewModel vm, Context context){
+        if(vm.getEvent().getDoctorsAppointment() != null &&
+         vm.getEvent().getDoctorsAppointment().isDoctorsAppointment()){
+            medImageView.setImageResource(R.drawable.medical_checkout);
+            String visitDescription = getDetailsDescription(vm.getEvent().getDoctorsAppointment().getDoctorsAppointmentElements(), context);
+            medTypeTextView.setText(visitDescription);
+        } else {
+            medLinearLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void initializeOtherSymptomsSection(ImageView symptomsImageView, TextView symptomsTypeTextView, LinearLayout symptomsLinearLayout,
+                                                EventDataViewModel vm, Context context) {
+        if(vm.getEvent().getOtherSymptomsRecord()!= null &&
+                vm.getEvent().getOtherSymptomsRecord().isOtherSymptom()){
+            symptomsImageView.setImageResource(R.drawable.cough);
+            String symptomsDescription = getDetailsDescription(vm.getEvent().getOtherSymptomsRecord().getOtherSymptoms(), context);
+            symptomsTypeTextView.setText(symptomsDescription);
+        } else {
+            symptomsLinearLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private String getDetailsDescription(ArrayList<Integer> detailsElements, Context context) {
+        String description = "";
+        for(int i=0; i<detailsElements.size(); i++) {
+            description += context.getResources().getString(detailsElements.get(i));
+            description+= i == detailsElements.size()-1 ? "" : ", ";
+        }
+        return description;
     }
 }
