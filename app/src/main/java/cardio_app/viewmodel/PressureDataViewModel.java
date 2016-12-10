@@ -9,7 +9,6 @@ import cardio_app.viewmodel.date_time.DateTimeViewModel;
 
 
 public class PressureDataViewModel extends BaseObservable implements Comparable<PressureDataViewModel> {
-    // TODO better, maybe graphical representation for arrhythmia than "A" : "-"
     public static final String ARRHYTHMIA_STR = "A";
     public static final String NO_ARRHYTHMIA_STR = "-";
     private PressureData pressureData;

@@ -348,7 +348,7 @@ public class PdfCreator {
         for (Image image : extraChartImageList) {
             if (image != null) {
                 scaleImage(image, document); // scale to page width
-                scaleImage(image, 0.4f); // scale percent // TODO make sure it works correctly
+                scaleImage(image, 0.4f); // scale percent
                 catPart.add(image);
             } else
                 Log.e(TAG, "addExtraCharts: image = null");

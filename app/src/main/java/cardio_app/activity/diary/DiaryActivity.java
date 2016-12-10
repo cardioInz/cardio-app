@@ -40,7 +40,6 @@ public class DiaryActivity extends AppCompatActivity {
     }
 
     public void refreshListView() {
-        // TODO maybe we could do the same simpler
         assignDataToListView();
     }
 

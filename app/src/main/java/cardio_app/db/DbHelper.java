@@ -163,7 +163,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         try {
             initPressureDataTable();
             initRandomEvents();
-//            initEventData();
+            initEventData();
         } catch (SQLException e) {
             Log.e(TAG, "Can't insert initial data", e);
             throw new RuntimeException(e);
@@ -208,7 +208,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public UserProfile getUserProfile() throws SQLException {
-        // TODO does not work -> no user profile
         Dao<UserProfile, Integer> dao = getDao(UserProfile.class);
         return dao.queryBuilder().queryForFirst();
     }
