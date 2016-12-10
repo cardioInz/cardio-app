@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.itextpdf.text.pdf.parser.Line;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,8 @@ import cardio_app.db.model.DailyActivitiesRecordHelper;
 import cardio_app.db.model.Emotion;
 import cardio_app.db.model.EmotionHelper;
 import cardio_app.db.model.Event;
+import cardio_app.db.model.TimeUnit;
+import cardio_app.db.model.TimeUnitHelper;
 import cardio_app.viewmodel.EventDataViewModel;
 
 public class EventAdapter extends ArrayAdapter<Event> {
@@ -66,40 +66,60 @@ public class EventAdapter extends ArrayAdapter<Event> {
             EventDataViewModel viewModel = new EventDataViewModel(event);
             dateTextView.setText(viewModel.getDate());
             descriptionTextView.setText(viewModel.getDescription());
-            repeatTextView.setText(viewModel.getRepeatInfo());
-            repeatTextView.setVisibility(viewModel.getRepeatable() ? View.VISIBLE : View.INVISIBLE);
             startTimeTextView.setText(viewModel.getStartTime());
             detailsLinearLayout.setVisibility(View.GONE);
             showLessImageView.setVisibility(View.GONE);
-
-
-          initializeEmotionSection(emotionImageView, emotionTextView, viewModel);
-          initializeOtherSymptomsSection(symptomsImageView, symptomsTypeTextView, symptomsLinearLayout, viewModel, getContext());
-          initializeDoctorsAppointmentSection(medImageView, medTypeTextView, medLinearLayout, viewModel, getContext());
-          initializeDailyActivitiesRecordSection(otherTypeImageView, otherTypeTextView, otherTypeLinearLayout, viewModel);
-
-
             eventAlarmImageView.setVisibility(viewModel.getAlarmSet() ? View.VISIBLE : View.INVISIBLE);
 
-            showMoreImageView.setOnClickListener( view -> {
-                detailsLinearLayout.setVisibility(View.VISIBLE);
-                showLessImageView.setVisibility(View.VISIBLE);
-                showMoreImageView.setVisibility(View.GONE);
-            });
 
-            showLessImageView.setOnClickListener( view -> {
-                    detailsLinearLayout.setVisibility(View.GONE);
-                    showLessImageView.setVisibility(View.GONE);
-                    showMoreImageView.setVisibility(View.VISIBLE);
-            });
+            initializeRepeatInfo(viewModel.getEvent().getTimeDelta(), viewModel.getRepeatable(),
+                    viewModel.getEvent().getTimeUnit(), getContext(), repeatTextView);
+            initializeEmotionSection(emotionImageView, emotionTextView, viewModel);
+            initializeOtherSymptomsSection(symptomsImageView, symptomsTypeTextView, symptomsLinearLayout, viewModel, getContext());
+            initializeDoctorsAppointmentSection(medImageView, medTypeTextView, medLinearLayout, viewModel, getContext());
+            initializeDailyActivitiesRecordSection(otherTypeImageView, otherTypeTextView, otherTypeLinearLayout, viewModel);
+            setListenersForEventsList(detailsLinearLayout, showMoreImageView, showLessImageView);
         }
 
         return convertView;
     }
 
+    private void setListenersForEventsList(LinearLayout ll, ImageView showMoreIV, ImageView showLessIV){
+        showMoreIV.setOnClickListener(view -> {
+            ll.setVisibility(View.VISIBLE);
+            showLessIV.setVisibility(View.VISIBLE);
+            showMoreIV.setVisibility(View.GONE);
+        });
+
+
+        showLessIV.setOnClickListener(view -> {
+            ll.setVisibility(View.GONE);
+            showLessIV.setVisibility(View.GONE);
+            showMoreIV.setVisibility(View.VISIBLE);
+        });
+    }
+
+    private void initializeRepeatInfo(int timeDelta, boolean isRepeatable, TimeUnit timeUnit,
+                                      Context context, TextView repeatTV){
+        if (isRepeatable) {
+            String repeatInfo = getRepeatInfo(timeDelta, timeUnit, context);
+            repeatTV.setText(repeatInfo);
+        } else {
+            repeatTV.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private String getRepeatInfo(int timeDelta, TimeUnit timeUnit, Context context){
+        String info = "";
+        info += context.getResources().getString(R.string.every);
+        info += " " + String.valueOf(timeDelta);
+        if(!timeUnit.equals(TimeUnit.NONE) && ! timeUnit.equals(null))
+            info += " " + context.getResources().getString(TimeUnitHelper.getDescription(timeUnit));
+        return info;
+    }
+
     private void initializeEmotionSection(ImageView emotionImageView, TextView emotionTextView, EventDataViewModel vm){
-        if(vm.getEvent().getEmotion() != null &&
-                !vm.getEmotion().equals(Emotion.NONE)) {
+        if(!vm.getEmotion().equals(Emotion.NONE)) {
             Integer emotionImageId = EmotionHelper.getImageId(vm.getEmotion());
             emotionImageView.setImageResource(emotionImageId);
             emotionTextView.setText(EmotionHelper.getDescription(vm.getEmotion()));
@@ -111,8 +131,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
     private void initializeDailyActivitiesRecordSection(ImageView otherTypeImageView, TextView otherTypeTextView, LinearLayout otherTypeLinearLayout,
                                                         EventDataViewModel vm){
-        if(vm.getEvent().getDailyActivitiesRecord() != null &&
-                !vm.getEvent().getDailyActivitiesRecord().equals(DailyActivitiesRecord.NONE)){
+        if(!vm.getEvent().getDailyActivitiesRecord().equals(DailyActivitiesRecord.NONE)){
             Integer otherTypeImageId = DailyActivitiesRecordHelper.getImageId(vm.getEvent().getDailyActivitiesRecord());
             otherTypeImageView.setImageResource(otherTypeImageId);
             otherTypeTextView.setText(DailyActivitiesRecordHelper.getDescription(vm.getEvent().getDailyActivitiesRecord()));
@@ -123,25 +142,28 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
     private void initializeDoctorsAppointmentSection(ImageView medImageView, TextView medTypeTextView, LinearLayout medLinearLayout,
                                                      EventDataViewModel vm, Context context){
-        if(vm.getEvent().getDoctorsAppointment() != null &&
-         vm.getEvent().getDoctorsAppointment().isDoctorsAppointment()){
-            medImageView.setImageResource(R.drawable.medical_checkout);
-            String visitDescription = getDetailsDescription(vm.getEvent().getDoctorsAppointment().getDoctorsAppointmentElements(), context);
-            medTypeTextView.setText(visitDescription);
-        } else {
-            medLinearLayout.setVisibility(View.GONE);
-        }
+        ArrayList<Integer> medVisitElements = vm.getEvent().getDoctorsAppointment().getDoctorsAppointmentElements();
+        String visitDescription = getDetailsDescription(medVisitElements, context);
+        initializeEventsListWithMultipleOptionsSection(medImageView, medTypeTextView, medLinearLayout,
+                medVisitElements.size() > 0, R.drawable.medical_checkout, visitDescription);
     }
 
     private void initializeOtherSymptomsSection(ImageView symptomsImageView, TextView symptomsTypeTextView, LinearLayout symptomsLinearLayout,
                                                 EventDataViewModel vm, Context context) {
-        if(vm.getEvent().getOtherSymptomsRecord()!= null &&
-                vm.getEvent().getOtherSymptomsRecord().isOtherSymptom()){
-            symptomsImageView.setImageResource(R.drawable.cough);
-            String symptomsDescription = getDetailsDescription(vm.getEvent().getOtherSymptomsRecord().getOtherSymptoms(), context);
-            symptomsTypeTextView.setText(symptomsDescription);
+        ArrayList<Integer> symptoms = vm.getEvent().getOtherSymptomsRecord().getOtherSymptoms();
+        String symptomsDescription = getDetailsDescription(symptoms, context);
+        initializeEventsListWithMultipleOptionsSection(symptomsImageView, symptomsTypeTextView,
+                symptomsLinearLayout, symptoms.size() > 0, R.drawable.cough, symptomsDescription);
+    }
+
+    private void initializeEventsListWithMultipleOptionsSection(ImageView iv, TextView tv, LinearLayout ll,
+                                             boolean isAnyChosen, Integer ivDrawable,
+                                             String tvDescription) {
+        if (isAnyChosen) {
+            iv.setImageResource(ivDrawable);
+            tv.setText(tvDescription);
         } else {
-            symptomsLinearLayout.setVisibility(View.GONE);
+            ll.setVisibility(View.GONE);
         }
     }
 

@@ -1,14 +1,10 @@
 package cardio_app.activity.events;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -24,13 +20,11 @@ import cardio_app.db.DbHelper;
 import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
-import cardio_app.service.SetAlarmService;
 
 public class EventActivity extends AppCompatActivity {
     private static final String TAG = EventActivity.class.getName();
     private DbHelper dbHelper;
     private EventAdapter eventAdapter;
-    private Event selectedEvent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

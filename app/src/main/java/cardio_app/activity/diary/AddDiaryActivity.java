@@ -151,7 +151,7 @@ public class AddDiaryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_item: {
-                onSaveClick(null);
+                onSaveClick();
                 return true;
             }
             case R.id.delete_item: {
@@ -164,7 +164,7 @@ public class AddDiaryActivity extends AppCompatActivity {
         }
     }
 
-    public void onSaveClick(View un) {
+    public void onSaveClick() {
         if (isActivityOnExistingItem) {
             View contextView = findViewById(R.id.activity_add_diary);
             Snackbar

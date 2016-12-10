@@ -14,10 +14,6 @@ import cardio_app.util.DateTimeUtil;
 public class EventDataViewModel extends BaseObservable {
     private Event event;
 
-    public EventDataViewModel() {
-        event = new Event();
-    }
-
     public EventDataViewModel(Event event) {
         this.event = event;
     }
@@ -40,15 +36,6 @@ public class EventDataViewModel extends BaseObservable {
 
     public void setRepeatable(boolean isRepeatable) {
         event.setRepeatable(isRepeatable);
-    }
-
-    @Bindable
-    public String getTimeUnit() {
-        return event.getTimeUnit().name();
-    }
-
-    public void setTimeUnit(String timeUnit) {
-        event.setTimeUnit(TimeUnit.valueOf(timeUnit));
     }
 
     @Bindable
@@ -133,11 +120,6 @@ public class EventDataViewModel extends BaseObservable {
     @Bindable
     public String getDate() {
         return getStartDate() + getEndDate();
-    }
-
-    @Bindable
-    public String getRepeatInfo() {
-        return R.string.every + " " + this.getTimeDelta() + " " + TimeUnitHelper.getDescription(event.getTimeUnit());
     }
 
     public Emotion getEmotion() {

@@ -122,7 +122,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:gravity="center_vertical|end"
-                    android:text="@{event.repeatInfo}"
                     android:textSize="12sp" />
 
             </LinearLayout>
