@@ -2,9 +2,10 @@
 <layout>
 
     <data>
+
         <variable
             name="bitmapFromChart"
-            type="cardio_app.pdf_creation.param_models.BitmapFromChart"/>
+            type="cardio_app.pdf_creation.param_models.BitmapFromChart" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,15 +16,14 @@
         android:background="@drawable/input_activities_background"
         android:layout_marginBottom="5dp"
         android:padding="5dp">
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/image_name_text_view"
             android:text="@{bitmapFromChart.fileName}"
             android:textSize="15sp"
-            android:layout_gravity="center_vertical"
-            />
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 

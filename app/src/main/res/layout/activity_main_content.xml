@@ -17,38 +17,38 @@
 
         <!--TODO not so pretty example how to scale it with vector graphics-->
         <!--<LinearLayout-->
-            <!--android:id="@+id/button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@android:drawable/btn_default"-->
-            <!--android:clickable="true"-->
-            <!--android:orientation="vertical"-->
-            <!--style="@style/MenuButton"-->
-            <!--android:minWidth="@dimen/_110sdp"-->
-            <!--android:minHeight="@dimen/_110sdp"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:gravity="center">-->
+        <!--android:id="@+id/button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@android:drawable/btn_default"-->
+        <!--android:clickable="true"-->
+        <!--android:orientation="vertical"-->
+        <!--style="@style/MenuButton"-->
+        <!--android:minWidth="@dimen/_110sdp"-->
+        <!--android:minHeight="@dimen/_110sdp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center">-->
 
-            <!--<ImageView-->
-                <!--android:id="@+id/img"-->
-                <!--android:layout_width="@dimen/_55sdp"-->
-                <!--android:layout_height="@dimen/_55sdp"-->
-                <!--android:layout_gravity="top|center_horizontal"-->
-                <!--android:src="@drawable/my_profile"-->
-                <!--android:contentDescription="@string/my_profile"-->
-                <!--android:width="@dimen/_80sdp"-->
-                <!--android:height="@dimen/_80sdp" />-->
+        <!--<ImageView-->
+        <!--android:id="@+id/img"-->
+        <!--android:layout_width="@dimen/_55sdp"-->
+        <!--android:layout_height="@dimen/_55sdp"-->
+        <!--android:layout_gravity="top|center_horizontal"-->
+        <!--android:src="@drawable/my_profile"-->
+        <!--android:contentDescription="@string/my_profile"-->
+        <!--android:width="@dimen/_80sdp"-->
+        <!--android:height="@dimen/_80sdp" />-->
 
-            <!--<TextView-->
-                <!--android:id="@+id/textView2"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="bottom|center_horizontal"-->
-                <!--android:layout_margin="5dp"-->
-                <!--android:textAlignment="center"-->
-                <!--android:text="@string/my_profile"-->
-                <!--android:textSize="@dimen/_10sdp"-->
-                <!--android:textStyle="bold"/>-->
+        <!--<TextView-->
+        <!--android:id="@+id/textView2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|center_horizontal"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:textAlignment="center"-->
+        <!--android:text="@string/my_profile"-->
+        <!--android:textSize="@dimen/_10sdp"-->
+        <!--android:textStyle="bold"/>-->
         <!--</LinearLayout>-->
 
         <Button
@@ -63,7 +63,7 @@
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:onClick="showProfile"/>
+            android:onClick="showProfile" />
 
         <Button
             style="@style/MenuButton"
@@ -77,8 +77,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -92,8 +91,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -107,8 +105,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -122,8 +119,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -137,8 +133,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -152,8 +147,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -167,8 +161,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -182,8 +175,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -197,8 +189,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <Button
             style="@style/MenuButton"
@@ -212,8 +203,7 @@
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:onClick="showSettings"
-            />
+            android:onClick="showSettings" />
 
         <Button
             style="@style/MenuButton"
@@ -227,8 +217,7 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:gravity="center" />
     </GridLayout>
 
 </layout>

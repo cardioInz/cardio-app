@@ -3,8 +3,8 @@ package cardio_app.activity.settings;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 
 import java.util.Locale;
@@ -26,12 +26,12 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        RadioButton polishRadioButton = (RadioButton)findViewById(R.id.radio_polish);
-        RadioButton englishRadioButton = (RadioButton)findViewById(R.id.radio_english);
+        RadioButton polishRadioButton = (RadioButton) findViewById(R.id.radio_polish);
+        RadioButton englishRadioButton = (RadioButton) findViewById(R.id.radio_english);
 
         boolean isPolishSet = isPolishLanguage(this);
 
-        if(isPolishSet) {
+        if (isPolishSet) {
             englishRadioButton.setChecked(true);
         } else {
             polishRadioButton.setChecked(true);
@@ -54,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         Intent refresh = new Intent(this, MainActivity.class);
         startActivity(refresh);
     }

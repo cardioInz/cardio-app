@@ -18,8 +18,8 @@ import cardio_app.activity.settings.SettingsActivity;
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
 import cardio_app.pdf_creation.param_models.PdfChosenParams;
 import cardio_app.pdf_creation.param_models.PdfRecordsContainer;
-import cardio_app.util.PdfCreator;
 import cardio_app.util.Defaults;
+import cardio_app.util.PdfCreator;
 import cardio_app.util.PermissionUtil;
 import lecho.lib.hellocharts.view.LineChartView;
 
@@ -63,7 +63,6 @@ public class PdfCreatorAsyncWorker extends AsyncTask<Void, Void, Void> {
         filename = pdfChosenParams.getFileName() + EXT_PDF;
         file = new File(location, filename);
     }
-
 
 
     @Override

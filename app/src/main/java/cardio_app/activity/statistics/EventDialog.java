@@ -12,10 +12,8 @@ import android.view.LayoutInflater;
 
 import cardio_app.R;
 import cardio_app.databinding.DialogEventBinding;
-import cardio_app.databinding.DialogPressureBinding;
 import cardio_app.db.model.Event;
 import cardio_app.viewmodel.EventDataViewModel;
-import cardio_app.viewmodel.PressureDataViewModel;
 
 public class EventDialog extends DialogFragment {
     private static final String DATA = "data";
@@ -49,5 +47,6 @@ public class EventDialog extends DialogFragment {
                 .setView(binding.getRoot())
                 .setTitle(getResources().getString(R.string.dialog_title))
                 .setPositiveButton(getResources().getString(R.string.dialog_ok), null)
-                .create();    }
+                .create();
+    }
 }

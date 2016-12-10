@@ -1,7 +1,6 @@
 package cardio_app.activity.diary;
 
 import android.app.Activity;
-import android.databinding.BindingAdapter;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -4,11 +4,9 @@ package cardio_app.viewmodel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import cardio_app.R;
 import cardio_app.db.model.Emotion;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.TimeUnit;
-import cardio_app.db.model.TimeUnitHelper;
 import cardio_app.util.DateTimeUtil;
 
 public class EventDataViewModel extends BaseObservable {

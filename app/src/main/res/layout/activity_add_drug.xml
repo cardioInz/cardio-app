@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
+
     <data>
-        <variable name="drug" type="cardio_app.viewmodel.DrugViewModel"/>
+
+        <variable
+            name="drug"
+            type="cardio_app.viewmodel.DrugViewModel" />
     </data>
 
     <ScrollView
@@ -34,14 +37,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/name"
-                    style="@style/EditTextArea"/>
+                    style="@style/EditTextArea" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/name_value"
                     android:text="@={drug.name}"
-                    android:inputType="text"/>
+                    android:inputType="text" />
 
             </LinearLayout>
 
@@ -57,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/description"
-                    style="@style/EditTextArea"/>
+                    style="@style/EditTextArea" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -76,7 +79,7 @@
                 android:background="@color/submit"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:onClick="onSaveClick"/>
+                android:onClick="onSaveClick" />
 
         </LinearLayout>
     </ScrollView>

@@ -3,7 +3,6 @@ package cardio_app.db.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.itextpdf.text.List;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -39,7 +38,7 @@ public class OtherSymptomsRecord extends BaseModel implements Parcelable {
     private boolean isToothache;
 
     public OtherSymptomsRecord() {
-        isCough=false;
+        isCough = false;
         isHeadache = false;
         isHighTemperature = false;
         isStomachAche = false;

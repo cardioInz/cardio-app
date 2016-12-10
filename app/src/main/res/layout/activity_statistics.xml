@@ -26,7 +26,7 @@
                 android:id="@+id/show_counter_stats_btn"
                 android:onClick="moveToActivity"
                 android:text="@string/show_counter_statistics"
-                style="@style/BtnGreen"/>
+                style="@style/BtnGreen" />
 
             <Button
                 android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:id="@+id/show_last_measurements_stats_btn"
                 android:onClick="moveToActivity"
                 android:text="@string/show_last_measurements_statistics"
-                style="@style/BtnGreen"/>
+                style="@style/BtnGreen" />
 
             <Button
                 android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:id="@+id/show_charts_btn"
                 android:onClick="moveToActivity"
                 android:text="@string/show_charts_btn_name"
-                style="@style/BtnGreen"/>
+                style="@style/BtnGreen" />
 
             <Button
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:id="@+id/create_pdf_btn"
                 android:onClick="moveToActivity"
                 android:text="@string/title_activity_create_pdf"
-                style="@style/BtnGreen"/>
+                style="@style/BtnGreen" />
 
         </LinearLayout>
     </ScrollView>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="drug"
-            type="cardio_app.viewmodel.DrugViewModel"/>
+            type="cardio_app.viewmodel.DrugViewModel" />
     </data>
 
     <LinearLayout
@@ -25,12 +25,12 @@
                 android:layout_height="wrap_content"
                 android:text="@{drug.name}"
                 android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{drug.description}"/>
+                android:text="@{drug.description}" />
 
         </LinearLayout>
 

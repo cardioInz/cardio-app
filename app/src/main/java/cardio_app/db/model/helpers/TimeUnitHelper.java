@@ -1,13 +1,15 @@
-package cardio_app.db.model;
+package cardio_app.db.model.helpers;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import cardio_app.R;
+import cardio_app.db.model.TimeUnit;
 
 public class TimeUnitHelper {
 
     private static final Map<TimeUnit, Integer> timeUnitToDescriptionMap;
+
     static {
         timeUnitToDescriptionMap = new HashMap<>();
         timeUnitToDescriptionMap.put(TimeUnit.DAY, R.string.day);

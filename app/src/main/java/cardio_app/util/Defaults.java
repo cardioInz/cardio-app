@@ -6,7 +6,6 @@ import java.util.Calendar;
 
 import cardio_app.R;
 import cardio_app.filtering.DataFilter;
-import cardio_app.filtering.DataFilterModeEnum;
 
 
 public class Defaults {

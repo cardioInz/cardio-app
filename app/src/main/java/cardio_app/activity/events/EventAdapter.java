@@ -18,12 +18,12 @@ import java.util.List;
 
 import cardio_app.R;
 import cardio_app.db.model.DailyActivitiesRecord;
-import cardio_app.db.model.DailyActivitiesRecordHelper;
 import cardio_app.db.model.Emotion;
-import cardio_app.db.model.EmotionHelper;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.TimeUnit;
-import cardio_app.db.model.TimeUnitHelper;
+import cardio_app.db.model.helpers.DailyActivitiesRecordHelper;
+import cardio_app.db.model.helpers.EmotionHelper;
+import cardio_app.db.model.helpers.TimeUnitHelper;
 import cardio_app.viewmodel.EventDataViewModel;
 
 public class EventAdapter extends ArrayAdapter<Event> {
@@ -59,7 +59,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
         LinearLayout detailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.events_list_details);
 
 
-
         Event event = getItem(position);
 
         if (event != null) {
@@ -84,7 +83,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         return convertView;
     }
 
-    private void setListenersForEventsList(LinearLayout ll, ImageView showMoreIV, ImageView showLessIV){
+    private void setListenersForEventsList(LinearLayout ll, ImageView showMoreIV, ImageView showLessIV) {
         showMoreIV.setOnClickListener(view -> {
             ll.setVisibility(View.VISIBLE);
             showLessIV.setVisibility(View.VISIBLE);
@@ -100,7 +99,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
     }
 
     private void initializeRepeatInfo(int timeDelta, boolean isRepeatable, TimeUnit timeUnit,
-                                      Context context, TextView repeatTV){
+                                      Context context, TextView repeatTV) {
         if (isRepeatable) {
             String repeatInfo = getRepeatInfo(timeDelta, timeUnit, context);
             repeatTV.setText(repeatInfo);
@@ -109,17 +108,17 @@ public class EventAdapter extends ArrayAdapter<Event> {
         }
     }
 
-    private String getRepeatInfo(int timeDelta, TimeUnit timeUnit, Context context){
+    private String getRepeatInfo(int timeDelta, TimeUnit timeUnit, Context context) {
         String info = "";
         info += context.getResources().getString(R.string.every);
         info += " " + String.valueOf(timeDelta);
-        if(!timeUnit.equals(TimeUnit.NONE) && ! timeUnit.equals(null))
+        if (!timeUnit.equals(TimeUnit.NONE) && !timeUnit.equals(null))
             info += " " + context.getResources().getString(TimeUnitHelper.getDescription(timeUnit));
         return info;
     }
 
-    private void initializeEmotionSection(ImageView emotionImageView, TextView emotionTextView, EventDataViewModel vm){
-        if(!vm.getEmotion().equals(Emotion.NONE)) {
+    private void initializeEmotionSection(ImageView emotionImageView, TextView emotionTextView, EventDataViewModel vm) {
+        if (!vm.getEmotion().equals(Emotion.NONE)) {
             Integer emotionImageId = EmotionHelper.getImageId(vm.getEmotion());
             emotionImageView.setImageResource(emotionImageId);
             emotionTextView.setText(EmotionHelper.getDescription(vm.getEmotion()));
@@ -130,8 +129,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
     }
 
     private void initializeDailyActivitiesRecordSection(ImageView otherTypeImageView, TextView otherTypeTextView, LinearLayout otherTypeLinearLayout,
-                                                        EventDataViewModel vm){
-        if(!vm.getEvent().getDailyActivitiesRecord().equals(DailyActivitiesRecord.NONE)){
+                                                        EventDataViewModel vm) {
+        if (!vm.getEvent().getDailyActivitiesRecord().equals(DailyActivitiesRecord.NONE)) {
             Integer otherTypeImageId = DailyActivitiesRecordHelper.getImageId(vm.getEvent().getDailyActivitiesRecord());
             otherTypeImageView.setImageResource(otherTypeImageId);
             otherTypeTextView.setText(DailyActivitiesRecordHelper.getDescription(vm.getEvent().getDailyActivitiesRecord()));
@@ -141,7 +140,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
     }
 
     private void initializeDoctorsAppointmentSection(ImageView medImageView, TextView medTypeTextView, LinearLayout medLinearLayout,
-                                                     EventDataViewModel vm, Context context){
+                                                     EventDataViewModel vm, Context context) {
         ArrayList<Integer> medVisitElements = vm.getEvent().getDoctorsAppointment().getDoctorsAppointmentElements();
         String visitDescription = getDetailsDescription(medVisitElements, context);
         initializeEventsListWithMultipleOptionsSection(medImageView, medTypeTextView, medLinearLayout,
@@ -157,8 +156,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
     }
 
     private void initializeEventsListWithMultipleOptionsSection(ImageView iv, TextView tv, LinearLayout ll,
-                                             boolean isAnyChosen, Integer ivDrawable,
-                                             String tvDescription) {
+                                                                boolean isAnyChosen, Integer ivDrawable,
+                                                                String tvDescription) {
         if (isAnyChosen) {
             iv.setImageResource(ivDrawable);
             tv.setText(tvDescription);
@@ -169,9 +168,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
     private String getDetailsDescription(ArrayList<Integer> detailsElements, Context context) {
         String description = "";
-        for(int i=0; i<detailsElements.size(); i++) {
+        for (int i = 0; i < detailsElements.size(); i++) {
             description += context.getResources().getString(detailsElements.get(i));
-            description+= i == detailsElements.size()-1 ? "" : ", ";
+            description += i == detailsElements.size() - 1 ? "" : ", ";
         }
         return description;
     }

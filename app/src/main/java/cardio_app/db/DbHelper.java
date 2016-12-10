@@ -18,23 +18,18 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import cardio_app.db.model.BaseModel;
-import cardio_app.db.model.DailyActivitiesRecord;
 import cardio_app.db.model.DoctorsAppointment;
 import cardio_app.db.model.Drug;
-import cardio_app.db.model.Emotion;
 import cardio_app.db.model.Event;
 import cardio_app.db.model.OtherSymptomsRecord;
 import cardio_app.db.model.PressureData;
-import cardio_app.db.model.TimeUnit;
 import cardio_app.db.model.UserProfile;
-import cardio_app.util.DateTimeUtil;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DbHelper.class.getName();

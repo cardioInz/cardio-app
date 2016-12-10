@@ -164,6 +164,10 @@ public class AddDiaryActivity extends AppCompatActivity {
         }
     }
 
+    public void saveMeasurement(View v) {
+        onSaveClick();
+    }
+
     public void onSaveClick() {
         if (isActivityOnExistingItem) {
             View contextView = findViewById(R.id.activity_add_diary);

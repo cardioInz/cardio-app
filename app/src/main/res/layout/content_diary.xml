@@ -14,75 +14,76 @@
     tools:showIn="@layout/activity_diary"
     android:background="@color/colorPrimary">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_activities_background"
-                    android:paddingLeft="@dimen/_5sdp"
-                    android:paddingRight="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_5sdp">
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_activities_background"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/shortcut_systole"
-                            android:textSize="@dimen/_12sdp"
-                            android:gravity="center_vertical|end"
-                            android:layout_weight="0.2"
-                            android:textStyle="bold"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/shortcut_systole"
+                android:textSize="@dimen/_12sdp"
+                android:gravity="center_vertical|end"
+                android:layout_weight="0.2"
+                android:textStyle="bold" />
 
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/shortcut_diastole"
-                            android:textSize="@dimen/_12sdp"
-                            android:gravity="center_vertical|end"
-                            android:layout_weight="0.2"
-                            android:textStyle="bold"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/shortcut_diastole"
+                android:textSize="@dimen/_12sdp"
+                android:gravity="center_vertical|end"
+                android:layout_weight="0.2"
+                android:textStyle="bold" />
 
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/shortcut_pulse"
-                            android:textSize="@dimen/_12sdp"
-                            android:gravity="center_vertical|end"
-                            android:layout_weight="0.2"
-                            android:textStyle="bold"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/shortcut_pulse"
+                android:textSize="@dimen/_12sdp"
+                android:gravity="center_vertical|end"
+                android:layout_weight="0.2"
+                android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/shortcut_arrhythmia"
-                            android:textSize="@dimen/_12sdp"
-                            android:gravity="center"
-                            android:layout_weight="0.25"
-                            android:textStyle="bold"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/shortcut_arrhythmia"
+                android:textSize="@dimen/_12sdp"
+                android:gravity="center"
+                android:layout_weight="0.25"
+                android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/shortcut_date"
-                            android:textSize="@dimen/_12sdp"
-                            android:gravity="center_vertical|end"
-                            android:layout_weight="0.3"
-                            android:textStyle="bold"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/shortcut_date"
+                android:textSize="@dimen/_12sdp"
+                android:gravity="center_vertical|end"
+                android:layout_weight="0.3"
+                android:textStyle="bold" />
 
-                </LinearLayout>
-                <ListView
-                    android:id="@+id/diary_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:dividerHeight="5dp">
-
-                </ListView>
         </LinearLayout>
 
+        <ListView
+            android:id="@+id/diary_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp">
+
+        </ListView>
+    </LinearLayout>
 
 
 </RelativeLayout>

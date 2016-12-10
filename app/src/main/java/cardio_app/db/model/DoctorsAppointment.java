@@ -159,7 +159,7 @@ public class DoctorsAppointment extends BaseModel implements Parcelable {
     public ArrayList<Integer> getDoctorsAppointmentElements() {
         ArrayList<Integer> visitElements = new ArrayList<>();
         if (this.isEmergency()) visitElements.add(R.string.emergency);
-        if (this.isExamination()) visitElements.add( R.string.examination);
+        if (this.isExamination()) visitElements.add(R.string.examination);
         if (this.isForPrescription()) visitElements.add(R.string.prescription);
         if (this.isFlu()) visitElements.add(R.string.flu);
         if (this.isRoutineCheck()) visitElements.add(R.string.routine_visit);

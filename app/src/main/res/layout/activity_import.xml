@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="data"
-            type="cardio_app.viewmodel.ImportExportViewModel"/>
+            type="cardio_app.viewmodel.ImportExportViewModel" />
     </data>
 
     <LinearLayout
@@ -34,7 +34,7 @@
                 android:textSize="16sp"
                 android:text="@{data.path}"
                 android:layout_marginBottom="10dp"
-                android:gravity="center"/>
+                android:gravity="center" />
 
             <Button
                 android:layout_width="0dp"
@@ -43,7 +43,7 @@
                 android:layout_weight="1"
                 android:text="@string/import_choose_file"
                 android:onClick="onChooseFileClick"
-                style="@style/BtnGreen"/>
+                style="@style/BtnGreen" />
 
         </LinearLayout>
 
@@ -53,7 +53,7 @@
             android:text="@string/save"
             android:onClick="onSaveClick"
             android:enabled="@{data.pathSet}"
-            style="@style/BtnGreen"/>
+            style="@style/BtnGreen" />
 
     </LinearLayout>
 

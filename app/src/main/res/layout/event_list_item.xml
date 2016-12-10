@@ -70,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/show_more" />
+
                 <ImageButton
                     android:id="@+id/event_show_less"
                     android:layout_width="wrap_content"

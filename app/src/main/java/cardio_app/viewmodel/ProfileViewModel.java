@@ -225,7 +225,7 @@ public class ProfileViewModel extends BaseObservable {
         }
     }
 
-    public String getSexStr(String male, String female){
+    public String getSexStr(String male, String female) {
         try {
             switch (userProfile.getSex()) {
                 case MALE:
@@ -235,7 +235,7 @@ public class ProfileViewModel extends BaseObservable {
                 default:
                     return EMPTY_IN_PDF;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             return EMPTY_IN_PDF;
         }
     }
@@ -265,9 +265,9 @@ public class ProfileViewModel extends BaseObservable {
             };
         }
 
-        private final static HashMap<MyProfileFieldTypeEnum, Integer> mapToStrId = new HashMap<MyProfileFieldTypeEnum, Integer>(){{
+        private final static HashMap<MyProfileFieldTypeEnum, Integer> mapToStrId = new HashMap<MyProfileFieldTypeEnum, Integer>() {{
             put(FIRST_NAME, R.string.first_name);
-            put(SURNAME,R.string.surname);
+            put(SURNAME, R.string.surname);
             put(DATE_OF_BIRTH, R.string.date_of_birth);
             put(SEX, R.string.sex);
             put(HEIGHT, R.string.height);
@@ -284,7 +284,7 @@ public class ProfileViewModel extends BaseObservable {
             int strId = mapToStrId.get(fieldTypeEnum);
             String title = resources.getString(strId);
 
-            switch (fieldTypeEnum){
+            switch (fieldTypeEnum) {
                 case HEIGHT:
                     return title.replace(":", " [cm]:");
                 case WEIGHT:
@@ -297,7 +297,6 @@ public class ProfileViewModel extends BaseObservable {
             }
         }
     }
-
 
 
     public HashMap<MyProfileFieldTypeEnum, String> getHashMapValues(Resources resources) {

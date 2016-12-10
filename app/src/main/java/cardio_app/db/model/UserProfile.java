@@ -54,28 +54,28 @@ public class UserProfile extends BaseModel implements Parcelable {
         FEMALE,
         NOT_SET;
 
-        private static final HashMap<SexType, String> sexMap = new HashMap<SexType, String>(){{
+        private static final HashMap<SexType, String> sexMap = new HashMap<SexType, String>() {{
             put(MALE, "M");
             put(FEMALE, "F");
             put(NOT_SET, "-");
         }};
 
 
-        public String getStr(){
+        public String getStr() {
             if (sexMap.containsKey(this))
                 return sexMap.get(this);
             else
                 return sexMap.get(NOT_SET);
         }
 
-        public static String mapToString(SexType sexType){
+        public static String mapToString(SexType sexType) {
             if (sexType != null)
                 return sexType.toString();
             return NOT_SET.toString();
         }
 
-        public static SexType mapFromString(String value){
-            if (sexMap.values().contains(value)){
+        public static SexType mapFromString(String value) {
+            if (sexMap.values().contains(value)) {
                 for (SexType key : sexMap.keySet()) {
                     if (sexMap.get(key).equals(value))
                         return key;
@@ -233,7 +233,7 @@ public class UserProfile extends BaseModel implements Parcelable {
     public SexType getSex() {
         try {
             return SexType.mapFromString(sex);
-        } catch (Exception e){
+        } catch (Exception e) {
             return SexType.NOT_SET;
         }
     }

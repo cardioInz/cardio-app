@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="event"
-            type="cardio_app.viewmodel.EventDataViewModel"/>
+            type="cardio_app.viewmodel.EventDataViewModel" />
     </data>
 
     <GridLayout
@@ -22,25 +22,29 @@
 
         <TextView
             android:text="@string/start_date"
-            android:textStyle="bold"/>
-        <TextView
-            android:text="@{event.startDate}"/>
+            android:textStyle="bold" />
+
+        <TextView android:text="@{event.startDate}" />
+
         <TextView
             android:text="@string/end_date"
-            android:textStyle="bold"/>
-        <TextView
-            android:text="@{event.endDate}"/>
+            android:textStyle="bold" />
+
+        <TextView android:text="@{event.endDate}" />
+
         <TextView
             android:text="@string/is_repeatable"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <CheckBox
             android:checked="@={event.repeatable}"
-            android:enabled="false"/>
+            android:enabled="false" />
+
         <TextView
             android:text="@string/description_dialog"
-            android:textStyle="bold"/>
-        <TextView
-            android:text="@{event.description}"/>
+            android:textStyle="bold" />
+
+        <TextView android:text="@{event.description}" />
 
     </GridLayout>
 

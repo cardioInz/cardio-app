@@ -288,4 +288,8 @@
 
     <string name="are_you_sure_delete_event">Czy jesteś pewny, że chcesz usunąć zdarzenie?</string>
     <string name="import_wait">Trwa import danych</string>
+
+    <string name="authors">Autorzy:</string>
+    <string name="used_technologies">Użyte biblioteki:</string>
+    <string name="icons">Ikony (www.flaticon.com):</string>
 </resources>

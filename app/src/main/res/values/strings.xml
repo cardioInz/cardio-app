@@ -286,4 +286,19 @@
 
     <string name="are_you_sure_delete_event">Are you sure you want to delete Event?</string>
     <string name="import_wait">Importing data</string>
+
+    <string name="authors">Authors:</string>
+    <string name="used_technologies">Used libraries:</string>
+    <string name="icons">Icons (www.flaticon.com):</string>
+    <string name="libraries">Hello Charts \nitextpdf \nintuit/sdp \nretrolambda \njodatime \naFileDialog</string>
+    <string name="freepik">Humans, Finance, Emotions Normal, Airport and Travel (Freepik)</string>
+    <string name="pixel_buddha">Miscellaneous, Basic Flat Icons, Medical (Pixel Buddha)</string>
+    <string name="madebyoliver">Interaction Assets, Essential Collection, Essential Compilation, Arrow Collection (Madebyoliver)</string>
+    <string name="vectors_market_flat_icons">Health Care Icon Collection (Vectors Market) \nWeb Icon Set (Flat Icons)</string>
+
+    <string name="shortcut_diastole">DIA</string>
+    <string name="shortcut_systole">SYS</string>
+    <string name="shortcut_pulse">PULSE</string>
+    <string name="shortcut_arrhythmia">ARR</string>
+    <string name="shortcut_date">DATE</string>
 </resources>

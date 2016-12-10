@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import cardio_app.pdf_creation.param_models.BitmapFromChart;
-import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.view.LineChartView;
 
 
 public class BitmapUtil {

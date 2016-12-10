@@ -21,7 +21,6 @@ import cardio_app.R;
 import cardio_app.activity.MainActivity;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.Event;
-import cardio_app.db.model.TimeUnit;
 import cardio_app.receiver.AlarmNotification;
 import cardio_app.util.DateTimeUtil;
 
@@ -32,10 +31,10 @@ import static cardio_app.util.IntentContentUtil.NOTIFICATION_TITLE;
 /**
  * This service enables or disables alarms for Event stored in app. There are 3 modes:
  * <ul>
- *     <li>UPDATE - updates single event (event has to be in database)</li>
- *     <li>CANCEL - disables single event (event does not have to be in database);
- *     this should be called after delete an event</li>
- *     <li>UPDATE_ALL - updates all events from the database (default mode)</li>
+ * <li>UPDATE - updates single event (event has to be in database)</li>
+ * <li>CANCEL - disables single event (event does not have to be in database);
+ * this should be called after delete an event</li>
+ * <li>UPDATE_ALL - updates all events from the database (default mode)</li>
  * </ul>
  * For modes with single event, intent should have an extra with event id.
  */

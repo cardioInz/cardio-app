@@ -16,5 +16,5 @@
     <lecho.lib.hellocharts.view.LineChartView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/chart_view"/>
+        android:id="@+id/chart_view" />
 </RelativeLayout>

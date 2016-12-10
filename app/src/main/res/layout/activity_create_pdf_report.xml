@@ -1,14 +1,17 @@
 <layout>
+
     <data>
+
         <variable
             name="datesFromFilter"
             type="cardio_app.viewmodel.pdf_creation.DataFilterForPdfCreationViewModel" />
+
         <variable
             name="pdfCreationVM"
             type="cardio_app.viewmodel.pdf_creation.PdfCreationViewModel" />
     </data>
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_create_pdf_report"
         android:layout_width="match_parent"
@@ -20,14 +23,14 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-        </android.support.design.widget.AppBarLayout>
+            android:theme="@style/AppTheme.AppBarOverlay"></android.support.design.widget.AppBarLayout>
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scrollbars="none"
             android:layout_weight="1">
+
             <LinearLayout
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -48,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:text= "@string/filter_date_from"
+                        android:text="@string/filter_date_from"
                         android:textSize="@dimen/statistic_header_size"
                         android:textStyle="bold" />
 
@@ -124,7 +127,6 @@
                     </LinearLayout>
 
 
-
                     <Button
                         android:id="@+id/get_chart_btn"
                         style="@style/BtnGreen"
@@ -182,36 +184,41 @@
                     android:orientation="vertical"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/input_activities_background">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/file_location"
                         android:layout_gravity="fill"
                         android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size"/>
+                        android:textSize="@dimen/statistic_header_size" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@={pdfCreationVM.locationSave}"
-                        android:layout_gravity="fill"/>
+                        android:layout_gravity="fill" />
+
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/choose_location"
                         android:onClick="onChangeLocationClick_InCreatePdfReportActivity"
-                        style="@style/BtnGreen"/>
+                        style="@style/BtnGreen" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/pdf_file_name"
                         android:textStyle="bold"
-                        android:textSize="@dimen/statistic_header_size"/>
+                        android:textSize="@dimen/statistic_header_size" />
+
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@={pdfCreationVM.fileName}"
                         android:inputType="text"
-                        android:layout_gravity="fill"/>
+                        android:layout_gravity="fill" />
                 </LinearLayout>
 
 
@@ -261,8 +268,7 @@
                     style="@style/Widget.AppCompat.ProgressBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
-                </ProgressBar>
+                    android:visibility="gone"></ProgressBar>
 
                 <Button
                     android:text="@string/save_pdf_btn"
@@ -271,7 +277,8 @@
                     android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    style="@style/BtnGreen"/>
+                    style="@style/BtnGreen" />
+
                 <Button
                     android:text="@string/send_pdf_btn"
                     android:id="@+id/sendPdfBtn"
@@ -279,7 +286,7 @@
                     android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    style="@style/BtnGreen"/>
+                    style="@style/BtnGreen" />
             </LinearLayout>
         </ScrollView>
 

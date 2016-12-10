@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="data"
-            type="cardio_app.viewmodel.PressureDataViewModel"/>
+            type="cardio_app.viewmodel.PressureDataViewModel" />
     </data>
 
     <GridLayout
@@ -22,43 +22,43 @@
 
         <TextView
             android:text="@string/systole"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:text="@{data.systoleStr}"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:text="@string/diastole"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:text="@{data.diastoleStr}"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:text="@string/pulse"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:text="@{data.pulseStr}"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:text="@string/arrhythmia"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:text="@{data.arrhythmiaStr}"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:text="@string/date"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:text="@{data.dateTimeStr}"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
 
     </GridLayout>
 </layout>

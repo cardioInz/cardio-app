@@ -2,9 +2,10 @@
 <layout>
 
     <data>
+
         <variable
             name="pressuredata"
-            type="cardio_app.viewmodel.PressureDataViewModel"/>
+            type="cardio_app.viewmodel.PressureDataViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,8 +15,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/input_activities_background"
         android:paddingLeft="@dimen/_5sdp"
-        android:paddingRight="@dimen/_5sdp"
-        >
+        android:paddingRight="@dimen/_5sdp">
 
         <TextView
             android:layout_width="0dp"
@@ -24,8 +24,7 @@
             android:text="@{pressuredata.systoleStr}"
             android:textSize="@dimen/_17sdp"
             android:gravity="center_vertical|end"
-            android:layout_weight="0.2"
-            />
+            android:layout_weight="0.2" />
 
 
         <TextView
@@ -35,8 +34,7 @@
             android:text="@{pressuredata.diastoleStr}"
             android:textSize="@dimen/_17sdp"
             android:gravity="center_vertical|end"
-            android:layout_weight="0.2"
-            />
+            android:layout_weight="0.2" />
 
 
         <TextView
@@ -46,8 +44,7 @@
             android:text="@{pressuredata.pulseStr}"
             android:textSize="@dimen/_17sdp"
             android:gravity="center_vertical|end"
-            android:layout_weight="0.2"
-            />
+            android:layout_weight="0.2" />
 
 
         <LinearLayout
@@ -56,16 +53,15 @@
             android:paddingRight="@dimen/_2sdp"
             android:paddingLeft="@dimen/_2sdp"
             android:layout_weight="0.25"
-            android:gravity="center"
-            >
+            android:gravity="center">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/arrhythmia_image"
                 android:background="@drawable/arrhythmia"
                 android:gravity="fill"
-                android:contentDescription="Arrhythmia occurred."
-                />
+                android:contentDescription="Arrhythmia occurred." />
         </LinearLayout>
 
 
@@ -77,8 +73,7 @@
             android:text="@{pressuredata.dateTimeInTwoLinesStr}"
             android:textSize="@dimen/_12sdp"
             android:gravity="center_vertical|end"
-            android:layout_weight="0.3"
-            />
+            android:layout_weight="0.3" />
 
     </LinearLayout>
 

@@ -131,7 +131,7 @@ public class PdfCreator {
         image.scaleAbsolute(w, h);
     }
 
-    private Image prepareChartImage(java.util.List<PressureData> pressureDataList, java.util.List<Event> eventList){
+    private Image prepareChartImage(java.util.List<PressureData> pressureDataList, java.util.List<Event> eventList) {
         ChartBuilder chartBuilder = new ChartBuilder(pressureDataList, eventList, ChartBuilder.ChartMode.CONTINUOUS, resources);
         chartBuilder.setPressureHasPoints(false);
 
@@ -139,7 +139,7 @@ public class PdfCreator {
                 .setData(chartBuilder)
                 .setDaysOnScreen(DAYS_IN_CHAPTER)
                 .setWidth((int) PDF_WIDTH)
-                .setHeight((int)(PDF_WIDTH/ 2));
+                .setHeight((int) (PDF_WIDTH / 2));
 
         try {
             Image image = imageBuilder.build();
@@ -152,7 +152,7 @@ public class PdfCreator {
         }
     }
 
-    private java.util.List<PdfRecordsContainer> splitContainerForChapters(){
+    private java.util.List<PdfRecordsContainer> splitContainerForChapters() {
         java.util.List<PdfRecordsContainer> list = new ArrayList<>();
         final DbHelper dbHelper = recordsContainer.getDbHelper();
 
@@ -211,7 +211,7 @@ public class PdfCreator {
         } finally {
             try {
                 document.close();
-            } catch (Exception e){
+            } catch (Exception e) {
                 Log.e(TAG, "createAndSavePdf: ", e);
             }
         }
@@ -226,7 +226,7 @@ public class PdfCreator {
             Log.i(TAG, "addChapters: " + pdfRecordsContainer.getInfoForLogger());
             pdfRecordsContainer.initPressureDataByHelper();
             java.util.List<PressureData> pressureDataList = pdfRecordsContainer.getPressureDataList();
-            if (pressureDataList == null || pressureDataList.size() == 0){
+            if (pressureDataList == null || pressureDataList.size() == 0) {
                 return;
             }
 
@@ -298,15 +298,15 @@ public class PdfCreator {
         addEmptyLine(preface, 1);
         preface.add(new Paragraph(
                 takeCareAboutLang(getResourceString(R.string.pdf_generation_interval_dates)
-                + " " + getResourceString(R.string.from_date) + " " + dateFromStr
-                + " " + getResourceString(R.string.to_date) + " " + dateToStr),
+                        + " " + getResourceString(R.string.from_date) + " " + dateFromStr
+                        + " " + getResourceString(R.string.to_date) + " " + dateToStr),
                 fontDates)
         );
         addEmptyLine(preface, 2);
         document.add(preface);
     }
 
-    private String prepareChapterTitle(PdfRecordsContainer recordsContainer){
+    private String prepareChapterTitle(PdfRecordsContainer recordsContainer) {
         try {
             return takeCareAboutLang(String.format("%s %s: %s, %s: %s",
                     getResourceString(R.string.results),
@@ -484,7 +484,7 @@ public class PdfCreator {
         // t.setSpacing(4);
         // t.setBorderWidth(1);
 
-        final int [] columnStrId = {
+        final int[] columnStrId = {
                 R.string.pdf_systole,
                 R.string.pdf_diastole,
                 R.string.pdf_difference,
@@ -550,7 +550,7 @@ public class PdfCreator {
                 final String title = getResourceString(key.mapToTitleStringId());
                 final StatisticLastMeasure statisticLastMeasure = mapLastMeasures.get(key);
 
-                if (statisticLastMeasure == null){
+                if (statisticLastMeasure == null) {
                     listLast.add(new ListItem(takeCareAboutLang(title) + "-\n\n"));
                     continue;
                 }
@@ -571,7 +571,7 @@ public class PdfCreator {
                         )
                 );
 
-                if (listItemStr.contains("- / - / -")){
+                if (listItemStr.contains("- / - / -")) {
                     listLast.add(new ListItem(title + "-\n\n"));
                     continue;
                 }
@@ -632,7 +632,7 @@ public class PdfCreator {
         list.addAll(newList);
     }
 
-    private String takeCareAboutLang(String str){
+    private String takeCareAboutLang(String str) {
         return isPolLang ? replacePolishChars(str) : str;
     }
 
@@ -641,14 +641,14 @@ public class PdfCreator {
         if (!str.matches(regex))
             return str;
 
-        char [] array = str.toCharArray();
-        for (int i=0; i<array.length; i++){
+        char[] array = str.toCharArray();
+        for (int i = 0; i < array.length; i++) {
             array[i] = mapPolToWin1250(array[i]);
         }
         return String.valueOf(array);
     }
 
-    private static char mapPolToWin1250(char c){
+    private static char mapPolToWin1250(char c) {
 
 // TODO add some font that allows windows1250 Polish characters
 //        switch (c){
@@ -675,28 +675,49 @@ public class PdfCreator {
 //            default: return c;
 //        }
 
-        switch (c){
-            case 'ę': return 'e';
-            case 'ó': return 'o';
-            case 'ą': return 'a';
-            case 'ś': return 's';
-            case 'ł': return 'l';
-            case 'ż': return 'z';
-            case 'ź': return 'z';
-            case 'ć': return 'c';
-            case 'ń': return 'n';
-            case 'Ę': return 'E';
-            case 'Ó': return 'O';
-            case 'Ą': return 'A';
-            case 'Ś': return 'S';
-            case 'Ł': return 'L';
-            case 'Ż': return 'Z';
-            case 'Ź': return 'Z';
-            case 'Ć': return 'C';
-            case 'Ń': return 'N';
-            case '„': return '"';
-            case '”': return '"';
-            default: return c;
+        switch (c) {
+            case 'ę':
+                return 'e';
+            case 'ó':
+                return 'o';
+            case 'ą':
+                return 'a';
+            case 'ś':
+                return 's';
+            case 'ł':
+                return 'l';
+            case 'ż':
+                return 'z';
+            case 'ź':
+                return 'z';
+            case 'ć':
+                return 'c';
+            case 'ń':
+                return 'n';
+            case 'Ę':
+                return 'E';
+            case 'Ó':
+                return 'O';
+            case 'Ą':
+                return 'A';
+            case 'Ś':
+                return 'S';
+            case 'Ł':
+                return 'L';
+            case 'Ż':
+                return 'Z';
+            case 'Ź':
+                return 'Z';
+            case 'Ć':
+                return 'C';
+            case 'Ń':
+                return 'N';
+            case '„':
+                return '"';
+            case '”':
+                return '"';
+            default:
+                return c;
         }
     }
 

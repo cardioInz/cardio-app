@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;

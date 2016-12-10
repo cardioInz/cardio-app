@@ -15,7 +15,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import cardio_app.R;
-import cardio_app.activity.events.EventActivity;
 import cardio_app.databinding.ActivityProfileBinding;
 import cardio_app.db.DbHelper;
 import cardio_app.db.model.UserProfile;

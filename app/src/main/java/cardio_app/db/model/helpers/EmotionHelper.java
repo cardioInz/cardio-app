@@ -1,4 +1,4 @@
-package cardio_app.db.model;
+package cardio_app.db.model.helpers;
 
 
 import java.util.HashMap;
@@ -6,10 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import cardio_app.R;
+import cardio_app.db.model.Emotion;
 
 public class EmotionHelper {
 
     private static final Map<Emotion, Integer> emotionToButtonMap;
+
     static {
         emotionToButtonMap = new HashMap<Emotion, Integer>();
         emotionToButtonMap.put(Emotion.HAPPY, R.id.button_happy);
@@ -21,6 +23,7 @@ public class EmotionHelper {
 
 
     private static final Map<Integer, Emotion> buttonToEmotionMap;
+
     static {
         buttonToEmotionMap = new HashMap<Integer, Emotion>();
         buttonToEmotionMap.put(R.id.button_happy, Emotion.HAPPY);
@@ -31,6 +34,7 @@ public class EmotionHelper {
     }
 
     private static final Map<Emotion, Integer> emotionToImageMap;
+
     static {
         emotionToImageMap = new HashMap<Emotion, Integer>();
         emotionToImageMap.put(Emotion.HAPPY, R.drawable.happy_small);
@@ -41,6 +45,7 @@ public class EmotionHelper {
     }
 
     private static final Map<Emotion, Integer> emotionToDescriptionMap;
+
     static {
         emotionToDescriptionMap = new HashMap<Emotion, Integer>();
         emotionToDescriptionMap.put(Emotion.HAPPY, R.string.happy);

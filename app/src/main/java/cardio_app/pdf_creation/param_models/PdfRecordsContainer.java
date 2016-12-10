@@ -69,7 +69,7 @@ public class PdfRecordsContainer {
             } else {
                 eventsDataList = list;
                 Log.i(TAG, "initEventDataByHelper: no events has been found between: " +
-                DateTimeUtil.DATE_FORMATTER.format(dateFrom) + " - " + DateTimeUtil.DATE_FORMATTER.format(dateTo));
+                        DateTimeUtil.DATE_FORMATTER.format(dateFrom) + " - " + DateTimeUtil.DATE_FORMATTER.format(dateTo));
             }
         } catch (SQLException e) {
             Log.e(TAG, "initEventDataByHelper: can't get eventsData", e);
@@ -89,7 +89,7 @@ public class PdfRecordsContainer {
         return userProfile;
     }
 
-    public void setDateFrom(Date dateFrom){
+    public void setDateFrom(Date dateFrom) {
         try {
             Calendar c = Calendar.getInstance();
             c.setTime(dateFrom);

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_list"
-        android:dividerHeight="5dp"/>
+        android:dividerHeight="5dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_button"
@@ -24,6 +24,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_floating_add_btn"
         app:backgroundTint="@color/colorAccent"
-        android:onClick="addItem"/>
+        android:onClick="addItem" />
 
 </FrameLayout>

@@ -13,8 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -255,12 +255,12 @@ public class Event extends BaseModel implements Parcelable {
         return isRepeatable;
     }
 
-    public boolean isDiscrete(){
+    public boolean isDiscrete() {
         if (isRepeatable)
             return true;
         try {
             return DATE_FORMATTER.format(startDate).equals(DATE_FORMATTER.format(endDate));
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "isDiscrete: ", e);
             return true;
         }

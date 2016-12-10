@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/input_activities_background"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/EditTextArea"
@@ -81,7 +81,8 @@
                     android:datePickerMode="spinner"
                     android:day="@={startDate.day}"
                     android:month="@={startDate.month}"
-                    android:year="@={startDate.year}">
+                    android:year="@={startDate.year}"
+                    android:layout_gravity="center">
 
                 </DatePicker>
             </LinearLayout>
@@ -91,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/input_activities_background"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/EditTextArea"
@@ -108,7 +109,8 @@
                     android:hour="@{startTime.hourOfDay}"
                     android:minute="@{startTime.minute}"
                     android:onTimeChanged="@{startTime::timeChanged}"
-                    android:timePickerMode="spinner"></TimePicker>
+                    android:timePickerMode="spinner"
+                    android:layout_gravity="center"></TimePicker>
             </LinearLayout>
 
             <LinearLayout
@@ -116,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/input_activities_background"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/EditTextArea"
@@ -131,7 +133,8 @@
                     android:datePickerMode="spinner"
                     android:day="@={endDate.day}"
                     android:month="@={endDate.month}"
-                    android:year="@={endDate.year}"></DatePicker>
+                    android:year="@={endDate.year}"
+                    android:layout_gravity="center"></DatePicker>
             </LinearLayout>
 
 
