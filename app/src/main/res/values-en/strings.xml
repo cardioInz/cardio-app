@@ -283,4 +283,5 @@
         <string name="add_chart">Add chart</string>
 
         <string name="are_you_sure_delete_event">Are you sure you want to delete Event?</string>
+        <string name="import_wait">Importing data</string>
 </resources>

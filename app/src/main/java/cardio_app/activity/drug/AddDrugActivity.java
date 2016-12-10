@@ -40,6 +40,8 @@ public class AddDrugActivity extends AppCompatActivity {
 
         if (isActivityOnExistingItem) {
             drugViewModel.setDrug(drug);
+        } else {
+            drugViewModel.setDrug(new Drug("", ""));
         }
         ActivityAddDrugBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_drug);
         binding.setDrug(drugViewModel);
