@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import cardio_app.activity.MainActivity;
@@ -17,7 +18,7 @@ import static cardio_app.util.IntentContentUtil.NOTIFICATION_ID;
 import static cardio_app.util.IntentContentUtil.NOTIFICATION_TEXT;
 import static cardio_app.util.IntentContentUtil.NOTIFICATION_TITLE;
 
-public class AlarmNotification extends BroadcastReceiver {
+public class AlarmNotification extends WakefulBroadcastReceiver {
     private static final String TAG = AlarmNotification.class.getName();
 
     @Override

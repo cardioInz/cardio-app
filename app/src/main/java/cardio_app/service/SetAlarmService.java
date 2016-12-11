@@ -61,7 +61,11 @@ public class SetAlarmService extends Service {
 
         try {
             Dao<Event, Integer> eventDao = getDbHelper().getDao(Event.class);
-            String action = intent.getAction();
+
+            String action = null;
+            if (intent != null) {
+                action = intent.getAction();
+            }
             if (action == null) {
                 action = "";
             }
